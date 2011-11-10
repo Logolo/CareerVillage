@@ -41,20 +41,20 @@ Edit settings
 
 Get into the OSQQA sources folder. Copy the file settings_local.py.dist and rename the copy settings_local.py. Open this new settings_local.py file for editing. Find the database settings and edit them to reflect the settings for the database you will be using. If you are using sqlite3, you should use the following settings:
 
-    DATABASE_NAME = "whatever" #You can put whatever you want here
-    DATABASE_USER = "whatever" #You can put whatever you want here
-    DATABASE_PASSWORD = ""
-    DATABASE_ENGINE = "sqlite3"
-    DATABASE_HOST = ''
-    DATABASE_PORT = ''
+    DATABASE_NAME = "whatever" #You can put whatever you want here  
+    DATABASE_USER = "whatever" #You can put whatever you want here  
+    DATABASE_PASSWORD = ""  
+    DATABASE_ENGINE = "sqlite3"  
+    DATABASE_HOST = ''  
+    DATABASE_PORT = ''  
     
 Create the database schema
 --------------------------
 
 Open a shell, get into the folder where this repo lives, and run:
 
-    python manage.py syncdb --all
-    python manage.py migrate forum --fake
+    python manage.py syncdb --all  
+    python manage.py migrate forum --fake  
 
 If you have all of the dependencies, this should setup the databases. 
 
@@ -63,7 +63,7 @@ Run the development server
 
 Now run:
 
-    python manage.py runserver
+    python manage.py runserver  
     
 Open a browser and go to http://localhost:8000/ to see the skeleton OSQA site up and running.
 
@@ -77,26 +77,26 @@ Apply site customization settings
 
 The site requires CSS customization. Log into the site and navigate to the administration area. Copy and paste the following CSS styles into the appropriate setion of the "Custom CSS" page.
 
-    .boxA {background-color: #FF6600;}
-    body {background-color: #3CA0D1;}
-    #wrapper {background-color: #FFFFFF;}
-    #ground {background-color: #FFFFFF;}
+    .boxA {background-color: #FF6600;}  
+    body {background-color: #3CA0D1;}  
+    #wrapper {background-color: #FFFFFF;}  
+    #ground {background-color: #FFFFFF;}  
     
-    #top {
-        /* background-color: #00a2d3; */
-        background-color: #ffffff;
-        font-weight: bold;
-    }
+    #top {  
+        /* background-color: #00a2d3; */  
+        background-color: #ffffff;  
+        font-weight: bold;  
+    }  
     
-    #searchBar {background-color: #AEE8FB;}
-    #searchBar form {background-color: #AEE8FB;}
-    #CARight h2 {color:#A40000;}
+    #searchBar {background-color: #AEE8FB;}  
+    #searchBar form {background-color: #AEE8FB;}  
+    #CARight h2 {color:#A40000;}  
 
 Resources
 =========
 
-CareerVillage site: http://www.careervillage.org/
-CareerVillage blog: http://careervillage.wordpress.com/
-OSQA main site: http://www.osqa.net/
-OSQA Installation and Upgrade Guides: http://wiki.osqa.net/display/docs/OSQA+Installation+and+Upgrade+Guides
-Setting up a development environment: http://wiki.osqa.net/display/docs/Setting+up+a+development+environment+on+Windows
+CareerVillage site: http://www.careervillage.org/  
+CareerVillage blog: http://careervillage.wordpress.com/  
+OSQA main site: http://www.osqa.net/  
+OSQA Installation and Upgrade Guides: http://wiki.osqa.net/display/docs/OSQA+Installation+and+Upgrade+Guides  
+Setting up a development environment: http://wiki.osqa.net/display/docs/Setting+up+a+development+environment+on+Windows  
