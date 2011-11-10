@@ -1,3 +1,4 @@
 *.pyc
-settings_local.*
+settings_local.py
+settings_local.pyc
 .pydevproject
