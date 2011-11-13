@@ -10,36 +10,31 @@ Cloning and installing CareerVillage
 
 The following describes the steps required to fully install CareerVillage on a development machine 
 
-External dependencies
----------------------
+Getting "pip"
+------------
+Assuming you're on a Mac or running Linux, pip will help install the rest of CareerVillage's dependencies quickly and easily. Run these commands from a terminal::
 
-CareerVillage is extended from the OSQA platform. It has the following external dependencies:
+	$ curl -O http://python-distribute.org/distribute_setup.py
+	$ python distribute_setup.py
 
-- Django, at least version 1.1
-- Python markdown
-- html5lib
-- Python OpenId
-- South 
+Or, if you have easy_install on your machine, do this instead::
 
-Assuming you have python, django, and git installed, we recommend easy_install for acquiring the external dependencies:
+	$ sudo easy_install pip
 
-    easy_install markdown
-    easy_install html5lib
-    easy_install south
-    easy_install python-openid
-    easy_install django-debug-toolbar 
+Installing Dependencies
+-----------------------
+Virtual environments help keep local settings and global settings between projects seperate, so that configuring CareerVillage doesn't accidentally break other projects. 
 
-Clone this repository
----------------------
+To create the virtual environment, download ``install_cv.sh`` and run it wherever you want to set up CareerVillage by typing this into your terminal::
 
-Clone the repo with the following command   
+	$ . install_cv.sh
 
-    git clone git@github.com:jchubber/CareerVillage.git
+The script is very simple; open it up and see. It creates the virtual environment, and then runs around installing dependencies using pip.
 
 Edit settings
 -------------
 
-Get into the OSQQA sources folder. Copy the file settings_local.py.dist and rename the copy settings_local.py. Open this new settings_local.py file for editing. Find the database settings and edit them to reflect the settings for the database you will be using. If you are using sqlite3, you should use the following settings:
+Open settings_local.py for editing. Find the database settings and edit them to reflect the settings for the database you will be using. If you are using sqlite3, you should use the following settings:
 
     DATABASE_NAME = "whatever" #You can put whatever you want here  
     DATABASE_USER = "whatever" #You can put whatever you want here  
