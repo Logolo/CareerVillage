@@ -25,8 +25,8 @@ Installing Dependencies
 -----------------------
 Virtual environments help keep local settings and global settings between projects seperate, so that configuring CareerVillage doesn't accidentally break other projects. 
 
-To create the virtual environment, download ``install_cv.sh`` and run it wherever you want to set up CareerVillage by typing this into your terminal::
-
+To create the virtual environment, 
+	$ curl -0 https://github.com/jchubber/CareerVillage/blob/master/install_cv.sh
 	$ . install_cv.sh
 
 The script is very simple; open it up and see. It creates the virtual environment, and then runs around installing dependencies using pip.
@@ -71,7 +71,7 @@ Apply site customization settings
 ---------------------------------
 
 The site requires CSS customization. Log into the site and navigate to the administration area. Copy and paste the following CSS styles into the appropriate setion of the "Custom CSS" page.
-
+::
     .boxA {background-color: #FF6600;}  
     body {background-color: #3CA0D1;}  
     #wrapper {background-color: #FFFFFF;}  
@@ -90,8 +90,8 @@ The site requires CSS customization. Log into the site and navigate to the admin
 Resources
 =========
 
-CareerVillage site: http://www.careervillage.org/  
-CareerVillage blog: http://careervillage.wordpress.com/  
-OSQA main site: http://www.osqa.net/  
-OSQA Installation and Upgrade Guides: http://wiki.osqa.net/display/docs/OSQA+Installation+and+Upgrade+Guides  
-Setting up a development environment: http://wiki.osqa.net/display/docs/Setting+up+a+development+environment+on+Windows  
+CareerVillage site: http://www.careervillage.org/
+CareerVillage blog: http://careervillage.wordpress.com/
+OSQA main site: http://www.osqa.net/
+OSQA Installation and Upgrade Guides: http://wiki.osqa.net/display/docs/OSQA+Installation+and+Upgrade+Guides
+Setting up a development environment: http://wiki.osqa.net/display/docs/Setting+up+a+development+environment+on+Windows
