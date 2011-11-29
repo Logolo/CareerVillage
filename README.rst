@@ -89,7 +89,7 @@ The site requires CSS customization. Log into the site and navigate to the admin
 
 Resources
 =========
-
+::
 CareerVillage site: http://www.careervillage.org/
 CareerVillage blog: http://careervillage.wordpress.com/
 OSQA main site: http://www.osqa.net/
