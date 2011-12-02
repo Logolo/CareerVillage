@@ -77,6 +77,13 @@
             {% endautoescape %}
             <a id="close-notify" onclick="notify.close(true)">&times;</a>
         </div>
+        <div class="notify" style="display:none">
+            {% autoescape off %}
+                <p class="darkred">Welcome to CareerVillage - a website where students ask career questions and professionals compete to give the best answers!<br/>
+                We are in pre-beta testing as we prepare for our January pilot. Check out the sample questions and read the About page to learn more.</p>
+            {% endautoescape %}
+            <a id="close-notify" onclick="notify.close(true)">&times;</a>
+        </div>
         {% if settings.USE_CUSTOM_HEADER|or_preview:request %}
             <div id="custom_header">
                 {{ settings.CUSTOM_HEADER|or_preview:request|static_content:settings.CUSTOM_HEADER_RENDER_MODE }}
