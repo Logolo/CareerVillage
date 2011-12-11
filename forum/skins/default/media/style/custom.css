@@ -19,6 +19,69 @@ body {
 	width: 100%;
 }
 
+/*The following styles define the top-of-page navigational elements*/
+body #topbar {background: url('/upfiles/type.png') repeat top left;	}
+body #topnav {
+	width: 990px;
+	height: 32px;
+	text-align: right;
+	padding-top: 10px;
+	color: #ffffff;
+}
+
+body #topbar {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.246094) 0px 1px 3px 0px, rgba(0, 0, 0, 0.0976562) 0px -1px 0px 0px inset;
+	background-color: #222;
+	background-image: -webkit-linear-gradient(top, rgb(51, 51, 51), rgb(34, 34, 34));
+	background-repeat: repeat-x;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	box-shadow: rgba(0, 0, 0, 0.246094) 0px 1px 3px 0px, rgba(0, 0, 0, 0.0976562) 0px -1px 0px 0px inset;
+	color: #404040;
+ 	display: block; 
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	height: 40px;
+	line-height: 18px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	overflow-y: visible;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+body #topnav a {
+	color: white;
+	text-transform: capitalize;
+	margin-right: 12px;
+	font-weight: bold;
+  } body #topnav a:hover {
+	color: white;
+	text-decoration: underline;
+  } body #topnav a:active {
+	color: red;
+	text-decoration: underline;
+}
+
+body #topnav .score { /* This overwrites the color on the score class in styles.css */
+	color: red;
+	font-weight: bolder;
+	margin-left: 0px;
+	margin-right: 10px;
+} 
+
+#topsearch {
+	display: inline;	
+	margin-left: 27px;
+	text-transform: capitalize;
+}
+
+
 /*The following style allows secondary action buttons to move right*/
 #nav .nav_right{
     float: right;
@@ -119,6 +182,14 @@ body {
 }#nav a.on:active {
 	position:relative;
 	top:1px;
+}
+
+/*The following are global classes */
+/*The following are global classes */
+/*The following are global classes */
+
+.displaynone {
+	display: none;
 }
 
 /*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/
