@@ -221,10 +221,33 @@ class User(BaseModel, DjangoUser):
         today = datetime.date.today()
         return self.actions.filter(canceled=False, action_type__in=("voteup", "votedown"),
                                    action_date__gte=(today - datetime.timedelta(days=1))).count()
+    
+    #number of questions asked in last days
+    def get_question_count(self, days=7):
+        today = datetime.date.today()
+        return self.actions.filter(canceled=False, action_type='ask', 
+                                   action_date__gte=(today - datetime.timedelta(days=days))).count()
+    #answers in days
+    def get_answer_count(self, days=7):
+        today = datetime.date.today()
+        return self.actions.filter(canceled=False, action_type='answer', 
+                                   action_date__gte=(today - datetime.timedelta(days=days))).count()
+    
+    #true if last_seen within days
+    def get_logged_in_within(self, days=7):
+        now = datetime.datetime.now()
+        return self.last_seen > (now - datetime.timedelta(days=days))
+        
+    #calculates reputation based on ActionRepute events within days
+    def get_reputation_by_actions(self, days=7):
+        today = datetime.datetime.now()
+        actions = self.reputes.filter(date__gte=(today - datetime.timedelta(days=days)))
+        total = sum([a.value for a in actions])
+        return total
 
     def get_reputation_by_upvoted_today(self):
         today = datetime.datetime.now()
-        sum = self.reputes.filter(reputed_at__range=(today - datetime.timedelta(days=1), today)).aggregate(
+        sum = self.reputes.filter(date__range=(today - datetime.timedelta(days=1), today)).aggregate(
                 models.Sum('value'))
         #todo: redo this, maybe transform in the daily cap
         #if sum.get('value__sum', None) is not None: return sum['value__sum']

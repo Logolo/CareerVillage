@@ -9,6 +9,7 @@ from action import Action, ActionRepute
 from meta import Vote, Flag, Badge, Award
 from utils import KeyValue
 from page import Page
+from cohort import Cohort
 
 try:
     from south.modelsinspector import add_introspection_rules
@@ -24,7 +25,7 @@ __all__ = [
         'Answer', 'AnswerRevision',
         'Tag', 'Comment', 'MarkedTag', 'Badge', 'Award',
         'ValidationHash', 'AuthKeyUserAssociation', 'SubscriptionSettings', 'KeyValue', 'User',
-        'Action', 'ActionRepute', 'Vote', 'Flag', 'Page'
+        'Action', 'ActionRepute', 'Vote', 'Flag', 'Page', 'Cohort'
         ]
 
 
