@@ -338,7 +338,7 @@ blockquote {
 .short-summary h2 a {
     color: #2A5594;
     font-family: "Trebuchet MS", "segoe ui", arial, sans-serif;
-    font-size: 17px;
+/*    font-size: 17px; */ /*Taking this out because it overwrites the bootstrap css we like*/
 }
 
 .short-summary .userinfo {
