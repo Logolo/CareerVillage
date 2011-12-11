@@ -87,7 +87,7 @@ def index(request):
                          feed_url=reverse('latest_questions_feed'),
                          paginator_context=paginator_context)
 
-@decorators.render('questions.html', 'unanswered', _('unanswered'), weight=400)
+@decorators.render('questions.html', 'unanswered', _('unanswered'), weight=400, tabbed=False)
 def unanswered(request):
     return question_list(request,
                          Question.objects.exclude(id__in=Question.objects.filter(children__marked=True).distinct()),
@@ -95,7 +95,7 @@ def unanswered(request):
                          None,
                          _("Unanswered Questions"))
 
-@decorators.render('questions.html', 'questions', _('questions'), weight=0)
+@decorators.render('questions.html', 'questions', _('Questions'), weight=0)
 def questions(request):
     return question_list(request, Question.objects.all(), _('questions'))
 
@@ -220,7 +220,7 @@ def question_search(request, keywords):
                          paginator_context=paginator_context)
 
 
-@decorators.render('tags.html', 'tags', _('tags'), weight=100)
+@decorators.render('tags.html', 'tags', _('Topics'), weight=100)
 def tags(request):
     stag = ""
     tags = Tag.active.all()

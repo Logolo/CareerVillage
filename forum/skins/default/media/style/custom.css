@@ -1,6 +1,113 @@
 /*custom.css for cv*/
 
+/*The following style overwrites the nav id from styles.css*/
+#nav {
+	clear: both;
+	float: left;
+	margin: 35px 0px 7px 0px;
+	width: 100%;
+}
 
+/*The following style allows secondary action buttons to move right*/
+#nav .nav_right{
+    float: right;
+    color: #B02B2C;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;	
+}
 
+/*The following class is for the ask a question and answer a question buttons*/
+#nav .PrimaryActionButton {
+	-moz-box-shadow:inset 0px 0px 3px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 0px 3px 0px #ffffff;
+	box-shadow:inset 0px 0px 3px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f07878), color-stop(1, #f52929) );
+	background:-moz-linear-gradient( center top, #f07878 5%, #f52929 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f07878', endColorstr='#f52929');
+	background-color:#f07878;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #825656;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:4px 16px;
+	text-decoration:none;
+}#nav .PrimaryActionButton:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f52929), color-stop(1, #f07878) );
+	background:-moz-linear-gradient( center top, #f52929 5%, #f07878 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f52929', endColorstr='#f07878');
+	background-color:#f52929;
+}#nav .PrimaryActionButton:active {
+	position:relative;
+	top:1px;
+}
 
-/*Rails is better.*/
+/*The following class is for the three browsing buttons (questions, topics, users)*/
+#nav .SecondaryActionButton {
+	-moz-box-shadow:inset 0px 0px 3px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 0px 3px 0px #ffffff;
+	box-shadow:inset 0px 0px 3px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #adadad;
+	display:inline-block;
+	color:#777777;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:4px 16px;
+	text-decoration:none;
+}#nav .SecondaryActionButton:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+	background-color:#dfdfdf;
+}#nav .SecondaryActionButton:active {
+	position:relative;
+	top:1px;
+}
+
+/*The following class makes the "current" tab look darker when in use*/
+#nav a.on {
+	/*First, we overwrite the blue background color created in the style.css file*/
+	background: none;
+    
+	-moz-box-shadow:inset 0px 0px 3px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 0px 3px 0px #ffffff;
+	box-shadow:inset 0px 0px 3px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d1d1d1), color-stop(1, #999999) );
+	background:-moz-linear-gradient( center top, #d1d1d1 5%, #999999 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1d1d1', endColorstr='#999999');
+	background-color:#d1d1d1;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #adadad;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:4px 16px;
+	text-decoration:none;
+}#nav a.on:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #999999), color-stop(1, #d1d1d1) );
+	background:-moz-linear-gradient( center top, #999999 5%, #d1d1d1 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#d1d1d1');
+	background-color:#999999;
+}#nav a.on:active {
+	position:relative;
+	top:1px;
+}
+
+/*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/
