@@ -338,6 +338,23 @@ def user_recent(request, user):
     return {"view_user" : user, "activities" : activities}
 
 
+#Prototype, not finished
+@user_view('users/cohorts.html', 'cohorts', _('recent activity'), _('recent user activity'))
+def user_cohorts(request, user):
+    cohorts = user.educator_of.all()
+    data = {'view_user': user, 'cohorts' : []}
+    for c in cohorts:
+        cohort = {}
+        cohort['name'] = c.name
+    #    cohort['points'] = {'last7':c.time_reputation(),
+    #                        'all' : c.reputation}
+    #    cohort['engagement'] = {'logged_in' : "%d of %d students logged in" % c.time_logins(),
+    #                            'asked_questions' : "%d of %d students asked questions" % c.time_questions()}
+        cohort['details'] = c.student_details()
+        data['cohorts'].append(cohort)
+    return data
+
+
 @user_view('users/reputation.html', 'reputation', _('reputation history'), _('graph of user karma'))
 def user_reputation(request, user):
     rep = list(user.reputes.order_by('date'))
