@@ -12,7 +12,7 @@ class GoogleAuthContext(ConsumerTemplateContext):
     human_name = 'Google'
     icon = '/media/images/openid/google.gif'
 
-
+## WE BEGIN COMMENTING OUT OAUTH METHODS WE DON'T WANT TO USE NOW:
 
 #class YahooAuthConsumer(OpenIdAbstractAuthConsumer):
 #    def get_user_url(self, request):
