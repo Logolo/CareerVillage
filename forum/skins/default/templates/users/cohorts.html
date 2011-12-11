@@ -1,0 +1,20 @@
+{% extends "user.html" %}
+
+{% load extra_tags %}
+{% load user_tags %}
+{% block usercontent %}
+        <div style="padding-top:5px;font-size:13px;">
+        <h3>Cohorts!!</h3>
+        {% for c in cohorts %}
+            <div>
+                <h3>{{ c.name }}</h3>
+            </div>
+            
+            <ul>
+            {% for s in c.details %}
+            <li><a href="{{ s.student.get_profile_url }}">{{ s.student.username }}</a> questions: {{ s.questions }} answers: {{ s.answers }} points: {{ s.points }}</li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+        </div>
+{% endblock %}
