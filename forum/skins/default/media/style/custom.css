@@ -1,5 +1,9 @@
 /*custom.css for cv*/
 
+/*BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND*/
+/*BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND*/
+/*BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND*/
+
 /*The following style overwrites the html background from styles.css*/
 html {
 	background: none;
@@ -10,6 +14,10 @@ html {
 body {
 	background: none;
 }
+
+/*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
+/*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
+/*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
 
 /*The following style overwrites the nav id from styles.css*/
 #nav {
@@ -72,6 +80,15 @@ body #topnav .score { /* This overwrites the color on the score class in styles.
 	color: red;
 	font-weight: bolder;
 	margin-left: 0px;
+	margin-right: 10px;
+} 
+
+body #topnav span {
+	display: none;
+} 
+
+body #topnav .score {
+	display: inline;
 	margin-right: 10px;
 } 
 
@@ -183,6 +200,44 @@ body #topnav .score { /* This overwrites the color on the score class in styles.
 	position:relative;
 	top:1px;
 }
+
+/*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
+/*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
+/*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
+
+/*The following class overwrites the class for the RSS feed icon in styles.css*/
+#CALeft .tabBar .feed-icon{display:none;}
+
+/*The following class overwrites the background for the dot-list icon in styles.css*/
+.headQuestions{background: none;}
+
+/*The following class gives tabBar a dotted underline (overwrites styles.css)*/
+.tabBar{
+	border-bottom: 1px dashed #ccc;
+	margin-bottom: 9px;	
+}
+
+/*The following class redesigns the list sorting buttons*/
+.tabsA a{
+	background: none;
+	border: none;	
+}
+
+/*RIGHT SIDE - RIGHT SIDE - RIGHT SIDE - RIGHT SIDE - RIGHT SIDE*/
+.boxC {
+	border: none;
+	background: #FFF;
+} 
+
+#sidebar-upper {
+	display: none;
+} 
+
+#sidebar-lower {
+	display: none;
+} 
+
+
 
 /*The following are global classes */
 /*The following are global classes */
