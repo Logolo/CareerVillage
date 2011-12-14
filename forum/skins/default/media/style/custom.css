@@ -135,8 +135,17 @@ body #searchBar div {
 /* LAST LEFT OFF: Was resetting the styles on the anchor links in the nav bar */
 
 #searchBar .secondaryaction a {color: #fff;}
-#searchBar .secondaryactionon a {color: #red;}
+#searchBar .secondaryactionon a {color: #FF0000;}
 #searchBar .secondaryactionon {
+	margin-bottom: 0px;
+	padding-top: 6px;
+	background-color: #fff;
+	border-bottom: 0;
+	padding-bottom: 13px;
+}
+
+#searchBar .on a {color: #FF0000;}
+#searchBar .on {
 	margin-bottom: 0px;
 	padding-top: 6px;
 	background-color: #fff;
