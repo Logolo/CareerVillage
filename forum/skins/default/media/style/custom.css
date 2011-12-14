@@ -222,6 +222,78 @@ body #topnav .score {
 	background: none;
 	border: none;	
 }
+/*The following class removes the borders on items in the stats-wrapper*/
+.short-summary .stats-wrapper div{
+	border: none;
+}
+
+/*The following class removes all styles on the views count set by styles.css*/
+.short-summary .stats-wrapper .views{
+	border: none;
+	height: auto;
+	margin: auto;
+	padding: auto;
+	test-align: center;
+	width: auto;
+}
+
+/*The following classes are for the stats-wrapper*/
+.short-summary .stats-wrapper{
+	width: 127px;
+	float: left;
+	margin: 0;
+	padding: 0;
+    margin-left: 10px;
+}
+
+.short-summary .counts{
+	float: left;
+	margin-right: 0px;
+	margin-top: 4px;
+	padding: 5px;
+	width: 111px;
+	background-color: #eee;
+	text-align: center;
+}
+
+.short-summary .stats-wrapper .counts .votes{
+	float: left;
+	color: #666;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 5px 0px 0px 0px;
+	width: 50px;
+}
+
+.short-summary .status{
+	float: right;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 5px 0px 0px 0px;
+	margin: 0;
+	width: 50px;
+}
+
+.answered{
+	background: none repeat scroll 0 0 #E5EBf8;
+}
+
+.short-summary .stats-wrapper .views{
+	border: none;
+	height: auto;
+	margin: 0;
+	color: #666;
+	float: left;
+	font-size: 12px;
+	padding: 5px 0px 0px;
+	width: 116px;
+	text-align: center;
+}
+
+/*The following classes are for the question-summary-wrapper*/
+.short-summary .question-summary-wrapper {
+	width: 592px;
+}
 
 /*RIGHT SIDE - RIGHT SIDE - RIGHT SIDE - RIGHT SIDE - RIGHT SIDE*/
 .boxC {
