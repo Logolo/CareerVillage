@@ -2,4 +2,6 @@
 settings_local.py
 settings_local.pyc
 .pydevproject
-./cache
+*.log
+*/*.log
+cache/

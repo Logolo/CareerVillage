@@ -5,16 +5,6 @@
 	<div id="topbar">
 		<div id="topnav">
  		    {% loadregistry header_links %}{% endloadregistry %}
-		    <form id="topsearch" action="{% url search %}" method="get">
-		            <input type="text" class="searchInput" placeholder="Search..." value="{{ keywords }}" name="q" id="keywords" />
-		            <input type="submit" class="displaynone" name="Submit" value="{% trans "search" %}" class="searchBtn" />
-		            <span id="searchoptions" class="displaynone">
-			            <input id="type-question" type="radio" value="question" name="t" 
-			                checked="checked" /><label for="type-question">{% trans "questions" %}</label>
-			            <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">Topics<!-- {% trans "tags" %} --></label>
-			            <input id="type-user" type="radio" value="user" name="t" /><label for="type-user">{% trans "users" %}</label>
-		            </span>
-		    </form>	
 		</div>
 	</div>
   <div class="clear"></div>
@@ -26,22 +16,33 @@
 			</a>
 		</div>
 	  
-    <div id="nav">
-        <a id="PrimaryActionAsk" href="{% url ask %}" class="PrimaryActionButton">Ask a question</a>
-        <a id="PrimaryActionAnswer" href="{% url unanswered %}" class="PrimaryActionButton">Answer a question</a>
-        <span class="nav_right">
-        {% loopregistry page_top_tabs %}{% spaceless %}
-            <a id="nav_{{ tab_name }}"{% ifequal tab tab_name %} class="SecondaryActionButton on"{% endifequal %} class="SecondaryActionButton" href="{{ tab_url }}" >{{ tab_title }}</a>
-        {% endspaceless %}{% endloopregistry %}
-<!--         <a id="nav_ask" href="{% url ask %}" class="special">{% trans "ask a question" %}</a> -->
-        </span>
+    <div id="headerrightside">
     </div>
   </div>
 
   <div class="clear"></div>
   
 	<div id="searchBar">
-<!-- This div was left empty when the search bar moved up into the top navigation -->
+<!-- This div used to be the search bar alone, and has been retasked to be the complete navigation bar -->
+		<div id="browseby">Browse by:</div>
+        {% loopregistry page_top_tabs %}{% spaceless %}
+            <div id="nav_{{ tab_name }}" class="secondaryaction{% ifequal tab tab_name %}on{% endifequal %}"><a id="nav_a_{{ tab_name }}" class="SecondaryActionButton" href="{{ tab_url }}" >{{ tab_title }}</a></div>
+        {% endspaceless %}{% endloopregistry %}
+		<div id="takeaction">Take action:</div>
+        <div id="nav_ask" class="primaryaction"><a id="PrimaryActionAsk" href="{% url ask %}" class="PrimaryActionButton">Ask a question</a></div>
+        <div id="nav_answer" class="primaryaction"><a id="PrimaryActionAnswer" href="{% url unanswered %}" class="PrimaryActionButton">Answer a question</a></div>
+		<div id="search">
+		    <form id="topsearch" action="{% url search %}" method="get">
+		            <input type="text" placeholder="Search..." value="{{ keywords }}" name="q" id="keywords" />
+		            <input type="submit" class="displaynone" name="Submit" value="{% trans "search" %}" class="searchBtn" />
+		            <span id="searchoptions" class="displaynone">
+			            <input id="type-question" type="radio" value="question" name="t" 
+			                checked="checked" /><label for="type-question">{% trans "questions" %}</label>
+			            <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">Topics<!-- {% trans "tags" %} --></label>
+			            <input id="type-user" type="radio" value="user" name="t" /><label for="type-user">{% trans "users" %}</label>
+		            </span>
+		    </form>	
+		</div>
 	</div>
 
 	{% if settings.USE_ANNOUNCEMENT_BAR|or_preview:request %}

@@ -19,7 +19,7 @@
         <p style="{{ p_style }}">{% trans "Here's your login info (store it in a cool dry place):" %}</p>
 
         <p style="{{ p_style }}">{% trans "Username: " %} {{ recipient.username }}<br />
-        <b>{% trans "Password: As IF we would send your password in cleartext!" %}</b></p>
+        <b>{% trans "Password: It's too secret for email! Login to make changes to it." %}</b></p>
 
         <p style="{{ p_style }}">{% trans "The following link will help us verify your email address:" %}</p>
 
@@ -35,7 +35,7 @@
 {% trans "Here's your login info (store it in a cool dry place):" %}
 
 {% trans "Username: " %} {{ recipient.username }}
-{% trans "Password: As IF we would send your password in cleartext!" %}
+{% trans "Password: It's too secret for email! Login to make changes to it." %}
 
 {% trans "Copy and paste this url into your web browser's address bar to help us verify your email address:" %}
 

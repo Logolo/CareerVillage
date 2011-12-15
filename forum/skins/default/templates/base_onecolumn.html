@@ -1,0 +1,19 @@
+{% extends "base_content.html" %}
+{% block page_center %}
+
+{% block full_width_banner %}{% endblock %}
+
+<div id="wrapper">
+    {% block site_width_banner %}{% endblock %}
+    
+    <div id="room" class="onecolumn">
+            {% block content%}
+            {% endblock%}
+        <div id="tail" style="clear:both;">
+            {% block tail %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="spacer3"></div>
+</div>
+{% endblock %}
