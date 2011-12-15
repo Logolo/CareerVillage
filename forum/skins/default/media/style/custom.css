@@ -132,8 +132,6 @@ body #searchBar div {
 	padding-right: 5px;
 }
 
-/* LAST LEFT OFF: Was resetting the styles on the anchor links in the nav bar */
-
 #searchBar .secondaryaction a {color: #fff;}
 #searchBar .secondaryactionon a {color: #FF0000;}
 #searchBar .secondaryactionon {
@@ -289,7 +287,22 @@ body #searchBar div {
 	display: none;
 } 
 
+/* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
+/* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
+/* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
 
+#searchtags{
+	margin-top: 20px;
+	margin-left: 6px;
+}
+
+.tagsList li {
+	font-size: 20px;
+	margins: 5px;
+	width: 225px;
+}
+
+.tagsList a {font-size: 20px;}
 
 /*The following are global classes */
 /*The following are global classes */
