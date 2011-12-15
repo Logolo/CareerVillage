@@ -5,3 +5,4 @@ settings_local.pyc
 *.log
 */*.log
 cache/
+careerville_osqa
