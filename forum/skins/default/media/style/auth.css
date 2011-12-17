@@ -82,10 +82,31 @@
     margin-top: 20px;
     margin-bottom: 10px;
 }
-
+/*The following separate the colum on signin.html
+and also gives some dimensions to the box*/
+.col-login-right {
+	float:right;
+}
+.col-login-left {
+	float:left;
+	width: 290px;
+}
+	
+/*puts label and input box on same row instead of using tables like originally done*/
 .form_row {
 	float: left;
+	padding-bottom:10px;
 }
-.returningusersbox {
-	  padding: 15px;
+.box {
+	padding: 50px;
+
+}
+#right.box {  
+	padding: 50px;
+	float: right;
+}
+
+.bottombox {  
+	padding-left: 50px;
+	float: left;
 }
