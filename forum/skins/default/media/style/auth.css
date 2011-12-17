@@ -82,3 +82,10 @@
     margin-top: 20px;
     margin-bottom: 10px;
 }
+
+.form_row {
+	float: left;
+}
+.returningusersbox {
+	  padding: 15px;
+}
