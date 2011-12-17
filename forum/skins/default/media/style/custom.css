@@ -312,4 +312,12 @@ body #searchBar div {
 	display: none;
 }
 
+/*The following separate the colum on signin.html*/
+.col-login-right {
+	float:right;
+}
+.col-login-left {
+	float:left;
+	width: 250px;
+
 /*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/
