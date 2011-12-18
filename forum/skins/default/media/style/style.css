@@ -35,27 +35,9 @@ label {
     margin-bottom: 8px;
 }
 
-hr {
-    border-color: #CCCCCE -moz-use-text-color -moz-use-text-color;
-    border-right: medium none;
-    border-style: dashed none none;
-    border-width: 1px medium medium;
-}
-
 input, select {
     font-family: Trebuchet MS, "segoe ui", Helvetica, "Microsoft YaHei", Tahoma, Verdana, MingLiu, PMingLiu, Arial, sans-serif;
     vertical-align: middle;
-}
-
-p {
-    font-size: 13px;
-    line-height: 140%;
-    margin-bottom: 13px;
-}
-
-a {
-    color: #3060A8;
-    text-decoration: none;
 }
 
 .clear {
