@@ -8,13 +8,11 @@
 
 .provider_logo {
     display: block;
-    border: 1px solid #DDD;
     text-align: center;
 }
 
 .provider_logo.big {
     display: block;
-    border:1px solid #DDDDDD;
     float:left;
     height:60px;
     margin:3px;
@@ -98,11 +96,11 @@ and also gives some dimensions to the box*/
 	padding-bottom:10px;
 }
 .box {
-	padding: 50px;
+	padding: 30px;
 
 }
 #right.box {  
-	padding: 50px;
+	padding: 30px;
 	float: right;
 }
 
