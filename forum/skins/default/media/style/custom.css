@@ -312,12 +312,206 @@ body #searchBar div {
 	display: none;
 }
 
+/*
+ * Scaffolding.less
+ * Basic and global styles for generating a grid system, structural layout, and page templates
+ * ------------------------------------------------------------------------------------------- */
+/* BASE STYLES
+   ----------- */
+/* Links */
+a {
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+a:hover {
+  color: #00438a;
+  text-decoration: underline;
+}
+/* Quick floats */
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+/* Toggling content */
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
+/* Type.less
+ * Headings, body text, lists, code, and more for a versatile and durable typography system
+ * ---------------------------------------------------------------------------------------- */
+/* BODY TEXT
+   --------- */
+p {
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  margin-bottom: 9px;
+}
+p small {
+  font-size: 11px;
+  color: #bfbfbf;
+}
+/* HEADINGS
+   -------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  color: #404040;
+}
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small {
+  color: #bfbfbf;
+}
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h1 small {
+  font-size: 18px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h2 small {
+  font-size: 14px;
+}
+h3,
+h4,
+h5,
+h6 {
+  line-height: 36px;
+}
+h3 {
+  font-size: 18px;
+}
+h3 small {
+  font-size: 14px;
+}
+h4 {
+  font-size: 16px;
+}
+h4 small {
+  font-size: 12px;
+}
+h5 {
+  font-size: 14px;
+}
+h6 {
+  font-size: 13px;
+  color: #bfbfbf;
+  text-transform: uppercase;
+}
+/* COLORS
+   ------ */
+/* Unordered and Ordered lists */
+ul, ol {
+  margin: 0 0 18px 25px;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: 0;
+}
+ul {
+  list-style: disc;
+}
+ol {
+  list-style: decimal;
+}
+li {
+  line-height: 18px;
+  color: #808080;
+}
+ul.unstyled {
+  list-style: none;
+  margin-left: 0;
+}
+/* Description Lists */
+dl {
+  margin-bottom: 18px;
+}
+dl dt, dl dd {
+  line-height: 18px;
+}
+dl dt {
+  font-weight: bold;
+}
+dl dd {
+  margin-left: 9px;
+}
+/* MISC
+   ---- */
+/* Horizontal rules */
+hr {
+  margin: 20px 0 19px;
+  border: 0;
+  border-bottom: 1px solid #eee;
+}
+/* Emphasis */
+strong {
+  font-style: inherit;
+  font-weight: bold;
+}
+em {
+  font-style: italic;
+  font-weight: inherit;
+  line-height: inherit;
+}
+.muted {
+  color: #bfbfbf;
+}
+/* Blockquotes */
+blockquote {
+  margin-bottom: 18px;
+  border-left: 5px solid #eee;
+  padding-left: 15px;
+}
+blockquote p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 18px;
+  margin-bottom: 0;
+}
+blockquote small {
+  display: block;
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 18px;
+  color: #bfbfbf;
+}
+blockquote small:before {
+  content: '\2014 \00A0';
+}
+/* Addresses */
+address {
+  display: block;
+  line-height: 18px;
+  margin-bottom: 18px;
+}
 /* buttons.less
- * Base styles for buttons from twitter bootstrap + less
- * These styles were imported properly using 
- * lessc buttons.less buttons.css and then imported into
- * here
+ * Base styles for buttons
  * ------------------------------------------------------------- */
+/* BUTTON STYLES
+   ------------- */
+/* Shared colors for buttons and alerts */
 .btn.danger,
 .alert-message.danger,
 .btn.danger:hover,
@@ -388,6 +582,7 @@ body #searchBar div {
   border-color: #339bb9 #339bb9 #22697d;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
+/* Base .btn styles */
 .btn {
   cursor: pointer;
   display: inline-block;
@@ -493,156 +688,5 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 }
 
 
-/* Typography.less
- * Headings, body text, lists, code, and more for a versatile and durable typography system
- * These styles were imported properly using lessc typography.less typography.css and then 
- * imported into here
- * ---------------------------------------------------------------------------------------- */
-p {
-  font-size: 13px;
-  font-weight: normal;
-  line-height: 18px;
-  margin-bottom: 9px;
-}
-p small {
-  font-size: 11px;
-  color: #bfbfbf;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: bold;
-  color: #404040;
-}
-h1 small,
-h2 small,
-h3 small,
-h4 small,
-h5 small,
-h6 small {
-  color: #bfbfbf;
-}
-h1 {
-  margin-bottom: 18px;
-  font-size: 30px;
-  line-height: 36px;
-}
-h1 small {
-  font-size: 18px;
-}
-h2 {
-  font-size: 24px;
-  line-height: 36px;
-}
-h2 small {
-  font-size: 14px;
-}
-h3,
-h4,
-h5,
-h6 {
-  line-height: 36px;
-}
-h3 {
-  font-size: 18px;
-}
-h3 small {
-  font-size: 14px;
-}
-h4 {
-  font-size: 16px;
-}
-h4 small {
-  font-size: 12px;
-}
-h5 {
-  font-size: 14px;
-}
-h6 {
-  font-size: 13px;
-  color: #bfbfbf;
-  text-transform: uppercase;
-}
-ul, ol {
-  margin: 0 0 18px 25px;
-}
-ul ul,
-ul ol,
-ol ol,
-ol ul {
-  margin-bottom: 0;
-}
-ul {
-  list-style: disc;
-}
-ol {
-  list-style: decimal;
-}
-li {
-  line-height: 18px;
-  color: #808080;
-}
-ul.unstyled {
-  list-style: none;
-  margin-left: 0;
-}
-dl {
-  margin-bottom: 18px;
-}
-dl dt, dl dd {
-  line-height: 18px;
-}
-dl dt {
-  font-weight: bold;
-}
-dl dd {
-  margin-left: 9px;
-}
-hr {
-  margin: 20px 0 19px;
-  border: 0;
-  border-bottom: 1px solid #eee;
-}
-strong {
-  font-style: inherit;
-  font-weight: bold;
-}
-em {
-  font-style: italic;
-  font-weight: inherit;
-  line-height: inherit;
-}
-.muted {
-  color: #bfbfbf;
-}
-blockquote {
-  margin-bottom: 18px;
-  border-left: 5px solid #eee;
-  padding-left: 15px;
-}
-blockquote p {
-  font-size: 14px;
-  font-weight: 300;
-  line-height: 18px;
-  margin-bottom: 0;
-}
-blockquote small {
-  display: block;
-  font-size: 12px;
-  font-weight: 300;
-  line-height: 18px;
-  color: #bfbfbf;
-}
-blockquote small:before {
-  content: '\2014 \00A0';
-}
-address {
-  display: block;
-  line-height: 18px;
-  margin-bottom: 18px;
-}
 
 /*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/
