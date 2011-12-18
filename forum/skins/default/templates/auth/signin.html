@@ -51,10 +51,11 @@
         </div>
     {% endif %}
     <div id="bigicon_providers">
-
-            <div class ="provider_logo big"> 
-              <a href="{% url auth_local_register %}">{% trans 'Create account' %}</a>
-            </div>
+       <div class ="provider_logo big">
+			<div class="inner">
+              <a href="{% url auth_local_register %}" class="btn danger">Create account</a>
+			</div>
+       </div>
         {% for provider in bigicon_providers %}
             <div class="provider_logo big" name="{{ provider.id }}">
                 <div class="inner">
