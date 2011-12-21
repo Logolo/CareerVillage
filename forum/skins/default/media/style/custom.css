@@ -111,7 +111,7 @@ body #topnav .score {
 body #searchBar {
 	font-weight: bold;
 	text-align: left;
-	height: 28px;
+	height: 36px;
 	padding-top: 10px;
 	border-bottom: 0;
 	color: #FFF;
@@ -687,6 +687,9 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   border: 0;
 }
 
-
+/* Other custom stuff*/
+.divider {
+	border-left: 1px dashed #888;
+}
 
 /*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/
