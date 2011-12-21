@@ -4,10 +4,6 @@
 {% block head %}{% endblock %}
 {% block title %}{% spaceless %}{% trans "Connect your OpenID with this site" %}{% endspaceless %}{% endblock %}
 {% block content %}
-    <div id="main-bar" class="headNormal">
-		{% trans "Connect your OpenID with your account on this site" %}
-    </div>      
-	<div id="completetxt" >
         <div class="message">
             {# Only display the OpenID greeting if a provider is detected. #}
             {% if provider %}
@@ -15,13 +11,8 @@
                     <b>{% trans "You are here for the first time with " %}{{ provider }}</b>
                 </p>
             {% endif %}
-            <p>
-                {% trans "Please choose your screen name and confirm your email address. A valid email address is necessary to receive notifications about activity in the areas of this community you're most interested in, and will help you become an involved participant in this community." %}
-            </p>
         </div>
     	<p style="display:none">{% trans "This account already exists, please use another." %}</p>
-	</div>
-
 	{% if form1.errors %}
         <ul class="errorlist">
         {% if form1.non_field_errors %}
@@ -36,35 +27,31 @@
         <form name="fregister" action="" method="POST">
             {{ form1.next }}
             <div class="form-row-vertical margin-bottom">
-                <label for="id_username">{{ form1.username.label }}</label>
                 {% if form1.username.errors %} 
                     <p class="error">{{ form1.username.errors|join:", " }}</p>
                 {% endif %}
-                {{ form1.username }}
-            </div>
-            <div class="form-row-vertical margin-bottom">
-                <label for="id_email">{{ form1.email.label }}</label>
-                {% if form1.email.errors %} 
-                    <p class="error">{{ form1.email.errors|join:", " }}</p>
-                {% endif %}
-                {{ form1.email }}
+				<input id="id_username" placeholder="Choose your username" type="text" class="required login" name="username" maxlength="30">
             </div>
             {% if form1.password1 %}
                 <div class="form-row-vertical margin-bottom">
-                    <label for="password1_id">{{ form1.password1.label }}</label>
                     {% if form1.password1.errors %}
                         <p class="error">{{ form1.password1.errors|join:", " }}</p>
                     {% endif %}
-                    {{ form1.password1 }}
+					<input id="id_password1" placeholder="Create a password" type="password" class="required login" name="password1">
                 </div>
                 <div class="form-row-vertical margin-bottom">
-                    <label for="password2_id">{{ form1.password2.label }}</label>
                     {% if form1.password2.errors %} 
                         <p class="error">{{ form1.password2.errors|join:", " }}</p>
                     {% endif %}
-                    {{ form1.password2 }}
+					<input id="id_password2" placeholder="Confirm your password" type="password" class="required login" name="password2">
                 </div>
             {% endif %}
+            <div class="form-row-vertical margin-bottom">
+                {% if form1.email.errors %} 
+                    <p class="error">{{ form1.email.errors|join:", " }}</p>
+                {% endif %}
+				<input id="id_email" placeholder="Confirm your email address" type="text" class="required login" name="email" maxlength="200">
+            </div>
             {% if form1.recaptcha %}
                 <div class="form-row-vertical margin-bottom">
                 <label for="recaptcha_id">{{ form1.recaptcha.label }}</label>
@@ -74,7 +61,7 @@
                 {{ form1.recaptcha }}
                 </div>
             {% endif %}
-            <div class="submit-row"><input type="submit" class="submit" name="bnewaccount" id="bnewaccount" value="{% trans "create account" %}"/></div>
+            <div class="submit-row"><input type="submit" class="btn danger" name="bnewaccount" id="bnewaccount" value="Sign up"/></div>
 		</form>
 	</div>
     {% comment %}<!-- this form associates openID with an existing password-protected account, not yet functional -->
