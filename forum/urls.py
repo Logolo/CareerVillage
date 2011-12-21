@@ -99,6 +99,8 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('reputation/')), app.users.user_reputation, name='user_reputation'),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('votes/')), app.users.user_votes, name='user_votes'),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('recent/')), app.users.user_recent, name='user_recent'),
+    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('cohorts/')), app.users.user_cohorts, name='user_cohorts'),
+
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/$' % _('users/'), app.users.user_profile, name='user_profile'),
     url(r'^%s$' % _('badges/'), app.meta.badges, name='badges'),
     url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]+)/?$' % _('badges/'), app.meta.badge, name='badge'),
