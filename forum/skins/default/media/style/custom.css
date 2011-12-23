@@ -300,9 +300,11 @@ body #searchBar div {
 /*The following are global classes */
 /*The following are global classes */
 
-.displaynone {
-	display: none;
-}
+.displaynone {display: none;}
+.italic {font-style: italic;}
+.lightgray {color: #bbb;}
+.lightgray a {color: #bbb; text-decoration: underline;}
+.lightgray a:hover {color: #000; text-decoration: underline;}
 
 /*
  * Scaffolding.less

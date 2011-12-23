@@ -1,4 +1,5 @@
-<h3> HLSKDJFLKSDJFLKSDHFLKJSDHFLKJDSHFLKSDJHFLKJSDHFLSDKJF</h3>
+<div class="italic lightgray">You can help us improve this dashboard by <a href="mailto:careervillage@gmail.com&subject=Dashboard%20suggestion">telling us what you would like to see here.</a></div>
+<br/>
 <h3>Total</h3>
 <table summary="Overall Stats" class="bordered-table zebra-striped">
     <thead>
@@ -42,7 +43,7 @@
     {% for s in cohort.details %}
     <tr>
         <td><a href="{{ s.student.get_profile_url }}">{{ s.student.username }}</a></td>
-        <td>[student.email]</td>
+        <td>{{ s.student.email }}</td>
         <td>{{ s.points }}</td>
         <td>{{ s.questions }}</td>
         <td>{{ s.answers }}</td>

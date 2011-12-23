@@ -5,19 +5,22 @@
 {% block usercontent %}
 {% block forestyle%}
 <style type="text/css">
+/* When this is in a finished state, all of this should move to  */
     .history-table td { padding: 5px; }
     .user-stats-table { margin-left:50px; }
+    #educatordashboard h2 { background-color: black; color: white; padding: 10px; }
+    #educatordashboard .cohort-statistics { margin-left: 30px; margin-top: 20px; }
+    #educatordashboard .cohort-statistics-title { background-color: #bbb; padding: 0px 10px; }
 </style>
 <link href="{% media  "/media/style/bootstrap.css" %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 <div>
-    [jared goes blah blah blah]
-
-    <div>
+    
+    <div id="educatordashboard">
         <div>
             <h2>Educator Dashboard</h2>
-		<span>Note: This material can only be viewed by
+		<span class="lightgray">Note: This material can only be viewed by
 		educators who are explicitly given permissions to see this page.
 		If you want to add an additional educator to view this content,
 		please email their contact information to <a href="mailto:careervillage@gmail.com" target="_blank">careervillage@gmail.com</a></span>
@@ -26,7 +29,7 @@
         {% for cohort in cohorts %}
         <div>
             <div class="cohort-statistics">
-                <div><h3>Cohort: {{ cohort.name }}</h3></div>
+                <div><h3 class="cohort-statistics-title">Cohort: {{ cohort.name }}</h3></div>
                 <form>
                     <fieldset>
                         <div class="clearfix">
