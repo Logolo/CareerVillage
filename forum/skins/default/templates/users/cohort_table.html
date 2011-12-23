@@ -1,0 +1,54 @@
+<h3> HLSKDJFLKSDJFLKSDHFLKJSDHFLKJDSHFLKSDJHFLKJSDHFLSDKJF</h3>
+<h3>Total</h3>
+<table summary="Overall Stats" class="bordered-table zebra-striped">
+    <thead>
+    <tr>
+        <th>Points earned</th>
+        <th>Questions asked</th>
+        <th>Answers received</th>
+        <th>Comments made</th>
+        <th>Pageviews</th>
+        <th>Confirmed logins</th>
+        <th>% of students who logged in</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>derp</td>
+        <td>derpa</td>
+        <td>herp</td>
+        <td>herpa</td>
+        <td>herpaderpa</td>
+        <td>durrrrr</td>
+        <td>kittens</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Individual</h3>
+<table summary="Detailed Stats" class="bordered-table zebra-striped">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Points earned</th>
+        <th>Questions asked</th>
+        <th>Answers given</th>
+        <th>Comments made</th>
+        <th>Times voted</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in cohort.details %}
+    <tr>
+        <td><a href="{{ s.student.get_profile_url }}">{{ s.student.username }}</a></td>
+        <td>[student.email]</td>
+        <td>{{ s.points }}</td>
+        <td>{{ s.questions }}</td>
+        <td>{{ s.answers }}</td>
+        <td>n/a</td>
+        <td>n/a</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

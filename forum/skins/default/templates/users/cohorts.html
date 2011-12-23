@@ -3,18 +3,73 @@
 {% load extra_tags %}
 {% load user_tags %}
 {% block usercontent %}
-        <div style="padding-top:5px;font-size:13px;">
-        <h3>Cohorts!!</h3>
-        {% for c in cohorts %}
-            <div>
-                <h3>{{ c.name }}</h3>
-            </div>
-            
-            <ul>
-            {% for s in c.details %}
-            <li><a href="{{ s.student.get_profile_url }}">{{ s.student.username }}</a> questions: {{ s.questions }} answers: {{ s.answers }} points: {{ s.points }}</li>
-            {% endfor %}
-            </ul>
-        {% endfor %}
+{% block forestyle%}
+<style type="text/css">
+    .history-table td { padding: 5px; }
+    .user-stats-table { margin-left:50px; }
+</style>
+<link href="{% media  "/media/style/bootstrap.css" %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+<div>
+    [jared goes blah blah blah]
+
+    <div>
+        <div>
+            <h2>Educator Dashboard</h2>
+		<span>Note: This material can only be viewed by
+		educators who are explicitly given permissions to see this page.
+		If you want to add an additional educator to view this content,
+		please email their contact information to <a href="mailto:careervillage@gmail.com" target="_blank">careervillage@gmail.com</a></span>
         </div>
+
+        {% for cohort in cohorts %}
+        <div>
+            <div class="cohort-statistics">
+                <div><h3>Cohort: {{ cohort.name }}</h3></div>
+                <form>
+                    <fieldset>
+                        <div class="clearfix">
+                            <label for="smallSelect">Timeframe: </label>
+                            <div class="input">
+                                <div class="inline-inputs">
+                                    <select class="small" name="smallSelect" id="smallSelect">
+                                        <option value=1>1 day</option>
+                                        <option value=2>2 days</option>
+                                        <option value=3>3 days</option>
+                                        <option value=4>4 days</option>
+                                        <option value=5>5 days</option>
+                                        <option value=6>6 days</option>
+                                        <option value=7 selected="selected">7 days</option>
+                                        <option value=14>14 days</option>
+                                        <option value=21>21 days</option>
+                                        <option value=30>30 days</option>
+                                        <option value=60>60 days</option>
+                                        <option value=120>120 days</option>
+                                        <option>ALL</option>
+                                    </select>
+                                    <input type="submit" class="btn primary" value="Refresh" id= "{{ cohort.name}}">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <div id="{{ cohort.name }}">
+                    {% include "users/cohort_table.html" %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready( function() {
+            $('input').click( function() {
+                $('div#' + this.id).load('/cohorts/' + this.id + '/' + $('select').val() + '/');
+                return false;
+            });
+        });
+    </script>
+
+</div>
 {% endblock %}

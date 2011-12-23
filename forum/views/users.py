@@ -346,14 +346,29 @@ def user_cohorts(request, user):
     for c in cohorts:
         cohort = {}
         cohort['name'] = c.name
-    #    cohort['points'] = {'last7':c.time_reputation(),
-    #                        'all' : c.reputation}
-    #    cohort['engagement'] = {'logged_in' : "%d of %d students logged in" % c.time_logins(),
-    #                            'asked_questions' : "%d of %d students asked questions" % c.time_questions()}
+        #cohort['points'] = {'last7':c.time_reputation(),
+        #                    'all' : c.reputation}
+        #cohort['engagement'] = {'logged_in' : "%d of %d students logged in" % c.time_logins(),
+        #                        'asked_questions' : "%d of %d students asked questions" % c.time_questions()}
         cohort['details'] = c.student_details()
         data['cohorts'].append(cohort)
     return data
 
+def cohort(request, cohort, days=7):
+    print "blahblahblahblah"
+    print cohort
+    print days
+    print "name = %s days = %d" % (cohort, int(days))
+    cohort = Cohort.objects.get(name=cohort)
+    print "blah222222222"
+    c = {}
+    c['name'] = cohort.name
+    print cohort.name
+    print "blah333333333"
+    c['details'] = cohort.student_details(days=int(days))
+    print "blah222222222"
+    print "blah222222222"
+    return render_to_response('users/cohort_table.html',{'cohort': c})
 
 @user_view('users/reputation.html', 'reputation', _('reputation history'), _('graph of user karma'))
 def user_reputation(request, user):
