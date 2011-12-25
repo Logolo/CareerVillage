@@ -1,5 +1,3 @@
-<div class="italic lightgray">You can help us improve this dashboard by <a href="mailto:careervillage@gmail.com&subject=Dashboard%20suggestion">telling us what you would like to see here.</a></div>
-<br/>
 <h3>Total</h3>
 <table summary="Overall Stats" class="bordered-table zebra-striped">
     <thead>
@@ -15,13 +13,15 @@
     </thead>
     <tbody>
     <tr>
-        <td>derp</td>
-        <td>derpa</td>
-        <td>herp</td>
-        <td>herpa</td>
-        <td>herpaderpa</td>
-        <td>durrrrr</td>
-        <td>kittens</td>
+        {% with totals=cohort.details.totals %}
+        <td>{{ totals.points }}</td>
+        <td>{{ totals.questions }}</td>
+        <td>{{ totals.answers_received }}</td>
+        <td>{{ totals.comments }}</td>
+        <td>{{ totals.pageviews }}</td>
+        <td>{{ totals.logins }}</td>
+        <td>{{ totals.login_percent }}</td>
+        {% endwith %}
     </tr>
     </tbody>
 </table>
@@ -40,7 +40,8 @@
     </tr>
     </thead>
     <tbody>
-    {% for s in cohort.details %}
+
+    {% for s in cohort.details.individuals %}
     <tr>
         <td><a href="{{ s.student.get_profile_url }}">{{ s.student.username }}</a></td>
         <td>{{ s.student.email }}</td>

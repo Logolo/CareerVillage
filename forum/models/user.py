@@ -232,7 +232,13 @@ class User(BaseModel, DjangoUser):
         today = datetime.date.today()
         return self.actions.filter(canceled=False, action_type='answer', 
                                    action_date__gte=(today - datetime.timedelta(days=days))).count()
-    
+
+    #answers in days
+    def get_comment_count(self, days=7):
+        today = datetime.date.today()
+        return self.actions.filter(canceled=False, action_type='comment',
+            action_date__gte=(today - datetime.timedelta(days=days))).count()
+
     #true if last_seen within days
     def get_logged_in_within(self, days=7):
         now = datetime.datetime.now()
