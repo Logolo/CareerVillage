@@ -4,5 +4,6 @@ settings_local.pyc
 .pydevproject
 *.log
 */*.log
-cache/
+cache/*
 careerville_osqa
+!.gitignore
