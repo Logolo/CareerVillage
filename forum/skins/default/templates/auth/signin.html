@@ -25,7 +25,7 @@
     {% endif %}
 	<div class="col-login-left">
     {% for provider in stackitem_providers %}
-        <form class="signin_form" method="POST" action="{% url auth_provider_signin provider=provider.id %}" accept-charset="utf-8">
+        <form class="form-stacked" method="POST" action="{% url auth_provider_signin provider=provider.id %}" accept-charset="utf-8">
             {% include provider.stack_item_template %}
             <input type="hidden" class="validate_email" name="validate_email" value="yes" />
         </form>
