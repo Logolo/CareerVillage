@@ -306,6 +306,8 @@ body #searchBar div {
 .lightgray a {color: #bbb; text-decoration: underline;}
 .lightgray a:hover {color: #000; text-decoration: underline;}
 
+
+
 /*
  * Scaffolding.less
  * Basic and global styles for generating a grid system, structural layout, and page templates
@@ -1102,6 +1104,12 @@ textarea[readonly] {
 /* Other custom stuff*/
 .divider {
 	border-left: 1px dashed #888;
+}
+
+#ca-center {
+	width: 250px;
+	margin-left: auto; 
+	margin-right: auto;
 }
 
 /*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/

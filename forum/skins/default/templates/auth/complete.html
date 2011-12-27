@@ -24,12 +24,15 @@
 	{% endif %}
 
 	<div class="login">
-        <form name="fregister" action="" method="POST">
+	  <div id="ca-center">
+		<h3>Create account</h3>
+        <form name="fregister" class="form-stacked" action="" method="POST">
             {{ form1.next }}
             <div class="form-row-vertical margin-bottom">
                 {% if form1.username.errors %} 
                     <p class="error">{{ form1.username.errors|join:", " }}</p>
                 {% endif %}
+				<label for="id_username">Username</label>
 				<input id="id_username" placeholder="Choose your username" type="text" class="required login" name="username" maxlength="30">
             </div>
             {% if form1.password1 %}
@@ -37,12 +40,14 @@
                     {% if form1.password1.errors %}
                         <p class="error">{{ form1.password1.errors|join:", " }}</p>
                     {% endif %}
+					<label for="id_password1">Password</label>
 					<input id="id_password1" placeholder="Create a password" type="password" class="required login" name="password1">
                 </div>
                 <div class="form-row-vertical margin-bottom">
                     {% if form1.password2.errors %} 
                         <p class="error">{{ form1.password2.errors|join:", " }}</p>
                     {% endif %}
+					<label for="id_password2">Password (again)</label>
 					<input id="id_password2" placeholder="Confirm your password" type="password" class="required login" name="password2">
                 </div>
             {% endif %}
@@ -50,6 +55,7 @@
                 {% if form1.email.errors %} 
                     <p class="error">{{ form1.email.errors|join:", " }}</p>
                 {% endif %}
+				<label for="id_email">Email address</label>
 				<input id="id_email" placeholder="Confirm your email address" type="text" class="required login" name="email" maxlength="200">
             </div>
             {% if form1.recaptcha %}
@@ -63,6 +69,7 @@
             {% endif %}
             <div class="submit-row"><input type="submit" class="btn danger" name="bnewaccount" id="bnewaccount" value="Sign up"/></div>
 		</form>
+	  </div>
 	</div>
     {% comment %}<!-- this form associates openID with an existing password-protected account, not yet functional -->
     {% if form2 %}
