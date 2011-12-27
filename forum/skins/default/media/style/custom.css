@@ -1105,6 +1105,9 @@ textarea[readonly] {
 .divider {
 	border-left: 1px dashed #888;
 }
+.left-gutter {
+	padding-left: 14px;
+}
 
 #ca-center {
 	width: 250px;

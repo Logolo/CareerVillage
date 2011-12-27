@@ -88,38 +88,29 @@
 {% endblock %}
 
 {% block content %}
-<div id="main-bar" class="headNormal">
-	{% trans "Ask a question" %}
-</div>
+
 <div id="main-body" class="ask-body">
     <div id="askform">
-        <form id="fmask" action="" method="post" accept-charset="utf-8">
+        <form id="fmask" action="" method="post" accept-charset="utf-8" class="form-stacked">
 			{% if not request.user.is_authenticated %}
-            <div class="message">
-                <span class="strong big">{% trans "You are welcome to start submitting your question anonymously." %}</span>
-                <p>{% blocktrans %}
-                    After submiting your question, you will be redirected to the login/signup page.
-                    Your question will be saved in the current session and will be published after you login with your existing account,
-                    or signup for a new account{% endblocktrans %}{% if "ask"|contained_in:settings.REQUIRE_EMAIL_VALIDATION_TO %}
-                    {% trans "and validate your email." %}{% else %}.{% endif %}</p>
-            </div>
+   					{% if "ask"|contained_in:settings.REQUIRE_EMAIL_VALIDATION_TO %}
+                    {% trans "and validate your email." %}{% else %}{% endif %}
             {% else %}
                 {% if not request.user.email_valid_and_can_ask %}
                     <div class="message">
-                        {% blocktrans %}Remember, your question will not be published until you validate your email.{% endblocktrans %}
+                        {% blocktrans %}Your question will be published after you validate your email.{% endblocktrans %}
                         <a href="{% url send_validation_email %}">{% trans "Send me a validation link." %}</a>
                     </div>
                 {% endif %}
 			{% endif %}
-            <div class="form-item">
-                <label for="id_title" ><strong>{{ form.title.label_tag }}:</strong></label> <span class="form-error"></span><br/>
-                {{ form.title }} {{ form.title.errors }}
-                <div class="title-desc">
-                    {{ form.title.help_text }}
-                </div>
+            <div class="clearfix">
+                <label for="id_title"><h3>Title</h3></label>
+				<span class="form-error"></span><br/>
+                <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" class="input-xxlarge" placeholder="What's your career question? Be specific.">
+				{{ form.title.errors }}
             </div>
             <div id="ask-related-questions"></div>
-            <div class="form-item">
+            <div class="clearfix">
                 <div id="wmd-button-bar" class="wmd-panel"></div>
                 {{ form.text }} {{ form.text.errors }}
                 <div class="preview-toggle">
@@ -129,26 +120,18 @@
                                 <span id="pre-collapse" title="{% trans "Toggle the real time Markdown editor preview" %}">{% trans "toggle preview" %}</span>
                             </td>
                             <td style="text-align: right;" id="editor-metrics"></td>
-                            {% if settings.WIKI_ON %}
-                            <td class="tright">
-                                {{ form.wiki }} <span class="help_text" title="{{form.wiki.help_text}}">{{ form.wiki.label_tag }} </span>
-                            </td>
-                            {% endif %}
                         </tr>
-
                     </table>
                 </div>
                 <div id="previewer" class="wmd-preview"></div>
                 <span class="form-error"></span>
             </div>
-            <div class="form-item">
-                <strong>{{ form.tags.label_tag }}:</strong> {% trans "(required)" %} <span class="form-error"></span><br/>
-                {{ form.tags }}  {{ form.tags.errors }}
+            <div class="clearfix">
+				<label for="id_tags"><h3>Tags</h3></label>
+                <span class="form-error"></span><br/>
+                <input autocomplete="off" id="id_tags" type="text" name="tags" size="50" class="input-medium" placeholder="e.g. artist, painting">
+  				{{ form.tags.errors }}
             </div>
-			<p class="title-desc">
-				{{ form.tags.help_text }}
-			</p>
-			
             {% if form.recaptcha %}
             <div class="question-captcha" style="float: left">
             	{{ form.recaptcha.errors }}
@@ -158,9 +141,9 @@
             {% endif %}
 			
             {% if not request.user.is_authenticated %}                                                                        
-            <input name="ask" type="button" value="{% trans "Login/signup to post your question" %}" class="submit" onclick="submitClicked(event, this.form)"/>
+            <input name="ask" type="button" value="{% trans "Post your question" %}" class="btn danger large" onclick="submitClicked(event, this.form)"/>
 			{% else %}
-            <input name="ask" type="button" value="{% trans "Ask your question" %}" class="submit" onclick="submitClicked(event, this.form)"/>
+            <input name="ask" type="button" value="{% trans "Post your question" %}" class="btn danger large" onclick="submitClicked(event, this.form)"/>
             {% endif %}
         </form>
     </div>
