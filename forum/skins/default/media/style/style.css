@@ -1120,8 +1120,6 @@ ins {
 }
 
 .message {
-    background-color: #EEEEEE;
-    border: 1px solid #AAAAAA;
     margin: 10px 0;
     padding: 5px;
 }
@@ -1150,6 +1148,7 @@ ins {
 
 .ask-body {
     padding-right: 10px;
+	padding-left: 14px;
 }
 
 .notify {
