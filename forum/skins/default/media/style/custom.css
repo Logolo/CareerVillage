@@ -13,6 +13,9 @@ html {
 /*The following style overwrites the body background from styles.css*/
 body {background: none;}
 
+#wrapper {background-color: #FFFFFF;}
+#ground {background-color: #FFFFFF;}
+
 /*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
 /*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
 /*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
