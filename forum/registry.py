@@ -15,11 +15,11 @@ for m in modules_template_tags:
     django_template_tags.append(m.__name__)
 
 ui.register(ui.HEADER_LINKS,
-            ui.Link(_('faq'), ui.Url('faq'), weight=400),
-            ui.Link(_('about'), ui.Url('about'), weight=300),
+            ui.Link(_('FAQ'), ui.Url('faq'), weight=400),
+            ui.Link(_('About'), ui.Url('about'), weight=300),
 
             ui.Link(
-                    text=lambda u, c: u.is_authenticated() and _('logout') or _('login'),
+                    text=lambda u, c: u.is_authenticated() and _('logout') or _('Login / Register'),
                     url=lambda u, c: u.is_authenticated() and reverse('logout') or reverse('auth_signin'),
                     weight=200),
 
@@ -32,7 +32,7 @@ ui.register(ui.HEADER_LINKS,
 
             ui.Link(
                     visibility=ui.Visibility.SUPERUSER,
-                    text=_('administration'),
+                    text=_('Administration'),
                     url=lambda u, c: reverse('admin_index'),
                     weight=0)
 
@@ -48,10 +48,10 @@ ui.register(ui.FOOTER_LINKS,
                     text=_('contact'),
                     url=lambda u, c: settings.CONTACT_URL and settings.CONTACT_URL or "%s?next=%s" % (reverse('feedback'), cleanup_urls( c['request'].path)),
                     weight=400),
-            SupportLink(_('support'), settings.SUPPORT_URL, attrs={'target': '_blank'}, weight=300),
-            ui.Link(_('privacy'), ui.Url('privacy'), weight=200),
-            ui.Link(_('faq'), ui.Url('faq'), weight=100),
-            ui.Link(_('about'), ui.Url('about'), weight=0),
+            SupportLink(_('Support'), settings.SUPPORT_URL, attrs={'target': '_blank'}, weight=300),
+            ui.Link(_('Privacy'), ui.Url('privacy'), weight=200),
+            ui.Link(_('FAQ'), ui.Url('faq'), weight=100),
+            ui.Link(_('About'), ui.Url('about'), weight=0),
 )
 
 class ModerationMenuGroup(ui.AjaxMenuGroup):
