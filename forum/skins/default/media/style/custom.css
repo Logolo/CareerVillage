@@ -266,18 +266,15 @@ body #searchBar div {
 }
 
 /*RIGHT SIDE - RIGHT SIDE - RIGHT SIDE - RIGHT SIDE - RIGHT SIDE*/
-.boxC {
-	border: none;
-	background: #FFF;
-} 
+.boxA {border: none; background: #FFF;}
+.boxA h3 {color:red; font-size: 20px;}
+.boxA .body {border:none; padding: 0;}
 
-#sidebar-upper {
-	display: none;
-} 
+.boxC {border: none; background: #FFF;}
+.boxC .questions-count {color: #F00;}
 
-#sidebar-lower {
-	display: none;
-} 
+#sidebar-upper {display: none;} 
+#sidebar-lower {display: none;} 
 
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
