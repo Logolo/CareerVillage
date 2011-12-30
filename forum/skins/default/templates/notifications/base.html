@@ -14,9 +14,10 @@
 <body style="margin:0;">
 <center>
 <table style="{{ table_style }}">
-<tbody><tr><td style="padding:20px;">
+<tbody><tr><td style="padding:20px; background-color: #3ca0d1;">
 <a href="{{ settings.APP_URL }}" style="border: 0;"><img src="{{ settings.APP_URL }}{{ settings.APP_LOGO }}" alt="{{settings.APP_TITLE}}" border="0"/></a>
-<hr style="{{ hr_style }}" />
+</td></tr>
+<tr><td style="padding:20px;">
 {% if not exclude_greeting %}
 <p style="{{ p_style }}">{% trans "Hello" %} {{ recipient.username }},</p>
 {% endif %}
