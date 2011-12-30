@@ -11,9 +11,7 @@ html {
 }
 
 /*The following style overwrites the body background from styles.css*/
-body {
-	background: none;
-}
+body {background: none;}
 
 /*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
 /*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
@@ -225,6 +223,8 @@ body #searchBar div {
 	background-color: #eee;
 	text-align: center;
 }
+
+.user-stats-table .short-summary .counts{width:135px;} /*Wider for the user page*/
 
 .short-summary .stats-wrapper .counts .votes{
 	float: left;
