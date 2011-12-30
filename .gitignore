@@ -7,3 +7,4 @@ settings_local.pyc
 cache/*
 careerville_osqa
 !.gitignore
+.settings/
