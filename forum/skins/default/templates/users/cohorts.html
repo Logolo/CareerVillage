@@ -34,10 +34,10 @@
                 <form>
                     <fieldset>
                         <div class="clearfix">
-                            <label for="smallSelect">Timeframe: </label>
+                            <label for="{{ cohort.name }}-select">Timeframe: </label>
                             <div class="input">
                                 <div class="inline-inputs">
-                                    <select class="small" name="smallSelect" id="smallSelect">
+                                    <select class="small" name="smallSelect" id="{{ cohort.name }}-select">
                                         <option value=1>1 day</option>
                                         <option value=2>2 days</option>
                                         <option value=3>3 days</option>
@@ -58,7 +58,7 @@
                         </div>
                     </fieldset>
                 </form>
-                <div id="{{ cohort.name }}">
+                <div id="{{ cohort.name }}t">
                     {% include "users/cohort_table.html" %}
                 </div>
             </div>
@@ -69,7 +69,8 @@
     <script type="text/javascript">
         $(document).ready( function() {
             $('input').click( function() {
-                $('div#' + this.id).load('/cohorts/' + this.id + '/' + $('select').val() + '/');
+                var id = this.id
+                $('div#' + id + 't').load('/cohorts/' + id + '/' + $('select#' + id + '-select').val() + '/');
                 return false;
             });
         });
