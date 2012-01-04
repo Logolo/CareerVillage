@@ -13,7 +13,7 @@
     </thead>
     <tbody>
     <tr>
-        {% with totals=cohort.details.totals %}
+        {% with cohort.details.totals as totals %}
         <td>{{ totals.points }}</td>
         <td>{{ totals.questions }}</td>
         <td>{{ totals.answers_received }}</td>
