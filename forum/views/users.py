@@ -339,7 +339,7 @@ def user_recent(request, user):
 
 
 #User cohorts view.
-@user_view('users/cohorts.html', 'cohorts', _('cohorts'), _('cohort information'), True)
+@user_view('users/cohorts.html', 'dashboard', _('dashboard'), _('educator dashboard'), True)
 def user_cohorts(request, user):
     cohorts = user.educator_of.all()
     data = {'view_user': user, 'cohorts' : []}
