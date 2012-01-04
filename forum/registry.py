@@ -31,6 +31,12 @@ ui.register(ui.HEADER_LINKS,
                     weight=100),
 
             ui.Link(
+                    visibility=ui.Visibility.EDUCATOR,
+                    text=_('Dashboard'),
+                    url=lambda u, c: reverse('user_cohorts', args=[u.id, u.username]),
+                    weight=0),
+
+            ui.Link(
                     visibility=ui.Visibility.SUPERUSER,
                     text=_('Administration'),
                     url=lambda u, c: reverse('admin_index'),

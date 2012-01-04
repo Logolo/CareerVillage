@@ -3,12 +3,13 @@ from django.template.defaultfilters import slugify
 from django import template
 from forum.utils import html
 from forum.models.user import AnonymousUser
+from forum.models import Cohort
 from ui import Registry
 from copy import copy
 
 class Visibility(object):
     def __init__(self, level='public'):
-        if level not in ['public', 'authenticated', 'staff', 'superuser', 'owner']:
+        if level not in ['public', 'authenticated', 'staff', 'superuser', 'educator', 'owner']:
             try:
                 int(level)
                 self.by_reputation = True
@@ -28,6 +29,7 @@ class Visibility(object):
                 self.level == 'authenticated' or (
                 self.level == 'superuser' and user.is_superuser) or (
                 self.level == 'staff' and (user.is_staff or user.is_superuser)) or (
+                self.level == 'educator' and (Cohort.objects.filter(educators=user))) or (
                 self.level == 'owner' and user.is_siteowner)))
 
         if self.negated:
@@ -44,6 +46,7 @@ Visibility.PUBLIC = Visibility('public')
 Visibility.AUTHENTICATED = Visibility('authenticated')
 Visibility.STAFF = Visibility('staff')
 Visibility.SUPERUSER = Visibility('superuser')
+Visibility.EDUCATOR = Visibility('educator')
 Visibility.OWNER = Visibility('owner')
 Visibility.REPUTED = lambda r: Visibility(r)
 
