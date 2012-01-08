@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load extra_tags %}
 {% load humanize %}
-{% block title %}{% spaceless %}{% trans "Tag list" %}{% endspaceless %}{% endblock %}
+{% block title %}{% spaceless %}{% trans "Topic list" %}{% endspaceless %}{% endblock %}
 {% block forejs %}
        <script type="text/javascript">
        /*<![CDATA[*/
@@ -26,13 +26,13 @@
 {% block content %}
 <!-- Tabs -->
 <div class="tabBar">
-    <div class="headQuestions">{% trans "Tag list" %}</div>
+    <div class="headQuestions">{% trans "Topic list" %}</div>
     {{ tags.paginator.sort_tabs }}
 </div>
 <div id="searchtags">
 <p>
 {% if stag %}
-    {% trans "All tags matching query" %} '<span class="darkred"><strong>{{ stag }}</strong></span>':
+    {% trans "All topics matching query" %} '<span class="darkred"><strong>{{ stag }}</strong></span>':
 {% endif %}
 {% if not tags.paginator.count %}
     <span>{% trans "Nothing found" %}</span>
