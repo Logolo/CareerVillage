@@ -176,3 +176,9 @@ class SuspendAction(ActionProxy):
         'user': self.hyperlink(self.user.get_profile_url(), self.friendly_username(viewer, self.user)),
         'users': self.affected_links(viewer), 'suspension': suspension, 'msg': self.extra.get('publicmsg', _('Bad behaviour'))
         }
+        
+class UserJoinsQuietly(ActionProxy):
+    verb = _("exists")
+
+    def repute_users(self):
+        self.repute(self.user, int(settings.INITIAL_REP))
