@@ -21,7 +21,8 @@
     </div>
     <input id="interestingTagInput" autocomplete="off" type="text"/>
     <input id="interestingTagAdd" type="submit" value="{% trans "Add" %}"/>
-	<h3 class="subtitle">{% trans "Topics to ignore" %}</h3>
+<!--	
+	<h3 class="subtitle">{% trans "Topics you ignore" %}</h3>
     <div class="tags ignored marked-tags">
     {% for tag_name in ignored_tag_names %}
         {% spaceless %}
@@ -45,5 +46,6 @@
     <label id="hideIgnoredTagsLabel" for="hideIgnoredTagsCb">{% trans "keep ignored questions hidden" %}</label>
     <p>
     {% endcomment %}
+     !-->
 </div>
 {% endif %}
