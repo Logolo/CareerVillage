@@ -14,6 +14,7 @@
         <link rel="shortcut icon" href="{{ settings.APP_FAVICON }}" />
         <link href="{% media  "/media/style/style.css" %}" rel="stylesheet" type="text/css" />
         <link href="{% media  "/media/style/custom.css" %}" rel="stylesheet" type="text/css" />
+        <link href="{% media  "/media/style/bootstrap-1.4.0-custom.css" %}" rel="stylesheet" type="text/css" />
         {% if settings.USE_CUSTOM_CSS|or_preview:request %}
         <link href="{% url custom_css %}" rel="stylesheet" type="text/css" />
         {% endif %}

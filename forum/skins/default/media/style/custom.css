@@ -277,7 +277,10 @@ body #searchBar div {
 .boxC .questions-count {color: #F00;}
 
 #sidebar-upper {display: none;} 
-#sidebar-lower {display: none;} 
+#sidebar-lower {display: none;}
+
+#interestingTagInput {width:170px;}
+#ignoredTagInput {width:170px;}
 
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */

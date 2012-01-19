@@ -34,15 +34,15 @@
 </div>
 <div id="main-body" style="width:100%;padding-top:10px">
     <form name="" action="{% url edit_user user.id %}" method="post">
-        <div id="left" style="float:left;width:180px">
+        <div id="left" style="float:left;width:180px;text-align:center;">
             {% if user.email %}
             {% gravatar user 128 %}
             {% else %}
             <img src="{% media  "/media/images/nophoto.png" %}">
             {% endif %}
-            <div style="padding:20px 0 0 20px;font-weight:bold;font-size:150%">
+            <div style="font-weight:bold;font-size:150%">
                 <a href="http://www.gravatar.com/" target="_blank" 
-					title="gravatar {% trans "image associated with your email address" %}">{% trans "gravatar" %}</a>
+					title="gravatar {% trans "image associated with your email address" %}">{% trans "Change image" %}</a>
             </div>
         </div>
         
@@ -54,7 +54,7 @@
                     <th></th>
                 </tr>
                 <tr style="height:35px">
-	            	<td>{% trans "Screen Name" %}:</td>
+	            	<td>{% trans "Screen Name" %}</td>
 	            	<td>
 	            	{% if form.username %}
 	            	    {{ form.username }} <span class="form-error"></span> {{ form.username.errors }}
@@ -65,7 +65,7 @@
 	            </tr>
                 
 	            <tr style="height:35px">
-	            	<td>{{ form.email.label_tag }}:</td>
+	            	<td>{{ form.email.label_tag }}</td>
 	            	<td>{{ form.email }} <span class="form-error"></span> {{ form.email.errors }} </td>
 	            </tr>
                 <tr style="height:35px">
@@ -73,30 +73,30 @@
 	            	<td class="title-desc">{{ form.email.help_text }}</td>
 	            </tr>
                 <tr style="height:35px">
-	            	<td>{{ form.realname.label_tag }}:</td>
+	            	<td>{{ form.realname.label_tag }}</td>
 	            	<td>{{ form.realname }} <span class="form-error"></span> {{ form.realname.errors }} </td>
 	            </tr>
                 <tr style="height:35px">
-	            	<td>{{ form.website.label_tag }}:</td>
+	            	<td>{{ form.website.label_tag }}</td>
 	            	<td>{{ form.website }} <span class="form-error"></span> {{ form.website.errors }} </td>
 	            </tr>
                 <tr style="height:35px">
-	            	<td>{{ form.city.label_tag }}:</td>
+	            	<td>{{ form.city.label_tag }}</td>
 	            	<td>{{ form.city }} <span class="form-error"></span> {{ form.city.errors }} </td>
 	            </tr>
                 <tr style="height:35px">
-	            	<td>{{ form.birthday.label_tag }}:</td>
+	            	<td>{{ form.birthday.label_tag }}</td>
 	            	<td>{{ form.birthday }} <span class="form-error"></span> {{ form.birthday.errors }} </td>
 	            </tr>
                 <tr>
-	            	<td style="vertical-align:top">{{ form.about.label_tag }}:</td>
+	            	<td style="vertical-align:top">{{ form.about.label_tag }}</td>
 	            	<td>{{ form.about }} <span class="form-error"></span> {{ form.about.errors }} </td>
 	            </tr>
 	            
             </table>
-            <div style="margin:30px 0 60px 0">
-                <input type="submit" value="{% trans "Update" %}" class="submit" >
-                <input id="cancel" type="button" value="{% trans "Cancel" %}" class="submit" >
+            <div style="margin:30px 0 60px 160px">
+                <input type="submit" value="{% trans "Update" %}" class="btn primary" >
+                <input id="cancel" type="button" value="{% trans "Cancel" %}" class="btn default" >
           
             </div>
         </div>
