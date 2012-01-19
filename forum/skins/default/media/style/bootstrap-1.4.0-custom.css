@@ -1415,19 +1415,20 @@ table .headerSortUp.purple, table .headerSortDown.purple {
 }
 .topbar div > ul, .nav {
   display: block;
-  float: left;
+/*  float: left;*/ /* CUSTOMIZED */
+  float: right;
   margin: 0 10px 0 0;
   position: relative;
   left: 0;
 }
 .topbar div > ul > li, .nav > li {
   display: block;
-  float: left;
+/*  float: left;*/ /* CUSTOMIZED */
 }
 .topbar div > ul a, .nav a {
   display: block;
   float: none;
-  padding: 10px 10px 11px;
+/*  padding: 10px 10px 11px;*/ /* CUSTOMIZED */
   line-height: 19px;
   text-decoration: none;
 }
@@ -1535,7 +1536,7 @@ a.menu:after, .dropdown-toggle:after {
   width: 0;
   height: 0;
   display: inline-block;
-  content: "&darr;";
+/*  content: "&darr;";*/ /* CUSTOMIZED*/
   text-indent: -99999px;
   vertical-align: top;
   margin-top: 8px;
@@ -1553,7 +1554,8 @@ a.menu:after, .dropdown-toggle:after {
   float: left;
   display: none;
   position: absolute;
-  top: 40px;
+/*  top: 40px;*/ /*CUSTOMIZED*/
+  top: 30px;  /*CUSTOMIZED*/
   z-index: 900;
   min-width: 160px;
   max-width: 220px;

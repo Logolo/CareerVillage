@@ -94,6 +94,8 @@ body #topnav .score {
 	margin-right: 10px;
 } 
 
+body #topnav .dropdown-menu {text-align:left;}
+
 #topsearch {
 	display: inline;	
 	margin-left: 27px;
