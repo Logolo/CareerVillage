@@ -3,7 +3,7 @@
 
 {% if user_authenticated %}
 <div id="tagSelector" class="boxC">
-	<h3 class="subtitle">{% trans "Interesting topics" %}</h3>
+	<h3 class="subtitle">{% trans "Topics you follow" %}</h3>
     <div class="tags interesting marked-tags">
     {% for tag_name in interesting_tag_names %}
         {% spaceless %}
@@ -14,14 +14,14 @@
                 href="{% url tag_questions tag_name|urlencode %}">{{tag_name}}</a>
             <img class="delete-icon" 
                 src="{% media  "/media/images/close-small-dark.png" %}"
-                title="{% blocktrans %}remove '{{tag_name}}' from the list of interesting topics{% endblocktrans %}"/>
+                title="{% blocktrans %}remove '{{tag_name}}' from the list of topics I follow{% endblocktrans %}"/>
         </span>
         {% endspaceless %}
     {% endfor %}
     </div>
     <input id="interestingTagInput" autocomplete="off" type="text"/>
     <input id="interestingTagAdd" type="submit" value="{% trans "Add" %}"/>
-	<h3 class="subtitle">{% trans "Ignored topics" %}</h3>
+	<h3 class="subtitle">{% trans "Topics to ignore" %}</h3>
     <div class="tags ignored marked-tags">
     {% for tag_name in ignored_tag_names %}
         {% spaceless %}
