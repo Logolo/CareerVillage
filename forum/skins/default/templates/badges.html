@@ -3,10 +3,10 @@
 {% load extra_tags %}
 {% load humanize %}
 {% load i18n %}
-{% block title %}{% spaceless %}{% trans "Badges summary" %}{% endspaceless %}{% endblock %}
+{% block title %}{% spaceless %}{% trans "Award summary" %}{% endspaceless %}{% endblock %}
 {% block content %}
 <div class="headlineA">
-        <span class="headMedals">{% trans "Badges" %}</span>
+        <span class="headMedals">Awards</span>
 </div>
 <div class="badges" id="main-body" style="width:100%">
     <p>
@@ -25,7 +25,17 @@
             {% endfor %}
             </div>
             <div style="float:left;width:230px;">
-                <a href="{{badge.get_absolute_url}}" title="{{ badge.get_type_display }} : {{ badge.description }}" class="medal"><span class="badge{{ badge.type }}">&#9679;</span>&nbsp;{{ badge.name }}</a><strong> &#215; {{ badge.awarded_count|intcomma }}</strong>
+                <a href="{{badge.get_absolute_url}}" title="{{ badge.get_type_display }} : {{ badge.description }}" class="medal"><span class="badge{{ badge.type }}">
+                {% if award.badge.type == 1 %}
+                    <img src="/m/default/media/images/badge_gold_red-16.png"/>
+                {% else %}
+                    {% if award.badge.type == 2 %}
+                    <img src="/m/default/media/images/badge_silver_blue-16.png"/>
+	                {% else %}
+  	                  <img src="/m/default/media/images/badge_bronze_green-16.png"/>
+	                {% endif %}
+                {% endif %}
+                </span>&nbsp;{{ badge.name }}</a><strong> &#215; {{ badge.awarded_count|intcomma }}</strong>
             </div>
             <p style="float:left;margin-top:8px;">
                 {{ badge.description }}
@@ -38,28 +48,28 @@
 {% block sidebar %}
 
 <div class="boxC">
-    <h3>{% trans "Community badges" %}</h3>
+    <h3>{% trans "Community awards" %}</h3>
     <div class="body">
     <p>
-        <span title="{% trans "gold badge: the highest honor and is very rare" %}" class="medal"><span class="badge1">&#9679;</span>&nbsp;{% trans "gold" %}</span>
+        <span title="{% trans "gold badge: the highest honor and is very rare" %}" class="medal"><span class="badge1"><img src="/m/default/media/badge_gold_red-32.png" /></span>&nbsp;{% trans "gold" %}</span>
     </p>
     <p>
-	{% trans "gold badge description" %}
+	{% trans "gold award description" %}
     </p>
     <p>
         <span
-			title="{% trans "silver badge: occasionally awarded for the very high quality contributions" %}" 
-			class="medal"><span class="badge2">&#9679;</span>&nbsp;{% trans "silver" %}</span>
+			title="{% trans "silver award: occasionally awarded for the very high quality contributions" %}" 
+			class="medal"><span class="badge2"><img src="/m/default/media/badge_silver_blue-32.png" /></span>&nbsp;{% trans "silver" %}</span>
     </p>
     <p>
-	{% trans "silver badge description" %}
+	{% trans "silver award description" %}
     </p>
     <p>
-        <span title="{% trans "bronze badge: often given as a special honor" %}" class="medal">
-		<span class="badge3">&#9679;</span>&nbsp;{% trans "bronze" %}</span>
+        <span title="{% trans "bronze award: often given as a special honor" %}" class="medal">
+		<span class="badge3"><img src="/m/default/media/badge_bronze_green-32.png"/></span>&nbsp;{% trans "bronze" %}</span>
     </p>
     <p>
-	{% trans "bronze badge description" %}
+	{% trans "bronze award description" %}
     </p>
     </div>
 </div>

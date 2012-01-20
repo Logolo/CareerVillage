@@ -4,7 +4,7 @@
 {% load extra_tags %}
 {% load user_tags %}
 {% load humanize %}
-{% block title %}{% spaceless %}{{ badge.name }} - {% trans "Badge" %}{% endspaceless %}{% endblock %}
+{% block title %}{% spaceless %}{{ badge.name }} - {% trans "Award" %}{% endspaceless %}{% endblock %}
 {% block forejs %}
        <script type="text/javascript">
         $().ready(function(){
@@ -15,11 +15,21 @@
 {% endblock %}
 {% block content %}
 <div id="main-bar" class="headNormal">
-	{% trans "Badge" %}
+	{% trans "Award" %}
 </div>
 <div id="main-body" style="width:100%;margin-bottom:20px">
     <p>
-        <a href="{{badge.get_absolute_url}}" title="{{ badge.get_type_display }} : {{ badge.description }}" class="medal"><span class="badge{{ badge.type }}">&#9679;</span>&nbsp;{{ badge.name }}</a> {{ badge.description }}
+        <a href="{{badge.get_absolute_url}}" title="{{ badge.get_type_display }} : {{ badge.description }}" class="medal"><span class="badge{{ badge.type }}">
+                {% if award.badge.type == 1 %}
+                    <img src="/m/default/media/images/badge_gold_red-16.png"/>
+                {% else %}
+                    {% if award.badge.type == 2 %}
+                    <img src="/m/default/media/images/badge_silver_blue-16.png"/>
+	                {% else %}
+  	                  <img src="/m/default/media/images/badge_bronze_green-16.png"/>
+	                {% endif %}
+                {% endif %}        
+        </span>&nbsp;{{ badge.name }}</a> {{ badge.description }}
     </p>
     <div>
         {% if badge.awarded_count %}

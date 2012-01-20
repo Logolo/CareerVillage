@@ -278,6 +278,14 @@ body #searchBar div {
 .boxC {border: none; background: #FFF;}
 .boxC .questions-count {color: #F00;}
 
+/*Medals*/
+.medal{border:none;}
+a.medal:hover {
+    background: url("../images/medala_on.gif") left top no-repeat scroll transparent;
+    border: none;
+}
+
+
 #sidebar-upper {display: none;} 
 #sidebar-lower {display: none;}
 
