@@ -64,6 +64,10 @@ class UserNameField(StrippedNonEmptyCharField):
 
     def clean(self,username):
         """ validate username """
+
+        #Forces all usernames lowercase and allows case insensitive login
+        #username = username.lower()
+
         if self.skip_clean == True:
             return username
         if hasattr(self, 'user_instance') and isinstance(self.user_instance, User):
@@ -80,9 +84,13 @@ class UserNameField(StrippedNonEmptyCharField):
         if username in settings.RESERVED_USERNAMES:
             raise forms.ValidationError(self.error_messages['forbidden'])
         try:
+            #Case insensitive search
             user = self.db_model.objects.get(
-                    **{'%s' % self.db_field : username}
+                username__iexact=username
             )
+            #user = self.db_model.objects.get(
+            #        **{'%s' % self.db_field : username}
+            #)
             if user:
                 if self.must_exist:
                     return username
