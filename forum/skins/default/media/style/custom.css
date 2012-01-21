@@ -206,7 +206,7 @@ body #searchBar div {
 	height: auto;
 	margin: auto;
 	padding: auto;
-	test-align: center;
+	text-align: center;
 	width: auto;
 }
 
@@ -319,8 +319,13 @@ a.medal:hover {
 .lightgray {color: #bbb;}
 .lightgray a {color: #bbb; text-decoration: underline;}
 .lightgray a:hover {color: #000; text-decoration: underline;}
-
-
+.red {color: #FF0000;}
+.center {text-align: center;}
+.left {text-align: left;}
+.right {text-align: right;}
+.inline {display: in-line;}
+.whitebg {background: #ffffff;}
+.lightbg {background: #bbb;}
 
 /*
  * Scaffolding.less
