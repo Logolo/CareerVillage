@@ -325,7 +325,9 @@ a.medal:hover {
 .right {text-align: right;}
 .inline {display: in-line;}
 .whitebg {background: #ffffff;}
-.lightbg {background: #bbb;}
+.lightbg {background: #bbbbbb;}
+.vlightbg {background: #dddddd;}
+.hugefont {font-size: xx-large;}
 
 /*
  * Scaffolding.less
