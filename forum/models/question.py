@@ -1,3 +1,4 @@
+from dircache import cache
 from base import *
 from tag import Tag
 from django.utils.translation import ugettext as _
