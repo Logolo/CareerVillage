@@ -53,13 +53,14 @@ class LinkedinAuthConsumer(OAuthAbstractAuthConsumer):
         )
 
     def get_user_data(self, key):
-        json = self.fetch_data(key, "https://twitter.com/account/verify_credentials.json")
+        json = self.fetch_data(key, "http://api.linkedin.com/v1/people/~:(first-name,last-name)?format=json")
+        #json = self.fetch_data(key, "https://twitter.com/account/verify_credentials.json")
 
-        if 'screen_name' in json:
+        if 'firstName' in json and 'lastName' in json:
             creds = simplejson.loads(json)
-
+            username = creds['firstName'] + creds['lastName']
             return {
-                'username': creds['screen_name']
+                'username': username
             }
 
 
