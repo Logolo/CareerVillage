@@ -557,10 +557,10 @@ def question_permanent_link(request, id):
     question = get_object_or_404(Question, id=id)
 
     # Getting the current object URL -- the Application URL + the object relative URL
-    qurl = '%s%s' % (settings.APP_BASE_URL, question.get_absolute_url())
+    url = '%s%s' % (settings.APP_BASE_URL, question.get_absolute_url())
 
     # Display the template
-    return render_to_response('node/permanent_link.html', { 'qurl' : qurl, })
+    return render_to_response('node/permanent_link.html', { 'url' : url, })
 
 @decorate.withfn(command)
 def award_points(request, user_id, answer_id):
