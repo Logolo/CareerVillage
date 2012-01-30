@@ -159,12 +159,12 @@ function show_dialog (extern) {
              + '<div class="dialog-content">' + options.html + '</div><div class="dialog-buttons">';
 
     if (options.show_no) {
-        html += '<button class="dialog-no">' + options.no_text + '</button>';
+        html += '<button class="dialog-no">Finished</button>';
     }
 
-    html += '<button class="dialog-yes">' + options.yes_text + '</button>'
+/*    html += '<button class="dialog-yes">' + options.yes_text + '</button>'
             + '</div></div>';
-
+*/
     $dialog = $(html);
     $('body').append($dialog);
     var message = $('.dialog-content')[0];

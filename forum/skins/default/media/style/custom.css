@@ -292,6 +292,22 @@ a.medal:hover {
 #interestingTagInput {width:170px;}
 #ignoredTagInput {width:170px;}
 
+/* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */
+/* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */
+/* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */
+
+.twitter-share-button{width: 80px;}
+
+.share_links .small-share-btn{
+	height: 8px;
+	padding: 1px 9px 9px 9px;
+}
+
+.share_links #link-share-output{
+	font-weight: normal;
+	font-size: 0.8em;
+}
+
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
