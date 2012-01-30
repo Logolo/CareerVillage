@@ -25,11 +25,12 @@
             {% endfor %}
             </div>
             <div style="float:left;width:230px;">
-                <a href="{{badge.get_absolute_url}}" title="{{ badge.get_type_display }} : {{ badge.description }}" class="medal"><span class="badge{{ badge.type }}">
-                {% if award.badge.type == 1 %}
+                <a href="{{badge.get_absolute_url}}" title="{{ badge.get_type_display }} : {{ badge.description }}" class="medal">
+                <span class="badge{{ badge.type }}">
+                {% if badge.type == 1 %}
                     <img src="/m/default/media/images/badge_gold_red-16.png"/>
                 {% else %}
-                    {% if award.badge.type == 2 %}
+                    {% if badge.type == 2 %}
                     <img src="/m/default/media/images/badge_silver_blue-16.png"/>
 	                {% else %}
   	                  <img src="/m/default/media/images/badge_bronze_green-16.png"/>
@@ -54,7 +55,7 @@
         <span title="{% trans "gold badge: the highest honor and is very rare" %}" class="medal"><span class="badge1"><img src="/m/default/media/images/badge_gold_red-32.png" /></span>&nbsp;{% trans "gold" %}</span>
     </p>
     <p>
-	{% trans "gold award description" %}
+	{% trans "Gold awards are the highest accomplishment on CareerVillage and are very challenging to achieve. Got one of these? Respect." %}
     </p>
     <p>
         <span
@@ -62,14 +63,14 @@
 			class="medal"><span class="badge2"><img src="/m/default/media/images/badge_silver_blue-32.png" /></span>&nbsp;{% trans "silver" %}</span>
     </p>
     <p>
-	{% trans "silver award description" %}
+	{% trans "Silver awards are core achievements which indicate a strong contribution to CareerVillage. Get one of these and you know you're doing something right." %}
     </p>
     <p>
         <span title="{% trans "bronze award: often given as a special honor" %}" class="medal">
 		<span class="badge3"><img src="/m/default/media/images/badge_bronze_green-32.png"/></span>&nbsp;{% trans "bronze" %}</span>
     </p>
     <p>
-	{% trans "bronze award description" %}
+	Bronze awards are the first level of accomplishment on CareerVillage. Get as many as you can! Protip: They look great <a href="http://images.huffingtonpost.com/gen/34847/original.jpg">when you wear them all at once</a>.
     </p>
     </div>
 </div>
