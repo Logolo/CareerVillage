@@ -9,6 +9,9 @@
         {% block meta %}{% endblock %}
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         {% if settings.GOOGLE_SITEMAP_CODE %}
+        <meta property="og:image" content="{% media  "/upfiles/tree-64.png" %}"/>
+        <meta property="fb:admins" content="CareerVillage"/>
+        <meta property="fb:app_id" content="167783923319908"/>
         <meta name="google-site-verification" content="{{ settings.GOOGLE_SITEMAP_CODE }}" />
         {% endif %}
         <link rel="shortcut icon" href="{{ settings.APP_FAVICON }}" />
