@@ -8,9 +8,11 @@
         <meta name="keywords" content="{% block metakeywords %}{{ settings.APP_KEYWORDS }}{% endblock %}">
         {% block meta %}{% endblock %}
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        {% if settings.GOOGLE_SITEMAP_CODE %}
         <meta property="og:image" content="http://careervillage.org/upfiles/tree-64.png"/>
         <meta property="fb:app_id" content="167783923319908"/>
+        <meta property="fb:title" content="{{ question.headline }}"/>
+        <meta property="fb:type" content="non_profit"/>
+        {% if settings.GOOGLE_SITEMAP_CODE %}
         <meta name="google-site-verification" content="{{ settings.GOOGLE_SITEMAP_CODE }}" />
         {% endif %}
         <link rel="shortcut icon" href="{{ settings.APP_FAVICON }}" />
