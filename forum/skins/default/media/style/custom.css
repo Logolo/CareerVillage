@@ -173,7 +173,6 @@ body #searchBar div {
 	margin-left: 0;
 }
 
-
 /*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
 /*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
 /*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
@@ -1150,5 +1149,26 @@ textarea[readonly] {
 	margin-left: auto; 
 	margin-right: auto;
 }
+
+
+
+/* ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION */
+/* ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION */
+/* ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION */
+
+.banner-top {
+	position: relative;
+	width: 1036px;
+	left: -23px;
+}
+
+.banner-bottom {
+	position: relative;
+	width: 1036px;
+	left: -23px;
+}
+
+.far-right {float:right;}
+.far-left {float:left;}
 
 /*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/
