@@ -16,7 +16,7 @@ for m in modules_template_tags:
 
 ui.register(ui.HEADER_LINKS,
             ui.Link(_('FAQ'), ui.Url('faq'), weight=400),
-            ui.Link(_('About'), ui.Url('about'), weight=300),
+#            ui.Link(_('About'), ui.Url('about'), weight=300), #Replaced with hard-code in header.html
 
             ui.Link(
                     text=lambda u, c: u.is_authenticated() and _('logout') or _('Login / Register'),

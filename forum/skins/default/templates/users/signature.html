@@ -8,20 +8,20 @@
         <span class="score" title="{{ user.reputation }} {% trans "reputation" %}">{{ user.reputation|decorated_int:"" }}</span>
         {% ifequal format "badges" %}
             {% if user.gold %}
-            <span title="{{ user.gold }} {% trans "badges" %}">
-                <span class="badge1">&#9679;</span>
+            <span title="{{ user.gold }} {% trans "awards" %}">
+                <span class="badge1"><img src="/m/default/media/images/badge_gold_red-16.png"/></span>
                 <span class="badgecount">{{ user.gold }}</span>
             </span>
             {% endif %}
             {% if user.silver %}
-            <span title="{{ user.silver }} {% trans "badges" %}">
-                <span class="silver">&#9679;</span>
+            <span title="{{ user.silver }} {% trans "awards" %}">
+                <span class="silver"><img src="/m/default/media/images/badge_silver_blue-16.png"/></span>
                 <span class="badgecount">{{ user.silver }}</span>
             </span>
             {% endif %}
             {% if user.bronze %}
-            <span title="{{ user.bronze }} {% trans "badges" %}">
-                <span class="bronze">&#9679;</span>
+            <span title="{{ user.bronze }} {% trans "awards" %}">
+                <span class="bronze"><img src="/m/default/media/images/badge_bronze_green-16.png"/></span>
                 <span class="badgecount">{{ user.bronze }}</span>
             </span>
             {% endif %}

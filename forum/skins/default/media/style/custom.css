@@ -94,6 +94,8 @@ body #topnav .score {
 	margin-right: 10px;
 } 
 
+body #topnav .dropdown-menu {text-align:left;}
+
 #topsearch {
 	display: inline;	
 	margin-left: 27px;
@@ -171,7 +173,6 @@ body #searchBar div {
 	margin-left: 0;
 }
 
-
 /*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
 /*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
 /*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
@@ -204,7 +205,7 @@ body #searchBar div {
 	height: auto;
 	margin: auto;
 	padding: auto;
-	test-align: center;
+	text-align: center;
 	width: auto;
 }
 
@@ -276,11 +277,35 @@ body #searchBar div {
 .boxC {border: none; background: #FFF;}
 .boxC .questions-count {color: #F00;}
 
+/*Medals*/
+.medal{border:none;}
+a.medal:hover {
+    background: url("../images/medala_on.gif") left top no-repeat scroll transparent;
+    border: none;
+}
+
+
 #sidebar-upper {display: none;} 
 #sidebar-lower {display: none;}
 
 #interestingTagInput {width:170px;}
 #ignoredTagInput {width:170px;}
+
+/* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */
+/* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */
+/* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */
+
+.twitter-share-button{width: 80px;}
+
+.share_links .small-share-btn{
+	height: 8px;
+	padding: 1px 9px 9px 9px;
+}
+
+.share_links #link-share-output{
+	font-weight: normal;
+	font-size: 0.8em;
+}
 
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
 /* TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE - TOPICS PAGE */
@@ -309,8 +334,15 @@ body #searchBar div {
 .lightgray {color: #bbb;}
 .lightgray a {color: #bbb; text-decoration: underline;}
 .lightgray a:hover {color: #000; text-decoration: underline;}
-
-
+.red {color: #FF0000;}
+.center {text-align: center;}
+.left {text-align: left;}
+.right {text-align: right;}
+.inline {display: in-line;}
+.whitebg {background: #ffffff;}
+.lightbg {background: #bbbbbb;}
+.vlightbg {background: #dddddd;}
+.hugefont {font-size: xx-large;}
 
 /*
  * Scaffolding.less
@@ -1117,5 +1149,26 @@ textarea[readonly] {
 	margin-left: auto; 
 	margin-right: auto;
 }
+
+
+
+/* ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION */
+/* ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION */
+/* ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION - ABOUT SECTION */
+
+.banner-top {
+	position: relative;
+	width: 1036px;
+	left: -23px;
+}
+
+.banner-bottom {
+	position: relative;
+	width: 1036px;
+	left: -23px;
+}
+
+.far-right {float:right;}
+.far-left {float:left;}
 
 /*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/

@@ -125,5 +125,6 @@ if not DEBUG:
     except:
         pass
 
+#allows case insensitive login
 AUTHENTICATION_BACKENDS = ['forum.authentication.backend.CaseInsensitiveModelBackend']
 #AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']

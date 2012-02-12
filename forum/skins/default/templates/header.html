@@ -2,9 +2,22 @@
 {% load extra_tags ui_registry i18n extra_filters markup %}
 
 
-	<div id="topbar">
+	<div id="topbar" data-dropdown="dropdown">
 		<div id="topnav">
  		    {% loadregistry header_links %}{% endloadregistry %}
+ 		    <ul class="nav">
+ 		    		<li class="dropdown">
+ 		    			<a href="/about/" class="dropdown-toggle">About</a>
+ 		    			<ul class="dropdown-menu">
+ 		    				<li><a href="/about/">Introduction</a></li>
+ 		    				<li><a href="/for-professionals/">For professionals</a></li>
+ 		    				<li><a href="/for-educators/">For educators</a></li>
+ 		    				<li><a href="/our-team/">Our team</a></li>
+ 		    				<li><a href="http://careervillage.wordpress.com/">Our blog</a></li>
+ 		    				<li><a href="http://www.facebook.com/CareerVillage/">Our Facebook</a></li>
+ 		    			</ul>
+ 		    		</li>
+ 		    </ul>
 		</div>
 	</div>
   <div class="clear"></div>

@@ -5,6 +5,7 @@ from forum import settings
 from django.conf.urls.defaults import *
 from django.conf import settings as djsettings
 from django.contrib import admin
+from django.views.generic.simple import direct_to_template
 from forum import views as app
 from forum.sitemap import OsqaSitemap
 from django.utils.translation import ugettext as _
@@ -31,6 +32,9 @@ core_urls = (
     url(r'^m/(?P<skin>\w+)/media/(?P<path>.*)$', app.meta.media , name='osqa_media'),
     url(r'^%s(?P<path>.*)$' % _('upfiles/'), 'django.views.static.serve', {'document_root': os.path.join(APP_PATH, 'upfiles').replace('\\', '/')}, name='uploaded_file',),
     
+    url(r'^%s$' % _('for-professionals/'), direct_to_template, {'template': 'for-professionals.html'}),
+    url(r'^%s$' % _('for-educators/'), direct_to_template, {'template': 'for-educators.html'}),
+    url(r'^%s$' % _('our-team/'), direct_to_template, {'template': 'our-team.html'}),
     url(r'^%s$' % _('faq/'), app.meta.static, {'content': settings.FAQ_PAGE_TEXT, 'title': _('FAQ')}, name='faq'),
     url(r'^%s$' % _('about/'), app.meta.static, {'content': settings.ABOUT_PAGE_TEXT, 'title': _('About')}, name='about'),
     url(r'^%s$' % _('markdown_help/'), app.meta.markdown_help, name='markdown_help'), url(r'^opensearch\.xml$', app.meta.opensearch, name='opensearch'),
@@ -60,6 +64,7 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/$' % _('convert_comment/'), app.commands.convert_comment_to_answer, name='convert_comment'),
     url(r'^%s(?P<id>\d+)/$' % _('accept_answer/'), app.commands.accept_answer, name='accept_answer'),
     url(r'^%s(?P<id>\d+)/$' % _('answer_link/'), app.commands.answer_permanent_link, name='answer_permanent_link'),
+    url(r'^%s(?P<id>\d+)/$' % _('question_link/'), app.commands.question_permanent_link, name='question_permanent_link'),
     url(r'^%s(?P<id>\d+)/$' % _('mark_favorite/'), app.commands.mark_favorite, name='mark_favorite'),
     url(r'^%s%s(?P<user_id>\d+)/%s(?P<answer_id>\d+)/$' % (_('award_points/'), _('user/'), _('answer/')), app.commands.award_points, name='award_points'),
     
