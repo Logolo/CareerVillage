@@ -39,7 +39,7 @@ class OAuthAbstractAuthConsumer(AuthenticationConsumer):
 
         oauth_verifier = request.GET['oauth_verifier']
 
-        api = linkedin.LinkedIn(settings.LINKEDIN_CONSUMER_KEY, settings.LINKEDIN_CONSUMER_SECRET, "http://localhost")
+        api = linkedin.LinkedIn(settings.LINKEDIN_CONSUMER_KEY, settings.LINKEDIN_CONSUMER_SECRET, "http://careervillage.org")
         errors = True
 
         try:
