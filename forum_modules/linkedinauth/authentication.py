@@ -23,6 +23,9 @@ class LinkedinAuthConsumer(OAuthAbstractAuthConsumer):
     def get_user_data(self, key):
         json = self.fetch_data(key, "http://api.linkedin.com/v1/people/~:(id)?format=json")
         #json = self.fetch_data(key, "https://twitter.com/account/verify_credentials.json")
+        print "JSON DATA!!!"
+        print json
+        print "JSON DATA END!!!"
 
         if 'id' in json:
             creds = simplejson.loads(json)
