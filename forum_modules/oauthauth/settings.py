@@ -15,5 +15,3 @@ help_text = """
 This your Twitter consumer secret that you'll get in the same place as the consumer key.
 """,
 required=False))
-
-
