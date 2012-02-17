@@ -42,4 +42,4 @@ class LinkedinAuthContext(ConsumerTemplateContext):
     type = 'DIRECT'
     weight = 150
     human_name = 'Linkedin'
-    icon = '/media/images/openid/twitter.png'
+    icon = '/media/images/openid/linkedin.png'
