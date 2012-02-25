@@ -78,8 +78,10 @@ def create_and_send_mail_messages(messages):
 
             try:
                 connection.sendmail(sender, [recipient.email], msgRoot.as_string())
+                logging.error("EMAIL_LOG: Email sent to %s" % recipient.email)
             except Exception, e:
                 logging.error("Couldn't send mail using the sendmail method: %s" % e)
+
 
         try:
             connection.quit()

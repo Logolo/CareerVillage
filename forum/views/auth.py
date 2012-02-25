@@ -245,7 +245,7 @@ def request_temp_login(request):
 
                 send_template_email([u], "auth/temp_login_email.html", {'temp_login_code': hash})
 
-                request.user.message_set.create(message=_("An email has been sent with your temporary login key"))
+                request.user.message_set.create(message=_("An email will be sent with your temporary login key. Please allow up to three minutes for it to arrive and check your spam folder!"))
 
             return HttpResponseRedirect(reverse('index'))
     else:
