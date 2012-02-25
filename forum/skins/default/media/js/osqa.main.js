@@ -162,9 +162,9 @@ function show_dialog (extern) {
         html += '<button class="dialog-no">Finished</button>';
     }
 
-/*    html += '<button class="dialog-yes">' + options.yes_text + '</button>'
+    html += '<button class="dialog-yes">' + options.yes_text + '</button>'
             + '</div></div>';
-*/
+
     $dialog = $(html);
     $('body').append($dialog);
     var message = $('.dialog-content')[0];
