@@ -36,13 +36,6 @@ class Tag(BaseModel):
     def get_absolute_url(self):
         return ('tag_questions', (), {'tag': self.name})
 
-    def save(self, full_save=False, *args, **kwargs):
-        try:
-            self.name = self.name.lower()
-        except:
-            pass
-        super(Tag, self).save(full_save, *args, **kwargs)
-
 class MarkedTag(models.Model):
     TAG_MARK_REASONS = (('good', _('interesting')), ('bad', _('ignored')))
     tag = models.ForeignKey(Tag, related_name='user_selections')
