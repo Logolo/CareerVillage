@@ -187,7 +187,7 @@ def error_handler(request):
             'path': request.path,
             'user': request.user.is_authenticated() and ("%s (%s)" % (request.user.username, request.user.id)) or "<anonymous>",
             'method': request.method,
-            'post': request.POST and "".join(["\t\t%s: %s\n" % (k, v) for k, v in request.POST.items()]) or "None",
+            'post': request.POST and "".join(["\t\t%s: %s\n" % ((k, "******") if k =="password" else (k,v)) for k, v in request.POST.items()]) or "None",
             'get': request.GET and "".join(["\t\t%s: %s\n" % (k, v) for k, v in request.GET.items()]) or "None",
             'cookies': request.COOKIES and "".join(["\t\t%s: %s\n" % (k, v) for k, v in request.COOKIES.items()]) or "None",
             'headers': request.META and "".join(["\t\t%s: %s\n" % (k, v) for k, v in request.META.items()]) or "None",
