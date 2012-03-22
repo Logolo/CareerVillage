@@ -250,6 +250,10 @@ body #searchBar div {
 	text-align: center;
 }
 
+.short-summary h2 a {
+	color: #2B72BB;
+}
+
 .user-stats-table .short-summary .counts{width:135px;} /*Wider for the user page*/
 
 .short-summary .stats-wrapper .counts .votes{
@@ -309,6 +313,13 @@ a.medal:hover {
     border: none;
 }
 
+.tags a, span.tag{
+	background: #EDF1F5;
+	color: #666;
+	font-size: 11px;
+	font-weight: 300px;
+	text-shadow: none;
+}
 
 #sidebar-upper {display: none;} 
 #sidebar-lower {display: none;}
