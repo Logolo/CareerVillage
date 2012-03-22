@@ -217,6 +217,21 @@ body #searchBar div {
 	width: auto;
 }
 
+.short-summary .votes, .short-summary .views{
+	color:#888
+}
+
+.unanswered{
+	background: none;
+	color: #F80228;
+}
+
+/*The following class resets the item count style*/
+.short-summary .counts .item-count{
+	font-size:19px;
+	font-weight:normal;
+}
+
 /*The following classes are for the stats-wrapper*/
 .short-summary .stats-wrapper{
 	width: 127px;
@@ -232,7 +247,6 @@ body #searchBar div {
 	margin-top: 4px;
 	padding: 5px;
 	width: 111px;
-	background-color: #eee;
 	text-align: center;
 }
 
@@ -240,9 +254,8 @@ body #searchBar div {
 
 .short-summary .stats-wrapper .counts .votes{
 	float: left;
-	color: #666;
+	color: #888;
 	font-size: 12px;
-	font-weight: bold;
 	padding: 5px 0px 0px 0px;
 	width: 50px;
 }
@@ -250,14 +263,18 @@ body #searchBar div {
 .short-summary .status{
 	float: right;
 	font-size: 12px;
-	font-weight: bold;
 	padding: 5px 0px 0px 0px;
 	margin: 0;
 	width: 50px;
 }
 
+.answered-accepted, .answer-votes.answered-accepted{
+	color: #68B05C;	
+}
+
 .answered{
-	background: none repeat scroll 0 0 #E5EBf8;
+	background: none;
+	color: #68B05C;
 }
 
 .short-summary .stats-wrapper .views{
