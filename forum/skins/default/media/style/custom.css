@@ -281,10 +281,10 @@ body #searchBar div {
 	border: none;
 	height: auto;
 	margin: 0;
-	color: #666;
+	color: #bbb;
 	float: left;
 	font-size: 12px;
-	padding: 5px 0px 0px;
+	padding: 0px;
 	width: 116px;
 	text-align: center;
 }
