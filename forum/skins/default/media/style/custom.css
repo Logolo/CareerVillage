@@ -7,7 +7,8 @@
 /*The following style overwrites the html background from styles.css*/
 html {
 	background: none;
-    background: url('/upfiles/bluecandyhole25.png') repeat top left;
+    background-image: url('/m/default/media/images/blue-top-background.png');
+    background-repeat: repeat-x;
 }
 
 /*The following style overwrites the body background from styles.css*/
@@ -119,10 +120,12 @@ body #searchBar {
 	font-weight: bold;
 	text-align: left;
 	height: 33px;
-	padding-top: 10px;
+	padding: 17px 0px;
 	border-bottom: 0;
-	color: #FFF;
-	background-color: #2a2a2a;
+	color: black;
+	background-color: white;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 /*Including body to prevent cstyles.css from overwriting this*/
@@ -132,7 +135,7 @@ body #searchBar div {
 	padding: 11px 10px;
 }
 
-#searchBar .secondaryaction a {color: #fff;}
+#searchBar .secondaryaction a {color: black;}
 #searchBar .secondaryactionon a {color: #FF0000;}
 #searchBar .secondaryactionon {
 	margin-bottom: 0px;
@@ -151,13 +154,13 @@ body #searchBar div {
 	padding-bottom: 13px;
 }
 
-#searchBar .primaryaction {
+/*#searchBar .primaryaction {
 	background-color: #FF0000;
 	padding-top: 6px;
 	padding-bottom: 6px;
 	border: 0;
 }
-#searchBar .primaryaction a {color: #fff;}
+#searchBar .primaryaction a {color: #fff;}*/
 
 #searchBar .navlabel {
 	font-weight: normal;
@@ -167,8 +170,7 @@ body #searchBar div {
 }
 
 #searchBar #search {
-	margin-left: 5px;
-	border-left: 1px dashed #888;
+	margin-left: 430px;
 }
 
 #searchBar #search form {margin-left: 0;}

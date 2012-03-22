@@ -15,6 +15,8 @@
             </div>
         {% endif %}
     {% endif %}
+    <div id="nav_ask" class="primaryaction" style="text-align:center;"><a id="PrimaryActionAsk" href="{% url ask %}" class="btn success large" style="width:200px;">Ask a question</a></div>
+    <br/>
     {% include "question_list/count.html" %}
     {% sidebar_upper %}
     {% if request.user.is_authenticated %}

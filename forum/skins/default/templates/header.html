@@ -37,13 +37,11 @@
   
 	<div id="searchBar">
 <!-- This div used to be the search bar alone, and has been retasked to be the complete navigation bar -->
-		<div class="navlabel">Browse by:</div>
         {% loopregistry page_top_tabs %}{% spaceless %}
             <div id="nav_{{ tab_name }}" class="secondaryaction{% ifequal tab tab_name %}on{% endifequal %}"><a id="nav_a_{{ tab_name }}" class="SecondaryActionButton" href="{{ tab_url }}" >{{ tab_title }}</a></div>
         {% endspaceless %}{% endloopregistry %}
-        <div class="divider navlabel">Take action:</div> 
-            <div id="nav_ask" class="primaryaction"><a id="PrimaryActionAsk" href="{% url ask %}" class="PrimaryActionButton">Ask a question</a></div>
-            <div id="nav_answer" class="primaryaction"><a id="PrimaryActionAnswer" href="{% url unanswered %}" class="PrimaryActionButton">Answer a question</a></div>
+<!--             <div id="nav_ask" class="primaryaction"><a id="PrimaryActionAsk" href="{% url ask %}" class="btn success">Ask a question</a></div> -->
+<!--             <div id="nav_answer" class="primaryaction"><a id="PrimaryActionAnswer" href="{% url unanswered %}" class="PrimaryActionButton">Answer a question</a></div> -->
 		<div id="search">
 		    <form id="topsearch" action="{% url search %}" method="get">
 		            <input type="text" placeholder="Search..." value="{{ keywords }}" name="q" id="keywords" />
