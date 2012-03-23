@@ -316,10 +316,10 @@ a.medal:hover {
 }
 
 .tags a, span.tag{
-	background: #EDF1F5;
+	background: #FFFBE3;
+	border: 1px solid #e8e1bb;
 	color: #666;
 	font-size: 11px;
-	font-weight: 300px;
 	text-shadow: none;
 }
 
