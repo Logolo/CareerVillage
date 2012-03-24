@@ -27,8 +27,8 @@
         <div class="questionsummary">{{ question.summary }}
         </div>
         <div class="userinfo">
-            <span class="relativetime" title="{{question.last_activity_at}}">{% diff_date question.last_activity_at %}</span>
-            {% if question.last_activity_by %}{% user_signature question.last_activity_by signature_type %}{% endif %}
+            Updated <span class="relativetime" title="{{question.last_activity_at}}">{% diff_date question.last_activity_at %}</span>
+            {% if question.last_activity_by %}by {% user_signature question.last_activity_by signature_type %}{% endif %}
         </div>
 
         <div class="tags">{% for tag in question.tagname_list %}
