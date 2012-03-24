@@ -5,9 +5,10 @@
 /*BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND*/
 
 /*The following style overwrites the html background from styles.css*/
-html {
-	background: none;
-    background-image: url('/m/default/media/images/blue-top-background.png');
+html {background: none;}
+
+#everything {
+	background-image: url('/m/default/media/images/blue-top-background.png');
     background-repeat: repeat-x;
 }
 

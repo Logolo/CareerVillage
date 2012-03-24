@@ -86,6 +86,7 @@
             {% endautoescape %}
             <a id="close-notify" onclick="notify.close(true)">&times;</a>
         </div>
+        <div id="everything">
         {% if settings.USE_CUSTOM_HEADER|or_preview:request %}
             <div id="custom_header">
                 {{ settings.CUSTOM_HEADER|or_preview:request|static_content:settings.CUSTOM_HEADER_RENDER_MODE }}
@@ -131,6 +132,7 @@
                 {% include "footer.html" %}
             </div>
         {% endif %}
+        </div>
         {% block endjs %}
         {% endblock %}
         {% if settings.GOOGLE_ANALYTICS_KEY %}
