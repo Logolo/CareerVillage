@@ -181,6 +181,10 @@ body #searchBar div {
 /*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
 /*QUESTION LISTS - QUESTION LISTS - QUESTION LISTS - QUESTION LISTS*/
 
+/*The following classes capitalize the first letter of every question*/
+.question-summary-wrapper:first-letter{text-transform:capitalize;}
+.headNormal h1:first-letter{text-transform:capitalize;}
+
 /*The following class overwrites the class for the RSS feed icon in styles.css*/
 #CALeft .tabBar .feed-icon{display:none;}
 
