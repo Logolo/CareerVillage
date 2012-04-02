@@ -7,8 +7,6 @@
         <th>Answers received</th>
         <th>Comments made</th>
         <th>Pageviews</th>
-        <th>Confirmed logins</th>
-        <th>% of students who logged in</th>
     </tr>
     </thead>
     <tbody>
@@ -18,9 +16,6 @@
         <td>{{ totals.questions }}</td>
         <td>{{ totals.answers_received }}</td>
         <td>{{ totals.comments }}</td>
-        <td>{{ totals.pageviews }}</td>
-        <td>{{ totals.logins }}</td>
-        <td>{{ totals.login_percent }}</td>
         {% endwith %}
     </tr>
     </tbody>
@@ -35,8 +30,6 @@
         <th>Points earned</th>
         <th>Questions asked</th>
         <th>Answers received</th>
-        <th>Comments made</th>
-        <th>Times voted</th>
     </tr>
     </thead>
     <tbody>
@@ -48,8 +41,6 @@
         <td>{{ s.points }}</td>
         <td>{{ s.questions }}</td>
         <td>{{ s.answers_received }}</td>
-        <td>n/a</td>
-        <td>n/a</td>
     </tr>
     {% endfor %}
     </tbody>
