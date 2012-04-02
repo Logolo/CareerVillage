@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 
 from forum import modules
 from forum.models.user import User
+from forum.models import Question
 
 # NOTE: It is assumed that students will be added to cohorts upon joining
 # the site and the Cohort functions reflect this. 
@@ -51,7 +52,16 @@ class Cohort(BaseModel):
         return question_count
 
     def time_answers_received(self, days=7):
-        return 'n/a'
+        answers_received_count = 0
+        today = datetime.date.today()
+        for student in self.students.all():
+            qs = Question.objects.filter_state(deleted=False).filter(author=student)
+            for q in qs:
+                for a in q.answers:
+                    if (a.last_activity.date() >= (datetime.date.today() - datetime.timedelta(days=days))):
+                        answers_received_count += 1
+                    print "%s %s %s" %(a.id, answers_received_count, a.last_activity.date())
+        return answers_received_count
 
     def time_pageviews(self, days=7):
         return 'n/a'

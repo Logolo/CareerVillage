@@ -232,6 +232,16 @@ class User(BaseModel, DjangoUser):
         today = datetime.date.today()
         return self.actions.filter(canceled=False, action_type='answer', 
                                    action_date__gte=(today - datetime.timedelta(days=days))).count()
+    #answers_received in days
+#    def get_answers_received_count(self, days=7):
+#        today = datetime.date.today()
+#        qs = Questions.objects.filter_state(deleted=False).filter(author=self)
+#        answers_received_count = 0
+#        for q in qs:
+#            for a in q.answers:
+#                if (a.last_activity.date() <= (datetime.date.today() - datetime.timedelta(days=days))):
+#                    answers_received_count += 1
+#        return answers_received_count
 
     #answers in days
     def get_comment_count(self, days=7):
