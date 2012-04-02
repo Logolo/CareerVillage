@@ -60,7 +60,6 @@ class Cohort(BaseModel):
                 for a in q.answers:
                     if (a.last_activity.date() >= (datetime.date.today() - datetime.timedelta(days=days))):
                         answers_received_count += 1
-                    print "%s %s %s" %(a.id, answers_received_count, a.last_activity.date())
         return answers_received_count
 
     def time_pageviews(self, days=7):
@@ -114,6 +113,14 @@ class Cohort(BaseModel):
             student_detail['questions']=student.get_question_count(days=days)
             student_detail['answers']=student.get_answer_count(days=days)
             student_detail['points']=student.get_reputation_by_actions(days=days)
+            answers_received_count = 0
+            today = datetime.date.today()
+            qs = Question.objects.filter_state(deleted=False).filter(author=student)
+            for q in qs:
+                for a in q.answers:
+                    if (a.last_activity.date() >= (datetime.date.today() - datetime.timedelta(days=days))):
+                        answers_received_count += 1
+            student_detail['answers_received']=answers_received_count
             individuals.append(student_detail)
         details = {'totals' : total, 'individuals' : individuals}
         return details
