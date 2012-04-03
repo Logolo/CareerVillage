@@ -38,7 +38,7 @@ class LinkedinAuthConsumer(OAuthAbstractAuthConsumer):
         return {}
 
 class LinkedinAuthContext(ConsumerTemplateContext):
-    mode = 'BIGICON'
+    mode = 'NOICON' #CHANGED FROM BIGICON TO REMOVE FROM THE SIGNIN.HTML TEMPLATE
     type = 'DIRECT'
     weight = 150
     human_name = 'Linkedin'
