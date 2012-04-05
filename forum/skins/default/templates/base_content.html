@@ -144,6 +144,12 @@
                     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
                     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
                 })();
+                
+                //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+                window.onerror = function(message, file, line) {
+                   var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+                   _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+                }
             </script>
         {% endif %}
     </body>
