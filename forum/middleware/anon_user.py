@@ -31,5 +31,5 @@ class ConnectToSessionMessagesMiddleware(object):
             #also set the first greeting one time per session only
             if 'greeting_set' not in request.session:
                 request.session['greeting_set'] = True
-                msg = _('First time here? Check out the <a href="%s">FAQ</a>!') % reverse('faq')
+                msg = _('First time here? <a href="%s">Learn more</a> about CareerVillage!') % reverse('about')
                 request.user.message_set.create(message=msg)
