@@ -126,7 +126,6 @@ body #topnav .dropdown-menu {text-align:left;}
     float: right;
     margin-top: 20px;
     text-align: center;
-    font-family: Helvetica;
     line-height: 1.2em;
     margin-right: 0;
 }
@@ -369,6 +368,7 @@ a.medal:hover {
 .vlightbg {background: #dddddd;}
 .hugefont {font-size: xx-large;}
 .lobster {font-family: 'Lobster', cursive; font-weight: normal;}
+.Ruluko {font-family: 'Ruluko', sans-serif; font-weight: normal;}
 
 /*
  * Scaffolding.less
