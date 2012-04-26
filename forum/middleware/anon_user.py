@@ -32,4 +32,5 @@ class ConnectToSessionMessagesMiddleware(object):
             if 'greeting_set' not in request.session:
                 request.session['greeting_set'] = True
                 msg = _('First time here? <a href="%s">Learn more</a> about CareerVillage!') % reverse('about')
-                request.user.message_set.create(message=msg)
+#TURNING OFF THE FIRST TIMER MESSAGE
+#                request.user.message_set.create(message=msg)
