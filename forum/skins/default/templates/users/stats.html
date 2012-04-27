@@ -132,10 +132,10 @@
                     <td style="line-height:35px; padding-right: 20px;">
                         {% for award, count in awards %}
                             <a href="{% url badges %}{{award.id}}/{{award.name|slugify}}" title="{{ award.description }}" class="medal"><span class="badge{{ award.type }}">
-			                {% if award.badge.type == 1 %}
+			                {% if award.type == 1 %}
 			                    <img src="/m/default/media/images/badge_gold_red-16.png"/>
 			                {% else %}
-			                    {% if award.badge.type == 2 %}
+			                    {% if award.type == 2 %}
 			                    <img src="/m/default/media/images/badge_silver_blue-16.png"/>
 				                {% else %}
 			  	                  <img src="/m/default/media/images/badge_bronze_green-16.png"/>
