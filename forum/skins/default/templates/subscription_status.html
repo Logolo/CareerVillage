@@ -30,15 +30,4 @@
 {% else %}
     <p>{% trans "Once you sign in you will be able to subscribe for any updates here" %}</p>
 {% endif %}
-<strong>{% trans "By RSS" %}:</strong>
-<p>
-    <a class="feed-icon" style="background-image:url('{% media "media/images/feed-icon-small.png" %}');"
-        href="{{ question.get_absolute_url }}?type=rss" title="{% trans "subscribe to answers" %}"></a>
-    {% trans "Answers" %}
-</p>
-<p>
-    <a class="feed-icon" style="background-image:url('{% media "media/images/feed-icon-small.png" %}');"
-        href="{{ question.get_absolute_url }}?type=rss&comments=yes" title="{% trans "subscribe to comments and answers" %}"></a>
-    {% trans "Answers and Comments" %}
-</p>
 {% endspaceless %}
