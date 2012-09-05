@@ -148,6 +148,12 @@ class User(BaseModel, DjangoUser):
         #todo: temporary thing, for now lets just assume that the site owner will always be the first user of the application
         return self.id == 1
 
+    def is_student(self):
+        student_status = False
+        if len(self.student_of.all()) > 0:
+            student_status = True
+        return student_status
+
     @property
     def decorated_name(self):
         if settings.SHOW_STATUS_DIAMONDS:
