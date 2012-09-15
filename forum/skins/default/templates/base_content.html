@@ -21,6 +21,11 @@
 	        _kms('//i.kissmetrics.com/i.js');
 	        _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
         </script>
+        {% if user.email %}
+        <script type="text/javascript">
+        _kmq.push(['identify', '{{ user.email }}' ]); 
+        </script>
+        {% endif %}
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta property="og:image" content="http://careervillage.org/upfiles/tree-64.png"/>
         <meta property="fb:app_id" content="167783923319908"/>
