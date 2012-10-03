@@ -20,7 +20,8 @@ sitemaps = {
 APP_PATH = os.path.dirname(__file__)
 
 core_urls = (
-    url(r'^$', app.readers.index, name='index'),
+    url(r'^$', app.readers.splash, name='splash'),
+    url(r'^%s$' % _('index/'), app.readers.index, name='index'),
     url(r'^%s(.*)' % _('nimda/'), admin.site.urls),
                         
     url(r'^sitemap.xml$', 'forum.sitemap.index', {'sitemaps': sitemaps}),

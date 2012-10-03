@@ -87,6 +87,12 @@ def index(request):
                          feed_url=reverse('latest_questions_feed'),
                          paginator_context=paginator_context)
 
+def splash(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse(index))
+    else:
+        return render_to_response("splash.html", context_instance=RequestContext(request))
+
 @decorators.render('questions.html', 'unanswered', _('unanswered'), weight=400, tabbed=False)
 def unanswered(request):
     return question_list(request,

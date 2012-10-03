@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- splash.html -->
+{% load i18n extra_tags extra_filters markup ui_registry %}
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+    <head>
+
+        <title>CareerVillage</title>
+        <meta name="description" content="Career advice students can trust, from real-life professionals">
+        <meta name="keywords" content="CareerVillage,Career,Professionalism,forum,community">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta property="og:image" content="http://careervillage.org/upfiles/tree-64.png"/>
+
+	<!-- KISS METRICS -->
+        <script type="text/javascript">
+	        var _kmq = _kmq || [];
+	        var _kmk = _kmk || '003104a34952eb9790724877220006d57992765c';
+	        function _kms(u){
+	        	setTimeout(function(){
+	        		var d = document, f = d.getElementsByTagName('script')[0],
+	        		s = d.createElement('script');
+	        		s.type = 'text/javascript'; s.async = true; s.src = u;
+	        		f.parentNode.insertBefore(s, f);
+	        		}, 1);
+	        	}
+	        _kms('//i.kissmetrics.com/i.js');
+	        _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+        </script>
+
+	<!-- GOOGLE SITE VERIFICATION -->
+        {% if settings.GOOGLE_SITEMAP_CODE %}
+	        <meta name="google-site-verification" content="{{ settings.GOOGLE_SITEMAP_CODE }}" />
+        {% endif %}
+
+	<!-- STYLES -->
+        <link href='http://fonts.googleapis.com/css?family=Lobster|Ruluko' rel='stylesheet' type='text/css'>  
+        <link href="{% media  "/media/style/style.css" %}" rel="stylesheet" type="text/css" />
+        <link href="{% media  "/media/bootstrap_2.1.1/css/bootstrap.min.2.1.1.css" %}" rel="stylesheet" type="text/css" />
+        <link href="{% media  "/media/style/splash.css" %}" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="{{ settings.APP_FAVICON }}" />
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" />
+
+	<!-- JQUERY AND OTHER JS -->
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+        <script type='text/javascript' src='{% media  "/media/js/customjs.js" %}'></script>
+        <script type="text/javascript">
+            google.load("jquery", "1.4.2");
+            google.load("jqueryui", "1", {autoload:true});
+        </script>
+
+	<!-- MESSAGES -->
+        <script type="text/javascript">
+        /* <![CDATA[ */
+            var i18nLang = '{{settings.LANGUAGE_CODE}}';
+            var scriptUrl = '{{settings.FORCE_SCRIPT_NAME}}/';
+            var osqaSkin = '{{settings.OSQA_SKIN}}';
+
+            var messages = {
+                username: '{{ user.username }}',
+                confirm: "{% trans "Are you sure?" %}",
+                yes: "{% trans "Yes" %}",
+                no: "{% trans "No" %}",
+                message: "{% trans "Message:" %}",
+                cancel: "{% trans "Cancel" %}",
+                close: "{% trans "Close" %}",
+                ok: "{% trans "Ok" %}",
+                matching_tags_url: "{% url matching_tags %}",
+                word: "{% trans "word" %}",
+                words: "{% trans "words" %}",
+                character: "{% trans "character" %}",
+                characters: "{% trans "characters" %}"
+            }
+        /* ]] */
+        </script>
+
+	<!-- SEARCH -->
+        <link rel="search" type="application/opensearchdescription+xml" href="{% url opensearch %}" title="{{ settings.APP_SHORT_NAME }} Search" />
+
+	<!-- OTHER -->
+        {% loadregistry head_content %}{% endloadregistry %}
+    </head>
+    <body>
+    CAUGHT!
+
+
+        {% if settings.GOOGLE_ANALYTICS_KEY %}
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+                
+                //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+                window.onerror = function(message, file, line) {
+                   var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+                   _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+                }
+            </script>
+        {% endif %}
+    </body>
+</html>
+<!-- end template splash.html -->
