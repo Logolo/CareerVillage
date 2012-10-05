@@ -1,9 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- splash.html -->
-{% load i18n extra_tags extra_filters markup ui_registry %}
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+<!DOCTYPE>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
     <head>
-
+{% load i18n extra_tags extra_filters markup ui_registry %}
         <title>CareerVillage</title>
         <meta name="description" content="Career advice students can trust, from real-life professionals">
         <meta name="keywords" content="CareerVillage,Career,Professionalism,forum,community">
@@ -33,15 +31,14 @@
 
 	<!-- STYLES -->
         <link href='http://fonts.googleapis.com/css?family=Lobster|Ruluko' rel='stylesheet' type='text/css'>  
-        <link href="{% media  "/media/style/style.css" %}" rel="stylesheet" type="text/css" />
         <link href="{% media  "/media/bootstrap_2.1.1/css/bootstrap.min.2.1.1.css" %}" rel="stylesheet" type="text/css" />
         <link href="{% media  "/media/style/splash.css" %}" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" href="{{ settings.APP_FAVICON }}" />
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" />
 
 	<!-- JQUERY AND OTHER JS -->
-        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
         <script type='text/javascript' src='{% media  "/media/js/customjs.js" %}'></script>
+        <script src="http://www.google.com/jsapi" type="text/javascript"></script>
         <script type="text/javascript">
             google.load("jquery", "1.4.2");
             google.load("jqueryui", "1", {autoload:true});
@@ -77,10 +74,131 @@
 
 	<!-- OTHER -->
         {% loadregistry head_content %}{% endloadregistry %}
-    </head>
+    </head>	
     <body>
-    CAUGHT!
-
+    		<div class="navbar navbar-inverse navbar-fixed-top darkblue">
+    			<div class="navbar-inner">
+			    <div class="container">
+	    				<a class="brand" href="#"><strong>Career</strong>Village</a>
+    					<ul class="nav pull-right">
+    						<li><a href="/account/signin/">Login</a></li>
+    						<li><a href="/about/">About</a></li>
+    					</ul>
+		    		</div>
+    			</div>
+    		</div>
+    <header class="jumbotron header coolblue">
+    		<div class="container"
+			<div class="row">
+    				<div class="span7 headerleft">
+    					<h1 class="headline">Career advice students can trust, from real-life professionals</h1>
+    					<div class="splashsearch">
+    						<form class="form-inline" action="{% url search %}" method="get" id="searchform">
+    							<div class="input-append">
+	    					  		<input class="span2 searchbar" id="appendedSearch" type="text" value="{{ keywords }}" name="q" placeholder="Search for an example career">
+    					  			<span class="add-on" id="SearchBtn" onclick="$('#searchform').submit()"><i class="icon-search"></i> Start</span>
+    					  			<input id="type-question" type="radio" value="question" name="t" checked="checked" style="display:none;"/>
+    					  		</div>
+	    					</form>
+					</div>
+    					<div class="splashsearch-example">ex: Computer Engineer, Crime Scene Investigator, Doctor</div>
+    				</div>
+    				<div class="span4 headerright">
+    					<div><img src="/m/default/media/images/splash/bob.png" title="Success"/></div>
+    					<div id="blue_column"></div>
+	    			</div>
+    			</div>
+		</div>
+	</header>
+	<div class="container spaceme">
+		<div class="row center">
+			<div class="span12">Recent questions from students across America</div>
+		</div>
+		<div class="row center">
+			<div class="recent-questions">
+				<div class="recent_question">
+					<a class="recent_question_body" href="http://careervillage.org/questions/95/what-do-computer-engineers-do">What do computer engineers do for a living?</a>
+					<div class="recent_question_student">
+						<img src="/m/default/media/images/Student_icon_origami.png">
+						<div class="Student_Box">
+							<span class="Student_Name"><strong>Aisha R.</strong></span><br/>
+							<span class="Student_Location">Boston, MA</span>
+						</div>
+					</div>
+				</div>
+				<div class="recent_question">
+					<a class="recent_question_body" href="http://careervillage.org/questions/764/what-are-the-best-colleges-in-new-york-to-study-business">What are the best NY colleges to study business?</a>
+					<div class="recent_question_student">
+						<img src="/m/default/media/images/Student_Icon.gif">
+						<div class="Student_Box">
+							<span class="Student_Name"><strong>Daneesha G.</strong></span><br/>
+							<span class="Student_Location">New York, NY</span>
+						</div>
+					</div>
+				</div>
+				<div class="recent_question">
+					<a class="recent_question_body" href="http://careervillage.org/questions/900/what-are-the-best-traveling-careers-out-there">What are the best traveling careers out there?</a>
+					<div class="recent_question_student">
+						<img src="/m/default/media/images/Student_icon_hummingbird.png">
+						<div class="Student_Box">
+							<span class="Student_Name"><strong>Tashina C.</strong></span><br/>
+							<span class="Student_Location">Boston, MA</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row center">
+		</div>
+		<div class="row center">
+			<div class="span12"><h1>How does CareerVillage work?</h1></div>
+		</div>
+		<div class="row center">
+			<div class="span12">
+				<div class="thirds">
+					<div><h3 class="cvblue">Students</h3></div>
+					<div class="minithird">Ask career questions and get great answers from real professionals</div>
+				</div>
+				<div class="thirds">
+					<div><h3 class="cvblue">Professionals</h3></div>
+					<div class="minithird">We'll send you questions from students about your career by email</div>
+				</div>
+				<div class="thirds">
+					<div><h3 class="cvblue">Educators</h3></div>
+					<div class="minithird">Spice up your classroom with life-changing career exploration</div>
+				</div>
+			</div>
+		</div>
+		<div class="row center">
+		</div>
+		<div class="row">
+			<div class="span12 center"><h1>Real professionals answering questions</h1></div>
+		</div>
+		<div class="row">
+			<div class="500professionals"><img src="/m/default/media/images/500professionals.png"></div>
+			<div class="span12 center"><h4>Over 500 professionals have already started volunteering on CareerVillage!</h1></div>
+		</div>
+		<div class="row">
+			<div class="span12 center"><h1>CareerVillage is a non-profit startup</h1></div>
+		</div>
+		<div class="row">
+			<div class="span12 center">
+				<strong>We serve young people all over the country</strong> with our Cambridge, MA-based team<br/>
+				<strong>To donate or discuss grant opportunities,</strong> please contact our team here.<br/>
+				<strong>We are recruiting!</strong> To inquire about job opportunities, please contact us.<br/>
+			</div>
+		</div>
+		<div class="row">&nbsp;</div>
+		<div class="row">&nbsp;</div>
+	</div>
+    		<div class="navbar nobottommargin">
+    			<div class="navbar-inner">
+			    <div class="container">
+			    		<span>CareerVillage</span>
+		    		</div>
+    			</div>
+    		</div>
+	
 
         {% if settings.GOOGLE_ANALYTICS_KEY %}
             <script type="text/javascript">

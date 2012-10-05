@@ -4,3 +4,122 @@ html {
 	background: none;
 }
 
+body {
+	margin-top: 40px;
+}
+
+.coolblue {
+	background-color: #8ec4c6;
+}
+
+.darkblue {background-color: #162b2b;}
+
+.header {
+	height: 480px;
+}
+
+.headerleft {
+	margin-top: 50px;
+}
+
+.headline {
+	color: white;
+	font-size: 52px;
+	line-height: 110%;
+}
+
+.splashsearch {
+	margin-top: 70px;
+}
+
+#appendedSearch {
+	width: 470px;
+	font-size: 20px;
+	height: 50px;
+}
+
+#SearchBtn {
+	height: 29px;
+	width: 100px;
+	color: #3ea650;
+	font-weight: bolder;
+	font-size: 15px;
+	padding-top: 15px;
+	cursor: pointer;
+}
+
+.splashsearch-example {
+	text-align: center;
+	color: #565656;
+}
+
+.headerright {
+	margin-top: 40px;
+}
+
+#blue_column {
+	background-color: #84b2b6;
+	width: 46px;
+	height: 140px;
+	margin-left: 127px;
+}
+
+.recent-questions {
+	width: 100%;
+}
+
+.recent_question {
+	border: 1px solid black;
+	padding: 20px;
+	margin-right: 10px;
+	margin-left: 10px;
+	width: 25%;
+	box-shadow: 5px 5px 5px #888888;
+	height: 95px;
+	display: inline-block;
+}
+
+.recent_question_body {
+	float: left;
+	width: 244px;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 12px;
+}
+
+.recent_question_student {
+	width: 100%;	
+}
+
+.recent_question_student img {
+	vertical-align: top;
+}
+
+.Student_Box {
+	width: 101px;
+	display: inline-block;
+}
+
+.thirds {
+	display: inline-block;
+	width: 25%;
+	vertical-align: top;
+}
+
+.minithird {
+	width:60%;
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+.spaceme .row {margin-top:40px;}
+
+.center {text-align: center;}
+
+.cvblue {color: #3ea650;}
+
+.nobottommargin {margin-bottom: 0px;}
+
+.bg-red {background-color: red;}
+.bg-green {background-color: green;}
+.bg-silver {background-color: silver;}
