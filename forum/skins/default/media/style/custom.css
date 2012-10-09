@@ -140,7 +140,7 @@ body #searchBar {
 	padding-top: 10px;
 	border-bottom: 0;
 	color: #FFF;
-	background-color: #2a2a2a;
+	background-color: #eee;
 }
 
 /*Including body to prevent cstyles.css from overwriting this*/
@@ -150,7 +150,7 @@ body #searchBar div {
 	padding: 11px 10px;
 }
 
-#searchBar .secondaryaction a {color: #fff;}
+#searchBar .secondaryaction a {color: #777;}
 #searchBar .secondaryactionon a {color: #FF0000;}
 #searchBar .secondaryactionon {
 	margin-bottom: 0px;
@@ -170,10 +170,11 @@ body #searchBar div {
 }
 
 #searchBar .primaryaction {
-	background-color: #FF0000;
+	background-color: #3EA650;
 	padding-top: 6px;
 	padding-bottom: 6px;
 	border: 0;
+	margin-left: 15px;
 }
 #searchBar .primaryaction a {color: #fff;}
 
@@ -185,8 +186,7 @@ body #searchBar div {
 }
 
 #searchBar #search {
-	margin-left: 5px;
-	border-left: 1px dashed #888;
+	margin-left: 300px;
 }
 
 #searchBar #search form {margin-left: 0;}
