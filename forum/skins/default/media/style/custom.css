@@ -8,6 +8,8 @@
 html {
 	background: none;
     background: url('/upfiles/bluecandyhole25.png') repeat top left;
+	background: none;
+background: #8EC4C6;
 }
 
 /*The following style overwrites the body background from styles.css*/
