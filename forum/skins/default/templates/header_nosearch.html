@@ -1,0 +1,47 @@
+<!-- template header_nosearch.html -->
+{% load extra_tags ui_registry i18n extra_filters markup %}
+
+
+	<div id="topbar" data-dropdown="dropdown">
+		<div id="topnav">
+ 		    {% loadregistry header_links %}{% endloadregistry %}
+ 		    <ul class="nav">
+ 		    		<li class="dropdown">
+ 		    			<a href="/about/" class="dropdown-toggle">About</a>
+ 		    			<ul class="dropdown-menu">
+ 		    				<li><a href="/about/">Overview</a></li>
+ 		    				<li><a href="/for-professionals/">For professionals</a></li>
+ 		    				<li><a href="/for-educators/">For educators</a></li>
+ 		    				<li><a href="/our-team/">Our team</a></li>
+ 		    				<li><a href="http://careervillage.wordpress.com/">Our blog</a></li>
+ 		    				<li><a href="http://www.facebook.com/CareerVillage/">Our Facebook</a></li>
+ 		    			</ul>
+ 		    		</li>
+ 		    </ul>
+		</div>
+	</div>
+  <div class="clear"></div>
+	<div id="roof">
+	  
+		<div id="logo">
+			<a href="{% url index %}">
+				<img src="{{ settings.APP_LOGO }}" title="{% trans "back to home page" %}" alt="{{settings.APP_TITLE}} logo"/>
+			</a>
+		</div>
+	  
+    <div id="headerrightside" class="Ruluko">
+	    Career advice students can trust,<br/>
+	    from real-life professionals.
+	    <a href="{% url about %}" style="color:white; font-weight:bold; text-decoration: underline;">Learn more</a>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+  
+	{% if settings.USE_ANNOUNCEMENT_BAR|or_preview:request %}
+  <div id="announcement">
+      {{ settings.ANNOUNCEMENT_BAR|or_preview:request|static_content:settings.ANNOUNCEMENT_BAR_RENDER_MODE }}
+  </div>
+  {% endif %}
+
+<!-- end template header_nosearch.html -->
