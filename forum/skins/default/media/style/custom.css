@@ -15,8 +15,14 @@ background: #8EC4C6;
 /*The following style overwrites the body background from styles.css*/
 body {background: none;}
 
-#wrapper {background-color: #FFFFFF;}
-#ground {background-color: #FFFFFF;}
+#wrapper {
+	background-color: #FFFFFF;
+	-webkit-border-radius: 25px;
+	   -moz-border-radius: 25px;
+	        border-radius: 25px;
+}
+
+#ground {background-color: #8EC4C6; padding: 20px;}
 
 /*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
 /*NAVIGATION AND HEADER - NAVIGATION AND HEADER - NAVIGATION AND HEADER*/
