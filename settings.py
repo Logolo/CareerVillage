@@ -22,6 +22,7 @@ MIDDLEWARE_CLASSES = [
     'forum.middleware.request_utils.RequestUtils',
     'forum.middleware.cancel.CancelActionMiddleware',
     'forum.middleware.admin_messages.AdminMessagesMiddleware',
+    'forum.middleware.blocked_ips.BlockedIpMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
 ]
 
