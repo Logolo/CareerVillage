@@ -5,11 +5,9 @@ import logging
 class BlockedIpMiddleware(object):
 
     def process_request(self, request):
-        logging.error("Checking %s for BLOCKED_IPS" % (request.META['HTTP_X_FORWARDED_FOR']))
         if request.META['HTTP_X_FORWARDED_FOR'] in settings.BLOCKED_IPS:
-            logging.error("THIS IP IS BLOCKED")
+        	logging.error("REQUEST FROM IP %s BLOCKED" % (request.META['HTTP_X_FORWARDED_FOR']))
             return http.HttpResponseForbidden('<h1>Forbidden</h1>')
-        logging.error("This IP is valid.")
         return None
 
 """
