@@ -29,9 +29,44 @@
                 {{ statistics.total_users }} {% trans "user" %}{{ statistics.total_users|pluralize }} ({{ statistics.users_last_24 }} {% trans "joined in the last 24 hours" %})
                 </td>
             </tr>
+            <tr>
+                <td>
+                    Questons per day, last 2 weeks
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Questions per day, total
+                </td>
+            </tr>
         </table>
     </div>
     <div class="module" style="width:49%; display: inline-block;">
+        <table style="width: 100%; height: 100%;">
+            <caption>{% trans "continued..."  %}</caption>
+            <tr>
+                <td>
+                    % answered, trailing month
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    % answered, total
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Avid users (>200 rep)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Average answers per question
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="module" style="width:98%; display: inline-block;">
         <table>
         <caption>{%trans "Site status" %}</caption>
             <tr>
