@@ -80,9 +80,13 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/' % _('convert_to_question/'), app.writers.convert_to_question,name='convert_to_question'),
     url(r'^%s(?P<id>\d+)/' % _('wikify/'), app.commands.wikify, name='wikify'),
     
+    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('questions/'),_('answered/')), app.readers.question_answered),
     url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]*)$' % _('question/'), 'django.views.generic.simple.redirect_to', {'url': '/questions/%(id)s/%(slug)s'}),
+    url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]*)/%s$' % (_('question/'),_('answered/')), 'django.views.generic.simple.redirect_to', {'url': '/questions/answered/%(id)s/%(slug)s'}),
     url(r'^%s(?P<id>\d+)/?$' % _('questions/'), app.readers.question, name='question'),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/(?P<answer>\d+)$' % _('questions/'), app.readers.question),
+    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/(?P<answer>\d+)/%s$' % (_('questions/'),_('answered/')), app.readers.question),
+    url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'),_('answered/')), app.readers.question_answered),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)$' % _('questions/'), app.readers.question, name='question'),
     
     

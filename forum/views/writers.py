@@ -230,24 +230,31 @@ def edit_answer(request, id):
                               }, context_instance=RequestContext(request))
 
 def answer(request, id):
+    print "Entering the answer writer"
     question = get_object_or_404(Question, id=id)
 
     if request.POST:
+        print "Request is a POST."
         form = AnswerForm(request.POST, request.user)
 
         if request.session.pop('reviewing_pending_data', False) or not form.is_valid():
+            print "Request session pop or form isn't valid."
             request.session['redirect_POST_data'] = request.POST
+            print "Post data is saved into Session data."
             return HttpResponseRedirect(question.get_absolute_url() + '#fmanswer')
 
         if request.user.is_authenticated() and request.user.email_valid_and_can_answer():
+            print "User is logged in and can answer."
             answer_action = AnswerAction(user=request.user, ip=request.META['REMOTE_ADDR']).save(dict(question=question, **form.cleaned_data))
             answer = answer_action.node
 
             if settings.WIKI_ON and request.POST.get('wiki', False):
                 answer.nstate.wiki = answer_action
 
-            return HttpResponseRedirect(answer.get_absolute_url())
+            print "About to redirect the user to the answered page."
+            return HttpResponseRedirect(question.get_absolute_url() + '/answered/')
         else:
+            print "User is not logged in or cannot answer."
             request.session[PENDING_SUBMISSION_SESSION_ATTR] = {
                 'POST': request.POST,
                 'data_name': _("answer"),
@@ -257,13 +264,16 @@ def answer(request, id):
             }
 
             if request.user.is_authenticated():
+                print "User is logged in but cannot answer."
                 request.user.message_set.create(message=_("Your answer is pending until you %s.") % html.hyperlink(
                     reverse('send_validation_email'), _("validate your email")
                 ))
                 return HttpResponseRedirect(question.get_absolute_url())
             else:
+                print "User is not logged in."
                 return HttpResponseRedirect(reverse('auth_signin'))
 
+    print "About to redirect to the question base url."
     return HttpResponseRedirect(question.get_absolute_url())
 
 

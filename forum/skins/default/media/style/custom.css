@@ -323,6 +323,35 @@ a.medal:hover {
 #interestingTagInput {width:170px;}
 #ignoredTagInput {width:170px;}
 
+/* CONFIRMATION SCREENS - CONFIRMATION SCREENS - CONFIRMATION SCREENS */
+/* CONFIRMATION SCREENS - CONFIRMATION SCREENS - CONFIRMATION SCREENS */
+/* CONFIRMATION SCREENS - CONFIRMATION SCREENS - CONFIRMATION SCREENS */
+
+#ConfirmationModal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(140, 140, 140, .95);
+	text-align: center;
+}
+
+#ConfirmationModal h1 {
+	color: black;
+	font-size:4em;
+}
+.ConfirmationModalMessage {
+	top: 80px;
+	position: relative;
+	width: 65%;
+	height: 500px;
+	padding: 50px;
+	-webkit-border-radius: 25px;
+	   -moz-border-radius: 25px;
+	        border-radius: 25px;
+}
+
 /* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */
 /* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */
 /* QUESTION SHARE LINKS - QUESTION SHARE LINKS - QUESTION SHARE LINKS */

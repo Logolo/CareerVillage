@@ -347,6 +347,85 @@ def question(request, id, slug='', answer=None):
     "subscription": subscription,
     })
 
+@decorators.render("question_answered.html", 'questions')
+def question_answered(request, id, slug='', answer=None):
+    print "DEBUG Messages - entering question answered"
+    try:
+        print "trying to find question"
+        question = Question.objects.get(id=id)
+    except:
+        print "excepted when trying to find question"
+        if slug:
+            print "hit slug during exception when trying to find question"
+            question = match_question_slug(id, slug)
+            if question is not None:
+                print "question is not None"
+                return HttpResponseRedirect(question.get_absolute_url())
+
+        print "About to raise 404 - xfjen"
+        raise Http404()
+
+    if question.nis.deleted and not request.user.can_view_deleted_post(question):
+        print "About to raise 404 - polllster"
+        raise Http404
+
+    if request.GET.get('type', None) == 'rss':
+        print "About to return RSS feed"
+        return RssAnswerFeed(request, question, include_comments=request.GET.get('comments', None) == 'yes')(request)
+
+    if answer:
+        print "Answer is not Null. Getting the answer."
+        answer = get_object_or_404(Answer, id=answer)
+
+        if (question.nis.deleted and not request.user.can_view_deleted_post(question)) or answer.question != question:
+            print "About to raise 404. JOunds!"
+            raise Http404
+
+        if answer.marked:
+            print "An answer was marked. About to redirect to the question."
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+        print "About to redirect to the answer. No idea why. MANDOLIN"
+        return answer_redirect(request, answer)
+
+    if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
+        print "Settings force single url. About to redirect."
+        return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+    if request.POST:
+        print "Request is a POST."
+        answer_form = AnswerForm(request.POST, user=request.user)
+    else:
+        print "Request is not a POST. Setting up the answer form."
+        answer_form = AnswerForm(user=request.user)
+
+    print "About to get answers."
+    answers = request.user.get_visible_answers(question)
+
+    print "About to update question view times."
+    update_question_view_times(request, question)
+
+    if request.user.is_authenticated():
+        print "user is authenticated."
+        try:
+            print "trying subscriptions."
+            subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+        except:
+            print "excepted."
+            subscription = False
+    else:
+        print "User is not authenticated."
+        subscription = False
+
+    print "About to return paginated."
+    return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
+    "question" : question,
+    "answer" : answer_form,
+    "answers" : answers,
+    "similar_questions" : question.get_related_questions(),
+    "subscription": subscription,
+    })
+
 
 REVISION_TEMPLATE = template.loader.get_template('node/revision.html')
 
