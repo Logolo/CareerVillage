@@ -106,7 +106,7 @@
             <a id="close-notify" onclick="notify.close(true)">&times;</a>
         </div>
         {% if settings.USE_CUSTOM_HEADER|or_preview:request %}
-            <div id="custom_header">
+            <div id="custom_header" class="notify">
                 {{ settings.CUSTOM_HEADER|or_preview:request|static_content:settings.CUSTOM_HEADER_RENDER_MODE }}
             </div>
         {% endif %}
