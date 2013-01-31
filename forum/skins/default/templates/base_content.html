@@ -106,9 +106,11 @@
             <a id="close-notify" onclick="notify.close(true)">&times;</a>
         </div>
         {% if settings.USE_CUSTOM_HEADER|or_preview:request %}
-            <div id="custom_header" class="notify">
+            <div id="custom_header" class="notify darkred lobster">
                 {{ settings.CUSTOM_HEADER|or_preview:request|static_content:settings.CUSTOM_HEADER_RENDER_MODE }}
+            <a id="close-notify" onclick="notify.close(true)">&times;</a>
             </div>
+            <div class="clear"></div>
         {% endif %}
         {% include "header.html" %}
         {% block page_center %}
