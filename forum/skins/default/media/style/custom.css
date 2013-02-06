@@ -32,6 +32,9 @@ body {background: none;}
 .notify {font-weight: normal;}
 .notify p {font-size: 20px;}
 
+/*The following style moves special global notifications to the bottom*/
+#custom_header {top:auto; bottom: 0px;}
+
 /*The following style overwrites the nav id from styles.css*/
 #nav {
 	clear: both;
