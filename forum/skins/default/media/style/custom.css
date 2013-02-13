@@ -304,6 +304,9 @@ body #searchBar div {
 	width: 592px;
 }
 
+/*Styling the end-of-list comments*/
+.EndOfList {margin: 4em;}
+
 /*RIGHT SIDE - RIGHT SIDE - RIGHT SIDE - RIGHT SIDE - RIGHT SIDE*/
 .boxA {border: none; background: #FFF;}
 .boxA h3 {color:red; font-size: 20px;}
@@ -318,7 +321,6 @@ a.medal:hover {
     background: url("../images/medala_on.gif") left top no-repeat scroll transparent;
     border: none;
 }
-
 
 #sidebar-upper {display: none;} 
 #sidebar-lower {display: none;}

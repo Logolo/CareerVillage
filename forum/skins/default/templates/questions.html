@@ -20,6 +20,15 @@
 <div id="listA">{% for question in questions.paginator.page %}
     {% question_list_item question %}
 {% endfor %}</div>
+{% if questions %}
+<div class="EndOfList">
+    <h3>Don't see your question here? <a href="/questions/ask/">Ask your question now!</a></h3>
+</div>
+{% else %}
+<div class="EndOfList">
+    <h3>Looks like we don't have a question about that yet. <a href="/questions/ask/">Ask your question now!</a></h3>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block tail %}
