@@ -227,17 +227,24 @@ class User(BaseModel, DjangoUser):
         today = datetime.date.today()
         return self.actions.filter(canceled=False, action_type__in=("voteup", "votedown"),
                                    action_date__gte=(today - datetime.timedelta(days=1))).count()
-    
+
+    # helper function to get the counts of arbitrary node types within
+    # a specified number of days
+    def _get_field_count(self, field, days=7):
+        today = datetime.date.today()
+        recent_questions = self.nodes.filter(node_type=field, author=self,
+            added_at__gte=(today - datetime.timedelta(days=days))
+        ).filter_state(deleted=False)
+        return recent_questions.count()
+
     #number of questions asked in last days
     def get_question_count(self, days=7):
-        today = datetime.date.today()
-        return self.actions.filter(canceled=False, action_type='ask', 
-                                   action_date__gte=(today - datetime.timedelta(days=days))).count()
+        return self._get_field_count(field='question', days=days)
+
     #answers in days
     def get_answer_count(self, days=7):
-        today = datetime.date.today()
-        return self.actions.filter(canceled=False, action_type='answer', 
-                                   action_date__gte=(today - datetime.timedelta(days=days))).count()
+        return self._get_field_count(field='answer', days=days)
+
     #answers_received in days
 #    def get_answers_received_count(self, days=7):
 #        today = datetime.date.today()
@@ -251,9 +258,10 @@ class User(BaseModel, DjangoUser):
 
     #answers in days
     def get_comment_count(self, days=7):
-        today = datetime.date.today()
-        return self.actions.filter(canceled=False, action_type='comment',
-            action_date__gte=(today - datetime.timedelta(days=days))).count()
+        return self._get_field_count(field='comment', days=days)
+        #today = datetime.date.today()
+        #return self.actions.filter(canceled=False, action_type='comment',
+        #    action_date__gte=(today - datetime.timedelta(days=days))).count()
 
     #true if last_seen within days
     def get_logged_in_within(self, days=7):

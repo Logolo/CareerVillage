@@ -1,0 +1,1 @@
+from forum.models.tests import *
