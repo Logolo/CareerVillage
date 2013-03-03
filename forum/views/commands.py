@@ -498,12 +498,18 @@ def mark_tag(request, tag=None, **kwargs):#tagging system
     else:
         reason = kwargs['reason']
         if len(ts) == 0:
+            t = None
             try:
                 t = Tag.objects.get(name=tag)
+            # If tag does not exist, try to create it
+            except ObjectDoesNotExist:
+                # Continue if user has create tag privileges
+                if not settings.LIMIT_TAG_CREATION or request.user.can_create_tags():
+                    t = Tag.objects.create(name=tag, created_by=request.user)
+
+            if t is not None:
                 mt = MarkedTag(user=request.user, reason=reason, tag=t)
                 mt.save()
-            except:
-                pass
         else:
             ts.update(reason=reason)
     return HttpResponse(simplejson.dumps(''), mimetype="application/json")
