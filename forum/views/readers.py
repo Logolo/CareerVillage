@@ -108,7 +108,8 @@ def questions(request):
 @decorators.render('questions.html')
 def tag(request, tag):
     try:
-        tag = Tag.active.get(name=unquote(tag))
+        # Changed query to include inactive tags - Ben
+        tag = Tag.objects.get(name=unquote(tag))
     except Tag.DoesNotExist:
         raise Http404
 
