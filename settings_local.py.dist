@@ -4,6 +4,9 @@ import os.path
 SITE_SRC_ROOT = os.path.dirname(__file__)
 LOG_FILENAME = 'django.osqa.log'
 
+# Secret key
+SECRET_KEY = 'yoursecretkeyhere'
+
 #for logging
 import logging
 logging.basicConfig(
