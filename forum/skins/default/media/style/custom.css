@@ -1210,4 +1210,35 @@ textarea[readonly] {
 .far-right {float:right;}
 .far-left {float:left;}
 
+
+/* DONATE SECTION - DONATE SECTION - DONATE SECTION - DONATE SECTION */
+/* DONATE SECTION - DONATE SECTION - DONATE SECTION - DONATE SECTION */
+/* DONATE SECTION - DONATE SECTION - DONATE SECTION - DONATE SECTION */
+
+#donatebox {
+  position: fixed;
+  right: -270px;
+  top:80%;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 306px;
+}
+
+.donateright {
+  text-align: center;
+}
+
+#donatelabel {
+  float:left;
+  background: url("../images/Donate-button-vertical.png") no-repeat;  
+  width: 30px;
+  height: 100px;
+}
+
+.donatetext {
+  color: #fff;
+  margin: 10px 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
 /*Rails is better.*/ /*GAH! The Django Gods will NOT be pleased with this insurrection! I'm also pretty sure we're breaking the style guide.*/

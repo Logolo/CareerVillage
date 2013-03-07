@@ -149,6 +149,36 @@
             <div id="ground">
                 {% include "footer.html" %}
             </div>
+            <div id="donatebox">
+                <div id="donatelabel"> </div>
+                <div class="donateright">
+                    <div class="donatetext">
+                        Help us bring career advice to more students across America.
+                    </div>
+                    <div>
+                        <a href="https://www.givlet.org/product/SpfI/" class="btn success" target="_blank">Donate now!</a>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                $(function()
+  {
+      var expanded = false;
+      $('#donatebox').click(function()
+                          {
+                              if (!expanded)
+                              {
+                                  $(this).animate({'right' : '0px'}, {duration : 400});
+                                  expanded = true;
+                              }
+                              else
+                              {
+                                 $(this).animate({'right' : '-200px'}, {duration: 400});
+                                  expanded = false;
+                              }
+                          });
+  });
+                </script>
+            </div>
         {% endif %}
         {% block endjs %}
         {% endblock %}
