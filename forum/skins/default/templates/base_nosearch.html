@@ -93,6 +93,7 @@
         <script type='text/javascript' src='{% media  "/media/js/customjs.js" %}'></script>
         <link rel="search" type="application/opensearchdescription+xml" href="{% url opensearch %}" title="{{ settings.APP_SHORT_NAME }} Search" />
         {% loadregistry head_content %}{% endloadregistry %}
+        <script type='text/javascript' src='https://ordernow_prod.s3.amazonaws.com/js/ordernow-slider-0.1.1.min.js'></script>
     </head>
     <body>
         <div class="notify" style="display:none;">
@@ -106,7 +107,7 @@
             <a id="close-notify" onclick="notify.close(true)">&times;</a>
         </div>
         {% if settings.USE_CUSTOM_HEADER|or_preview:request %}
-            <div id="custom_header">
+            <div id="custom_header" class="notify darkred lobster">
                 {{ settings.CUSTOM_HEADER|or_preview:request|static_content:settings.CUSTOM_HEADER_RENDER_MODE }}
             </div>
         {% endif %}
@@ -201,6 +202,7 @@
                 }
             </script>
         {% endif %}
+        <a href='http://giv.lt/14lZbRm' class='on-checkout'>GIVE NOW</a>
     </body>
 </html>
 <!-- end template base_nosearch.html -->
