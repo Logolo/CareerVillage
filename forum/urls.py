@@ -42,6 +42,9 @@ core_urls = (
     url(r'^opensearch\.xml$', app.meta.opensearch, name='opensearch'),
     url(r'^%s$' % _('privacy/'), app.meta.privacy, name='privacy'),
     url(r'^%s$' % _('logout/'), app.meta.logout, name='logout'),
+
+    url(r'^%s$' % _('home/'), app.readers.homepage, name='homepage'),
+
     url(r'^%s(?P<id>\d+)/%s$' % (_('answers/'), _('edit/')), app.writers.edit_answer, name='edit_answer'),
     url(r'^%s(?P<id>\d+)/$' % _('revisions/'), app.readers.revisions, name='revisions'),
     url(r'^%s$' % _('questions/'), app.readers.questions, name='questions'),
