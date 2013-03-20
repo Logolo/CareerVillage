@@ -1,0 +1,33 @@
+{% extends "v2/homepage_base.html" %}
+
+{% block user_stats %}
+
+<div>
+    <div>
+        <div>{{ user.reputation }}</div>
+        <div>Karma</div>
+    </div>
+    <div>
+        <div>88</div>
+        <div>Answers</div>
+    </div>
+    <div>
+        <div>88</div>
+        <div>Referrals</div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block search_prompt %}
+    What do you want to answer questions about?
+    {% endblock %}
+
+{% block skipsearch %}
+    {# Empty for Pros #}
+    {% endblock %}
+
+{% block unanswered_only %}
+    <input type="checkbox"/>
+    <div>Only unanswered questions</div>
+    {% endblock %}

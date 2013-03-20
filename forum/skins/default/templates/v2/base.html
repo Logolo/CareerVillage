@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title></title>
+<meta name="author" content="">
+<meta name="date" content="">
+<meta name="copyright" content="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+<meta http-equiv="content-style-type" content="text/css">
+{% block head %}{% endblock %}
+</head>
+<body>
+{{user.id}} 
+{{user.username}} 
+<div>
+    {# Global navigation #}
+    <div><a href="">(CareerVillage Logo)</a></div>
+    <div><a href="">{{ user.real_name }}</a></div>
+    {% if user.user_type == "educator" %}
+        <div><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></div>
+    {% endif %}
+    <div><a href="">Help</a></div>
+    <div><a href="">Logout</a></div>
+</div>
+
+{% block content %}{% endblock %}
+
+<div>
+    {# FOOTER #}
+    <div><a href="">(CareerVillage Logo)</a></div>
+    <div><a href="">{{ user.real_name }}</a></div>
+    <div><a href="">Help</a></div>
+    <div><a href="">Logout</a></div>
+</div>
+
+</body>
+</html>

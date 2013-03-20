@@ -87,6 +87,74 @@ def index(request):
                          feed_url=reverse('latest_questions_feed'),
                          paginator_context=paginator_context)
 
+def homepage(request):
+    if request.user.is_authenticated():
+        if request.user.is_student():
+            return homepage_student(request)
+        elif request.user.is_professional():
+            return homepage_professional(request)
+        elif request.user.is_educator():
+            return homepage_educator(request)
+        else: # If the user's status is unknown, we default to professional
+            return homepage_loggedout(request)
+    else:
+        return HttpResponseRedirect(reverse(splash))
+
+@decorators.render('v2/homepage_professional.html')
+def homepage_professional(request):
+    paginator_context = QuestionListPaginatorContext()
+    paginator_context.base_path = reverse('questions')
+    if request.user.is_authenticated():
+        if request.user.is_professional():
+            return question_list(request,
+                    Question.objects.all(),
+                    base_path=reverse('questions'),
+                    feed_url=reverse('latest_questions_feed'),
+                    paginator_context=paginator_context)
+    else: # This user shouldn't be here!
+        return HttpResponseRedirect(reverse(homepage))
+
+@decorators.render('v2/homepage_student.html')
+def homepage_student(request):
+    paginator_context = QuestionListPaginatorContext()
+    paginator_context.base_path = reverse('questions')
+    if request.user.is_authenticated():
+        if request.user.is_student():
+            return question_list(request,
+                    Question.objects.all(),
+                    base_path=reverse('questions'),
+                    feed_url=reverse('latest_questions_feed'),
+                    paginator_context=paginator_context)
+    else: # This user shouldn't be here!
+        return HttpResponseRedirect(reverse(homepage))
+
+@decorators.render('v2/homepage_educator.html')
+def homepage_educator(request):
+    paginator_context = QuestionListPaginatorContext()
+    paginator_context.base_path = reverse('questions')
+    if request.user.is_authenticated():
+        if request.user.is_educator():
+            return question_list(request,
+                    Question.objects.all(),
+                    base_path=reverse('questions'),
+                    feed_url=reverse('latest_questions_feed'),
+                    paginator_context=paginator_context)
+    else: # This user shouldn't be here!
+        return HttpResponseRedirect(reverse(homepage))
+
+@decorators.render('v2/homepage_loggedout.html')
+def homepage_loggedout(request):
+    paginator_context = QuestionListPaginatorContext()
+    paginator_context.base_path = reverse('questions')
+    if request.user.is_authenticated(): # This user shouldn't be here!
+        return HttpResponseRedirect(reverse(homepage))
+    else:
+        return question_list(request,
+                Question.objects.all(),
+                base_path=reverse('questions'),
+                feed_url=reverse('latest_questions_feed'),
+                paginator_context=paginator_context)
+
 def splash(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse(index))
