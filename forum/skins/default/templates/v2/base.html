@@ -26,7 +26,7 @@
     {% if user.is_authenticated %}
         <div><a href="">Logout</a></div>
     {% else %}
-        <div><a href="">Login</a></div>
+        <div><a href="{% url auth_signin %}">Login</a></div>
     {% endif %}
 </div>
 
