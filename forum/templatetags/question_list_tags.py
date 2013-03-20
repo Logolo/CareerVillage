@@ -8,7 +8,7 @@ from forum import settings
 register = template.Library()
 
 class QuestionItemNode(template.Node):
-    template = template.loader.get_template('question_list/item.html')
+    template = template.loader.get_template('v2/list_item.html')
 
     def __init__(self, question, options):
         self.question = template.Variable(question)
