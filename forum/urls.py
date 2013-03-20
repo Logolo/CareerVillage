@@ -159,6 +159,8 @@ core_urls = (
     
     url(r'^feeds/rss[/]?$', app.readers.feed, name='latest_questions_feed'),
     
+    # For load testing with LoaderIO 
+    url(r'^%s$' % _('loaderio-fa1cac11d692bb426d7ee9a9fe6e2929/'), direct_to_template, {'template': 'loaderio.html'}),
 )
 
 from forum.modules import get_modules_script

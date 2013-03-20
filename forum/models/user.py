@@ -15,6 +15,8 @@ from random import Random
 from django.utils.translation import ugettext as _
 import logging
 
+DEFAULT_USER_TYPE = "student"
+
 class AnonymousUser(DjangoAnonymousUser):
     reputation = 0
     
@@ -143,6 +145,18 @@ class User(BaseModel, DjangoUser):
 
         return prop
 
+    # User type if the role of the user: student, educator or professional
+    @property
+    def user_type(self):
+        if self.prop.user_type is not None:
+            return self.prop.user_type
+        else:
+            return DEFAULT_USER_TYPE
+
+    @user_type.setter
+    def user_type(self, _user_type):
+        self.prop.user_type = _user_type
+
     @property
     def is_siteowner(self):
         #todo: temporary thing, for now lets just assume that the site owner will always be the first user of the application
@@ -241,17 +255,24 @@ class User(BaseModel, DjangoUser):
         today = datetime.date.today()
         return self.actions.filter(canceled=False, action_type__in=("voteup", "votedown"),
                                    action_date__gte=(today - datetime.timedelta(days=1))).count()
-    
+
+    # helper function to get the counts of arbitrary node types within
+    # a specified number of days
+    def _get_field_count(self, field, days=7):
+        today = datetime.date.today()
+        recent_questions = self.nodes.filter(node_type=field, author=self,
+            added_at__gte=(today - datetime.timedelta(days=days))
+        ).filter_state(deleted=False)
+        return recent_questions.count()
+
     #number of questions asked in last days
     def get_question_count(self, days=7):
-        today = datetime.date.today()
-        return self.actions.filter(canceled=False, action_type='ask', 
-                                   action_date__gte=(today - datetime.timedelta(days=days))).count()
+        return self._get_field_count(field='question', days=days)
+
     #answers in days
     def get_answer_count(self, days=7):
-        today = datetime.date.today()
-        return self.actions.filter(canceled=False, action_type='answer', 
-                                   action_date__gte=(today - datetime.timedelta(days=days))).count()
+        return self._get_field_count(field='answer', days=days)
+
     #answers_received in days
 #    def get_answers_received_count(self, days=7):
 #        today = datetime.date.today()
@@ -265,9 +286,10 @@ class User(BaseModel, DjangoUser):
 
     #answers in days
     def get_comment_count(self, days=7):
-        today = datetime.date.today()
-        return self.actions.filter(canceled=False, action_type='comment',
-            action_date__gte=(today - datetime.timedelta(days=days))).count()
+        return self._get_field_count(field='comment', days=days)
+        #today = datetime.date.today()
+        #return self.actions.filter(canceled=False, action_type='comment',
+        #    action_date__gte=(today - datetime.timedelta(days=days))).count()
 
     #true if last_seen within days
     def get_logged_in_within(self, days=7):
