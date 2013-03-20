@@ -23,7 +23,11 @@
         <div><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></div>
     {% endif %}
     <div><a href="">Help</a></div>
-    <div><a href="">Logout</a></div>
+    {% if user.is_authenticated %}
+        <div><a href="">Logout</a></div>
+    {% else %}
+        <div><a href="">Login</a></div>
+    {% endif %}
 </div>
 
 {% block content %}{% endblock %}
@@ -33,7 +37,11 @@
     <div><a href="">(CareerVillage Logo)</a></div>
     <div><a href="">{{ user.real_name }}</a></div>
     <div><a href="">Help</a></div>
+    {% if user.is_authenticated %}
     <div><a href="">Logout</a></div>
+    {% else %}
+    <div><a href="">Login</a></div>
+    {% endif %}
 </div>
 
 </body>
