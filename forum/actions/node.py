@@ -3,6 +3,7 @@ from django.utils.translation import ugettext as _
 from forum.models.action import ActionProxy
 from forum.models import Comment, Question, Answer, NodeRevision
 import logging
+from forum.models.user import User
 
 class NodeEditAction(ActionProxy):
     def create_revision_data(self, initial=False, **data):
@@ -40,6 +41,7 @@ class AnswerAction(NodeEditAction):
     def process_data(self, **data):
         answer = Answer(author=self.user, parent=data['question'], **self.create_revision_data(True, **data))
         answer.save()
+
         self.node = answer
 
     def process_action(self):

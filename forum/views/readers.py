@@ -339,12 +339,16 @@ def question(request, id, slug='', answer=None):
     else:
         subscription = False
 
+
+    referrer = request.GET.get('referrer', None)
+
     return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
     "question" : question,
     "answer" : answer_form,
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
     "subscription": subscription,
+    "referrer": referrer
     })
 
 

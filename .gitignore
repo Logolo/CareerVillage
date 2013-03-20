@@ -9,3 +9,5 @@ careerville_osqa
 !.gitignore
 .settings/
 forum/upfiles/*
+.idea
+*.db

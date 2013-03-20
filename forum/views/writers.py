@@ -10,9 +10,9 @@ from django.utils.html import *
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 
-from forum.actions import AskAction, AnswerAction, ReviseAction, RollbackAction, RetagAction, AnswerToQuestionAction
+from forum.actions import AskAction, AnswerAction, ReviseAction, RollbackAction, RetagAction, AnswerToQuestionAction, ReferralAction
 from forum.forms import *
 from forum.models import *
 from forum.forms import get_next_url
@@ -242,6 +242,15 @@ def answer(request, id):
         if request.user.is_authenticated() and request.user.email_valid_and_can_answer():
             answer_action = AnswerAction(user=request.user, ip=request.META['REMOTE_ADDR']).save(dict(question=question, **form.cleaned_data))
             answer = answer_action.node
+
+
+            if 'referrer' in request.POST:
+                try:
+                    referrer = User.objects.get(id=int(request.POST['referrer']))
+                    referral_action = ReferralAction(user=referrer, ip=request.META['REMOTE_ADDR']).save(dict(referred_user=request.user))
+                except ObjectDoesNotExist:
+                    # Referrer field pointed to invalid user, ignore referral
+                    pass
 
             if settings.WIKI_ON and request.POST.get('wiki', False):
                 answer.nstate.wiki = answer_action

@@ -6,7 +6,7 @@ from user import User, ValidationHash, AuthKeyUserAssociation, SubscriptionSetti
 from node import Node, NodeRevision, NodeState, NodeMetaClass
 from comment import Comment
 from action import Action, ActionRepute
-from meta import Vote, Flag, Badge, Award
+from meta import Vote, Flag, Badge, Award, Referral
 from utils import KeyValue
 from page import Page
 from cohort import Cohort
