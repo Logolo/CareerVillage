@@ -145,6 +145,7 @@ class User(BaseModel, DjangoUser):
 
         return prop
 
+    # User type if the role of the user: student, educator or professional
     @property
     def user_type(self):
         if self.prop.user_type is not None:
