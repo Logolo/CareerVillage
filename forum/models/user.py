@@ -15,6 +15,8 @@ from random import Random
 from django.utils.translation import ugettext as _
 import logging
 
+DEFAULT_USER_TYPE = "student"
+
 class AnonymousUser(DjangoAnonymousUser):
     reputation = 0
     
@@ -142,6 +144,17 @@ class User(BaseModel, DjangoUser):
             self._prop = prop
 
         return prop
+
+    @property
+    def user_type(self):
+        if self.prop.user_type is not None:
+            return self.prop.user_type
+        else:
+            return DEFAULT_USER_TYPE
+
+    @user_type.setter
+    def user_type(self, _user_type):
+        self.prop.user_type = _user_type
 
     @property
     def is_siteowner(self):

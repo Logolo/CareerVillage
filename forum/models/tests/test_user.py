@@ -1,5 +1,5 @@
 from django.test import TestCase
-from forum.models.user import User
+from forum.models.user import User, DEFAULT_USER_TYPE
 from forum.actions import AskAction, DeleteAction, AnswerAction, CommentAction
 from forum.forms import AskForm, AnswerForm
 
@@ -88,15 +88,21 @@ class StudentTestCase(TestCase):
 
 
 class UserTest(TestCase):
-    fixtures = ['users.xml']
+
 
     def setUp(self):
-        self.client.login(username='super', password='secret')
+        self.user = User(username='super')
+        self.user.save()
+        self.user.prop.user_type = None
+        self.user.save()
 
-        
+    def test_user_type_default(self):
+        self.assertEqual(self.user.user_type, DEFAULT_USER_TYPE)
 
-    def tearDown(self):
-        self.client.logout()
+    def test_user_type_permanence(self):
+        self.user.user_type = "educator"
+        u = User.objects.get(username='super')
+        self.assertEqual(u.user_type, "educator")
 
     def test_gravatar(self):
         
