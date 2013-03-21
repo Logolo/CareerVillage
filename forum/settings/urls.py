@@ -8,8 +8,8 @@ label = _("Allow unicode in slugs"),
 help_text = _("Allow unicode/non-latin characters in urls."),
 required=False))
 
-FORCE_SINGLE_URL = Setting('FORCE_SINGLE_URL', True, URLS_SET, dict(
+FORCE_SINGLE_URL = Setting('FORCE_SINGLE_URL', False, URLS_SET, dict(
 label = _("Force single url"),
-help_text = _("Redirect the request in case there is a mismatch between the slug in the url and the actual slug"),
+help_text = _("Redirect the request in case there is a mismatch between the slug in the url and the actual slug. Beware -- this might break things if it is turned on."),
 required=False))
 
