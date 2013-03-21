@@ -106,11 +106,13 @@ class FunctionalTestCase(LiveServerTestCase):
         title_text = 'question_test_111'
         body_text = 'this is some dummy text for my question so that it doesnt get upset'
         tags = 'dummytag'
+        time.sleep(2)
         self.fill_form({
             'title' : title_text,
-            'text' : body_text,
+            #'text' : body_text,
             'tags' : tags
         })
+        self.selenium.find_element_by_id('editor').send_keys(body_text)
         self.selenium.find_element_by_name('ask').click()
         time.sleep(2)
 
@@ -128,13 +130,14 @@ class FunctionalTestCase(LiveServerTestCase):
         self.assertEqual(self.user.id, question.author.id)
 
     def test_answer_question(self):
+        self.user.user_type = "professional"
         question = create_question(self.user2)
         self.login()
         self.load_url(question.get_absolute_url())
         answer_text = 'this is the answer to your question I hope it is useful'
         self.fill_form({'text' : answer_text})
         self.selenium.find_element_by_xpath("//form/input[contains(@class,'submit')]").click()
-        time.sleep(4)
+        time.sleep(2)
         self.assertPageLoaded()
         self.assertEqual(question.answer_count, 1)
 

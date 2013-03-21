@@ -361,15 +361,15 @@ def answer_redirect(request, answer):
 def question(request, id, slug='', answer=None):
     if request.user.is_authenticated():
         if request.user.user_type == "student":
-            return question_as_student(request, id, slug='', answer=None)
+            return question_as_student(request, id, slug=slug, answer=answer)
         if request.user.user_type == "professional":
-            return question_as_professional(request, id, slug='', answer=None)
+            return question_as_professional(request, id, slug=slug, answer=answer)
         if request.user.user_type == "educator":
-            return question_as_educator(request, id, slug='', answer=None)
+            return question_as_educator(request, id, slug=slug, answer=answer)
         else: # If the user's status is unknown, we default to professional
-            return question_as_professional(request, id, slug='', answer=None)
+            return question_as_professional(request, id, slug=slug, answer=answer)
     else: # This user is logged out 
-        return question_as_loggedout(request, id, slug='', answer=None)
+        return question_as_loggedout(request, id, slug=slug, answer=answer)
         
 @decorators.render("v2/question_as_loggedout.html", 'questions')
 def question_as_loggedout(request, id, slug='', answer=None):
