@@ -358,8 +358,21 @@ def answer_redirect(request, answer):
     return HttpResponsePermanentRedirect("%s?%s=%s#%s" % (
         answer.question.get_absolute_url(), _('page'), page, answer.id))
 
-@decorators.render("question.html", 'questions')
 def question(request, id, slug='', answer=None):
+    if request.user.is_authenticated():
+        if request.user.user_type == "student":
+            return question_as_student(request, id, slug='', answer=None)
+        if request.user.user_type == "professional":
+            return question_as_professional(request, id, slug='', answer=None)
+        if request.user.user_type == "educator":
+            return question_as_educator(request, id, slug='', answer=None)
+        else: # If the user's status is unknown, we default to professional
+            return question_as_professional(request, id, slug='', answer=None)
+    else: # This user is logged out 
+        return question_as_loggedout(request, id, slug='', answer=None)
+        
+@decorators.render("v2/question_as_loggedout.html", 'questions')
+def question_as_loggedout(request, id, slug='', answer=None):
     try:
         question = Question.objects.get(id=id)
     except:
@@ -415,8 +428,177 @@ def question(request, id, slug='', answer=None):
     "subscription": subscription,
     })
 
+@decorators.render("v2/question_as_educator.html", 'questions')
+def question_as_educator(request, id, slug='', answer=None):
+    try:
+        question = Question.objects.get(id=id)
+    except:
+        if slug:
+            question = match_question_slug(id, slug)
+            if question is not None:
+                return HttpResponseRedirect(question.get_absolute_url())
 
+        raise Http404()
+
+    if question.nis.deleted and not request.user.can_view_deleted_post(question):
+        raise Http404
+
+    if request.GET.get('type', None) == 'rss':
+        return RssAnswerFeed(request, question, include_comments=request.GET.get('comments', None) == 'yes')(request)
+
+    if answer:
+        answer = get_object_or_404(Answer, id=answer)
+
+        if (question.nis.deleted and not request.user.can_view_deleted_post(question)) or answer.question != question:
+            raise Http404
+
+        if answer.marked:
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+        return answer_redirect(request, answer)
+
+    if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
+        return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+    if request.POST:
+        answer_form = AnswerForm(request.POST, user=request.user)
+    else:
+        answer_form = AnswerForm(user=request.user)
+
+    answers = request.user.get_visible_answers(question)
+
+    update_question_view_times(request, question)
+
+    if request.user.is_authenticated():
+        try:
+            subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+        except:
+            subscription = False
+    else:
+        subscription = False
+
+    return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
+    "question" : question,
+    "answer" : answer_form,
+    "answers" : answers,
+    "similar_questions" : question.get_related_questions(),
+    "subscription": subscription,
+    })
+
+@decorators.render("v2/question_as_professional.html", 'questions')
+def question_as_professional(request, id, slug='', answer=None):
+    try:
+        question = Question.objects.get(id=id)
+    except:
+        if slug:
+            question = match_question_slug(id, slug)
+            if question is not None:
+                return HttpResponseRedirect(question.get_absolute_url())
+
+        raise Http404()
+
+    if question.nis.deleted and not request.user.can_view_deleted_post(question):
+        raise Http404
+
+    if request.GET.get('type', None) == 'rss':
+        return RssAnswerFeed(request, question, include_comments=request.GET.get('comments', None) == 'yes')(request)
+
+    if answer:
+        answer = get_object_or_404(Answer, id=answer)
+
+        if (question.nis.deleted and not request.user.can_view_deleted_post(question)) or answer.question != question:
+            raise Http404
+
+        if answer.marked:
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+        return answer_redirect(request, answer)
+
+    if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
+        return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+    if request.POST:
+        answer_form = AnswerForm(request.POST, user=request.user)
+    else:
+        answer_form = AnswerForm(user=request.user)
+
+    answers = request.user.get_visible_answers(question)
+
+    update_question_view_times(request, question)
+
+    if request.user.is_authenticated():
+        try:
+            subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+        except:
+            subscription = False
+    else:
+        subscription = False
+
+    return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
+    "question" : question,
+    "answer" : answer_form,
+    "answers" : answers,
+    "similar_questions" : question.get_related_questions(),
+    "subscription": subscription,
+    })
 REVISION_TEMPLATE = template.loader.get_template('node/revision.html')
+
+@decorators.render("v2/question_as_student.html", 'questions')
+def question_as_student(request, id, slug='', answer=None):
+    try:
+        question = Question.objects.get(id=id)
+    except:
+        if slug:
+            question = match_question_slug(id, slug)
+            if question is not None:
+                return HttpResponseRedirect(question.get_absolute_url())
+
+        raise Http404()
+
+    if question.nis.deleted and not request.user.can_view_deleted_post(question):
+        raise Http404
+
+    if request.GET.get('type', None) == 'rss':
+        return RssAnswerFeed(request, question, include_comments=request.GET.get('comments', None) == 'yes')(request)
+
+    if answer:
+        answer = get_object_or_404(Answer, id=answer)
+
+        if (question.nis.deleted and not request.user.can_view_deleted_post(question)) or answer.question != question:
+            raise Http404
+
+        if answer.marked:
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+        return answer_redirect(request, answer)
+
+    if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
+        return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+    if request.POST:
+        answer_form = AnswerForm(request.POST, user=request.user)
+    else:
+        answer_form = AnswerForm(user=request.user)
+
+    answers = request.user.get_visible_answers(question)
+
+    update_question_view_times(request, question)
+
+    if request.user.is_authenticated():
+        try:
+            subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+        except:
+            subscription = False
+    else:
+        subscription = False
+
+    return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
+    "question" : question,
+    "answer" : answer_form,
+    "answers" : answers,
+    "similar_questions" : question.get_related_questions(),
+    "subscription": subscription,
+    })
 
 def revisions(request, id):
     post = get_object_or_404(Node, id=id).leaf
