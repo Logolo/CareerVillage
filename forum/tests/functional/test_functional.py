@@ -8,11 +8,14 @@ from django.core.urlresolvers import reverse
 from forum.tests.utils import create_question
 import time
 
+import socket
+
 class FunctionalTestCase(LiveServerTestCase):
     '''
     '''
     @classmethod
     def setUpClass(cls):
+        socket.setdefaulttimeout(30)
         cls.selenium = FirefoxWebDriver()
         super(FunctionalTestCase, cls).setUpClass()
 
