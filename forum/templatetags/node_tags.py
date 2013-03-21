@@ -214,6 +214,50 @@ def comments(post, user):
     }
 
 
+@register.inclusion_tag('v2/comments.html')
+def v2comments(post, user):
+    all_comments = post.comments.filter_state(deleted=False).order_by('added_at')
+
+    if len(all_comments) <= 5:
+        top_scorers = all_comments
+    else:
+        top_scorers = sorted(all_comments, lambda c1, c2: cmp(c2.score, c1.score))[0:5]
+
+    comments = []
+    showing = 0
+    for c in all_comments:
+        context = {
+            'can_delete': user.can_delete_comment(c),
+            'can_like': user.can_like_comment(c),
+            'can_edit': user.can_edit_comment(c),
+            'can_convert': user.can_convert_comment_to_answer(c)
+        }
+
+        if c in top_scorers or c.is_reply_to(user):
+            context['top_scorer'] = True
+            showing += 1
+        
+        if context['can_like']:
+            context['likes'] = VoteAction.get_for(user, c) == 1
+
+        context['user'] = c.user
+        context['comment'] = c.comment
+        context.update(dict(c.__dict__))
+        comments.append(context)
+
+    return {
+        'comments': comments,
+        'post': post,
+        'can_comment': user.can_comment(post),
+        'max_length': settings.FORM_MAX_COMMENT_BODY,
+        'min_length': settings.FORM_MIN_COMMENT_BODY,
+        'show_gravatar': settings.FORM_GRAVATAR_IN_COMMENTS,
+        'showing': showing,
+        'total': len(all_comments),
+        'user': user,
+    }
+
+
 @register.inclusion_tag("node/contributors_info.html")
 def contributors_info(node, verb=None):
     return {
