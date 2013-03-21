@@ -87,6 +87,74 @@ def index(request):
                          feed_url=reverse('latest_questions_feed'),
                          paginator_context=paginator_context)
 
+def homepage(request):
+    if request.user.is_authenticated():
+        if request.user.is_student():
+            return homepage_student(request)
+        elif request.user.is_professional():
+            return homepage_professional(request)
+        elif request.user.is_educator():
+            return homepage_educator(request)
+        else: # If the user's status is unknown, we default to professional
+            return homepage_loggedout(request)
+    else:
+        return HttpResponseRedirect(reverse(splash))
+
+@decorators.render('v2/homepage_professional.html')
+def homepage_professional(request):
+    paginator_context = QuestionListPaginatorContext()
+    paginator_context.base_path = reverse('questions')
+    if request.user.is_authenticated():
+        if request.user.is_professional():
+            return question_list(request,
+                    Question.objects.all(),
+                    base_path=reverse('questions'),
+                    feed_url=reverse('latest_questions_feed'),
+                    paginator_context=paginator_context)
+    else: # This user shouldn't be here!
+        return HttpResponseRedirect(reverse(homepage))
+
+@decorators.render('v2/homepage_student.html')
+def homepage_student(request):
+    paginator_context = QuestionListPaginatorContext()
+    paginator_context.base_path = reverse('questions')
+    if request.user.is_authenticated():
+        if request.user.is_student():
+            return question_list(request,
+                    Question.objects.all(),
+                    base_path=reverse('questions'),
+                    feed_url=reverse('latest_questions_feed'),
+                    paginator_context=paginator_context)
+    else: # This user shouldn't be here!
+        return HttpResponseRedirect(reverse(homepage))
+
+@decorators.render('v2/homepage_educator.html')
+def homepage_educator(request):
+    paginator_context = QuestionListPaginatorContext()
+    paginator_context.base_path = reverse('questions')
+    if request.user.is_authenticated():
+        if request.user.is_educator():
+            return question_list(request,
+                    Question.objects.all(),
+                    base_path=reverse('questions'),
+                    feed_url=reverse('latest_questions_feed'),
+                    paginator_context=paginator_context)
+    else: # This user shouldn't be here!
+        return HttpResponseRedirect(reverse(homepage))
+
+@decorators.render('v2/homepage_loggedout.html')
+def homepage_loggedout(request):
+    paginator_context = QuestionListPaginatorContext()
+    paginator_context.base_path = reverse('questions')
+    if request.user.is_authenticated(): # This user shouldn't be here!
+        return HttpResponseRedirect(reverse(homepage))
+    else:
+        return question_list(request,
+                Question.objects.all(),
+                base_path=reverse('questions'),
+                feed_url=reverse('latest_questions_feed'),
+                paginator_context=paginator_context)
+
 def splash(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse(index))
@@ -290,8 +358,21 @@ def answer_redirect(request, answer):
     return HttpResponsePermanentRedirect("%s?%s=%s#%s" % (
         answer.question.get_absolute_url(), _('page'), page, answer.id))
 
-@decorators.render("question.html", 'questions')
 def question(request, id, slug='', answer=None):
+    if request.user.is_authenticated():
+        if request.user.user_type == "student":
+            return question_as_student(request, id, slug='', answer=None)
+        if request.user.user_type == "professional":
+            return question_as_professional(request, id, slug='', answer=None)
+        if request.user.user_type == "educator":
+            return question_as_educator(request, id, slug='', answer=None)
+        else: # If the user's status is unknown, we default to professional
+            return question_as_professional(request, id, slug='', answer=None)
+    else: # This user is logged out 
+        return question_as_loggedout(request, id, slug='', answer=None)
+        
+@decorators.render("v2/question_as_loggedout.html", 'questions')
+def question_as_loggedout(request, id, slug='', answer=None):
     try:
         question = Question.objects.get(id=id)
     except:
@@ -347,8 +428,177 @@ def question(request, id, slug='', answer=None):
     "subscription": subscription,
     })
 
+@decorators.render("v2/question_as_educator.html", 'questions')
+def question_as_educator(request, id, slug='', answer=None):
+    try:
+        question = Question.objects.get(id=id)
+    except:
+        if slug:
+            question = match_question_slug(id, slug)
+            if question is not None:
+                return HttpResponseRedirect(question.get_absolute_url())
 
+        raise Http404()
+
+    if question.nis.deleted and not request.user.can_view_deleted_post(question):
+        raise Http404
+
+    if request.GET.get('type', None) == 'rss':
+        return RssAnswerFeed(request, question, include_comments=request.GET.get('comments', None) == 'yes')(request)
+
+    if answer:
+        answer = get_object_or_404(Answer, id=answer)
+
+        if (question.nis.deleted and not request.user.can_view_deleted_post(question)) or answer.question != question:
+            raise Http404
+
+        if answer.marked:
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+        return answer_redirect(request, answer)
+
+    if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
+        return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+    if request.POST:
+        answer_form = AnswerForm(request.POST, user=request.user)
+    else:
+        answer_form = AnswerForm(user=request.user)
+
+    answers = request.user.get_visible_answers(question)
+
+    update_question_view_times(request, question)
+
+    if request.user.is_authenticated():
+        try:
+            subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+        except:
+            subscription = False
+    else:
+        subscription = False
+
+    return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
+    "question" : question,
+    "answer" : answer_form,
+    "answers" : answers,
+    "similar_questions" : question.get_related_questions(),
+    "subscription": subscription,
+    })
+
+@decorators.render("v2/question_as_professional.html", 'questions')
+def question_as_professional(request, id, slug='', answer=None):
+    try:
+        question = Question.objects.get(id=id)
+    except:
+        if slug:
+            question = match_question_slug(id, slug)
+            if question is not None:
+                return HttpResponseRedirect(question.get_absolute_url())
+
+        raise Http404()
+
+    if question.nis.deleted and not request.user.can_view_deleted_post(question):
+        raise Http404
+
+    if request.GET.get('type', None) == 'rss':
+        return RssAnswerFeed(request, question, include_comments=request.GET.get('comments', None) == 'yes')(request)
+
+    if answer:
+        answer = get_object_or_404(Answer, id=answer)
+
+        if (question.nis.deleted and not request.user.can_view_deleted_post(question)) or answer.question != question:
+            raise Http404
+
+        if answer.marked:
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+        return answer_redirect(request, answer)
+
+    if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
+        return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+    if request.POST:
+        answer_form = AnswerForm(request.POST, user=request.user)
+    else:
+        answer_form = AnswerForm(user=request.user)
+
+    answers = request.user.get_visible_answers(question)
+
+    update_question_view_times(request, question)
+
+    if request.user.is_authenticated():
+        try:
+            subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+        except:
+            subscription = False
+    else:
+        subscription = False
+
+    return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
+    "question" : question,
+    "answer" : answer_form,
+    "answers" : answers,
+    "similar_questions" : question.get_related_questions(),
+    "subscription": subscription,
+    })
 REVISION_TEMPLATE = template.loader.get_template('node/revision.html')
+
+@decorators.render("v2/question_as_student.html", 'questions')
+def question_as_student(request, id, slug='', answer=None):
+    try:
+        question = Question.objects.get(id=id)
+    except:
+        if slug:
+            question = match_question_slug(id, slug)
+            if question is not None:
+                return HttpResponseRedirect(question.get_absolute_url())
+
+        raise Http404()
+
+    if question.nis.deleted and not request.user.can_view_deleted_post(question):
+        raise Http404
+
+    if request.GET.get('type', None) == 'rss':
+        return RssAnswerFeed(request, question, include_comments=request.GET.get('comments', None) == 'yes')(request)
+
+    if answer:
+        answer = get_object_or_404(Answer, id=answer)
+
+        if (question.nis.deleted and not request.user.can_view_deleted_post(question)) or answer.question != question:
+            raise Http404
+
+        if answer.marked:
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+        return answer_redirect(request, answer)
+
+    if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
+        return HttpResponsePermanentRedirect(question.get_absolute_url())
+
+    if request.POST:
+        answer_form = AnswerForm(request.POST, user=request.user)
+    else:
+        answer_form = AnswerForm(user=request.user)
+
+    answers = request.user.get_visible_answers(question)
+
+    update_question_view_times(request, question)
+
+    if request.user.is_authenticated():
+        try:
+            subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+        except:
+            subscription = False
+    else:
+        subscription = False
+
+    return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
+    "question" : question,
+    "answer" : answer_form,
+    "answers" : answers,
+    "similar_questions" : question.get_related_questions(),
+    "subscription": subscription,
+    })
 
 def revisions(request, id):
     post = get_object_or_404(Node, id=id).leaf

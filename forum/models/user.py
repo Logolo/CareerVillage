@@ -168,6 +168,20 @@ class User(BaseModel, DjangoUser):
             student_status = True
         return student_status
 
+    def is_professional(self):
+        professional_status = False
+        if len(self.student_of.all()) == 0:
+            if len(self.educator_of.all()) == 0:
+                professional_status = True
+        return professional_status
+
+    def is_educator(self):
+        educator_status = False
+        if len(self.student_of.all()) == 0:
+            if len(self.educator_of.all()) > 0:
+                educator_status = True
+        return educator_status
+
     @property
     def decorated_name(self):
         if settings.SHOW_STATUS_DIAMONDS:

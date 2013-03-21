@@ -1,0 +1,27 @@
+{% extends "v2/question_base.html" %}
+
+{% block first_call_to_action %}
+    {# EMPTY FOR STUDENTS#}
+{% endblock %}
+
+{% block right_side_message %}
+    <form id="comment-{{ answer.id }}-form" method="post" action="{% url comment id=answer.id %}" accept-charset="utf-8">
+        <input type="text" name="comment" class="">
+        <input type="submit" value="Post thank you" />
+    </form>
+    <div>+5 Karma</div>    
+{% endblock %}
+
+{% block bottom_section %}
+    <div>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</div>
+    <div>Your ball.</div>
+    <div>What are you going to do differently now that you have seen the above advice?</div>
+    <div>
+        <form action="" method="post">
+            <div>
+                <input type="textarea" name="student_intention"/>
+            </div>
+            <input type="submit" value="Save"/>
+        </form>
+    </div>
+{% endblock %}

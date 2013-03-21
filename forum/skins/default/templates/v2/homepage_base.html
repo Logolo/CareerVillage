@@ -1,0 +1,52 @@
+{% extends "v2/base.html" %}
+{% load question_list_tags %}
+{% load extra_tags %}
+
+{% block head %}
+    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        {# Left side #}
+        <div>User.profile_picture</div>
+        <div>{{ user.real_name }}</div>
+        <div>User.tagline</div>
+        <div>User.location</div>
+        <div>User.industry</div>
+        <div><a href="">Update</a></div>
+
+        {% block user_stats %}{% endblock %}
+        {% block sidebar %}{% endblock %}
+
+    </div>
+
+    <div>
+        {# Right side #}
+        {% block search_prompt %}{% endblock %}
+        <div>Search bar</div>
+        {% block skipsearch %}{% endblock %}
+        <div>Latest questions</div> 
+        {% block unanswered_only %}{% endblock %}
+
+        <div>
+            {% for question in questions.paginator.page %}
+                {% question_list_item question %}
+            {% endfor %}
+        </div>
+        <div>
+            {% if questions %}
+                <div>
+                    Don't see your question here? <a href="/questions/ask/">Ask your question now!</a>
+                </div>
+            {% else %}
+                <div>
+                    Looks like we don't have a question about that yet. <a href="/questions/ask/">Ask your question now!</a>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}
