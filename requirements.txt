@@ -1,5 +1,10 @@
-Django==1.3.1
-markdown
-html5lib
-python-openid
-django-debug-toolbar
+Django==1.4.1
+markdown=2.2.1
+South==0.7.6
+html5lib==0.95
+python-openid==2.2.5
+django-debug-toolbar==0.9.4
+selenium==2.31.0
+wsgiref==0.1.2
+argparse==1.2.1
+factory-boy==1.3.0

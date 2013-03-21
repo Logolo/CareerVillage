@@ -8,14 +8,16 @@ ADMIN_MEDIA_PREFIX = '/admin_media/'
 SECRET_KEY = '$oo^&_m&qwbib=(_4m_n*zn-d=g#s0he5fx9xonnym#8p6yigm'
 
 TEMPLATE_LOADERS = [
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    #'django.template.loaders.filesystem.load_template_source',
+    #'django.template.loaders.app_directories.load_template_source',
+    'django.template.loaders.app_directories.Loader',
     'forum.modules.template_loader.module_templates_loader',
     'forum.skins.load_template_source',
 ]
 
 MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.common.CommonMiddleware',
     'forum.middleware.extended_user.ExtendedUser',
     'forum.middleware.anon_user.ConnectToSessionMessagesMiddleware',
@@ -30,7 +32,9 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     'django.core.context_processors.request',
     'forum.context.application_settings',
     'forum.user_messages.context_processors.user_messages',
-    'django.core.context_processors.auth',
+    #'django.core.context_processors.auth',
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
 ]
 
 ROOT_URLCONF = 'urls'

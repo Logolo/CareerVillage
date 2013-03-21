@@ -81,7 +81,7 @@ class PickledObjectField(models.Field):
                     raise
         return value
 
-    def get_db_prep_value(self, value):
+    def get_db_prep_value(self, value, connection, prepared=False):
         if value is not None and not isinstance(value, PickledObject):
             if type(value).__name__ in self.markable_types and not (isinstance(value, basestring) and len(value
                                                                                                           ) > MAX_MARKABLE_STRING_LENGTH):
@@ -92,12 +92,12 @@ class PickledObjectField(models.Field):
 
     def value_to_string(self, obj):
         value = self._get_val_from_obj(obj)
-        return self.get_db_prep_value(value)
+        return self.get_db_prep_value(value, None)
 
     def get_internal_type(self):
         return 'TextField'
 
-    def get_db_prep_lookup(self, lookup_type, value):
+    def get_db_prep_lookup(self, lookup_type, value, connection, prepared=False):
         if lookup_type not in ['exact', 'in', 'isnull']:
             raise TypeError('Lookup type %s is not supported.' % lookup_type)
         return super(PickledObjectField, self).get_db_prep_lookup(lookup_type, value)
