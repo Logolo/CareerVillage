@@ -1,0 +1,42 @@
+<!-- _all_answers.html -->
+{% load node_tags %}
+{% load extra_tags %}
+{% load extra_filters %}
+
+<!-- Top of answer section !-->
+<div>{{ question.answer_count }} answers:</div>
+
+<div>
+    {% if answers %}<!-- There are answers -->
+        {{ answers.paginator.page_numbers }}
+        {% for answer in answers.paginator.page %}
+            
+            <!-- Answer like section -->
+            <div>{{ answer.score }}</div>
+            <div><img src="" title="Thumbs up"><!-- Thumbs up image goes here !--></div>
+            <div>
+                <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
+                class="{% ifequal user_vote "up" %}on{% endifequal %}"
+                 href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
+            </div>
+            
+            <!-- Answer user section -->
+            <div><a href="">{{ answer.user.real_name }}</a></div>
+            <div>{{ answer.user.about }}</div>
+            <div>{{ question.user.location }}</div>
+            <div>Last updated {% diff_date question.last_activity_at %}</div>
+            <div><a href=""><img src=""><!-- User profile pic !--></a></div>
+
+            <!-- Answer body -->
+            {{ answer.html|safe }}
+
+            <!-- Answer comments -->
+            {% v2comments question request.user %}
+
+            <!-- Right side (differs for each user type) -->
+            {% v2comments_rightside question request.user %}
+        {% endfor %}
+    {% else %}<!-- No answers yet -->
+        <div>Be the first one to answer this question!</div>
+    {% endif %}
+</div>

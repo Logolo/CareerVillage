@@ -1,0 +1,33 @@
+<!-- _question_top.html -->
+
+<!-- Question like section -->
+<div>{{ question.score }}</div>
+<div><img src="" title="Thumbs up"><!-- Thumbs up image goes here !--></div>
+<div>
+    <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
+    class="{% ifequal user_vote "up" %}on{% endifequal %}"
+     href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
+ </div>
+
+<!-- Question description section -->
+<div>{{ question.headline }}</div>
+<div>{{ question.html|safe }}</div>
+
+<!-- TOPIC TAGS !-->
+<div>
+    {% for tag in question.tagname_list %}
+        <a href="{% url tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}"
+            title="See questions tagged '{{ tag }}'" rel="tag">{{ tag }}</a>
+    {% endfor %}
+</div>
+
+<!-- FOLLOWING !-->
+<div>{{ question.favorite_count }} people follow this question</div>
+<div><a href=""><img src=""><!-- Star image !-->Follow this</a></div>
+
+<!-- STUDENT PROFILE INFO !-->
+<div><a href=""><img src=""><!-- User profile pic !--></a></div>
+<div><a href="">{{ question.user.real_name }}</a></div>
+<div>{{ question.user.location }}</div>
+<div>Posted on {{ question.added_at }}</div>
+<div>See something that looks wrong? <a href=""><!-- Should open a modal! -->Flag for review</a></div>

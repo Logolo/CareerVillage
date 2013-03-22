@@ -1,21 +1,54 @@
-{% extends "v2/question_base.html" %}
+{% extends "v2/base.html" %}
+{% load node_tags %}
+{% load extra_tags %}
+{% load extra_filters %}
 
-{% block first_call_to_action %}
+{% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
+
+{% block metadescription %}{{ question.meta_description }}{% endblock %}
+
+{% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
+
+{% block head %}
+    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEADER #}
+    <script type="text/javascript">
+        function submitClicked(e, f) {
+            window.removeEventListener('beforeunload', beforeUnload, true);
+            if (f) {
+                f.submit();
+            }
+        }
+
+        function beforeUnload(e) {
+            if($("textarea#editor")[0].value != "") {
+                return yourWorkWillBeLost(e);
+            }
+            var commentBoxes = $("textarea.commentBox");
+            for(var index = 0; index < commentBoxes.length; index++) {
+                if(commentBoxes[index].value != "") {
+                    return yourWorkWillBeLost(e);
+                }
+            }
+        }
+        window.addEventListener('beforeunload', beforeUnload, true);
+
+    </script>
+{% endblock %}
+
+{% block content %} 
+
+{% include "v2/_question_top.html" %}
+
+<!-- First call to action (differs for each user type) !-->
     <div>
         <a href="">I can <u>answer</u> this question!</a>
         <a href="">I know <u>someone else</u> who can!</a>
     </div>
-{% endblock %}
 
-{% block right_side_message %}
-    <form id="comment-{{ answer.id }}-form" method="post" action="{% url comment id=answer.id %}" accept-charset="utf-8">
-        <input type="text" name="comment" class="">
-        <input type="submit" value="Post kudos" />
-    </form>
-    <div>+5 Karma</div>
-{% endblock %}
+{% include "v2/_all_answers.html" with cta_text="Post kudos" %}
 
-{% block bottom_section %}
+<!-- Bottom Call To Action section (differs for each user type) !-->
+<div>
     <div>Now it's time for you to share your advice. What would you want to say to this student to guide them on their path? Can you encourage them to take their academics seriously? Can you warn them of unseen dangers?</div>
     <div>Your answer to this question</div>
     <div>
@@ -32,5 +65,8 @@
             {% endif %}
         </form>
     </div>
-
+    <div>
+        <img src=""><!-- Image of graduate on pedestal -->
+    </div>
+</div>
 {% endblock %}
