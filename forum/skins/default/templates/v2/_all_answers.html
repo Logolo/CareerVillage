@@ -31,10 +31,10 @@
             {{ answer.html|safe }}
 
             <!-- Answer comments -->
-            {% v2comments question request.user %}
+            {% v2comments answer request.user %}
 
             <!-- Right side (differs for each user type) -->
-            {% v2comments_rightside question request.user %}
+            {% v2comments_rightside answer request.user %}
         {% endfor %}
     {% else %}<!-- No answers yet -->
         <div>Be the first one to answer this question!</div>
