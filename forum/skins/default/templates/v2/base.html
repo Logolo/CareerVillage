@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+{% load i18n extra_tags extra_filters markup ui_registry %}
 <title>{% block fulltitle %}{% block title %}{% endblock %} - {{ settings.APP_SHORT_NAME }}{% endblock %}</title>
 <meta name="author" content="">
 <meta name="date" content="">
@@ -10,11 +11,15 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
 <meta http-equiv="content-style-type" content="text/css">
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<link href="{% media "/media/style/style_v2.css" %}" rel="stylesheet" type="text/css" />
 {% block head %}{% endblock %}
 </head>
 <body>
-{{user.id}} 
-{{user.username}} 
+<div>
+    {{user.id}} 
+    {{user.username}} 
+</div>
 <div>
     {# Global navigation #}
     <div><a href="">(CareerVillage Logo)</a></div>

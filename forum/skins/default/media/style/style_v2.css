@@ -1,0 +1,7 @@
+/* style_v2css for CareerVillage */
+
+div {
+    margin: 5px;
+    border: dotted #CCC;
+    padding: 5px;
+}
