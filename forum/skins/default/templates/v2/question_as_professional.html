@@ -41,7 +41,7 @@
 
 <!-- First call to action (differs for each user type) !-->
     <div>
-        <a href="">I can <u>answer</u> this question!</a>
+        <a href="{% url answer question.id question.slug %}/new_answer/">I can <u>answer</u> this question!</a>
         <a href="">I know <u>someone else</u> who can!</a>
     </div>
 

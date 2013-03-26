@@ -86,8 +86,8 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]*)$' % _('question/'), 'django.views.generic.simple.redirect_to', {'url': '/questions/%(id)s/%(slug)s'}),
     url(r'^%s(?P<id>\d+)/?$' % _('questions/'), app.readers.question, name='question'),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/(?P<answer>\d+)$' % _('questions/'), app.readers.question),
+    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('questions/'),_('new_answer/')), app.readers.new_answer, name='new_answer'),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)$' % _('questions/'), app.readers.question, name='question'),
-    
     
     url(r'^%s$' % _('tags/'), app.readers.tags, name='tags'),
     url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag, name='tag_questions'),     

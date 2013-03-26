@@ -3,7 +3,7 @@ import datetime
 import logging
 from urllib import unquote
 from forum import settings as django_settings
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, Http404, HttpResponsePermanentRedirect
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.template import RequestContext
@@ -370,7 +370,53 @@ def question(request, id, slug='', answer=None):
             return question_as_professional(request, id, slug=slug, answer=answer)
     else: # This user is logged out 
         return question_as_loggedout(request, id, slug=slug, answer=answer)
-        
+
+@decorators.render("v2/question_answer_form.html", 'questions')
+def new_answer(request, id, slug='', answer=None):
+    if request.user.is_authenticated():
+        if request.user.user_type == "student":
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+        else: #The user is not a student. 
+            try:
+                question = Question.objects.get(id=id)
+            except:
+                if slug:
+                    question = match_question_slug(id, slug)
+                    if question is not None:
+                        return HttpResponseRedirect(question.get_absolute_url())
+                raise Http404()
+            if question.nis.deleted and not request.user.can_view_deleted_post(question):
+                raise Http404
+            if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
+                return HttpResponsePermanentRedirect(question.get_absolute_url())
+            if request.POST:
+                answer_form = AnswerForm(request.POST, user=request.user)
+            else:
+                answer_form = AnswerForm(user=request.user)
+
+            update_question_view_times(request, question)
+
+            if request.user.is_authenticated():
+                try:
+                    subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+                except:
+                    subscription = False
+            else:
+                subscription = False
+
+            context = template.Context({"question" : question,
+                "answer" : answer_form,
+                "subscription": subscription,
+                })
+
+            return render(request, "v2/question_answer_form.html", 
+                {"question" : question,
+                "answer" : answer_form,
+                "subscription": subscription,
+                })
+    else: # This user is logged out 
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+
 @decorators.render("v2/question_as_loggedout.html", 'questions')
 def question_as_loggedout(request, id, slug='', answer=None):
     try:
