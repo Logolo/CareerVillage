@@ -22,7 +22,7 @@
         <div class="navbar-inner">
             <a href="" class="brand">(CareerVillage Logo)</a>
             <ul class="nav pull-right">
-                <li><a href="">{{ user.real_name }}</a></li>
+                <li><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></li>
                 {% if user.user_type == "educator" %}
                     <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
                 {% endif %}
@@ -41,7 +41,7 @@
 <div>
     {# FOOTER #}
     <div><a href="">(CareerVillage Logo)</a></div>
-    <div><a href="">{{ user.real_name }}</a></div>
+    <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
     <div><a href="">Help</a></div>
     {% if user.is_authenticated %}
     <div><a href="">Logout</a></div>

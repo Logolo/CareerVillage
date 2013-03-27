@@ -26,8 +26,8 @@
 <div><a href=""><img src=""><!-- Star image !-->Follow this</a></div>
 
 <!-- STUDENT PROFILE INFO !-->
-<div><a href=""><img src=""><!-- User profile pic !--></a></div>
-<div><a href="">{{ question.user.real_name }}</a></div>
+<div><a href="{{ question.user.get_profile_url }}"><img src=""><!-- User profile pic !--></a></div>
+<div><a href="{{ question.user.get_profile_url }}">{{ question.user.real_name }}</a></div>
 <div>{{ question.user.location }}</div>
 <div>Posted on {{ question.added_at }}</div>
 <div>See something that looks wrong? <a href=""><!-- Should open a modal! -->Flag for review</a></div>

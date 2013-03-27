@@ -10,8 +10,8 @@
 
     <div>
         {# Left side #}
-        <div>User.profile_picture</div>
-        <div>{{ user.real_name }}</div>
+        <div><a href="{{ user.get_profile_url }}">User.profile_picture</a></div>
+        <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
         <div>User.tagline</div>
         <div>User.location</div>
         <div>User.industry</div>

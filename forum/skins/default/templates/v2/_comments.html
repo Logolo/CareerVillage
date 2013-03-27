@@ -5,7 +5,7 @@
                 <div>Comments</div>
                 {% for comment in comments %}
                     <div id="comment-{{comment.id}}">
-                        <div class="comment-author-pic"><a href=""><img src=""><!-- User profile pic SMALL !--></a></div>
+                        <div class="comment-author-pic"><a href="{{ comment.user.get_profile_url }}"><img src=""><!-- User profile pic SMALL !--></a></div>
                         <div class="comment-author"><a href="{{comment.user.get_profile_url}}">{{ comment.user.real_name }}</a></div>
                         <div class="comment-date">{% diff_date comment.added_at %}</a></div>
                         <div class="comment-text">{{ comment.comment }}</div>
@@ -15,7 +15,7 @@
                     <div><a class="btn btn-success" href="">To like this question or comment on it, please login now</a></div>
                 {% else %}
                     <div id="newcomment">
-                        <div class="comment-author-pic"><a href=""><img src=""><!-- User profile pic SMALL !--></a></div>
+                        <div class="comment-author-pic"><a href="{{ user.get_profile_url }}"><img src=""><!-- User profile pic SMALL !--></a></div>
                         <div class="comment-author"><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
                         <form id="comment-{{ post.id }}-form" method="post" action="{% url comment id=post.id %}" accept-charset="utf-8">
                             <input type="text" name="comment" class="">
