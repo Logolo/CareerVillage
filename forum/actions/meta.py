@@ -1,8 +1,37 @@
 from django.utils.translation import ugettext as _
 from django.db.models import F
 from forum.models.action import ActionProxy, DummyActionProxy
-from forum.models import Vote, Flag
+from forum.models import Vote, Flag, Referral
 from forum import settings
+
+
+class ReferralAction(ActionProxy):
+    verb = _("referred")
+
+    def process_data(self, referred_user=None):
+        print "in process data"
+        self.extra = referred_user
+        self.save()
+        if hasattr(self, 'referral'):
+            print "referral repeat"
+            pass
+        else:
+            referral = Referral(user=self.user, action=self, referred_user=self.extra)
+            referral.save()
+            self.adjust_referrals(1)
+
+
+    def cancel_action(self):
+        self.referral.delete()
+        self.adjust_referrals(-1)
+
+
+    def adjust_referrals(self, amount):
+        if self.user.prop.referral_count:
+            self.user.prop.referral_count += amount
+        else:
+            self.user.prop.referral_count = amount
+        self.user.save()
 
 class VoteAction(ActionProxy):
     def update_node_score(self, inc):

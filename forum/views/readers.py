@@ -523,12 +523,16 @@ def question_as_educator(request, id, slug='', answer=None):
     else:
         subscription = False
 
+
+    referrer = request.GET.get('referrer', None)
+
     return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
     "question" : question,
     "answer" : answer_form,
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
     "subscription": subscription,
+    "referrer": referrer
     })
 
 @decorators.render("v2/question_as_professional.html", 'questions')

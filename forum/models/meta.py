@@ -1,6 +1,16 @@
 from django.utils.translation import ugettext as _
 from base import *
 
+
+class Referral(models.Model):
+    user = models.ForeignKey(User, related_name='referrals')
+    referred_user = models.ForeignKey(User, related_name='referred_by')
+    action = models.OneToOneField(Action, related_name="referral")
+    referred_at = models.DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        app_label = 'forum'
+
 class Vote(models.Model):
     user = models.ForeignKey(User, related_name="votes")
     node = models.ForeignKey(Node, related_name="votes")
