@@ -16,7 +16,7 @@
             <div><img src="" title="Thumbs up"><!-- Thumbs up image goes here !--></div>
             <div>
                 <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
-                class="{% ifequal user_vote "up" %}on{% endifequal %}"
+                class="btn {% ifequal user_vote "up" %}on{% endifequal %}"
                  href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
             </div>
             

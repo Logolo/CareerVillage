@@ -4,7 +4,7 @@
 <div>
     <form id="comment-{{ post.id }}-form" method="post" action="{% url comment id=post.id %}" accept-charset="utf-8">
         <input type="text" name="comment" class="" placeholder="Like this answer? {{ cta_text }}!">
-        <input type="submit" value="{{ cta_text }}" />
+        <input type="submit" class="btn btn-success" value="{{ cta_text }}" />
     </form>
 {% if user.is_anonymous %}
 {% else %}
