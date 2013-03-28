@@ -1,0 +1,18 @@
+{% extends "v2/settings_base.html" %}
+{% load extra_tags %}
+{% load humanize %}
+{% load i18n %}
+{% load question_list_tags %}
+
+{% block notificationsactive %}
+active
+{% endblock %}
+
+{% block settings_content %}
+<div>
+    {% tag_selector %}
+</div>
+<div>
+    <a href="{% url homepage %}" class="btn">Return to homepage</a>
+</div>
+{% endblock %}

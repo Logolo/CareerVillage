@@ -467,3 +467,69 @@ def user_preferences(request, user):
     return {'view_user': user, 'form': form}
 
 
+def settings_account(request):
+    if request.user.is_authenticated():
+        form = SettingsAccountForm(request.POST)
+        return render_to_response('v2/settings_account.html', {
+            'user': request.user,
+            'form' : form,
+            'gravatar_faq_url' : reverse('faq') + '#gravatar',
+            }, context_instance=RequestContext(request))
+    else: 
+        '''This user is logged out. We should redirect them to 
+        login first, and then have them come to this page. 
+        Temporarily, I'll redurect them to the homepage while 
+        I work on getting the pages hooked up.'''
+        return HttpResponseRedirect(reverse('homepage'))
+
+def settings_password(request):
+    if request.user.is_authenticated():
+        FormClass = ChangePasswordForm
+        form = FormClass(request.POST, user=request.user)
+        return render_to_response('v2/settings_password.html', {
+            'user': request.user,
+            'form' : form,
+            'gravatar_faq_url' : reverse('faq') + '#gravatar',
+            }, context_instance=RequestContext(request))
+    else: 
+        '''This user is logged out. We should redirect them to 
+        login first, and then have them come to this page. 
+        Temporarily, I'll redurect them to the homepage while 
+        I work on getting the pages hooked up.'''
+        return HttpResponseRedirect(reverse('homepage'))
+
+def settings_notifications(request):
+    if request.user.is_authenticated():
+        return render_to_response('v2/settings_notifications.html', {
+            'user': request.user,
+            }, context_instance=RequestContext(request))
+    else: 
+        '''This user is logged out. We should redirect them to 
+        login first, and then have them come to this page. 
+        Temporarily, I'll redurect them to the homepage while 
+        I work on getting the pages hooked up.'''
+        return HttpResponseRedirect(reverse('homepage'))
+
+def settings_following_topics(request):
+    if request.user.is_authenticated():
+        return render_to_response('v2/settings_following_topics.html', {
+            'user': request.user,
+            }, context_instance=RequestContext(request))
+    else: 
+        '''This user is logged out. We should redirect them to 
+        login first, and then have them come to this page. 
+        Temporarily, I'll redurect them to the homepage while 
+        I work on getting the pages hooked up.'''
+        return HttpResponseRedirect(reverse('homepage'))
+
+def settings_social_networks(request):
+    if request.user.is_authenticated():
+        return render_to_response('v2/settings_social_networks.html', {
+            'user': request.user,
+            }, context_instance=RequestContext(request))
+    else: 
+        '''This user is logged out. We should redirect them to 
+        login first, and then have them come to this page. 
+        Temporarily, I'll redurect them to the homepage while 
+        I work on getting the pages hooked up.'''
+        return HttpResponseRedirect(reverse('homepage'))

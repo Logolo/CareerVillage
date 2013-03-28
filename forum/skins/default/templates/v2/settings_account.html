@@ -1,0 +1,37 @@
+{% extends "v2/settings_base.html" %}
+{% load extra_tags %}
+{% load humanize %}
+{% load i18n %}
+
+{% block accountactive %}
+active
+{% endblock %}
+
+{% block settings_content %}
+<div>
+    <form name="" action="{% url settings_account %}" method="post">
+        <div id="accountform">
+            <div>Name</div>
+            <div>
+                {{ form.realname }}
+                <span class="form-error">
+                    {{ form.username.errors }}
+                </span> 
+            </div>
+            <div>Email</div>
+            <div>
+                {{ form.email }}
+                <span class="form-error">
+                    {{ form.email.errors }}
+                </span> 
+            </div>
+            <div>
+                <input type="submit" value="{% trans "Save" %}" class="btn btn-success" >          
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <a href="{% url homepage %}" class="btn">Return to homepage</a>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "v2/settings_base.html" %}
+{% load extra_tags %}
+{% load humanize %}
+{% load i18n %}
+{% load question_list_tags %}
+
+{% block notificationsactive %}
+active
+{% endblock %}
+
+{% block settings_content %}
+<div>
+    <div>
+        <div>Facebook</div>
+        <a href="" class="btn">Connect with Facebook</a>
+    </div>
+    <div>
+        <div>Twitter</div>
+        <a href="" class="btn">Connect with Twitter</a>
+    </div>
+</div>
+<div>
+    <a href="{% url homepage %}" class="btn">Return to homepage</a>
+</div>
+{% endblock %}

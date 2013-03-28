@@ -97,6 +97,13 @@ core_urls = (
     
     url(r'^%s$' % _('users/'), app.users.users, name='users'),
     # url(r'^%s$' % _('online_users/'), app.users.online_users, name='online_users'),    
+
+    # New User settings section!  
+    url(r'^%s$' % _('settings/account/'), app.users.settings_account, name='settings_account'),
+    url(r'^%s$' % _('settings/password/'), app.users.settings_password, name='settings_password'),
+    url(r'^%s$' % _('settings/notifications/'), app.users.settings_notifications, name='settings_notifications'),
+    url(r'^%s$' % _('settings/following_topics/'), app.users.settings_following_topics, name='settings_following_topics'),
+    url(r'^%s$' % _('settings/social_networks/'), app.users.settings_social_networks, name='settings_social_networks'),
     
     url(r'^%s(?P<id>\d+)/%s$' % (_('users/'), _('edit/')), app.users.edit_user, name='edit_user'),
     url(r'^%s(?P<id>\d+)/%s$' % (_('users/'), _('award/')), app.users.award_points, name='user_award_points'),
