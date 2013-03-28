@@ -5,3 +5,7 @@ div {
     border: dotted #CCC;
     padding: 5px;
 }
+
+body {
+    margin-top: 80px;
+}
