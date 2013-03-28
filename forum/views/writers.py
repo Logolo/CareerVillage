@@ -112,6 +112,51 @@ def ask(request):
         'tab' : 'ask'
         }, context_instance=RequestContext(request))
 
+
+def ask_v2(request):
+    form = None
+
+    if request.POST:
+        if request.session.pop('reviewing_pending_data', False):
+            form = AskForm(initial=request.POST, user=request.user)
+        elif "text" in request.POST:
+            form = AskForm(request.POST, user=request.user)
+            if form.is_valid():
+                if request.user.is_authenticated() and request.user.email_valid_and_can_ask():
+                    ask_action = AskAction(user=request.user, ip=request.META['REMOTE_ADDR']).save(data=form.cleaned_data)
+                    question = ask_action.node
+
+                    if settings.WIKI_ON and request.POST.get('wiki', False):
+                        question.nstate.wiki = ask_action
+
+                    return HttpResponseRedirect(question.get_absolute_url())
+                else:
+                    request.session[PENDING_SUBMISSION_SESSION_ATTR] = {
+                        'POST': request.POST,
+                        'data_name': _("question"),
+                        'type': 'ask',
+                        'submission_url': reverse('ask'),
+                        'time': datetime.datetime.now()
+                    }
+
+                    if request.user.is_authenticated():
+                        request.user.message_set.create(message=_("Your question is pending until you %s.") % html.hyperlink(
+                            reverse('send_validation_email'), _("validate your email")
+                        ))
+                        return HttpResponseRedirect(reverse('index'))
+                    else:
+                        return HttpResponseRedirect(reverse('auth_signin'))
+        elif "go" in request.POST:
+            form = AskForm({'title': request.POST['q']}, user=request.user)
+            
+    if not form:
+        form = AskForm(user=request.user)
+
+    return render_to_response('v2/ask_question.html', {
+        'form' : form,
+        'tab' : 'ask'
+        }, context_instance=RequestContext(request))
+
 def convert_to_question(request, id):
     user = request.user
     answer = get_object_or_404(Answer, id=id)
