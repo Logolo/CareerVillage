@@ -96,7 +96,7 @@ def homepage(request):
         elif request.user.is_educator():
             return homepage_educator(request)
         else: # If the user's status is unknown, we default to professional
-            return homepage_loggedout(request)
+            return homepage_professional(request)
     else:
         return HttpResponseRedirect(reverse(splash))
 
