@@ -43,7 +43,6 @@ class QuestionEditorField(EditorField):
         super(QuestionEditorField, self).__init__(*args, **kwargs)
         self.required = not bool(settings.FORM_EMPTY_QUESTION_BODY)
 
-
     def clean(self, value):
         if not bool(settings.FORM_EMPTY_QUESTION_BODY) and (len(re.sub('[ ]{2,}', ' ', value)) < settings.FORM_MIN_QUESTION_BODY):
             raise forms.ValidationError(_('question content must be at least %s characters') % settings.FORM_MIN_QUESTION_BODY)
@@ -157,7 +156,8 @@ class AskForm(forms.Form):
         super(AskForm, self).__init__(data, *args, **kwargs)
 
         self.fields['tags']   = TagNamesField(user)
-        
+        self.fields['text'].widget.attrs.update({'placeholder': 'Why are you asking? Give us some context!'})
+
         if int(user.reputation) < settings.CAPTCHA_IF_REP_LESS_THAN and not (user.is_superuser or user.is_staff):
             spam_fields = call_all_handlers('create_anti_spam_field')
             if spam_fields:
