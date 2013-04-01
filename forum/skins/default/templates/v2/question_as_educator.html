@@ -49,7 +49,6 @@
 
 <!-- Bottom Call To Action section (differs for each user type) !-->
 <div>
-    <div>Now it's time for you to share your advice. What would you want to say to this student to guide them on their path? Can you encourage them to take their academics seriously? Can you warn them of unseen dangers?</div>
     <div>Your answer to this question</div>
     <div>
         <form id="fmanswer" action="{% url answer question.id %}" method="post">
@@ -64,9 +63,6 @@
                 <p><span class="form-error"></span></p>
             {% endif %}
         </form>
-    </div>
-    <div>
-        <img src=""><!-- Image of graduate on pedestal -->
     </div>
 </div>
 {% endblock %}
