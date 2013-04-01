@@ -8,7 +8,8 @@
 
 {% block content %}
 
-    <div>
+  <div class="row-fluid">
+    <div class="span3">
         {# Left side #}
         <div><a href="{{ user.get_profile_url }}">User.profile_picture</a></div>
         <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
@@ -22,7 +23,7 @@
 
     </div>
 
-    <div>
+    <div class="span9">
         {# Right side #}
         {% block search_prompt %}{% endblock %}
         <div>
@@ -61,5 +62,6 @@
         </div>
 
     </div>
+  </div>
 
 {% endblock %}

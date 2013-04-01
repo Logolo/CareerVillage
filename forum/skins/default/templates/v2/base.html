@@ -11,44 +11,57 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
 <meta http-equiv="content-style-type" content="text/css">
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<link href="{% media "/media/bootstrap_2.3.1/css/bootstrap.css" %}" rel="stylesheet" type="text/css" />
 <link href="{% media "/media/style/style_v2.css" %}" rel="stylesheet" type="text/css" />
 {% block head %}{% endblock %}
 </head>
 <body>
-<div class="container-fluid">
-    {# Global navigation #}
-    <div class="navbar navbar-fixed-top navbar-inverse">
-        <div class="navbar-inner">
-            <a href="" class="brand">(CareerVillage Logo)</a>
-            <ul class="nav pull-right">
-                <li><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></li>
-                {% if user.user_type == "educator" %}
-                    <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
-                {% endif %}
-                <li><a href="">Help</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="">Logout</a></li>
-                {% else %}
-                    <li><a href="{% url auth_signin %}">Login</a></li>
-                {% endif %}
-            </ul>
+
+<nav id="main-nav" class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+        <div><!-- center -->
+            <div class="container-fluid">
+                <a href="" class="brand">(CareerVillage Logo)</a>
+                <ul class="nav pull-right">
+                    <li><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></li>
+                    {% if user.user_type == "educator" %}
+                        <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
+                    {% endif %}
+                    <li><a href="">Help</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url auth_signin %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </div>
+</nav>
 
-{% block content %}{% endblock %}
+<div id="main-body" class="clearfix">
+    <div class="container-fluid">
+        {% block content %}{% endblock %}
+    </div><!--/.container-fluid -->
+</div><!--/#main -->
 
-<div>
-    {# FOOTER #}
-    <div><a href="">(CareerVillage Logo)</a></div>
-    <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
-    <div><a href="">Help</a></div>
-    {% if user.is_authenticated %}
-    <div><a href="">Logout</a></div>
-    {% else %}
-    <div><a href="">Login</a></div>
-    {% endif %}
-</div>
+<footer id="main-footer" class="clearfix"><div>
+    <div><!-- center -->
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div><a href="">(CareerVillage Logo)</a></div>
+                <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
+                <div><a href="">Help</a></div>
+                {% if user.is_authenticated %}
+                <div><a href="">Logout</a></div>
+                {% else %}
+                <div><a href="">Login</a></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>
+
 </div>
 </body>
 </html>
