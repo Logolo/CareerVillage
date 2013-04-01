@@ -1,5 +1,11 @@
 /* style_v2css for CareerVillage */
 
+
+/*************
+ * DEV
+/* optional styles for development purposes only — uncomment the next line to enable
+***/
+/*@import 'dev.css';*/
 body {
     margin:0 auto;
     max-width:1200px; 
