@@ -1,9 +1,13 @@
 /* style_v2css for CareerVillage */
 
+body {
+    margin:0 auto;
+    max-width:1200px; 
+}
+
 div {
-    margin: 5px;
-    border: dotted #CCC;
     padding: 5px;
+    background: rgba(200, 54, 54, 0.1); 
 }
 
 body {
