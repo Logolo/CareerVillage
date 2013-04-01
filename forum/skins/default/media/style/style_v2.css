@@ -6,16 +6,49 @@
 /* optional styles for development purposes only — uncomment the next line to enable
 ***/
 /*@import 'dev.css';*/
-body {
-    margin:0 auto;
+
+
+/*************
+ * LAYOUT
+ * fluid layout using twitter bootstrap
+ * set container class to "container-fluid" and rows to "row-fluid" 
+ ***/
+
+#main-nav > .navbar-inner > div {
+     max-width:1200px;
+     margin: 0 auto;
+}
+#main-body {
     max-width:1200px; 
+    margin:80px auto 0 auto;
+}
+#main-footer > div {
+    max-width:1200px; 
+    margin:0 auto;        
 }
 
-div {
-    padding: 5px;
-    background: rgba(200, 54, 54, 0.1); 
+/* layout adjustments for smaller screens 
+   medium breakpoint  */
+@media (max-width:840px) { 
+    
+    /* clear floated images in narrow columns */
+    .span3 .media-body {
+        clear:both;
+    }
 }
 
-body {
-    margin-top: 80px;
+
+/*************
+ * FOOTER footer
+ ***/
+ 
+#main-footer {
+    margin-top:60px;
+    background-color:#ddd;
+    min-height:200px;
+    padding-top:20px;
 }
+}
+
+}
+

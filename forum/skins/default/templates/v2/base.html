@@ -16,10 +16,10 @@
 {% block head %}{% endblock %}
 </head>
 <body>
-<div class="container-fluid">
-    {# Global navigation #}
-    <div class="navbar navbar-fixed-top navbar-inverse">
-        <div class="navbar-inner"><div>
+
+<nav id="main-nav" class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+        <div><!-- center -->
             <div class="container-fluid">
                 <a href="" class="brand">(CareerVillage Logo)</a>
                 <ul class="nav pull-right">
@@ -35,22 +35,33 @@
                     {% endif %}
                 </ul>
             </div>
-        </div></div>
+        </div>
     </div>
+</nav>
 
-{% block content %}{% endblock %}
+<div id="main-body" class="clearfix">
+    <div class="container-fluid">
+        {% block content %}{% endblock %}
+    </div><!--/.container-fluid -->
+</div><!--/#main -->
 
-<div>
-    {# FOOTER #}
-    <div><a href="">(CareerVillage Logo)</a></div>
-    <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
-    <div><a href="">Help</a></div>
-    {% if user.is_authenticated %}
-    <div><a href="">Logout</a></div>
-    {% else %}
-    <div><a href="">Login</a></div>
-    {% endif %}
-</div>
+<footer id="main-footer" class="clearfix"><div>
+    <div><!-- center -->
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div><a href="">(CareerVillage Logo)</a></div>
+                <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
+                <div><a href="">Help</a></div>
+                {% if user.is_authenticated %}
+                <div><a href="">Logout</a></div>
+                {% else %}
+                <div><a href="">Login</a></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>
+
 </div>
 </body>
 </html>
