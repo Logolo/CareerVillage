@@ -25,7 +25,18 @@
     <div>
         {# Right side #}
         {% block search_prompt %}{% endblock %}
-        <div>Search bar</div>
+        <div>
+            <form id="topsearch" action="{% url search %}" method="get">
+                    <input type="text" value="{{ keywords }}" name="q" id="keywords" />
+                    <input type="submit" name="Submit" value="Search" class="searchBtn" />
+                    <span id="searchoptions" style="display: none;">
+                        <input id="type-question" type="radio" value="question" name="t" 
+                            checked="checked" /><label for="type-question">Questions</label>
+                        <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">Topics</label>
+                        <input id="type-user" type="radio" value="user" name="t" /><label for="type-user">Users</label>
+                    </span>
+            </form> 
+        </div>
         {% block skipsearch %}{% endblock %}
         <div>Latest questions</div> 
         {% block unanswered_only %}{% endblock %}
