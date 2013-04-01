@@ -32,6 +32,7 @@
         {# Question time #}
         <div>{% diff_date question.last_activity_at %}</div>
 
+        <h3><a href="{{ question.get_absolute_url }}">{{question.headline}}</a></h3>
 
         {# Question tags #}
         <div class="tags">
