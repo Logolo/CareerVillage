@@ -1,36 +1,41 @@
 {% extends "v2/homepage_base.html" %}
 
-{% block user_stats %}
 
-<div>
-    <div>
-        <div>{{ user.reputation }}</div>
-        <div>Karma</div>
-    </div>
-    <div>
-        <div>88</div>
-        <div>Answers</div>
-    </div>
-    <div>
-        <div>88</div>
-        <div>Referrals</div>
+{% block user_stats %}
+<div class="profile-stats">
+    <div class="row-fluid">    
+        <div class="box span6">
+            <h3>{{ user.reputation }}</h3>
+            <p>Karma</p>
+        </div>
+        <div class="box span6">
+            <h3>{# TODO user.answers? #}88</h3>
+            <p>Answers</p>
+        </div>
+        <div class="box span6">
+            <h3>{# TODO user.referrals? #}73</h3>
+            <p>Referrals</p>
+        </div>
     </div>
 </div>
-
 {% endblock %}
+
 
 {% block search_prompt %}
     What do you want to answer questions about?
-    {% endblock %}
+{% endblock %}
+
 
 {% block skipsearch %}
     {# Empty for Pros #}
-    {% endblock %}
+{% endblock %}
+
 
 {% block unanswered_only %}
     <input type="checkbox"/>
     <div>Only unanswered questions</div>
-    {% endblock %}
+{% endblock %}
+
 
 {% block append_results %}
     {# appears just below search results #}

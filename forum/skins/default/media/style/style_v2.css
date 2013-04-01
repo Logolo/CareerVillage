@@ -48,7 +48,74 @@
     min-height:200px;
     padding-top:20px;
 }
+
+
+/*************
+ * SIDEBAR .col-sidebar
+ * profile, user stats & related user info
+ ***/
+
+.col-sidebar {
+    padding:1.333333%;
+    background-color:#f3f3f3;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 
+/* profile */
+.col-sidebar .profile h5 {
+    margin:0;
 }
+.col-sidebar .profile p {
+    font-size:85%;
+}
+.col-sidebar .profile-img {
+    width:64px;
+    height:64px;
+}
+
+/* stats */
+.profile-stats h3,
+.profile-stats p {
+    text-align:center;
+    line-height:120%;
+    margin:0;
+    padding:0;
+}
+
+
+/*************
+ * QUESTIONS LIST .col-main.list-questions
+ * 
+ ***/
+.list-questions {
+    padding:0 1%;
+}
+.search-subtext {
+    
+}
+.list-questions .items article {
+    margin:5px 0;
+    padding:10px 0;
+    border-bottom:4px solid #eee;
+}
+
+/*************
+ * IMAGES
+ ***/
+ 
+.img-64x64 {
+    width:64px;
+    height:64px;
+}
+
+/*************
+ * TYPOGRAPHY
+ ***/
+
+.text-light {
+    color:#999;
+}
+
 
