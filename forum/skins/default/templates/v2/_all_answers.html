@@ -26,7 +26,7 @@
             <div>{{ answer.user.location }}</div>
             <div>{{ answer.user.industry }}</div>
             <div>Last updated {% diff_date answer.last_activity_at %}</div>
-            <div><a href="{{ answer.user.get_profile_url }}"><img src=""><!-- User profile pic !--></a></div>
+            <div><a href="{{ answer.user.get_profile_url }}"><img src="">{% gravatar answer.user 64 %}</a></div>
 
             <!-- Answer body -->
             {{ answer.html|safe }}
