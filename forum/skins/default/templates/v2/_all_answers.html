@@ -23,8 +23,9 @@
             <!-- Answer user section -->
             <div><a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a></div>
             <div>{{ answer.user.about }}</div>
-            <div>{{ question.user.location }}</div>
-            <div>Last updated {% diff_date question.last_activity_at %}</div>
+            <div>{{ answer.user.location }}</div>
+            <div>{{ answer.user.industry }}</div>
+            <div>Last updated {% diff_date answer.last_activity_at %}</div>
             <div><a href="{{ answer.user.get_profile_url }}"><img src=""><!-- User profile pic !--></a></div>
 
             <!-- Answer body -->
