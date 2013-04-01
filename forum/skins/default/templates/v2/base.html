@@ -19,21 +19,23 @@
 <div class="container-fluid">
     {# Global navigation #}
     <div class="navbar navbar-fixed-top navbar-inverse">
-        <div class="navbar-inner">
-            <a href="" class="brand">(CareerVillage Logo)</a>
-            <ul class="nav pull-right">
-                <li><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></li>
-                {% if user.user_type == "educator" %}
-                    <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
-                {% endif %}
-                <li><a href="">Help</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="">Logout</a></li>
-                {% else %}
-                    <li><a href="{% url auth_signin %}">Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
+        <div class="navbar-inner"><div>
+            <div class="container-fluid">
+                <a href="" class="brand">(CareerVillage Logo)</a>
+                <ul class="nav pull-right">
+                    <li><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></li>
+                    {% if user.user_type == "educator" %}
+                        <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
+                    {% endif %}
+                    <li><a href="">Help</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url auth_signin %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div></div>
     </div>
 
 {% block content %}{% endblock %}
