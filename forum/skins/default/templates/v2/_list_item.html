@@ -1,38 +1,46 @@
 <!--NOT SURE IF WE NEED THIS: {% load i18n humanize extra_filters extra_tags user_tags %}!-->
 <!-- Next question entry -->
-{# Like count #}
-    <div>{{question.score|intcomma}}</div>
+<article class="row-fluid">
+    
+    <div class="span2">
 
-{# Like label #}
-    <div>
-        {% ifequal question.score 1 %}Like
-        {% else %}Likes
-        {% endifequal %}
+        {# Like count #}
+        <div>{{question.score|intcomma}}</div>
+
+        {# Like label #}
+        <div>
+            {% ifequal question.score 1 %}Like
+            {% else %}Likes
+            {% endifequal %}
+        </div>
+
+        {# Answer count #}
+        <div>{{question.answer_count|intcomma}}</div>
+
+        {# Answer label #}
+        <div>
+            {% ifequal question.answer_count 1 %}
+            Answer
+            {% else %}
+            Answers
+            {% endifequal %}
+        </div>
+    
+    </div>
+    <div class="span10">
+
+        {# Question time #}
+        <div>{% diff_date question.last_activity_at %}</div>
+
+        <h3><a href="{{ question.get_absolute_url }}">{{question.headline}}</a></h3>
+
+        {# Question tags #}
+        <div class="tags">
+            {% for tag in question.tagname_list %}
+                <a class="tag-link-{{ tag }}" href="{% url tag_questions tag|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>
+            {% endfor %}
+        </div>
+
     </div>
 
-{# Answer count #}
-    <div>{{question.answer_count|intcomma}}</div>
-
-{# Answer label #}
-    <div>
-        {% ifequal question.answer_count 1 %}
-        Answer
-        {% else %}
-        Answers
-        {% endifequal %}
-    </div>
-
-{# Question time #}
-<div>{% diff_date question.last_activity_at %}</div>
-
-{# Question headline #}
-    <div>
-        <a href="{{ question.get_absolute_url }}">{{question.headline}}</a>
-    </div>
-
-{# Question tags #}
-    <div class="tags">
-        {% for tag in question.tagname_list %}
-            <a class="tag-link-{{ tag }}" href="{% url tag_questions tag|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>
-        {% endfor %}
-    </div>
+</article>

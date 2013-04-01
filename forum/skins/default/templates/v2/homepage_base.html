@@ -7,61 +7,71 @@
 {% endblock %}
 
 {% block content %}
+<div id="block-content" class="row-fluid">
+    
+    
+    <!-- left column -->
+    <div class="col-left col-sidebar span3">
 
-  <div class="row-fluid">
-    <div class="span3">
-        {# Left side #}
-        <div><a href="{{ user.get_profile_url }}">User.profile_picture</a></div>
-        <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
-        <div>User.tagline</div>
-        <div>User.location</div>
-        <div>User.industry</div>
-        <div><a href="">Update</a></div>
+        <!-- profile picture and summary info -->
+        <div class="media profile">
+            <!--<div class="update-link"><a href="{# TODO update profile link #}">update</a></div>-->
+            <a class="pull-left" href="{{ user.get_profile_url }}">
+                <img class="profile-img media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" />
+            </a>
+            <div class="media-body">
+                <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
+                <p>
+                    <span>{# TODO user.headline (for professionals, wrap in if statement) #} Startup founder and social entrepreneur; TED-ster by night</span><br />
+                    <span class="text-light">{# TODO user.location #} Houston, TX</span><br />
+                    <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #} Healthcare</span>
+                </p>
+            </div>
+        </div>
 
+        <!-- user stats -->
         {% block user_stats %}{% endblock %}
+
+        <!-- sidebar -->
         {% block sidebar %}{% endblock %}
 
-    </div>
+    </div><!--/.col-left -->
 
-    <div class="span9">
-        {# Right side #}
-        {% block search_prompt %}{% endblock %}
-        <div>
-            <form id="topsearch" action="{% url search %}" method="get">
-                    <input type="text" value="{{ keywords }}" name="q" id="keywords" />
-                    <input type="submit" name="Submit" value="Search" class="searchBtn" />
-                    <span id="searchoptions" style="display: none;">
-                        <input id="type-question" type="radio" value="question" name="t" 
-                            checked="checked" /><label for="type-question">Questions</label>
-                        <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">Topics</label>
-                        <input id="type-user" type="radio" value="user" name="t" /><label for="type-user">Users</label>
-                    </span>
-            </form> 
-        </div>
+
+    <!-- right column -->
+    <div class="col-right col-main list-questions span9">
+
+        <!-- search form -->
+        <h2>{% block search_prompt %}{% endblock %}</h2>
+        <form  id="topsearch" action="{% url search %}" method="get" class="form-search">
+            <div class="input-append">
+              <input class="input-xxlarge" id="keywords" name="q" value="{{ keywords }}" type="text">
+              <input type="submit" class="btn" name="Submit" value="search" />
+            </div>
+            <span id="searchoptions" style="display: none;">
+                <input id="type-question" type="radio" value="question" name="t" 
+                    checked="checked" /><label for="type-question">Questions</label>
+                <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">Topics</label>
+                <input id="type-user" type="radio" value="user" name="t" /><label for="type-user">Users</label>
+            </span>
+        </form>
         {% block skipsearch %}{% endblock %}
-        <div>Latest questions</div> 
-        {% block unanswered_only %}{% endblock %}
 
-        <div>
+        <h4>Latest questions</h4> 
+        <!--{% block unanswered_only %}{% endblock %}-->
+
+        <!-- search results -->
+        <div class="items">
             {% for question in questions.paginator.page %}
-                <div>
-                    {% question_list_item question %}
-                </div>
+                {% question_list_item question %}
             {% endfor %}
         </div>
-        <div>
-            {% if questions %}
-                <div>
-                    Don't see your question here? <a href="/questions/ask/">Ask your question now!</a>
-                </div>
-            {% else %}
-                <div>
-                    Looks like we don't have a question about that yet. <a href="/questions/ask/">Ask your question now!</a>
-                </div>
-            {% endif %}
-        </div>
 
-    </div>
-  </div>
+        <!-- message below search results + not found -->
+        {% block append_results %}{% endblock %}
+    
+    </div><!--/.col-right -->
 
+
+</div><!--/#block-content.row-fluid -->
 {% endblock %}
