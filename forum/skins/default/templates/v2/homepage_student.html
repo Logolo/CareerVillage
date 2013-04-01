@@ -30,3 +30,16 @@
 {% block unanswered_only %}
     {# Empty for Students #}
     {% endblock %}
+{% block append_results %}
+    {# appears just below search results #}
+    {% if questions %}
+        <h4>
+            Don't see your question here? <a href="{# TODO reversible url #}/questions/ask/">Ask your question now!</a>
+        </h4> 
+    {% else %}
+        <h4>
+            Looks like we don't have a question about that yet. <a href="{# TODO reversible url #}/questions/ask/">Ask your question now!</a>
+        </h4>
+    {% endif %}
+{% endblock %}
+

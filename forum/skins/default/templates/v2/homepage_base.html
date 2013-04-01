@@ -38,19 +38,11 @@
                 </div>
             {% endfor %}
         </div>
-        <div>
-            {% if questions %}
-                <div>
-                    Don't see your question here? <a href="/questions/ask/">Ask your question now!</a>
-                </div>
-            {% else %}
-                <div>
-                    Looks like we don't have a question about that yet. <a href="/questions/ask/">Ask your question now!</a>
-                </div>
-            {% endif %}
-        </div>
 
     </div>
   </div>
+        <!-- message below search results + not found -->
+        {% block append_results %}{% endblock %}
+    
 
 {% endblock %}
