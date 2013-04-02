@@ -3,130 +3,95 @@
 {% load i18n extra_tags extra_filters %}
 {% block title %}{% spaceless %}{% trans "Ask a question" %}{% endspaceless %}{% endblock %}
 {% block head %}
-        <script type='text/javascript' src='{% media  "/media/js/wmd/showdown.js" %}'></script>
-        <script type='text/javascript' src='{% media  "/media/js/wmd/wmd.js" %}'></script>
-        <link rel="stylesheet" type="text/css" href="{% media  "/media/js/wmd/wmd.css" %}" />
-        <script type="text/html" id="question-summary-template">
-            <div class="answer-summary">
-                <a href="%URL%"><div class="answer-votes">%SCORE%</div></a>
-                <div class="answer-link">
-                    <a class="question-hyperlink" href="%URL%" title="%SUMMARY%">%TITLE%</a>
-                </div>
-            </div>
-        </script>
-        <script type="text/javascript">
-        $(function(){
-            //set current module button style
-            $("#nav_ask").attr('className',"on");
-            $('#editor').TextAreaResizer();
-
-            //toggle preview of editor
-            //todo remove copy-paste
-            var display = true;
-            var txt = "[{% trans "hide preview" %}]";
-            $('#pre-collapse').text(txt);
-            $('#pre-collapse').bind('click', function(){
-                txt = display ? "[{% trans "show preview" %}]" : "[{% trans "hide preview" %}]";
-                display = !display;
-                $('#previewer').toggle();
-                $('#pre-collapse').text(txt);
-            });
-
-            //Tags autocomplete action
-            $("#id_tags").autocomplete("/matching_tags/", {
-                minChars: 1,
-                matchContains: true,
-                max: 10,
-                multiple: true,
-                multipleSeparator: " ",
-                highlightItem: true,
-                scroll: true,
-                scrollHeight: 300,
-
-                formatItem: function(row, i, max, value) {
-                    return row[1] + " (" + row[2] + ")";
-                },
-
-                formatResult: function(row, i, max, value){
-                    return row[1];
-                }
-
-            });
-
-        });
-
-        function submitClicked(e, f) {
-            if(!(browserTester('chrome') || browserTester('safari'))) {
-                $("input.submit")[0].disabled=true;
-            }
-            window.removeEventListener('beforeunload', beforeUnload, true);
-            if (f) {
-                f.submit();
-            }
-        }
-
-        function beforeUnload(e) {
-            if($("input#id_title")[0].value != "" || $("textarea#editor")[0].value != "" || $("input#id_tags")[0].value != "") {
-                return yourWorkWillBeLost(e);
-            }
-        }
-        window.addEventListener('beforeunload', beforeUnload, true);
-
-        </script>
-        <script src="{% media "/media/js/osqa.ask.js" %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
+<div id="block-content" class="row-fluid">
+    
+    
+    <!-- left column -->
+    <div class="col-left col-sidebar span3">
 
-<div>
-    <div>Go ahead... Ask us any career question :)</div>
-    <div id="askform">
-        <form id="fmask" action="" method="post" accept-charset="utf-8">
-            {% if not request.user.is_authenticated %}
-                    {% if "ask"|contained_in:settings.REQUIRE_EMAIL_VALIDATION_TO %}
-                    {% trans "and validate your email." %}{% else %}{% endif %}
-            {% else %}
-                {% if not request.user.email_valid_and_can_ask %}
-                    <div class="message">
-                        {% blocktrans %}Your question will be published after you validate your email.{% endblocktrans %}
-                        <a href="{% url send_validation_email %}">{% trans "Send me a validation link." %}</a>
-                    </div>
-                {% endif %}
-            {% endif %}
-            <div>
-                <span class="form-error"></span><br/>
-                <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" class="input-xxlarge" placeholder="What's your career question?">
-                {{ form.title.errors }}
+        <!-- profile picture and summary info -->
+        <div class="media profile">
+            <!--<div class="update-link"><a href="{# TODO update profile link #}">update</a></div>-->
+            <a class="pull-left" href="{{ user.get_profile_url }}">
+                <img class="profile-img media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" />
+            </a>
+            <div class="media-body">
+                <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
+                <p>
+                    <span>{# TODO user.headline (for professionals, wrap in if statement) #} Startup founder and social entrepreneur; TED-ster by night</span><br />
+                    <span class="text-light">{# TODO user.location #} Houston, TX</span><br />
+                    <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #} Healthcare</span>
+                </p>
             </div>
-            <div>
-                <div id="wmd-button-bar" class="wmd-panel"></div>
-                {{ form.text }} {{ form.text.errors }}
-                <div id="previewer" class="wmd-preview"></div>
-                <span class="form-error"></span>
-            </div>
-            <div>
-                <span class="form-error"></span><br/>
-                <input autocomplete="off" id="id_tags" type="text" name="tags" size="100" class="input-xxlarge" placeholder="What are some topics this question is about?">
-                {{ form.tags.errors }}
-            </div>
-            {% if form.recaptcha %}
-            <div class="question-captcha" style="float: left">
-                {{ form.recaptcha.errors }}
-                {{ form.recaptcha }}
-            </div>
-            <div class="clear"></div>
-            {% endif %}
-            
-            {% if not request.user.is_authenticated %}                                                                        
-            <input name="ask" type="submit" value="{% trans "Login to submit this question" %}" class="btn btn-success"/>
-            {% else %}
-            <input name="ask" type="button" value="{% trans "Submit this question" %}" class="btn btn-success" onclick="submitClicked(event, this.form)"/>
-            {% endif %}
-        </form>
+
+            <!-- user stats -->
+            {% block user_stats %}{% endblock %}
+
+        </div>
+
+        <!-- sidebar -->
+        {% block sidebar %}{% endblock %}
+
+    </div><!--/.col-left -->
+
+
+    <!-- right column -->
+    <div class="col-right col-main list-questions span9">
         <div>
-            <a onclick="history.back()" href="#">I change my mind. Take me back.</a>
+            <div>Go ahead... Ask us any career question :)</div>
+            <div id="askform">
+                <form id="fmask" action="" method="post" accept-charset="utf-8">
+                    {% if not request.user.is_authenticated %}
+                            {% if "ask"|contained_in:settings.REQUIRE_EMAIL_VALIDATION_TO %}
+                            {% trans "and validate your email." %}{% else %}{% endif %}
+                    {% else %}
+                        {% if not request.user.email_valid_and_can_ask %}
+                            <div class="message">
+                                {% blocktrans %}Your question will be published after you validate your email.{% endblocktrans %}
+                                <a href="{% url send_validation_email %}">{% trans "Send me a validation link." %}</a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    <div>
+                        <span class="form-error"></span><br/>
+                        <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" class="input-xxlarge" placeholder="What's your career question?">
+                        {{ form.title.errors }}
+                    </div>
+                    <div>
+                        <div id="wmd-button-bar" class="wmd-panel"></div>
+                        {{ form.text }} {{ form.text.errors }}
+                        <div id="previewer" class="wmd-preview"></div>
+                        <span class="form-error"></span>
+                    </div>
+                    <div>
+                        <span class="form-error"></span><br/>
+                        <input autocomplete="off" id="id_tags" type="text" name="tags" size="100" class="input-xxlarge" placeholder="What are some topics this question is about?">
+                        {{ form.tags.errors }}
+                    </div>
+                    {% if form.recaptcha %}
+                    <div class="question-captcha" style="float: left">
+                        {{ form.recaptcha.errors }}
+                        {{ form.recaptcha }}
+                    </div>
+                    <div class="clear"></div>
+                    {% endif %}
+                    
+                    {% if not request.user.is_authenticated %}                                                                        
+                    <input name="ask" type="submit" value="{% trans "Login to submit this question" %}" class="btn btn-success"/>
+                    {% else %}
+                    <input name="ask" type="submit" value="{% trans "Submit this question" %}" class="btn btn-success"/>
+                    {% endif %}
+                </form>
+                <div>
+                    <a onclick="history.back()" href="#">I change my mind. Take me back.</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</div><!--/#block-content.row-fluid -->
+
 {% endblock %}
 <!-- end template v2/ask.html -->

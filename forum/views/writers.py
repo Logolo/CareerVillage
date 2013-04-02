@@ -135,7 +135,7 @@ def ask_v2(request):
                         'POST': request.POST,
                         'data_name': _("question"),
                         'type': 'ask',
-                        'submission_url': reverse('ask'),
+                        'submission_url': reverse('ask_v2'),
                         'time': datetime.datetime.now()
                     }
 
@@ -143,7 +143,7 @@ def ask_v2(request):
                         request.user.message_set.create(message=_("Your question is pending until you %s.") % html.hyperlink(
                             reverse('send_validation_email'), _("validate your email")
                         ))
-                        return HttpResponseRedirect(reverse('index'))
+                        return HttpResponseRedirect(reverse('home'))
                     else:
                         return HttpResponseRedirect(reverse('auth_signin'))
         elif "go" in request.POST:

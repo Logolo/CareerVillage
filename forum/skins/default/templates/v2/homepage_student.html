@@ -26,7 +26,7 @@
 {% block skipsearch %}
     {# appears just below search form #}
     <div class="search-subtext">
-        <a href="{% url ask %}">
+        <a href="{% url ask_v2 %}">
             Or skip straight to asking a new question...
         </a>
     </div>
@@ -41,11 +41,11 @@
     {# appears just below search results #}
     {% if questions %}
         <h4>
-            Don't see your question here? <a href="{% url ask %}">Ask your question now!</a>
+            Don't see your question here? <a href="{% url ask_v2 %}">Ask your question now!</a>
         </h4> 
     {% else %}
         <h4>
-            Looks like we don't have a question about that yet. <a href="{% url ask %}">Ask your question now!</a>
+            Looks like we don't have a question about that yet. <a href="{% url ask_v2 %}">Ask your question now!</a>
         </h4>
     {% endif %}
     {% endblock %}
