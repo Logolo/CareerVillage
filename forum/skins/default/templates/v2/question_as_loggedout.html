@@ -39,10 +39,21 @@
 
 {% include "v2/_question_top.html" %}
 
-<!-- First call to action (differs for each user type) !-->
-    <div><a href="{% url auth_signin %}">Join our community now to add a comment or answer to this question!</a></div>
+    <!-- Answers header (results count, etc.) -->
+    <div class="row-fluid">
+        <div class="offset2 span7">
+            <div class="answer-buttons" style="margin:20px 0">
+                <a class="btn btn-success" href="{% url auth_signin %}" class="btn btn-success">Join our community now to add a comment or answer to this question!</a>
+            </div>
+            <h4>{{ question.answer_count }} answers:</h4>
+            {{ answers.paginator.page_numbers }}
+            <hr />
+        </div>
+    </div>
 
-{% include "v2/_all_answers.html" with cta_text="Post kudos" %}
+
+    <!-- Answers -->
+    {% include "v2/_all_answers.html" with cta_text="Post kudos" %}
 
 <!-- Bottom Call To Action section (differs for each user type) !-->
 <div>

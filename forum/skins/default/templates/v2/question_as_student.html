@@ -39,9 +39,18 @@
 
 {% include "v2/_question_top.html" %}
 
-<!-- First call to action (differs for each user type) !-->
+    <!-- Answers header (results count, etc.) -->
+    <div class="row-fluid">
+        <div class="offset2 span7">
+            <h4>{{ question.answer_count }} answers:</h4>
+            {{ answers.paginator.page_numbers }}
+            <hr />
+        </div>
+    </div>
 
-{% include "v2/_all_answers.html" with cta_text="Post thank you" %}
+
+    <!-- Answers -->
+    {% include "v2/_all_answers.html" with cta_text="Post thank you" %}
 
 <!-- Bottom Call To Action section (differs for each user type) !-->
 <div>
