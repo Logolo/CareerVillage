@@ -106,7 +106,7 @@
             <div class="clearfix">
                 <label for="id_title"><h3>Title</h3></label>
 				<span class="form-error"></span><br/>
-                <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" class="input-xxlarge" placeholder="What's your career question? Be specific.">
+                <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" class="input-xxlarge" placeholder="What's your career question? Be specific." value="{{ form.title.value }}">
 				{{ form.title.errors }}
             </div>
             <div id="ask-related-questions"></div>
@@ -129,7 +129,7 @@
             <div class="clearfix">
 				<label for="id_tags"><h3>Topics</h3></label>
                 <span class="form-error"></span><br/>
-                <input autocomplete="off" id="id_tags" type="text" name="tags" size="50" class="input-medium" placeholder="e.g. artist, painting">
+                <input autocomplete="off" id="id_tags" type="text" name="tags" size="50" class="input-medium" placeholder="e.g. artist, painting" value="{{ form.tags.value }}">
   				{{ form.tags.errors }}
             </div>
             {% if form.recaptcha %}
