@@ -44,8 +44,8 @@
         <!-- search form -->
         <h2>{% block search_prompt %}{% endblock %}</h2>
         <form  id="topsearch" action="{% url search_questions %}" method="get" class="form-search">
-            <div class="input-append">
-              <input class="input-xxlarge" id="keywords" name="q" value="{{ keywords }}" type="text">
+            <div class="input-append" style="width:100%" >
+              <input style="width:80%" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" type="text">
               <input type="submit" class="btn" name="Submit" value="search" />
             </div>
             <span id="searchoptions" style="display: none;">
