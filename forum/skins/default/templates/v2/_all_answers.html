@@ -5,53 +5,53 @@
 
 {% if answers %}<!-- There are answers -->
 
-    <section class="items">        
+    <section class="answer row-fluid">        
 
     {% for answer in answers.paginator.page %}
-        <article class="row-fluid">
+        <table><tr><td class="left">
 
             <!-- Answer like section -->
-            <div class="span2">
-
-                <div class="like-widget">
-                    <h3>{{ question.score }}</h3>
-                    <span class="thumbs-up"></span>
-                    <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
-                    class="btn {% ifequal user_vote "up" %}on{% endifequal %}"
-                     href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
-                </div><!--/.like-section -->
-    
-            </div>
+            <div class="like-widget">
+                <h3>{{ question.score }}</h3>
+                <span class="thumbs-up"></span>
+                <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
+                class="btn {% ifequal user_vote "up" %}on{% endifequal %}"
+                 href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
+            </div><!--/.like-section -->
             
-            
+        </td><td class="center">
+        
             <!-- Answer user and body content section -->
-            <div class="span7">
-                
-                <div><a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a></div>
-                <div>{{ answer.user.about }}</div>
-                <div>{{ answer.user.location }}</div>
-                <div>{{ answer.user.industry }}</div>
-                <div>Last updated {% diff_date answer.last_activity_at %}</div>
-                <div><a href="{{ answer.user.get_profile_url }}"><img src="">{% gravatar answer.user 64 %}</a></div>
+            <div class="answer-body">
+
+                <h5 class="answer-user">
+                    <a class="avatar" href="{{ answer.user.get_profile_url }}">{% gravatar answer.user 64 %}</a>
+                    <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
+                    <span class="text-light">general practice physician{# TODO remove placeholders #}{{ answer.user.about }}</em><br />
+                    <span class="text-subtext">Boston, MA{{ answer.user.location }}</span>
+                    <span class="text-subtext">healthcare{{  answer.user.industry  }}</span>
+                    <span class="text-subtext">Last updated {% diff_date answer.last_activity_at %}</span>
+                </h5>
 
                 <!-- Answer body -->
-                {{ answer.html|safe }}
+                <div class="answer-content">
+                    {{ answer.html|safe }}
+                </div>
 
                 <!-- Answer comments -->
-                {% v2comments answer request.user %}
-                
-                
-            </div>
+                <div class="answer-comments">
+                    {% v2comments answer request.user %}
+                </div>
             
-            <!-- Answer special comment section -->
-            <div class="span3">
-            
-                <!-- Right side (differs for each user type) -->
-                {% v2comments_rightside answer request.user %}
+            </div><!--/.answer -->
 
-            </div>
+        </td><td class="span3 right">
             
-        </article>    
+            <!-- Right side (differs for each user type) -->
+            {% v2comments_rightside answer request.user %}
+            
+        </td></tr></table>
+
     {% endfor %}
     </section><!--/.items -->
     

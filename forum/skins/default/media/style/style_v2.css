@@ -78,10 +78,6 @@
 .profile p {
     font-size:85%;
 }
-.profile-img {
-    width:64px;
-    height:64px;
-}
 .profile-stats {
     clear:both;
     padding-top:10px;
@@ -96,7 +92,7 @@
 
 
 /*************
- * QUESTIONS LIST .col-main.list-questions
+ * QUESTION & ANSWER 
  * 
  ***/
 .list-questions {
@@ -125,12 +121,6 @@
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
-}
-#question .profile-td {
-    background-color: #f3f3f3;
-    -webkit-border-radius: 0 12px 12px 0;
-    -moz-border-radius: 0 12px 12px 0;
-    border-radius: 0 12px 12px 0;
 }
 #question .question-asker {
     min-height:32px;
@@ -165,6 +155,58 @@
 #question .tags .badge:hover {
     background-color:#ddEfFF;
 }
+#question .left {
+    width:100px;
+}
+.answer .left {
+    vertical-align:top;
+    width:100px;
+}
+#question .center {
+    padding:10px 20px;
+}
+.answer .center {
+    padding:0 0 10px 20px;
+}
+#question .right {
+    background-color: #f3f3f3;
+    -webkit-border-radius: 0 12px 12px 0;
+    -moz-border-radius: 0 12px 12px 0;
+    border-radius: 0 12px 12px 0;
+}
+.answer table {
+    width:100%;
+}
+.answer .right {
+    vertical-align:top;
+    padding-left:10px;
+}
+.answer-body {
+    padding:12px;
+    background-color:#dbebd2;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    margin-bottom:10px;    
+}
+#your-answer .answer-body {
+    background-color:#eee;
+}
+.answer-actions {
+    text-align:center;
+    margin:20px 0;
+}
+.answer .avatar img {
+    float:right;
+}
+.answer h5.answer-user {
+    margin:0;
+    font-weight:normal;
+}
+.answer h5.answer-user a {
+    color:#444;
+    text-decoration:underline;
+}
 
 
 /*************
@@ -180,7 +222,11 @@
     width:100%;
     margin: -16px 0 4px 0;
 }
-
+.profile-img,
+.avatar {
+    width:64px;
+    height:64px;
+}
 
 
 /*************
@@ -200,5 +246,16 @@ h2.text-medium {
 .text-light {
     color:#999;
 }
-
+.text-subtext {
+    color:#333;
+    font-style:italic;
+    font-size:11px;
+}
+h4.text-soft-header {
+    color:#444;
+    margin:32px 0 12px 0;
+    padding-bottom:5px;
+    font-weight:normal;
+    border-bottom:1px solid #fcfcfc;
+}
 

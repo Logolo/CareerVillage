@@ -40,46 +40,60 @@
     {% include "v2/_question_top.html" %}
 
     <!-- Answers header (results count, etc.) -->
-    <div class="row-fluid">
-        <div class="offset2 span7">
-            <div class="answer-buttons" style="margin:20px 0">
-                <a class="btn btn-success" href="{{ question.get_absolute_url }}/new_answer/">I can <u>answer</u> this question!</a>
-                <a class="btn btn-success" href="">I know <u>someone else</u> who can!</a>
-            </div>
-            <h4>{{ question.answer_count }} answers:</h4>
-            {{ answers.paginator.page_numbers }}
-            <hr />
-        </div>
+    <div class="answer-actions">
+        <a class="btn btn-large btn-success" href="{{ question.get_absolute_url }}/new_answer/">I can <u>answer</u> this question!</a>
+        &nbsp;&nbsp;
+        <a class="btn btn-large btn-success" href="">I know <u>someone else</u> who can!</a>
+        {{ answers.paginator.page_numbers }}
     </div>
 
+    <!-- Answers Count -->
+    <h3 style="margin-top:-5px; font-weight:normal; margin-bottom:-20px; margin-left:20px">{{ question.answer_count }} answers:</h3>
+    <hr />
 
     <!-- Answers -->
     {% include "v2/_all_answers.html" with cta_text="Post kudos" %}
 
+    <!-- Your Answer -->
+    <div id="your-answer" class="answer row-fluid">
+        <table><tr><td class="left">
+            &nbsp;
+        </td><td class="center">
+    
+            <h4 style="margin-top:0px">Your answer to this question:</h4>
+    
+            <!-- Answer user and body content section -->
+            <div class="answer-body">
 
-    <!-- Bottom Call To Action section (differs for each user type) !-->
-    <div>
-        <div>Your answer to this question</div>
-        <div>
-            <div><a href="{{ request.user.get_profile_url }}">{{ request.user.real_name }}</a></div>
-            <div>{{ request.user.headline }}Example headline: General Manager at IDEO{# TODO REPLACE WITH WORKING HEADLINE #}</div>
-            <div>{{ request.user.location }}</div>
-            <div>{{ request.user.industry }}Example: Internet{# TODO REPLACE WITH WORKING HEADLINE #}</div>
-            <div><a href="{{ request.user.get_profile_url }}"><img src="">{% gravatar request.user 64 %}{# TODO REPLACE WITH WORKING HEADLINE #}</a></div>
-        </div>
-        <div>
-            <form id="fmanswer" action="{% url answer question.id %}" method="post">
-                {% if not question.closed %}
-                    <div>
-                        {{ answer.text }}
-                        {{ answer.text.errors }}
-                    </div>
-                    <input type="button"
-                        value="Submit advice" 
-                        class="btn btn-success" style="float:left" onclick="submitClicked(event, this.form)"/>
-                    <p><span class="form-error"></span></p>
-                {% endif %}
-            </form>
-        </div>
+                <h5 class="answer-user">
+                    <a class="avatar" href="{{ user.get_profile_url }}">{% gravatar user 64 %}</a>
+                    <a href="{{ answer.user.get_profile_url }}">{{ user.real_name }}</a>
+                    <span class="text-light">{{ user.about }}</em><br />
+                    <span class="text-subtext">{{ user.location }}</span>
+                    <span class="text-subtext">{{ user.industry  }}</span>
+                </h5>
+
+                <!-- Answer body -->
+                <div class="answer-content">
+                    <form id="fmanswer" action="{% url answer question.id %}" method="post">
+                        {% if not question.closed %}
+                            <div>
+                                {{ answer.text }}
+                                {{ answer.text.errors }}
+                            </div>
+                            <input type="button"
+                                value="Submit advice" 
+                                class="btn btn-success" style="float:left" onclick="submitClicked(event, this.form)"/>
+                            <p><span class="form-error"></span></p>
+                        {% endif %}
+                    </form>
+
+                </div>
+
+            </div><!--/.answer -->
+
+        </td><td class="span3 right">
+            &nbsp;
+        </td></tr></table>
     </div>
 {% endblock %}

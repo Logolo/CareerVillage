@@ -3,12 +3,12 @@
 
 <div>
     <form id="comment-{{ post.id }}-form" method="post" action="{% url comment id=post.id %}" accept-charset="utf-8">
-        <input type="text" name="comment" class="" placeholder="Like this answer? {{ cta_text }}!">
+        <input class="input-medium" type="text" name="comment" placeholder="Like this answer? {{ cta_text }}!">
 {% if user.is_anonymous %}
         <a class="btn btn-success" href="{% url auth_signin %}">Join our community</a>
     </form>
 {% else %}
-        <input type="submit" class="btn btn-success" value="{{ cta_text }}" />
+        <input type="submit" class="btn" value="{{ cta_text }}" />
     </form>
     <div>+5 Karma</div>
 {% endif%}
