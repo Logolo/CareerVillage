@@ -56,11 +56,11 @@
     <div>
         <div>Your answer to this question</div>
         <div>
-                <div><a href="{{ request.user.get_profile_url }}">{{ request.user.real_name }}</a></div>
-                <div>{{ request.user.headline }}Example headline: General Manager at IDEO{# TODO REPLACE WITH WORKING HEADLINE #}</div>
-                <div>{{ request.user.location }}</div>
-                <div>{{ request.user.industry }}Example: Internet{# TODO REPLACE WITH WORKING HEADLINE #}</div>
-                <div><a href="{{ request.user.get_profile_url }}"><img src=""><!-- User profile pic !--></a></div>
+            <div><a href="{{ request.user.get_profile_url }}">{{ request.user.real_name }}</a></div>
+            <div>{{ request.user.headline }}Example headline: General Manager at IDEO{# TODO REPLACE WITH WORKING HEADLINE #}</div>
+            <div>{{ request.user.location }}</div>
+            <div>{{ request.user.industry }}Example: Internet{# TODO REPLACE WITH WORKING HEADLINE #}</div>
+            <div><a href="{{ request.user.get_profile_url }}"><img src="">{% gravatar request.user 64 %}{# TODO REPLACE WITH WORKING HEADLINE #}</a></div>
         </div>
         <div>
             <form id="fmanswer" action="{% url answer question.id %}" method="post">
