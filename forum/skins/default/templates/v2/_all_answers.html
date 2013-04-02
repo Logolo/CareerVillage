@@ -3,41 +3,53 @@
 {% load extra_tags %}
 {% load extra_filters %}
 
-<!-- Top of answer section !-->
-<div>{{ question.answer_count }} answers:</div>
+{% if answers %}<!-- There are answers -->
 
-<div>
-    {% if answers %}<!-- There are answers -->
-        {{ answers.paginator.page_numbers }}
-        {% for answer in answers.paginator.page %}
-            
-            <!-- Answer like section -->
-            <div>{{ answer.score }}</div>
-            <div><img src="" title="Thumbs up"><!-- Thumbs up image goes here !--></div>
-            <div>
+    <!-- Top of answer section -->
+    <h4>{{ question.answer_count }} answers:</h4>
+
+    {{ answers.paginator.page_numbers }}
+
+    <section class="items">
+    {% for answer in answers.paginator.page %}
+        <article>
+
+            <!-- Question like section -->
+            <div class="like-widget">
+                <h3>{{ question.score }}</h3>
+                <span class="thumbs-up"></span>
                 <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
                 class="btn {% ifequal user_vote "up" %}on{% endifequal %}"
                  href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
+            </div><!--/.like-section -->
+    
+            <div class="row-fluid">
+    
+                <!-- Answer user section -->
+                <div><a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a></div>
+                <div>{{ answer.user.about }}</div>
+                <div>{{ answer.user.location }}</div>
+                <div>{{ answer.user.industry }}</div>
+                <div>Last updated {% diff_date answer.last_activity_at %}</div>
+                <div><a href="{{ answer.user.get_profile_url }}"><img src="">{% gravatar answer.user 64 %}</a></div>
+
+                <!-- Answer body -->
+                {{ answer.html|safe }}
+
+                <!-- Answer comments -->
+                {% v2comments answer request.user %}
+
+                <!-- Right side (differs for each user type) -->
+                {% v2comments_rightside answer request.user %}
+
             </div>
             
-            <!-- Answer user section -->
-            <div><a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a></div>
-            <div>{{ answer.user.about }}</div>
-            <div>{{ answer.user.location }}</div>
-            <div>{{ answer.user.industry }}</div>
-            <div>Last updated {% diff_date answer.last_activity_at %}</div>
-            <div><a href="{{ answer.user.get_profile_url }}"><img src="">{% gravatar answer.user 64 %}</a></div>
+        </article>    
+    {% endfor %}
+    </section><!--/.items -->
+    
+{% else %}<!-- No answers yet -->
 
-            <!-- Answer body -->
-            {{ answer.html|safe }}
+    <h2>Be the first one to answer this question!</h2>
 
-            <!-- Answer comments -->
-            {% v2comments answer request.user %}
-
-            <!-- Right side (differs for each user type) -->
-            {% v2comments_rightside answer request.user %}
-        {% endfor %}
-    {% else %}<!-- No answers yet -->
-        <div>Be the first one to answer this question!</div>
-    {% endif %}
-</div>
+{% endif %}
