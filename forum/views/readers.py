@@ -97,7 +97,7 @@ def search_results(request):
             if request.user.is_authenticated():
                 return homepage(request, keywords)
             else:
-                return search_results_loggedout(request, keywords)
+                return homepage_loggedout(request, keywords)
     else:
         return homepage(request)
 
@@ -118,20 +118,20 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
     else:
         return HttpResponseRedirect(reverse(homepage))
 
-@decorators.render('v2/search_results_professional.html')
-def search_results_professional(request, keywords):
+@decorators.render('v2/homepage_professional.html')
+def homepage_professional(request, keywords):
     return search_results_base(request, request.user.is_professional(), keywords)
 
-@decorators.render('v2/search_results_student.html')
-def search_results_student(request, keywords):
+@decorators.render('v2/homepage_student.html')
+def homepage_student(request, keywords):
     return search_results_base(request, request.user.is_student(), keywords)
 
-@decorators.render('v2/search_results_educator.html')
-def search_results_educator(request, keywords):
+@decorators.render('v2/homepage_educator.html')
+def homepage_educator(request, keywords):
     return search_results_base(request, request.user.is_educator(), keywords)
 
-@decorators.render('v2/search_results_loggedout.html')
-def search_results_loggedout(request, keywords):
+@decorators.render('v2/homepage_loggedout.html')
+def homepage_loggedout(request, keywords):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse(homepage))
     else:
@@ -140,13 +140,13 @@ def search_results_loggedout(request, keywords):
 def homepage(request, keywords=None):
     if request.user.is_authenticated():
         if request.user.is_student():
-            return search_results_student(request, keywords)
+            return homepage_student(request, keywords)
         elif request.user.is_professional():
-            return search_results_professional(request, keywords)
+            return homepage_professional(request, keywords)
         elif request.user.is_educator():
-            return search_results_educator(request, keywords)
+            return homepage_educator(request, keywords)
         else: # If the user's status is unknown, we default to professional
-            return search_results_professional(request, keywords)
+            return homepage_professional(request, keywords)
     else:
         return HttpResponseRedirect(reverse(splash))
 
