@@ -266,13 +266,13 @@ def v2comments_rightside(post, user):
     else:
         top_scorers = sorted(all_comments, lambda c1, c2: cmp(c2.score, c1.score))[0:5]
 
-    if user.is_authenticated:
+    if user.is_anonymous():
+        cta_text = "Join our community"
+    else:
         if user.user_type == "student":
             cta_text = "Say thank you"
         else: # Any other user type 
             cta_text = "Post kudos"
-    else:
-        cta_text = "Join our community"
 
     comments = []
     showing = 0
