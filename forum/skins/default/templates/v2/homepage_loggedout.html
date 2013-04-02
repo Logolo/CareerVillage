@@ -1,0 +1,18 @@
+{% extends "v2/homepage_base.html" %}
+
+
+{% block search_prompt %}
+    What do you have questions about?
+    {% endblock %}
+
+{% block skipsearch %}
+    <div>
+        <a href="{% url ask %}">
+            Or skip straight to asking a new question...
+        </a>
+    </div>
+    {% endblock %}
+
+{% block unanswered_only %}
+    {# Empty for Students #}
+    {% endblock %}

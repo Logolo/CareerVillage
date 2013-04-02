@@ -22,11 +22,11 @@
 {% endfor %}</div>
 {% if questions %}
 <div class="EndOfList">
-    <h3>Don't see your question here? <a href="/questions/ask/">Ask your question now!</a></h3>
+    <h3>Don't see your question here? <a href="{% url ask %}">Ask your question now!</a></h3>
 </div>
 {% else %}
 <div class="EndOfList">
-    <h3>Looks like we don't have a question about that yet. <a href="/questions/ask/">Ask your question now!</a></h3>
+    <h3>Looks like we don't have a question about that yet. <a href="{% url ask %}">Ask your question now!</a></h3>
 </div>
 {% endif %}
 {% endblock %}

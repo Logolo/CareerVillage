@@ -3,7 +3,7 @@
 {% load extra_tags %}
 
 {% block head %}
-    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
+	{# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
 {% endblock %}
 
 {% block content %}
@@ -43,7 +43,7 @@
 
         <!-- search form -->
         <h2>{% block search_prompt %}{% endblock %}</h2>
-        <form  id="topsearch" action="{% url search %}" method="get" class="form-search">
+        <form  id="topsearch" action="{% url search_questions %}" method="get" class="form-search">
             <div class="input-append">
               <input class="input-xxlarge" id="keywords" name="q" value="{{ keywords }}" type="text">
               <input type="submit" class="btn" name="Submit" value="search" />
@@ -55,7 +55,15 @@
                 <input id="type-user" type="radio" value="user" name="t" /><label for="type-user">Users</label>
             </span>
         </form>
+        {% if keywords %}
+            <div>Questions related to {{ keywords }}</div>
+        {% else %}
+            <div>Latest questions</div>
+        {% endif %}
+
         {% block skipsearch %}{% endblock %}
+
+        {% block unanswered_only %}{% endblock %}
 
         <h4>Latest questions</h4> 
         <!--{% block unanswered_only %}{% endblock %}-->
