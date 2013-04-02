@@ -27,10 +27,11 @@
                     <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #} Healthcare</span>
                 </p>
             </div>
-        </div>
 
-        <!-- user stats -->
-        {% block user_stats %}{% endblock %}
+            <!-- user stats -->
+            {% block user_stats %}{% endblock %}
+
+        </div>
 
         <!-- sidebar -->
         {% block sidebar %}{% endblock %}
@@ -44,8 +45,8 @@
         <!-- search form -->
         <h2>{% block search_prompt %}{% endblock %}</h2>
         <form  id="topsearch" action="{% url search_questions %}" method="get" class="form-search">
-            <div class="input-append">
-              <input class="input-xxlarge" id="keywords" name="q" value="{{ keywords }}" type="text">
+            <div class="input-append" style="width:100%" >
+              <input style="width:80%" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" type="text">
               <input type="submit" class="btn" name="Submit" value="search" />
             </div>
             <span id="searchoptions" style="display: none;">

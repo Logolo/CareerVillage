@@ -1,41 +1,54 @@
 <!-- _question_top.html -->
 <div id="question" class="row-fluid">
         
-    <!-- Question like section -->
-    <div class="like-widget">
-        <h3>{{ question.score }}</h3>
-        <span class="thumbs-up"></span>
-        <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
-        class="btn {% ifequal user_vote "up" %}on{% endifequal %}"
-         href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
-    </div><!--/.like-section -->
+    <table><tr><td class="span2">
 
-    <!-- Question description section -->
-    <div class="span7">
-        <h1 class="text-medium question-title">{{ question.headline }}</h1>
-        <h2 class="text-medium question-body">{{ question.html|safe }}{# TODO remove placeholder content #}I am a senior in high school, and I want to double major in English and buisness. I want to know what the best colleges are, and the requirements to get into the schools.</h2>
-        <h6 class="text-light">Question Topics:</h6>
-        <div class="tags">
-            {% for tag in question.tagname_list %}
-                <a href="{% url tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
-            {% endfor %}
+        <!-- Question like section -->
+        <div class="like-widget">
+            <h3>{{ question.score }}</h3>
+            <span class="thumbs-up"></span>
+            <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
+            class="like-question-button btn {% ifequal user_vote "up" %}on{% endifequal %}"
+             href="#{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
+             <div class="follow-question" style="opacity:.1">
+                 <hr style="margin:5px 0 3px 0"/>
+                 <button class="btn-success follow-question-button btn"><span class="icon-star icon-white"></span> follow</button>
+            </div>
+        </div><!--/.like-section -->
+        
+    </td><td class="span7">
+
+        <!-- Question description section -->
+        <div style="padding-right:10px">
+            <h1 class="text-medium question-title">{{ question.headline }}</h1>
+            <h2 class="text-medium question-body">{{ question.html|safe }}{# TODO remove placeholder content #}I am a senior in high school, and I want to double major in English and buisness. I want to know what the best colleges are, and the requirements to get into the schools.</h2>
+            <div class="tags">
+                <h6 class="text-light">Question Topics</h6>
+                {% for tag in question.tagname_list %}
+                    <a href="{% url tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
+                {% endfor %}
+            </div>
+            <p style="font-size:11px"><a href="#">flag this question for review</a></p>
         </div>
-    </div>
 
-    <!-- STUDENT PROFILE INFO !-->
-    <div class="span3 student-profile-section span">
-        <h4 class="question-asker">
-            <a href="{{ question.user.get_profile_url }}"><img class="profile-img media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></a>
-            <a href="{{ question.user.get_profile_url }}">{{ question.user.real_name }}</a>
-        </h4>
+    </td><td class="span3 profile-td">
 
-
-        <div class="profile">
-
+        <!-- profile picture and summary info -->
+        <div class="media profile">
+            <p class="text-light clear">Posted on March 5, 2013{# TODO date #} by...</p>
+            <a class="pull-left" href="{{ question.user.get_profile_url }}">
+                <img class="profile-img media-object" src="{# TODO question.user.profile image #}//si0.twimg.com/profile_images/534486785/cropped.JPG" />
+            </a>
+            <div class="media-body">
+                <h5><a href="{{ question.user.get_profile_url }}">John Mitchel{# TODO question.user.real_name #}</a></h5>
+                <p>
+                    <span class="text-light">{# TODO question.user.location #} Houston, TX</span><br />
+                </p>
+            </div>
             <div class="profile-stats">
                 <div class="row-fluid">    
                     <div class="box span6">
-                        <h3>{{ user.reputation }}</h3>
+                        <h3>{{ question.user.reputation }}</h3>
                         <p>Karma</p>
                     </div>
                     <div class="box span6">
@@ -44,15 +57,8 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-
-        <img class="profile-img media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" />
-        <div><a href="{{ question.user.get_profile_url }}"><img src=""><!-- User profile pic !--></a></div>
-        <div><a href="{{ question.user.get_profile_url }}">{{ question.user.real_name }}</a></div>
-        <div>{{ question.user.location }}</div>
-        <div>Posted on {{ question.added_at }}</div>
-        <div>See something that looks wrong? <a href=""><!-- Should open a modal! -->Flag for review</a></div>
-    </div>
+        </div><!--/.profile -->
+        
+    </td></tr></table>
 
 </div><!--/#question -->
