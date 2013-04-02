@@ -164,22 +164,31 @@ class User(BaseModel, DjangoUser):
 
     def is_student(self):
         student_status = False
-        if len(self.student_of.all()) > 0:
+        if self.user_type == "student":
             student_status = True
+        else:
+            if len(self.student_of.all()) > 0:
+                student_status = True
         return student_status
 
     def is_professional(self):
         professional_status = False
-        if len(self.student_of.all()) == 0:
-            if len(self.educator_of.all()) == 0:
-                professional_status = True
+        if self.user_type == "professional":
+            professional_status = True
+        else:
+            if len(self.student_of.all()) == 0:
+                if len(self.educator_of.all()) == 0:
+                    professional_status = True
         return professional_status
 
     def is_educator(self):
         educator_status = False
-        if len(self.student_of.all()) == 0:
-            if len(self.educator_of.all()) > 0:
-                educator_status = True
+        if self.user_type == "educator":
+            educator_status = True
+        else:
+            if len(self.student_of.all()) == 0:
+                if len(self.educator_of.all()) > 0:
+                    educator_status = True
         return educator_status
 
     @property
