@@ -32,8 +32,9 @@
 @media (max-width:840px) { 
     
     /* clear floated images in narrow columns */
-    .span3 .media-body {
+    .profile .media-body {
         clear:both;
+        padding-top:5px;
     }
 }
 
@@ -52,30 +53,38 @@
 
 /*************
  * SIDEBAR .col-sidebar
- * profile, user stats & related user info
+ * profile + user calls to action, misc
  ***/
 
 .col-sidebar {
-    padding:1.333333%;
-    background-color:#f3f3f3;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+
 }
 
-/* profile */
-.col-sidebar .profile h5 {
+
+/*************
+ * PROFILE .profile
+ ***/
+
+.profile {
+    padding:20px 5%;
+    background-color:#f3f3f3;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+.profile h5 {
     margin:0;
 }
-.col-sidebar .profile p {
+.profile p {
     font-size:85%;
 }
-.col-sidebar .profile-img {
+.profile-img {
     width:64px;
     height:64px;
 }
-
-/* stats */
+.profile-stats {
+    clear:both;
+}
 .profile-stats h3,
 .profile-stats p {
     text-align:center;
@@ -104,15 +113,23 @@
     width:85px;
     float:left;
     text-align:center;
-    margin-right:-10px;
     margin-left:10px;
 }
+.like-widget h3 {
+    margin-top:-5px;
+}
 #question {
-    background-color:#f3f3f3;
+    border:1px solid #eee;
+    background-color:#fafafa;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
-    border-radius: 18px;    
-    padding:18px 0;
+    border-radius: 12px;
+}
+#question .profile-td {
+    background-color: #f3f3f3;
+    -webkit-border-radius: 0 12px 12px 0;
+    -moz-border-radius: 0 12px 12px 0;
+    border-radius: 0 12px 12px 0;
 }
 #question .question-asker {
     min-height:32px;
@@ -122,6 +139,15 @@
     height:32px;
     float:right;
     margin-right:4px;
+}
+#question .tags {
+    padding-bottom:10px;
+}
+#question .tags h6 {
+    margin:0;
+    font-weight:normal;
+    text-transform:uppercase;
+    font-size:11px;
 }
 #question .tags .badge {
     color:#666;
