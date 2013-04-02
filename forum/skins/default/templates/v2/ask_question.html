@@ -57,7 +57,7 @@
                     {% endif %}
                     <div>
                         <span class="form-error"></span><br/>
-                        <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" class="input-xxlarge" placeholder="What's your career question?">
+                        <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" class="input-xxlarge" placeholder="What's your career question?"  value="{{ form.title.value }}">
                         {{ form.title.errors }}
                     </div>
                     <div>
@@ -68,7 +68,7 @@
                     </div>
                     <div>
                         <span class="form-error"></span><br/>
-                        <input autocomplete="off" id="id_tags" type="text" name="tags" size="100" class="input-xxlarge" placeholder="What are some topics this question is about?">
+                        <input autocomplete="off" id="id_tags" type="text" name="tags" size="100" class="input-xxlarge" placeholder="What are some topics this question is about?" value="{{ form.tags.value }}">
                         {{ form.tags.errors }}
                     </div>
                     {% if form.recaptcha %}
