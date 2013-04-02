@@ -127,6 +127,7 @@ core_urls = (
     
     url(r'^%s$' % _('upload/'), app.writers.upload, name='upload'),
     url(r'^%s$' % _('search/'), app.readers.search, name='search'),
+    url(r'^%s$' % _('search_questions/'), app.readers.search_results, name='search_questions'),
     url(r'^%s$' % _('contact/'), app.meta.feedback, name='feedback'),
     
     (r'^i18n/', include('django.conf.urls.i18n')),

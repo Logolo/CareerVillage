@@ -87,73 +87,68 @@ def index(request):
                          feed_url=reverse('latest_questions_feed'),
                          paginator_context=paginator_context)
 
-def homepage(request):
+def search_results(request):
+    if request.method == "GET" and "q" in request.GET:
+        keywords = request.GET.get("q")
+
+        if not keywords:
+            return HttpResponseRedirect(reverse(index))
+        else:
+            if request.user.is_authenticated():
+                return homepage(request, keywords)
+            else:
+                return search_results_loggedout(request, keywords)
+    else:
+        return homepage(request)
+
+def search_results_base(request, user_type_check=False, keywords=None, loggedout=False):
+    if loggedout or (request.user.is_authenticated() and user_type_check):
+        paginator_context = QuestionListPaginatorContext()
+        paginator_context.base_path = reverse('questions')
+
+        if keywords is None:
+            return question_list(request,
+                                 Question.objects.all(),
+                                 base_path=reverse('questions'),
+                                 feed_url=reverse('latest_questions_feed'),
+                                 paginator_context=paginator_context)
+        else:
+            return get_question_search_results(request, keywords=keywords)
+
+    else:
+        return HttpResponseRedirect(reverse(homepage))
+
+@decorators.render('v2/search_results_professional.html')
+def search_results_professional(request, keywords):
+    return search_results_base(request, request.user.is_professional(), keywords)
+
+@decorators.render('v2/search_results_student.html')
+def search_results_student(request, keywords):
+    return search_results_base(request, request.user.is_student(), keywords)
+
+@decorators.render('v2/search_results_educator.html')
+def search_results_educator(request, keywords):
+    return search_results_base(request, request.user.is_educator(), keywords)
+
+@decorators.render('v2/search_results_loggedout.html')
+def search_results_loggedout(request, keywords):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse(homepage))
+    else:
+        return search_results_base(request, True, keywords, loggedout=True)
+
+def homepage(request, keywords=None):
     if request.user.is_authenticated():
         if request.user.is_student():
-            return homepage_student(request)
+            return search_results_student(request, keywords)
         elif request.user.is_professional():
-            return homepage_professional(request)
+            return search_results_professional(request, keywords)
         elif request.user.is_educator():
-            return homepage_educator(request)
+            return search_results_educator(request, keywords)
         else: # If the user's status is unknown, we default to professional
-            return homepage_professional(request)
+            return search_results_professional(request, keywords)
     else:
         return HttpResponseRedirect(reverse(splash))
-
-@decorators.render('v2/homepage_professional.html')
-def homepage_professional(request):
-    paginator_context = QuestionListPaginatorContext()
-    paginator_context.base_path = reverse('questions')
-    if request.user.is_authenticated():
-        if request.user.is_professional():
-            return question_list(request,
-                    Question.objects.all(),
-                    base_path=reverse('questions'),
-                    feed_url=reverse('latest_questions_feed'),
-                    paginator_context=paginator_context)
-    else: # This user shouldn't be here!
-        return HttpResponseRedirect(reverse(homepage))
-
-@decorators.render('v2/homepage_student.html')
-def homepage_student(request):
-    paginator_context = QuestionListPaginatorContext()
-    paginator_context.base_path = reverse('questions')
-    if request.user.is_authenticated():
-        if request.user.is_student():
-            return question_list(request,
-                    Question.objects.all(),
-                    base_path=reverse('questions'),
-                    feed_url=reverse('latest_questions_feed'),
-                    paginator_context=paginator_context)
-    else: # This user shouldn't be here!
-        return HttpResponseRedirect(reverse(homepage))
-
-@decorators.render('v2/homepage_educator.html')
-def homepage_educator(request):
-    paginator_context = QuestionListPaginatorContext()
-    paginator_context.base_path = reverse('questions')
-    if request.user.is_authenticated():
-        if request.user.is_educator():
-            return question_list(request,
-                    Question.objects.all(),
-                    base_path=reverse('questions'),
-                    feed_url=reverse('latest_questions_feed'),
-                    paginator_context=paginator_context)
-    else: # This user shouldn't be here!
-        return HttpResponseRedirect(reverse(homepage))
-
-@decorators.render('v2/homepage_loggedout.html')
-def homepage_loggedout(request):
-    paginator_context = QuestionListPaginatorContext()
-    paginator_context.base_path = reverse('questions')
-    if request.user.is_authenticated(): # This user shouldn't be here!
-        return HttpResponseRedirect(reverse(homepage))
-    else:
-        return question_list(request,
-                Question.objects.all(),
-                base_path=reverse('questions'),
-                feed_url=reverse('latest_questions_feed'),
-                paginator_context=paginator_context)
 
 def splash(request):
     if request.user.is_authenticated():
@@ -276,8 +271,7 @@ def search(request):
     else:
         return render_to_response("search.html", context_instance=RequestContext(request))
 
-@decorators.render('questions.html')
-def question_search(request, keywords):
+def get_question_search_results(request, keywords):
     can_rank, initial = Question.objects.search(keywords)
 
     if can_rank:
@@ -293,6 +287,9 @@ def question_search(request, keywords):
                          _("questions matching '%(keywords)s'") % {'keywords': keywords},
                          paginator_context=paginator_context)
 
+@decorators.render('questions.html')
+def question_search(request, keywords):
+    return get_question_search_results(request, keywords)
 
 @decorators.render('tags.html', 'tags', _('Topics'), weight=100)
 def tags(request):
