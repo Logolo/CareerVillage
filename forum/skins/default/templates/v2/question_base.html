@@ -1,0 +1,35 @@
+{% extends "v2/base.html" %}
+{% load node_tags %}
+{% load extra_tags %}
+{% load extra_filters %}
+{% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
+{% block metadescription %}{{ question.meta_description }}{% endblock %}
+{% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    
+    <!-- The question -->
+    {% include "v2/_question_top.html" %}
+
+    <!-- Answers header (results count, etc.) -->
+    <div class="answer-actions">
+        {% block answeractions %}{% endblock %}
+    </div>
+
+    <!-- Results Count -->
+    <h3 class="answers-count">{{ question.answer_count }} answers:</h3>
+    {{ answers.paginator.page_numbers }}
+    <hr />
+
+    <!-- Answers -->
+    {% include "v2/_all_answers.html" with cta_text="Post kudos" %}
+
+    <!-- Answers response (results count, etc.) -->
+    <div class="answers-bottom row-fluid">
+        {% block answersbottom %}{% endblock %}
+    </div>
+
+{% endblock %}

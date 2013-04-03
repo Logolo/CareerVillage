@@ -1,68 +1,27 @@
-{% extends "v2/base.html" %}
-{% load node_tags %}
-{% load extra_tags %}
-{% load extra_filters %}
+{% extends "v2/question_base.html" %}
 
-{% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
-
-{% block metadescription %}{{ question.meta_description }}{% endblock %}
-
-{% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
-
-{% block head %}
-    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEADER #}
-    <script type="text/javascript">
-        function submitClicked(e, f) {
-            window.removeEventListener('beforeunload', beforeUnload, true);
-            if (f) {
-                f.submit();
-            }
-        }
-
-        function beforeUnload(e) {
-            if($("textarea#editor")[0].value != "") {
-                return yourWorkWillBeLost(e);
-            }
-            var commentBoxes = $("textarea.commentBox");
-            for(var index = 0; index < commentBoxes.length; index++) {
-                if(commentBoxes[index].value != "") {
-                    return yourWorkWillBeLost(e);
-                }
-            }
-        }
-        window.addEventListener('beforeunload', beforeUnload, true);
-
-    </script>
+{% block answeractions %}
+    <a class="btn btn-success" href="{% url auth_signin %}" class="btn btn-success">Join our community now to add a comment or answer to this question!</a>        
 {% endblock %}
 
-{% block content %} 
+{% block answersbottom %}
+    <!-- Your Response -->
+    <div id="your-response row-fluid">
 
-    {% include "v2/_question_top.html" %}
-
-    <!-- Results Count -->
-    <h3 class="answers-count">{{ question.answer_count }} answers:</h3>
-    {{ answers.paginator.page_numbers }}
-    <hr />
-
-    <!-- Answers -->
-    {% include "v2/_all_answers.html" with cta_text="Post thank you" %}
-
-    <!-- Bottom Call To Action section (differs for each user type) !-->
-    <div>
-        <div>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</div>
-        <div>Your ball.</div>
-        <div>What are you going to do differently now that you have seen the above advice?</div>
-        <div>
+        <table><tr><td class="left">
+            &nbsp;
+        </td><td class="center">
+            <h4>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</h4>
+            <p>Your ball.</p>
+            <p>What are you going to do differently now that you have seen the above advice?</p>
             <form action="" method="post">
                 <div>
                     <input type="textarea" name="student_intention"/>
                 </div>
                 <input type="submit" class="btn btn-success" value="Save"/>
             </form>
-        </div>
-        <div>
-            <img src=""><!-- Image of graduate on pedestal -->
-        </div>
+        </td><td class="span3 right">
+            &nbsp;
+        </td></tr></table>
     </div>
-
 {% endblock %}
