@@ -218,7 +218,11 @@
 #question .tags .badge:hover {
     background-color:#ddEfFF;
 }
-
+#askform input,
+#askform textarea {
+    width:100%;
+    
+}
 
 /*************
  * ANSWER
