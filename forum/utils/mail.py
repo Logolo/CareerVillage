@@ -52,13 +52,23 @@ def create_and_send_mail_messages(messages):
             sender = str(settings.DEFAULT_FROM_EMAIL)
 
         for recipient, subject, html, text, media in messages:
+            if type(recipient) == dict:
+                username = recipient.get('username', None)
+                email = recipient.get('email', None)
+            else:
+                username = recipient.username
+                email = recipient.email
+
             msgRoot = MIMEMultipart('related')
 
             msgRoot['Subject'] = Header(subject, 'utf-8')
             msgRoot['From'] = sender
 
-            to = Header(recipient.username, 'utf-8')
-            to.append('<%s>' % recipient.email)
+            if username:
+                to = Header(username, 'utf-8')
+                to.append('<%s>' % email)
+            else:
+                to = Header(email, 'utf-8')
             msgRoot['To'] = to
 
             msgRoot.preamble = 'This is a multi-part message from %s.' % unicode(settings.APP_SHORT_NAME).encode('utf8')
@@ -78,6 +88,7 @@ def create_and_send_mail_messages(messages):
 
             try:
                 connection.sendmail(sender, [recipient.email], msgRoot.as_string())
+#                print msgRoot.as_string()
                 logging.error("EMAIL_LOG: Email sent to %s" % recipient.email)
             except Exception, e:
                 logging.error("Couldn't send mail using the sendmail method: %s" % e)

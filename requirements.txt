@@ -1,5 +1,5 @@
 Django==1.4.1
-markdown=2.2.1
+markdown==2.2.1
 South==0.7.6
 html5lib==0.95
 python-openid==2.2.5

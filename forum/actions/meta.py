@@ -8,30 +8,19 @@ from forum import settings
 class ReferralAction(ActionProxy):
     verb = _("referred")
 
-    def process_data(self, referred_user=None):
-        print "in process data"
-        self.extra = referred_user
+    def process_data(self, **data):
+        self.extra = data
         self.save()
-        if hasattr(self, 'referral'):
-            print "referral repeat"
-            pass
-        else:
-            referral = Referral(user=self.user, action=self, referred_user=self.extra)
+        if not hasattr(self, 'referral'): #check repeat
+            referral = Referral(
+                user=self.extra.get('referral_user', None),
+                email=self.extra.get('referral_email', None),
+                action=self, 
+                referred_user=self.user)
             referral.save()
-            self.adjust_referrals(1)
-
 
     def cancel_action(self):
         self.referral.delete()
-        self.adjust_referrals(-1)
-
-
-    def adjust_referrals(self, amount):
-        if self.user.prop.referral_count:
-            self.user.prop.referral_count += amount
-        else:
-            self.user.prop.referral_count = amount
-        self.user.save()
 
 class VoteAction(ActionProxy):
     def update_node_score(self, inc):

@@ -193,6 +193,9 @@ class AnswerForm(forms.Form):
         if settings.WIKI_ON:
             self.fields['wiki'] = WikiField()
 
+class ReferFriendForm(forms.Form):
+    email   = forms.EmailField()
+
 class RetagQuestionForm(forms.Form):
     tags   = TagNamesField()
     # initialize the default values

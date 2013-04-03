@@ -1,0 +1,21 @@
+{% load i18n extra_tags email_tags %}
+
+{% declare %}
+    prefix = settings.EMAIL_SUBJECT_PREFIX
+    app_name = settings.APP_SHORT_NAME
+
+    exclude_finetune = True
+{% enddeclare %}
+
+{% email %}
+    {% subject %}{% blocktrans %}{{ prefix }} Career question for you{% endblocktrans %}{% endsubject %}
+
+    {% htmlcontent notifications/base.html %}
+        {{ message|linebreaks }}
+    {% endhtmlcontent %}
+
+{% textcontent notifications/base_text.html %}
+    {{ message }}
+{% endtextcontent %}
+
+{% endemail %}

@@ -3,6 +3,7 @@ import os.path
 import time, datetime, random
 import logging
 from django.core.files.storage import FileSystemStorage
+from django.db.models import F, Q
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.template import RequestContext
@@ -288,14 +289,10 @@ def answer(request, id):
             answer_action = AnswerAction(user=request.user, ip=request.META['REMOTE_ADDR']).save(dict(question=question, **form.cleaned_data))
             answer = answer_action.node
 
-
-            if 'referrer' in request.POST:
-                try:
-                    referrer = User.objects.get(id=int(request.POST['referrer']))
-                    referral_action = ReferralAction(user=referrer, ip=request.META['REMOTE_ADDR']).save(dict(referred_user=request.user))
-                except ObjectDoesNotExist:
-                    # Referrer field pointed to invalid user, ignore referral
-                    pass
+            referrals = [r.referred_user.id for r in 
+                Referral.objects.filter(Q(user=request.user) | Q(email=request.user.email)).filter(questions=question)]
+            if referrals:
+                User.objects.filter(id__in=referrals).update(referral_count=F('referral_count')+1)
 
             if settings.WIKI_ON and request.POST.get('wiki', False):
                 answer.nstate.wiki = answer_action

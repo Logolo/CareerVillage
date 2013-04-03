@@ -1,4 +1,10 @@
 <!-- _question_top.html -->
+{% if refer_success %}
+<div>
+    <div>Nicely done!</div>
+    <div>You've referred {{ refer_questions_count }} questions to friends.</div>
+</div>
+{% endif %}
 <div id="question" class="row-fluid">
         
     <table><tr><td class="span2">

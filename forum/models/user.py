@@ -115,10 +115,11 @@ class User(BaseModel, DjangoUser):
     is_approved = models.BooleanField(default=False)
     email_isvalid = models.BooleanField(default=False)
 
-    reputation = models.PositiveIntegerField(default=0)
+    reputation = models.PositiveIntegerField(default=0)    
     gold = models.PositiveIntegerField(default=0)
     silver = models.PositiveIntegerField(default=0)
     bronze = models.PositiveIntegerField(default=0)
+    referral_count = models.PositiveIntegerField(default=0)
 
     last_seen = models.DateTimeField(default=datetime.datetime.now)
     real_name = models.CharField(max_length=100, blank=True)

@@ -6,8 +6,10 @@
 
 {% block content %}{% endblock%}
 
+{% if not exclude_thanks %}
 {% trans "Thanks" %},
 {{settings.APP_SHORT_NAME}}
+{% endif %}
 
 {% if not exclude_finetune %}
 {% trans "P.S. You can always fine-tune which notifications you receive here:" %}

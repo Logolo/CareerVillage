@@ -3,10 +3,12 @@ from base import *
 
 
 class Referral(models.Model):
-    user = models.ForeignKey(User, related_name='referrals')
+    user = models.ForeignKey(User, related_name='referrals', blank=True, null=True)
+    email = models.EmailField(blank=True)
     referred_user = models.ForeignKey(User, related_name='referred_by')
-    action = models.OneToOneField(Action, related_name="referral")
+    action = models.OneToOneField(Action, related_name='referral')
     referred_at = models.DateTimeField(default=datetime.datetime.now)
+    questions = models.ManyToManyField(Node, blank=True, null=True)
 
     class Meta:
         app_label = 'forum'

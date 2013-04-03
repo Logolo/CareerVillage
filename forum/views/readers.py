@@ -20,13 +20,14 @@ from django.utils.http import urlquote  as django_urlquote
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 
+from forum.utils.mail import send_template_email
 from forum.utils.html import sanitize_html, hyperlink
 from forum.utils.diff import textDiff as htmldiff
 from forum.utils import pagination
 from forum.forms import *
 from forum.models import *
 from forum.forms import get_next_url
-from forum.actions import QuestionViewAction
+from forum.actions import QuestionViewAction, ReferralAction
 from forum.http_responses import HttpResponseUnauthorized
 from forum.feed import RssQuestionFeed, RssAnswerFeed
 from forum.utils.pagination import generate_uri
@@ -414,6 +415,79 @@ def new_answer(request, id, slug='', answer=None):
     else: # This user is logged out 
             return HttpResponsePermanentRedirect(question.get_absolute_url())
 
+@decorators.render("v2/question_refer_friend_form.html", 'questions')
+def refer_friend(request, id):
+    if request.user.is_authenticated():
+        if request.user.user_type == "student":
+            return HttpResponsePermanentRedirect(question.get_absolute_url())
+        else: #The user is not a student. 
+            question = get_object_or_404(Question, id=id)
+            if question.nis.deleted and not request.user.can_view_deleted_post(question):
+                raise Http404
+
+            context = {
+                "question": question, 
+                "question_uri": request.build_absolute_uri(reverse('question', args=[question.id])),
+                "user": request.user
+            }            
+            message = template.loader.render_to_string('v2/question_refer_friend_message.html', context)
+            context['message'] = message
+            
+            form = ReferFriendForm(request.POST or None)
+            if form.is_valid():
+                email = form.cleaned_data['email']
+
+                created = False
+                try:
+                    referral_user = User.objects.get(email=email)                    
+                except User.DoesNotExist:
+                    referral_user = None                
+                try:
+                    referral = Referral.objects\
+                        .filter(Q(user__email=email) | Q(email=email))\
+                        .filter(referred_user=request.user)[0]
+                except IndexError:
+                    referral_action = ReferralAction(user=request.user, 
+                        ip=request.META['REMOTE_ADDR']).save({'referral_user': referral_user, 'referral_email': email})
+                    referral = referral_action.referral
+                    created = True
+                referral.questions.add(question.id)   
+
+                if created:
+                    context.update({                    
+                        'exclude_greeting': True, 
+                        'exclude_finetune': True,
+                        'exclude_thanks': True
+                    })                
+                    send_template_email([{'email': email}], 
+                        "v2/question_refer_friend_email.html", 
+                        context)
+
+                    request.user.reputation += 25
+                    request.user.save()
+
+                request.session['refer_success'] = True
+                request.session['refer_questions_count'] = request.user.referred_by.distinct().values('questions').count()
+                return HttpResponseRedirect(question.get_absolute_url())
+
+            update_question_view_times(request, question)
+
+            if request.user.is_authenticated():
+                try:
+                    subscription = QuestionSubscription.objects.get(question=question, user=request.user)
+                except:
+                    subscription = False
+            else:
+                subscription = False
+
+            context.update({
+                "refer_friend_form" : form,
+                "subscription": subscription
+            })
+            return render(request, "v2/question_refer_friend_form.html", context)
+    else: # This user is logged out 
+        return HttpResponsePermanentRedirect(question.get_absolute_url())
+
 @decorators.render("v2/question_as_loggedout.html", 'questions')
 def question_as_loggedout(request, id, slug='', answer=None):
     try:
@@ -521,15 +595,12 @@ def question_as_educator(request, id, slug='', answer=None):
         subscription = False
 
 
-    referrer = request.GET.get('referrer', None)
-
     return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
     "question" : question,
     "answer" : answer_form,
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
-    "subscription": subscription,
-    "referrer": referrer
+    "subscription": subscription
     })
 
 @decorators.render("v2/question_as_professional.html", 'questions')
@@ -587,6 +658,8 @@ def question_as_professional(request, id, slug='', answer=None):
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
     "subscription": subscription,
+    "refer_success": request.session.pop('refer_success', False),
+    "refer_questions_count": request.session.pop('refer_questions_count', 0),
     })
 REVISION_TEMPLATE = template.loader.get_template('node/revision.html')
 
