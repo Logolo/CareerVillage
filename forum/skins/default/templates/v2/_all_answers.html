@@ -10,14 +10,9 @@
     {% for answer in answers.paginator.page %}
         <table><tr><td class="left">
 
-            <!-- Answer like section -->
-            <div class="like-widget">
-                <h3>{{ question.score }}</h3>
-                <span class="thumbs-up"></span>
-                <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
-                class="btn {% ifequal user_vote "up" %}on{% endifequal %}"
-                 href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
-            </div><!--/.like-section -->
+        <!-- Like section -->
+        {% vote_buttons_v2 answer request.user %}
+        <!--/.like-section -->
             
         </td><td class="center">
         
@@ -41,11 +36,6 @@
 
                 <!-- Answer body -->
                 <div class="answer-content">
-                    <p>Computer engineers are hardware hackers who work on making hardware "Do things." For example, they can program the thermostat in your house to be remotely controlled via your iPhone. They are heavy on the programming side and on the hardware side. They work with chips, IC's, and other gadgetry. They tinker with things. Soldering, oscilloscopes, bread boards, and getting zapped by electricity are just some of the fun things we get. </p>
-                    <p>If you want to get started in computer engineering, you should take a look at the awesome freedom-loving folks over at Arduino.
-                    <a href="http://www.arduino.cc/">http://www.arduino.cc/</a></p>
-                    <p>See that thing in the palm of that dude's hand? Yeah, that's what they play with on the side. Using that little thing and plenty of reading, amateur's such as yourself can make earthquake detectors, lawnmowers, credit card readers, and all kinds of other fun stuff. The most fun part is playing pranks. I built this device in high school that made cricket chirping sounds and put it in the teacher's room. She couldn't figure out what the heck was going on. The Principal called in the exterminator 4 times and they still couldn't find it. It was great. After doing it for about 5 years, Intel will look at you and go, "oh wow."</p>
-                                                            
                     {{ answer.html|safe }}
                 </div>
 

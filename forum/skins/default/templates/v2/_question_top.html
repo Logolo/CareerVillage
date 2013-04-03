@@ -1,20 +1,13 @@
+{% load node_tags %}
+
 <!-- _question_top.html -->
 <div id="question" class="row-fluid">
         
     <table><tr><td class="left">
 
-        <!-- Question like section -->
-        <div class="like-widget {% ifequal user_vote 'up' %}on{% endifequal %}">
-            <h3>{{ question.score }}</h3>
-            <span class="thumbs-up"></span>
-            <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
-            class="like-question-button btn"
-             href="{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
-             <div class="follow-question" style="opacity:.1">
-                 <hr style="margin:5px 0 3px 0"/>
-                 <button class="follow-question-button btn"><span class="icon-star"></span> follow</button>
-            </div>
-        </div><!--/.like-section -->
+        <!-- Like section -->
+        {% vote_buttons_v2 question request.user %}
+        <!--/.like-section -->
         
     </td><td class="center">
 

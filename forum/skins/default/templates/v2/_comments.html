@@ -12,28 +12,11 @@
                         </a>
                         <div class="media-body">
                             <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
-                            <span class="comment-date">2 weeks ago{% diff_date comment.added_at %}</a></div>
-                            <p class="comment-text">They are heavy on the programming side and on the hardware side. They work with chips, IC's, and operators.</p>
+                            <span class="comment-date">{% diff_date comment.added_at %}</a></div>
+                            <p class="comment-text">{{comment.comment}}</p>
                         </div>
                     </div>
                 {% endfor %}
-
-
-                <div id="comment-{{comment.id}}">
-                    <a class="pull-left" href="{{ user.get_profile_url }}">
-                        <span class="avatar avatar-small"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
-                    </a>
-                    <div class="media-body">
-                        <h5 style="margin:0">
-                            <a href="{{ user.get_profile_url }}">{{ user.real_name }}</a> &nbsp;
-                            <span class="comment-date">2 weeks ago{% diff_date comment.added_at %}</a>
-                        </h5>
-                        <p class="comment-text">
-                            They are heavy on the programming side and on the hardware side. They work with chips, IC's, and operators.
-                        </p>
-                    </div>
-                </div>
-
 
                 {% if user.is_anonymous %}
                     <div><a class="btn btn-success" href="">To like this answer or comment on it, please login now</a></div>
