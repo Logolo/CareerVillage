@@ -335,6 +335,35 @@ h3.answers-count {
     -moz-border-radius: 0 6px 6px 6px;
     border-radius: 0 6px 6px 6px;
 }
+#notifications h4 {
+    margin:-12px 0 12px 0;
+    line-height:125%;
+}
+#notifications article img {
+    width:100%;
+    background-color:#eee;
+    min-height:40px;
+    
+}
+#notifications article {
+    margin-top:20px;
+    border:1px solid #eee;
+    background-color:#fcfcfc;
+    padding:1%;
+    min-height:240px;
+    -webkit-transition: background 0.3s ease;  
+    -moz-transition: background 0.3s ease;  
+    -o-transition: background 0.3s ease;   
+    -ms-transition: background 0.3s ease;    
+    transition: background 0.3s ease;
+}
+#notifications article.active {
+    background-color:#eafcdb;
+}
+#notifications article:hover {
+    cursor:pointer;
+    background-color:#badd9b;
+}
 
 
 /*************
