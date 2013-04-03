@@ -20,4 +20,33 @@ $(function(){
 
     });
 
+
+
+
 });
+
+
+// legacy from question page - should be rewritten to not be so obtuse
+// commented out for now to prevent conflicts with templates that may have the same function
+// hard-coded into their template
+/*
+function submitClicked(e, f) {
+    window.removeEventListener('beforeunload', beforeUnload, true);
+    if (f) {
+        f.submit();
+    }
+}
+
+function beforeUnload(e) {
+    if($("textarea#editor")[0].value != "") {
+        return yourWorkWillBeLost(e);
+    }
+    var commentBoxes = $("textarea.commentBox");
+    for(var index = 0; index < commentBoxes.length; index++) {
+        if(commentBoxes[index].value != "") {
+            return yourWorkWillBeLost(e);
+        }
+    }
+}
+window.addEventListener('beforeunload', beforeUnload, true);
+*/
