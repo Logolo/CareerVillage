@@ -138,10 +138,30 @@
 .search-subtext {
     
 }
+.question-stats {
+    clear:both;
+    padding-top:10px;
+}
+.question-stats h3,
+.question-stats p {
+    text-align:center;
+    line-height:120%;
+    margin:0;
+    padding:0;
+}
+.question-stats .timestamp {
+    display:block;
+    font-size:9px;
+    position:relative;
+    top:3px;
+    text-align:center;
+    color:#999;
+}
+
 
 
 /************
- * Like Widget
+ * LIKE WIDGET
  ***/
  
 .like-widget {
