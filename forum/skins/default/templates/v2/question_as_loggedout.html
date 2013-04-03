@@ -36,21 +36,18 @@
 {% endblock %}
 
 {% block content %}
-
-{% include "v2/_question_top.html" %}
+    
+    {% include "v2/_question_top.html" %}
 
     <!-- Answers header (results count, etc.) -->
-    <div class="row-fluid">
-        <div class="offset2 span7">
-            <div class="answer-buttons" style="margin:20px 0">
-                <a class="btn btn-success" href="{% url auth_signin %}" class="btn btn-success">Join our community now to add a comment or answer to this question!</a>
-            </div>
-            <h4>{{ question.answer_count }} answers:</h4>
-            {{ answers.paginator.page_numbers }}
-            <hr />
-        </div>
+    <div class="answer-actions">
+        <a class="btn btn-success" href="{% url auth_signin %}" class="btn btn-success">Join our community now to add a comment or answer to this question!</a>        
     </div>
 
+    <!-- Results Count -->
+    <h3 class="answers-count">{{ question.answer_count }} answers:</h3>
+    {{ answers.paginator.page_numbers }}
+    <hr />
 
     <!-- Answers -->
     {% include "v2/_all_answers.html" with cta_text="Post kudos" %}

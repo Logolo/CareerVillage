@@ -44,11 +44,11 @@
         <a class="btn btn-large btn-success" href="{{ question.get_absolute_url }}/new_answer/">I can <u>answer</u> this question!</a>
         &nbsp;&nbsp;
         <a class="btn btn-large btn-success" href="">I know <u>someone else</u> who can!</a>
-        {{ answers.paginator.page_numbers }}
     </div>
 
-    <!-- Answers Count -->
-    <h3 style="margin-top:-5px; font-weight:normal; margin-bottom:-20px; margin-left:20px">{{ question.answer_count }} answers:</h3>
+    <!-- Results Count -->
+    <h3 class="answers-count">{{ question.answer_count }} answers:</h3>
+    {{ answers.paginator.page_numbers }}
     <hr />
 
     <!-- Answers -->
@@ -66,7 +66,7 @@
             <div class="answer-body">
 
                 <h5 class="answer-user">
-                    <a class="avatar" href="{{ user.get_profile_url }}">{% gravatar user 64 %}</a>
+                    <a class="avatar" href="{{ answer.user.get_profile_url }}">{% gravatar user 64 %}</a>
                     <a href="{{ answer.user.get_profile_url }}">{{ user.real_name }}</a>
                     <span class="text-light">{{ user.about }}</em><br />
                     <span class="text-subtext">{{ user.location }}</span>
@@ -96,4 +96,5 @@
             &nbsp;
         </td></tr></table>
     </div>
+    
 {% endblock %}

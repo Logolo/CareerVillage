@@ -37,47 +37,47 @@
 
 {% block content %} 
 
-{% include "v2/_question_top.html" %}
+    {% include "v2/_question_top.html" %}
 
     <!-- Answers header (results count, etc.) -->
-    <div class="row-fluid">
-        <div class="offset2 span7">
-            <div class="answer-buttons" style="margin:20px 0">
-                <a class="btn btn-success" href="{{ question.get_absolute_url }}/new_answer/">I can <u>answer</u> this question!</a>
-                <a class="btn btn-success" href="">I know <u>someone else</u> who can!</a>
-            </div>
-            <h4>{{ question.answer_count }} answers:</h4>
-            {{ answers.paginator.page_numbers }}
-            <hr />
-        </div>
+    <div class="answer-actions">
+        <a class="btn btn-large btn-success" href="{{ question.get_absolute_url }}/new_answer/">I can <u>answer</u> this question!</a>
+        &nbsp;&nbsp;
+        <a class="btn btn-large btn-success" href="">I know <u>someone else</u> who can!</a>
     </div>
+
+    <!-- Results Count -->
+    <h3 class="answers-count">{{ question.answer_count }} answers:</h3>
+    {{ answers.paginator.page_numbers }}
+    <hr />
 
     <!-- Answers -->
     {% include "v2/_all_answers.html" with cta_text="Post kudos" %}
 
-<!-- Bottom Call To Action section (differs for each user type) !-->
-<div>
-    <div>Your answer to this question</div>
+    <!-- Bottom Call To Action section (differs for each user type) !-->
     <div>
-        <div><a href="{{ request.user.get_profile_url }}">{{ request.user.real_name }}</a></div>
-        <div>{{ request.user.headline }}Example headline: General Manager at IDEO{# TODO REPLACE WITH WORKING HEADLINE #}</div>
-        <div>{{ request.user.location }}</div>
-        <div>{{ request.user.industry }}Example: Internet{# TODO REPLACE WITH WORKING HEADLINE #}</div>
-        <div><a href="{{ request.user.get_profile_url }}"><img src="">{% gravatar request.user 64 %}{# TODO REPLACE WITH WORKING HEADLINE #}</a></div>
+        <div>Your answer to this question</div>
+        <div>
+            <div><a href="{{ request.user.get_profile_url }}">{{ request.user.real_name }}</a></div>
+            <div>{{ request.user.headline }}Example headline: General Manager at IDEO{# TODO REPLACE WITH WORKING HEADLINE #}</div>
+            <div>{{ request.user.location }}</div>
+            <div>{{ request.user.industry }}Example: Internet{# TODO REPLACE WITH WORKING HEADLINE #}</div>
+            <div><a href="{{ request.user.get_profile_url }}"><img src="">{% gravatar request.user 64 %}{# TODO REPLACE WITH WORKING HEADLINE #}</a></div>
+        </div>
+        <div>
+            <form id="fmanswer" action="{% url answer question.id %}" method="post">
+                {% if not question.closed %}
+                    <div>
+                        {{ answer.text }}
+                        {{ answer.text.errors }}
+                    </div>
+                    <input type="button"
+                        value="Submit advice" 
+                        class="btn btn-success" style="float:left" onclick="submitClicked(event, this.form)"/>
+                    <p><span class="form-error"></span></p>
+                {% endif %}
+            </form>
+        </div>
     </div>
-    <div>
-        <form id="fmanswer" action="{% url answer question.id %}" method="post">
-            {% if not question.closed %}
-                <div>
-                    {{ answer.text }}
-                    {{ answer.text.errors }}
-                </div>
-                <input type="button"
-                    value="Submit advice" 
-                    class="btn btn-success" style="float:left" onclick="submitClicked(event, this.form)"/>
-                <p><span class="form-error"></span></p>
-            {% endif %}
-        </form>
-    </div>
-</div>
+
 {% endblock %}

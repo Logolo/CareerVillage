@@ -24,17 +24,28 @@
             <!-- Answer user and body content section -->
             <div class="answer-body">
 
-                <h5 class="answer-user">
-                    <a class="avatar" href="{{ answer.user.get_profile_url }}">{% gravatar answer.user 64 %}</a>
-                    <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
-                    <span class="text-light">general practice physician{# TODO remove placeholders #}{{ answer.user.about }}</em><br />
-                    <span class="text-subtext">Boston, MA{{ answer.user.location }}</span>
-                    <span class="text-subtext">healthcare{{  answer.user.industry  }}</span>
-                    <span class="text-subtext">Last updated {% diff_date answer.last_activity_at %}</span>
-                </h5>
+                <div class="answer-user">
+                    <a class="pull-left" href="{{ user.get_profile_url }}">
+                        <span class="avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
+                    </a>
+                    <div class="media-body">
+                        <h5 style="margin:0">
+                            <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
+                            <span class="text-light">general practice physician{# TODO remove placeholders #}{{ answer.user.about }}</em></span><br />
+                            <span class="text-subtext">Boston, MA{{ answer.user.location }}</span>
+                            <span class="text-subtext">healthcare{{  answer.user.industry  }}</span>
+                            <span class="text-subtext">Last updated {% diff_date answer.last_activity_at %}</span>
+                        </h5>
+                    </div>
+                </div>
 
                 <!-- Answer body -->
                 <div class="answer-content">
+                    <p>Computer engineers are hardware hackers who work on making hardware "Do things." For example, they can program the thermostat in your house to be remotely controlled via your iPhone. They are heavy on the programming side and on the hardware side. They work with chips, IC's, and other gadgetry. They tinker with things. Soldering, oscilloscopes, bread boards, and getting zapped by electricity are just some of the fun things we get. </p>
+                    <p>If you want to get started in computer engineering, you should take a look at the awesome freedom-loving folks over at Arduino.
+                    <a href="http://www.arduino.cc/">http://www.arduino.cc/</a></p>
+                    <p>See that thing in the palm of that dude's hand? Yeah, that's what they play with on the side. Using that little thing and plenty of reading, amateur's such as yourself can make earthquake detectors, lawnmowers, credit card readers, and all kinds of other fun stuff. The most fun part is playing pranks. I built this device in high school that made cricket chirping sounds and put it in the teacher's room. She couldn't figure out what the heck was going on. The Principal called in the exterminator 4 times and they still couldn't find it. It was great. After doing it for about 5 years, Intel will look at you and go, "oh wow."</p>
+                                                            
                     {{ answer.html|safe }}
                 </div>
 
@@ -48,7 +59,6 @@
         </td><td class="span3 right">
             
             <!-- Right side (differs for each user type) -->
-            {% v2comments_rightside answer request.user %}
             
         </td></tr></table>
 
