@@ -12,7 +12,12 @@
 {% endblock %}
 
 {% block content %}
-    <div class="tabbable tabs-left">
+<div class="row-fluid">
+    <h2 class="offset1 span9">Settings<br /><br /></h2>
+
+</div>
+<div id="settings" class="row-fluid">
+    <div class="tabbable tabs-left offset1 span3">
         <ul class="nav nav-tabs">
             <li class="{% block accountactive %}{% endblock %}">
                 <a href="{% url settings_account %}">Account</a>
@@ -32,12 +37,16 @@
         </ul>
     </div>
 
-    <div class="tab-content">
-        <div class="tab-pane active">
+    <div class="tab-content span8">
+        <div class="tab-pane active row-fluid">
             {% block settings_content%}
             {% endblock %}
+            <a style="float:right;" href="{% url homepage %}" class="btn">Return to homepage</a>
         </div>
     </div>
+
+</div>
+
 
 {% endblock %}
 <!-- end settings_base.html -->

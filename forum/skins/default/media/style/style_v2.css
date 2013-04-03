@@ -306,6 +306,38 @@ h3.answers-count {
 
 
 /*************
+ * SETTINGS
+ ***/
+
+#settings form {
+    min-height:180px;
+}
+#settings .submit {
+    min-width:180px;
+}
+#settings .tabs-left .nav-tabs {
+    width:100%;
+    margin:0;
+}
+#settings .tabs-left  {
+    position:relative;
+    z-index:2;
+    background-color:#fff;
+}
+#settings .tab-content {
+    position:relative;
+    left:-21px;
+    z-index:1;
+    margin:0 -6px 0 21px;
+    padding:48px 24px 32px 24px;
+    border:1px solid #ddd;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+
+/*************
  * IMAGES
  ***/
  
