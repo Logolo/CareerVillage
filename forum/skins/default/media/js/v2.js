@@ -5,23 +5,27 @@ $(function(){
     // trigger animations when the like question button is clicked
     $(".like-question-button").click(function(e){
         e.preventDefault();
-                
+
+        // prevent multiple likes
+        $(this).addClass('disabled');                 
+
         // like page
-        // TODO wrap in ajax success function
-        if (!$(this).hasClass('disabled')) {
-            $(this).addClass('btn-primary disabled').removeClass('btn-success').text('Liked!');
-            $num = $(this).closest('.like-widget').find('h3');
-            $num.text(parseInt($num.text())+1);            
-        }
-
-        // reveal the follow question button
-        $('.follow-question').animate({'opacity': '1'});
-
+        url = $(this).attr('href');
+        _this = this;
+        $.ajax({
+          url: url,
+          data: ''
+        }).success(function(e){
+                $(this).addClass('btn-primary disabled').removeClass('btn-success').text('Liked!');
+                $num = $(this).closest('.like-widget').find('h3');
+                $num.text(parseInt($num.text())+1);            
+                // reveal the follow question button
+                $('.follow-question').animate({'opacity': '1'});
+        }).done(function() {    
+            $(this).removeClass('disabled'); 
+        });
 
     });
-
-
-
 
 });
 
