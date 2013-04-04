@@ -1,7 +1,6 @@
 {% extends "v2/question_base.html" %}
 
 {% block answeractions %}
-    <a class="btn btn-success" href="{% url auth_signin %}" class="btn btn-success">Join our community now to add a comment or answer to this question!</a>        
 {% endblock %}
 
 {% block answersbottom %}
@@ -9,17 +8,18 @@
     <div id="your-response row-fluid">
 
         <table><tr><td class="left">
-            &nbsp;
+            <div class="like-widget" style="visibility:hidden">&nbsp;</div>
         </td><td class="center">
-            <h4>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</h4>
-            <p>Your ball.</p>
-            <p>What are you going to do differently now that you have seen the above advice?</p>
-            <form action="" method="post">
-                <div>
-                    <input type="textarea" name="student_intention"/>
-                </div>
-                <input type="submit" class="btn btn-success" value="Save"/>
-            </form>
+            <div style="margin:10px 24px">
+                <h4>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</h4>
+                <p>Your ball.</p>
+                <p>What are you going to do differently now that you have seen the above advice?</p>
+                {# TODO implement this form #}
+                <form action="" method="post">
+                    <textarea name="student_intention" style="width:100%"></textarea>
+                    <input type="submit" class="btn btn-success" value="Save"/>
+                </form>
+            </div>
         </td><td class="span3 right">
             &nbsp;
         </td></tr></table>
