@@ -8,24 +8,32 @@ $(function(){
  * toggle hidden radio buttons by clicking on other elements
  * 1. add "radio-el" class to an element that you want to toggle a radio button
  * 2. add "custom-radio-elements" class to an ancestor
- * 3. add "rel='whatever'" if the id of the input field is "whatever", every input field needs a unique id so we know which one to check
+ * 3. add "rel='whatever'" if the id of the hidden input field is "whatever"
  */
 
 $(".custom-radio-elements .radio-el").click(function(e){
-/*
-    id = $(this).data('rel');
+
+    id = $(this).attr('rel');
     if (!id) return false;
 
     $el = $("#"+ id);
-    if (!$el.length) return false;
+    if (!$el.length) return false;    
 
-    // check the input field associated with this element
-    $el.attr('checked', true);
-*/
+    // set the input field associated with this element
+    val = $(this).data('value');
+    $el.val(val);
+
     // set the clicked element's class to active
     $(this).closest('.custom-radio-elements').find('.radio-el').removeClass('active');
     $(this).addClass('active');
-        
+    
+    // add some animation to the save button
+    if ($submit = $el.closest('form').find('input[type=submit]')) {
+        $submit.removeClass('animated wobble');
+        $submit.addClass('animated wobble');
+    }
+    
+    
 });
 
 

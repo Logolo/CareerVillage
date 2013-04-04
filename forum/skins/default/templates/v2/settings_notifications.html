@@ -16,36 +16,48 @@ active
         how do you want us to let you know?
     </h4>
 
-    <section class="custom-radio-elements">
-        <article class="span3 radio-el">
-            <img />
-            <h5>Super hero</h5>
-            <p>
-                Let me know once the student asks the question. I'm an awesome possum!    
-            </p>
-        </article>
-        <article class="span3 active radio-el">
-            <img />
-            <h5>Daily Mail</h5>
-            <p>
-                Send me a note at the end of each day with questions I can answer. 
-            </p>
-        </article>
-        <article class="span3 radio-el">
-            <img />
-            <h5>Weekend Warrior</h5>
-            <p>
-                If you email me once a week, I'll answer my questions in a big batch.  
-            </p>
-        </article>
-        <article class="span3 radio-el">
-            <img />
-            <h5>Don't call me. I'll call you.</h5>
-            <p>
-                 Email isn't a good way to reach me. Plus, my inbox is a temple. 
-            </p>
-        </article>
-    </section>
+    <form class="form-horizontal" name="" action="{% url settings_account %}" method="post">
+
+        <!-- this hidden input field is what is actually submitted to the server -->
+        <input id="notifications-input" type="hidden" name="notifications" value="{# TODO set default value #}">
+
+        <!-- these toggles use some simple js in the v2.js file that updates the hidden input field on click -->
+        <section class="custom-radio-elements clearfix">
+            <article class="span3 radio-el" rel="notifications-input" data-value="1 {# TODO #}">
+                <img />
+                <h5>Super hero</h5>
+                <p>
+                    Let me know once the student asks the question. I'm an awesome possum!    
+                </p>
+            </article>
+            <article class="span3 active radio-el" rel="notifications-input" data-value="2 {# TODO #}">
+                <img />
+                <h5>Daily Mail</h5>
+                <p>
+                    Send me a note at the end of each day with questions I can answer. 
+                </p>
+            </article>
+            <article class="span3 radio-el" rel="notifications-input" data-value="3 {# TODO #}">
+                <img />
+                <h5>Weekend Warrior</h5>
+                <p>
+                    If you email me once a week, I'll answer my questions in a big batch.  
+                </p>
+            </article>
+            <article class="span3 radio-el" rel="notifications-input" data-value="4 {# TODO #}">
+                <img />
+                <h5>Don't call me. I'll call you.</h5>
+                <p>
+                     Email isn't a good way to reach me. Plus, my inbox is a temple. 
+                </p>
+            </article>
+        </section>
+
+        <div style="text-align:center; margin:20px">
+            <input type="submit" value="{% trans "Save" %}" class="submit btn btn-success">
+        </div>
+    
+    </form>        
 </div>
 
 {% endblock %}

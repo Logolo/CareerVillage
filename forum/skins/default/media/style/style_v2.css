@@ -358,7 +358,7 @@ h3.answers-count {
     transition: background 0.3s ease;
 }
 #notifications article.active {
-    background-color:#eafcdb;
+    background-color:#badd9b;
 }
 #notifications article:hover {
     cursor:pointer;
