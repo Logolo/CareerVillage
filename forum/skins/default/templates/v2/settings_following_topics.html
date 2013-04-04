@@ -4,15 +4,15 @@
 {% load i18n %}
 {% load question_list_tags %}
 
-{% block notificationsactive %}
-active
+{% block followingtopicsactive %}
+    active
 {% endblock %}
 
 {% block settings_content %}
-<div>
+
+    <h4 class="subtitle">Topics you follow</h4>
+
     {% tag_selector %}
-</div>
-<div>
-    <a href="{% url homepage %}" class="btn">Return to homepage</a>
-</div>
+    {# change to tag_selector_v2 to use the template in v2 folder #}
+
 {% endblock %}

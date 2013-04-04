@@ -309,12 +309,12 @@ h3.answers-count {
  * SETTINGS
  ***/
 
-#settings form {
-    min-height:180px;
+#settings h4.subtitle {
+    text-align:center;
 }
-#settings .submit {
-    min-width:180px;
-}
+
+/* adjust the tabs so there's no separation between 
+   the tabs on the left and content area on the right */
 #settings .tabs-left .nav-tabs {
     width:100%;
     margin:0;
@@ -326,27 +326,37 @@ h3.answers-count {
 }
 #settings .tab-content {
     position:relative;
-    left:-21px;
+    left:-21px; /* pull the content box 1px below the tabs so it appears to be a single unbroken element */
     z-index:1;
     margin:0 -6px 0 21px;
-    padding:48px 24px 32px 24px;
+    padding:24px 24px 32px 24px;
     border:1px solid #ddd;
     -webkit-border-radius: 0 6px 6px 6px;
     -moz-border-radius: 0 6px 6px 6px;
     border-radius: 0 6px 6px 6px;
 }
-#notifications h4 {
-    margin:-12px 0 12px 0;
-    line-height:125%;
+#settings .tab-pane {
+    min-height:230px; /* pushes back to back to homepage button down to bottom right */
 }
-#notifications article img {
-    width:100%;
-    background-color:#eee;
-    min-height:40px;
-    
+
+/* twitter bootstrap sets the label area of inline fields to 160px, 
+   but then at 760 the layout breaks, so here we 
+   adjust the width by minus 40px */
+#settings .form-horizontal .control-label {
+    width:120px;
 }
+#settings .form-horizontal .controls {
+    margin-left:140px;
+}
+
+/* make the submit button very obvious */
+#settings .submit {
+    min-width:220px;
+}
+
+/* present the notifications settings as clickable boxes
+   instead of radio buttons */
 #notifications article {
-    margin-top:20px;
     border:1px solid #eee;
     background-color:#fcfcfc;
     padding:1%;
@@ -363,6 +373,12 @@ h3.answers-count {
 #notifications article:hover {
     cursor:pointer;
     background-color:#badd9b;
+}
+#notifications article img {
+    width:100%;
+    background-color:#eee;
+    min-height:40px;
+    
 }
 
 
@@ -425,4 +441,7 @@ h4.text-soft-header {
     font-weight:normal;
     border-bottom:1px solid #fcfcfc;
 }
-
+h4.subtitle {
+    margin-bottom:24px;
+    line-height:125%;
+}

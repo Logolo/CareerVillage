@@ -4,22 +4,23 @@
 {% load i18n %}
 {% load question_list_tags %}
 
-{% block notificationsactive %}
-active
+{% block socialnetworksactive %}
+    active
 {% endblock %}
 
 {% block settings_content %}
-<div>
-    <div>
-        <div>Facebook</div>
-        <a href="" class="btn">Connect with Facebook</a>
+
+    <h4 class="subtitle">Connect your social networks</h4>
+
+    <div class="row-fluid">
+        <div class="span6" style="text-align:center">
+            <h4 class="subtitle">Facebook</h4>
+            <a href="#" class="btn btn-large">Connect with Facebook</a>
+        </div>
+        <div class="span6" style="text-align:center">
+            <h4 class="subtitle">Twitter</h4>
+            <a href="#" class="btn btn-large">Connect with Twitter</a>
+        </div>
     </div>
-    <div>
-        <div>Twitter</div>
-        <a href="" class="btn">Connect with Twitter</a>
-    </div>
-</div>
-<div>
-    <a href="{% url homepage %}" class="btn">Return to homepage</a>
-</div>
+    
 {% endblock %}
