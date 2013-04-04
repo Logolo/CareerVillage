@@ -75,3 +75,17 @@ def tag_selector(context):
         }
     else:
         return {'user_authenticated': False}
+
+@register.inclusion_tag('v2/tag_selector.html', takes_context=True)
+def tag_selector_v2(context):
+    request = context['request']
+
+    if request.user.is_authenticated():
+        pt = MarkedTag.objects.filter(user=request.user)
+        return {
+            "interesting_tag_names": pt.filter(reason='good').values_list('tag__name', flat=True),
+            'ignored_tag_names': pt.filter(reason='bad').values_list('tag__name', flat=True),
+            'user_authenticated': True,
+        }
+    else:
+        return {'user_authenticated': False}
