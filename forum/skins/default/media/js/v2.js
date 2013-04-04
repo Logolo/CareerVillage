@@ -36,34 +36,39 @@ $(".custom-radio-elements .radio-el").click(function(e){
 // trigger animations when the like question button is clicked
 $(".like-question-button").click(function(e){
     e.preventDefault();
+    $this = $(this);
 
     // disable the button prevent multiple likes
-    $(this).addClass('disabled');                 
+    $this.addClass('disabled');                 
 
     $widget = $(this).closest('.like-widget');
     $follow = $widget.find('.follow-question');
 
     // are we liking or unliking
-    var liking = ($widget.hasClass('on'))? true : false;
+    var liking = ($widget.hasClass('on'))? false : true;
     var $likes = $widget.find('h3');
 
     // like ajax request
-    $.getJSON($(this).attr('href'), function(data, e) {
+    $.getJSON($this.attr('href'), function(data, e) {
 
         // re-enable the button
-        $(this).removeClass('disabled');
+        $this.removeClass('disabled');
 
         // respond to error
         if (!data.success && data['error_message'] != undefined) {
             console.log(data.error_message);
             return;
-        } 
+        }
         
-        // increase/decrease likes count
+        // update like button, count and widget status
         if (liking) {
+            $this.text('Liked');
             $likes.text(parseInt($likes.text())+1);
+            $widget.addClass('on');
         } else {
+            $this.text('Like this');
             $likes.text(parseInt($likes.text())-1);
+            $widget.removeClass('on');
         }
 
         // show/hide the follow button if exists in this context
