@@ -8,11 +8,11 @@
 
 {% block answersbottom %}
     <!-- Your Answer -->
-    <div id="your-answer" class="answer row-fluid">
+    <article id="your-answer" class="answer row-fluid responsive">
 
-        <table><tr><td class="left">
+        <div class="span2 left">
             &nbsp;
-        </td><td class="center">
+        </div><div class="span7 center">
 
             <h4 style="margin-top:0px">Your answer to this question:</h4>
 
@@ -21,10 +21,10 @@
 
                 <div class="answer-user">
                     <a class="pull-left" href="{{ user.get_profile_url }}">
-                        <span class="avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
+                        <span class="avatar avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
                     </a>
                     <div class="media-body">
-                        <h5 style="margin:0">
+                        <h5>
                             <a href="{{ user.get_profile_url }}">{{ user.real_name }}</a>
                             <span class="text-light">{{ user.about }}</em></span><br />
                             <span class="text-subtext">{{ user.location }}</span>
@@ -50,13 +50,16 @@
 
                 </div>
 
-            </div><!--/.answer -->
-
-        </td><td class="span3 right">
+            </div><!--/.answer-body -->
+            
+        </div><div class="span3 right">
+            
             &nbsp;
-        </td></tr></table>
+            <!-- Right side (differs for each user type) -->
+            
+        </div></article>
 
-    </div><!--/#your-answer -->
+    </article><!--/#your-answer -->
 {% endblock %}
 
 {% block confirmation %}

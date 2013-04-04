@@ -3,13 +3,13 @@
 <!-- _question_top.html -->
 <div id="question" class="row-fluid">
         
-    <table><tr><td class="left">
+    <div class="span2 left">
 
         <!-- Like section -->
         {% vote_buttons_v2 question request.user %}
         <!--/.like-section -->
         
-    </td><td class="center">
+    </div><div class="span7 center">
 
         <!-- Question description section -->
         <h1 class="text-medium question-title">{{ question.headline }}</h1>
@@ -22,7 +22,7 @@
         </div>
         <p style="font-size:11px"><a href="#">flag this question for review</a></p>
 
-    </td><td class="span3 right">
+    </div><div class="span3 right">
 
         <!-- profile picture and summary info -->
         <div class="media profile">
@@ -50,6 +50,6 @@
             </div>
         </div><!--/.profile -->
         
-    </td></tr></table>
+    </div>
 
 </div><!--/#question -->

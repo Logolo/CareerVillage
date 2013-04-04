@@ -5,52 +5,57 @@
 
 {% if answers %}<!-- There are answers -->
 
-    <section class="answer row-fluid">        
+    <section class="row-fluid">        
 
     {% for answer in answers.paginator.page %}
-        <table><tr><td class="left">
-
-        <!-- Like section -->
-        {% vote_buttons_v2 answer request.user %}
-        <!--/.like-section -->
+        <article class="row-fluid answer resp">
             
-        </td><td class="center">
+            <div class="span2 left">
+
+                <!-- Like section -->
+                {% vote_buttons_v2 answer request.user %}
+                <!--/.like-section -->
+            
+            </div><div class="span7 center">
         
-            <!-- Answer user and body content section -->
-            <div class="answer-body">
+                <!-- Answer user and body content section -->
+                <div class="answer-body">
 
-                <div class="answer-user">
-                    <a class="pull-left" href="{{ user.get_profile_url }}">
-                        <span class="avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
-                    </a>
-                    <div class="media-body">
-                        <h5 style="margin:0">
-                            <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
-                            <span class="text-light">general practice physician{# TODO remove placeholders #}{{ answer.user.about }}</em></span><br />
-                            <span class="text-subtext">Boston, MA{{ answer.user.location }}</span>
-                            <span class="text-subtext">healthcare{{  answer.user.industry  }}</span>
-                            <span class="text-subtext">Last updated {% diff_date answer.last_activity_at %}</span>
-                        </h5>
+                    <div class="answer-user">
+                        <a class="pull-left" href="{{ user.get_profile_url }}">
+                            <span class="avatar avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
+                        </a>
+                        <div class="media-body">
+                            <h5>
+                                <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
+                                <span class="text-light">{{ answer.user.about }}</em></span><br />
+                                <span class="text-subtext">{{ answer.user.location }}</span>
+                                <span class="text-subtext">{{  answer.user.industry  }}</span>
+                                <span class="text-subtext">Last updated {% diff_date answer.last_activity_at %}</span>
+                            </h5>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Answer body -->
-                <div class="answer-content">
-                    {{ answer.html|safe }}
-                </div>
+                    <!-- Answer body -->
+                    <div class="answer-content">
+                        {{ answer.html|safe }}
+                    </div>
 
-                <!-- Answer comments -->
-                <div class="answer-comments">
-                    {% v2comments answer request.user %}
-                </div>
+                    <!-- Answer comments -->
+                    <div class="answer-comments">
+                        {% v2comments answer request.user %}
+                    </div>
             
-            </div><!--/.answer -->
+                </div><!--/.answer -->
 
-        </td><td class="span3 right">
+            </div><div class="span3 right">
             
-            <!-- Right side (differs for each user type) -->
+                &nbsp;
+                <!-- Right side (differs for each user type) -->
             
-        </td></tr></table>
+            </div>
+            
+        </article><!--/.answer -->
 
     {% endfor %}
     </section><!--/.items -->

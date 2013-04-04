@@ -5,23 +5,25 @@
 
 {% block answersbottom %}
     <!-- Your Response -->
-    <div id="your-response row-fluid">
-
-        <table><tr><td class="left">
-            <div class="like-widget" style="visibility:hidden">&nbsp;</div>
-        </td><td class="center">
-            <div style="margin:10px 24px">
-                <h4>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</h4>
-                <p>Your ball.</p>
-                <p>What are you going to do differently now that you have seen the above advice?</p>
-                {# TODO implement this form #}
-                <form action="" method="post">
-                    <textarea name="student_intention" style="width:100%"></textarea>
-                    <input type="submit" class="btn btn-success" value="Save"/>
-                </form>
-            </div>
-        </td><td class="span3 right">
+    <article id="your-response" class="row-fluid responsive">
+        
+        <div class="span2 left">
             &nbsp;
-        </td></tr></table>
-    </div>
+        </div><div class="span7 center">
+
+            <h4>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</h4>
+            <p>Your ball.</p>
+            <p>What are you going to do differently now that you have seen the above advice?</p>
+            {# TODO implement this form #}
+            <form action="" method="post">
+                <textarea name="student_intention" style="width:100%"></textarea>
+                <input type="submit" class="btn btn-success" value="Save"/>
+            </form>
+
+        </div><div class="span3 right">
+            &nbsp;
+        </div>
+        
+    </article><!--/#your-response -->
+
 {% endblock %}

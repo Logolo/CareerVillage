@@ -47,9 +47,10 @@
         <!-- search form -->
         <h2>{% block search_prompt %}{% endblock %}</h2>
         <form  id="topsearch" action="{% url search_questions %}" method="get" class="form-search">
-            <div class="input-append" style="width:100%" >
-              <input style="width:80%" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" type="text">
-              <input type="submit" class="btn" name="Submit" value="search" />
+            <div class="input-append input-prepend" style="width:100%">
+              <span class="add-on" style="height:34px; line-height:34px;"><span class="icon-search"></span></span>    
+              <input style="width:70%; height:34px; line-height:34px;" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" placeholder="your career topic..." type="text">
+              <input type="submit" class="btn-large btn" name="Submit" value="search" />
             </div>
             <span id="searchoptions" style="display: none;">
                 <input id="type-question" type="radio" value="question" name="t" 
@@ -64,10 +65,11 @@
 
         <!-- search results header -->
         {% if keywords %}
-            <h4>Questions related to {{ keywords }}</h4>
+            <h3 class="section-header">Questions related to {{ keywords }}</h3>
         {% else %}
-            <h4>Latest questions</h4> 
+            <h3 class="section-header">Latest questions</h3> 
         {% endif %}
+        <hr />
 
         <!-- search results -->
         <div class="items">

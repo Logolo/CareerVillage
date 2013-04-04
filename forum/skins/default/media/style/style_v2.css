@@ -26,39 +26,17 @@
     max-width:1200px; 
     margin:0 auto;        
 }
-/* table-based layout for question at the top of the page and their answered listed below
-   this overrides the default row-fluid columns to give the left column a fixed width while 
-   keeping the rest fluid...
-   */
-#question .left {
-    width:100px;
-    vertical-align:top;
+.left.span2 {
     padding-top:20px;
 }
-#question .center {
-    padding:10px 20px;
+.center.span7 {
+    padding:10px;
 }
-#question .right {
-    vertical-align:top;
-    background-color: #f3f3f3;
-    -webkit-border-radius: 0 12px 12px 0;
-    -moz-border-radius: 0 12px 12px 0;
-    border-radius: 0 12px 12px 0;
-}
-.answer .left {
-    vertical-align:top;
-    width:100px;
-}
-.answer .center {
-    padding:0 0 10px 20px;
-}
-.answer .right {
-    vertical-align:top;
+.right.span3 {
     padding-left:10px;
 }
-.answer table {
-    width:100%;
-}
+
+
 /* additional layout adjustments for smaller screens 
    medium breakpoint  */
 @media (max-width:840px) { 
@@ -67,7 +45,22 @@
     .profile .media-body {
         clear:both;
         padding-top:5px;
+    }    
+    .items article .span2 {
+        width: 23.404255319148934%;
     }
+    .items article .span10 {
+        width: 74.46808510638297%;
+    }
+}
+@media (max-width:790px) {
+    /* hide the right column on smaller screens */
+    .responsive .span3.right {
+        display:none;
+    }
+    .responsive .span7.center {
+        width:82.97872340425532%;
+    }    
 }
 
 
@@ -131,12 +124,22 @@
     padding:0 1%;
 }
 .list-questions .items article {
-    margin:5px 0;
-    padding:10px 0;
-    border-bottom:4px solid #eee;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
 }
-.search-subtext {
-    
+.list-questions .items article:hover {
+    background-color:#fafafa;
+}
+#topsearch .checkbox {
+    margin-top:8px;
+}
+.search-subtext a {
+    font-size:11px;
+    color:#777;
+    text-decoration:underline;
+    display:block;
+    margin-top:-10px;
+    margin-bottom:20px;
 }
 .question-stats {
     clear:both;
@@ -159,7 +162,6 @@
 }
 
 
-
 /************
  * LIKE WIDGET
  ***/
@@ -175,35 +177,11 @@
 }
 
 
-/*************
- * QUESTION
- * 
+/************
+ * TAGS
  ***/
  
-#question {
-    border:1px solid #eee;
-    background-color:#fafafa;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-}
-#question .question-asker {
-    min-height:32px;
-}
-#question .question-asker .avatar img {
-    float:right;
-    margin-right:4px;
-}
-#question .tags {
-    padding-bottom:10px;
-}
-#question .tags h6 {
-    margin:0;
-    font-weight:normal;
-    text-transform:uppercase;
-    font-size:11px;
-}
-#question .tags .badge {
+.tags .badge {
     color:#666;
     background-color:#fefefe;
     font-weight:normal;
@@ -215,8 +193,35 @@
     -ms-transition: background 0.3s ease;    
     transition: background 0.3s ease;
 }
-#question .tags .badge:hover {
+.tags .badge:hover {
     background-color:#ddEfFF;
+    color:#666;
+}
+
+
+/*************
+ * QUESTION
+ * 
+ ***/
+
+#question {
+    border:1px solid #eee;
+    background-color:#fafafa;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+#question .profile {
+    background-color:transparent;
+}
+#question .tags {
+    padding-bottom:10px;
+}
+#question .tags h6 {
+    margin:0;
+    font-weight:normal;
+    text-transform:uppercase;
+    font-size:11px;
 }
 #askform input,
 #askform textarea {
@@ -229,22 +234,11 @@
  * 
  ***/
 
-h3.answers-count {
-    margin-top:-5px; 
-    font-weight:normal; 
-    margin-bottom:-20px; 
-    margin-left:20px
+.answer {
+    border:1px solid transparent;
 }
-.answer-body {
-    padding:24px 24px 12px 24px;
-    margin-bottom:18px;    
-    background-color:#e0efd8;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-}
-.answer-body .answer-comments {
-    margin:12px -24px -24px -24px;
+.answer .answer-comments {
+    margin:18px -18px -24px -18px;
     padding:12px 22px 6px 22px;
     -webkit-border-radius: 0 0 6px 6px;
     -moz-border-radius: 0 0 6px 6px;
@@ -253,32 +247,39 @@ h3.answers-count {
     border-top:1px solid #ccddcc;
     background-color:#d9e9d0;
 }
-.answer-body .answer-comments:hover {
+.answer .answer-comments:hover {
     background-color:#d6ebcd;
 }
-.answer-comments .new-comment textarea {
+.answer .new-comment textarea {
     opacity:0.5;
 }
-.answer-body .answer-comments:hover .new-comment textarea,
-.answer-body .answer-comments .new-comment textarea:active,
-.answer-body .answer-comments .new-comment textarea:focus {
+.answer .answer-comments:hover .new-comment textarea,
+.answer .answer-comments .new-comment textarea:active,
+.answer .answer-comments .new-comment textarea:focus {
     opacity:1;
 }
-.answer-body textarea {
-    width:80%;
-}
-.answer-body .answer-comments h5 {
-    margin:0;
-    font-weight:normal;
-    color:#666;
+.answer-body {
+    padding:18px 18px 12px 18px;
+    margin-bottom:18px;    
+    background-color:#e0efd8;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 #your-answer .answer-body {
     background-color:#eee;
 }
+.answer textarea {
+    width:80%;
+}
+.answer .answer-comments h5 {
+    margin:0;
+    font-weight:normal;
+    color:#666;
+}
 .answer .avatar img {
-    float:left;
-    margin-right:8px;
-    margin-top:-6px;
+    display:block;
+    margin-right:10px;
 }
 .answer-comments .avatar img {
     float:left;
@@ -295,8 +296,8 @@ h3.answers-count {
 .answer .answer-content p {
     margin:12px 0;
 }
-.answer h5.answer-user {
-    margin:6px 0 0 0;
+.answer .answer-user h5 {
+    margin:0;
     font-weight:normal;
 }
 .answer h5.answer-user a {
@@ -426,6 +427,12 @@ h2.text-medium {
     font-weight:normal; 
     color:#666;  
 }
+h2.text-primary {
+    font-size:24px;
+    line-height:120%; 
+    font-weight:normal; 
+    color:#333;  
+}
 .text-light {
     color:#999;
 }
@@ -444,6 +451,11 @@ h4.text-soft-header {
 h4.subtitle {
     margin-bottom:24px;
     line-height:125%;
+}
+h3.section-header {
+    margin-top:-5px; 
+    font-weight:normal; 
+    margin-bottom:-20px; 
 }
 
 
@@ -466,4 +478,3 @@ h4.subtitle {
 .modal-no-box li {
     color:#fff;
 }
-
