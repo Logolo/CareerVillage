@@ -76,7 +76,7 @@ def tag_selector(context):
     else:
         return {'user_authenticated': False}
 
-@register.inclusion_tag('v2/tag_selector.html', takes_context=True)
+@register.inclusion_tag('v2/_tag_selector.html', takes_context=True)
 def tag_selector_v2(context):
     request = context['request']
 
