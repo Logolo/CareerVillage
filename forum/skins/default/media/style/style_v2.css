@@ -87,7 +87,30 @@
 
 
 /*************
- * PROFILE .profile
+ * PROFILE PAGE .profile-page
+ ***/
+
+header.profile-page {
+    min-height:128px;
+}
+header.profile-page .avatar {
+    margin-right:20px;
+}
+header.profile-page .avatar img {
+    border:1px solid #eee;
+}
+.profile-page .profile-stats {
+    padding-top:20px;
+}
+.profile-page .sidebar-widget {
+    border-right:1px solid #eee;
+    padding-right:8px;
+    margin-bottom:36px;
+}
+
+
+/*************
+ * EMBEDDED PROFILE .profile
  ***/
 
 .profile {
@@ -410,6 +433,11 @@
 .avatar-small img {
     width:32px;
     height:32px;
+}
+.avatar-large,
+.avatar-large img {
+    width:128px;
+    height:128px;
 }
 
 
