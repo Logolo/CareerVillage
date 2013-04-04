@@ -50,3 +50,20 @@
         </td></tr></table>
     </div><!-- -->
 {% endblock %}
+
+{% block confirmation %}
+    
+    {# if referral flag... #}
+    {# 
+        the classes "init modal-no-box" are custom to CareerVillage
+        "init" makes the dialog appear on pageload 
+        "modal-no-box" inverts the text color to white so that it's legible without the standard white box
+        NOTE: need to uncomment a line in v2.js for this to work (search for .modal.init)
+    #}
+    <!-- Modal -->
+    <div id="referral-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <h1>Thanks!</h1>
+    </div>
+    {# ...endif #}
+
+{% endblock %}

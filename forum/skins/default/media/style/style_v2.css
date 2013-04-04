@@ -445,3 +445,25 @@ h4.subtitle {
     margin-bottom:24px;
     line-height:125%;
 }
+
+
+/*************
+ * MODAL CONFIRMATIONS
+ ***/
+
+.modal-no-box {
+    background-color:transparent;
+    border:0;
+}
+
+.modal-no-box h1, 
+.modal-no-box h2, 
+.modal-no-box h3, 
+.modal-no-box h4, 
+.modal-no-box h5, 
+.modal-no-box h6, 
+.modal-no-box p, 
+.modal-no-box li {
+    color:#fff;
+}
+
