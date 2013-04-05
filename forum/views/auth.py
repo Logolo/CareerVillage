@@ -20,14 +20,14 @@ import types
 import datetime
 import logging
 
-from forum.forms import SimpleRegistrationForm, TemporaryLoginRequestForm, \
+from forum.forms import SimpleRegistrationForm, ReviseProfileForm, TemporaryLoginRequestForm, \
         ChangePasswordForm, SetPasswordForm
 from forum.utils.mail import send_template_email
 
 from forum.authentication.base import InvalidAuthentication
 from forum.authentication import AUTH_PROVIDERS
 
-from forum.models import AuthKeyUserAssociation, ValidationHash, Question, Answer
+from forum.models import AuthKeyUserAssociation, ValidationHash, Question, Answer, Tag, MarkedTag
 from forum.actions import UserJoinsAction
 
 from forum.settings import REP_GAIN_BY_EMAIL_VALIDATION
@@ -167,7 +167,34 @@ def external_register(request):
                 user_.is_superuser = True
                 user_.is_staff = True
 
+            forward = None
+            auth_provider = request.session.get('auth_provider', None)
+            tags = []
+            if auth_provider == 'linkedin':
+                provider_class = AUTH_PROVIDERS[auth_provider].consumer
+                user_data = provider_class.get_user_data(request.session['assoc_key'])        
+                location = user_data.get('location', None)
+                user_.real_name = ('%s %s' % (user_data.get('firstName',''), user_data.get('lastName',''))).strip()
+                user_.industry = user_data.get('industry', '')
+                user_.headline = user_data.get('headline', '')
+                user_.location = location.get('name', '') if location else ''
+                user_.linkedin_photo_url = user_data.get('pictureUrl', '')
+                tags = [user_data['industry']]          
+                if 'skills' in user_data:      
+                    tags.extend(s['skill']['name'] for s in user_data['skills']['values'])
+                if 'interests' in user_data:
+                    tags.extend(i.strip() for i in user_data['interests'].split(','))
+                forward = reverse('revise_profile')
+
             user_.save()
+
+            for tag_name in tags:
+                try:
+                    tag = Tag.objects.get(name=tag_name)
+                except Tag.DoesNotExist:
+                    tag = Tag.objects.create(name=tag_name, created_by=user_)
+                MarkedTag.objects.create(user=user_, tag=tag, reason='good')                
+
             UserJoinsAction(user=user_, ip=request.META['REMOTE_ADDR']).save()
 
             try:
@@ -187,7 +214,7 @@ def external_register(request):
             del request.session['assoc_key']
             del request.session['auth_provider']
 
-            return login_and_forward(request, user_, message=_("A welcome email has been sent to your email address. "))
+            return login_and_forward(request, user_, forward, message=_("A welcome email has been sent to your email address. "))
     else:
         auth_provider = request.session.get('auth_provider', None)
         if not auth_provider:
@@ -197,13 +224,7 @@ def external_register(request):
                     ["%s: %s" % (k, v) for k, v in request.META.items()]))
             return HttpResponseRedirect(reverse('auth_signin'))
 
-        provider_class = AUTH_PROVIDERS[auth_provider].consumer
-        # temp fix, TODO: pull useful data from linkedin profile
-        # user_data = provider_class.get_user_data(request.session['assoc_key'])
-        user_data = {}
-        
-        if not user_data:
-            user_data = request.session.get('auth_consumer_data', {})
+        user_data = request.session.get('auth_consumer_data', {})
 
         username = user_data.get('username', '')
         email = user_data.get('email', '')
@@ -224,6 +245,26 @@ def external_register(request):
     'provider':provider_context and mark_safe(provider_context.human_name) or _('unknown'),
     'login_type':provider_context.id,
     'gravatar_faq_url':reverse('faq') + '#gravatar',
+    }, context_instance=RequestContext(request))
+
+@decorate.withfn(login_required)
+def revise_profile(request):
+    form = ReviseProfileForm(request.POST or None, instance=request.user)
+    if form.is_valid():        
+        form.save()
+        request.user.tag_selections.all().delete()
+        for tag in form.cleaned_data['tags']:
+            MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
+        if 'new_tags' in request.POST:
+            for tag_name in request.POST.getlist('new_tags'):
+                tag_name = tag_name.strip()
+                if tag_name:
+                    tag = Tag.objects.create(name=tag_name, created_by=request.user)
+                    MarkedTag.objects.create(user=request.user, tag=tag, reason='good')                
+        return HttpResponseRedirect(reverse('index'))
+
+    return render_to_response('v2/revise_profile.html', {
+    'profile_form': form,
     }, context_instance=RequestContext(request))
 
 def request_temp_login(request):

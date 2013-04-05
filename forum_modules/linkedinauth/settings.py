@@ -14,3 +14,6 @@ LINKEDIN_CONSUMER_SECRET = Setting('LINKEDIN_CONSUMER_SECRET', '', EXT_KEYS_SET,
 Puppies are awesome
 """,
     required=False))
+
+LINKEDIN_CONSUMER_KEY = 'da3hflpyxj39'
+LINKEDIN_CONSUMER_SECRET = 'yewx74eQxytaSVhB'

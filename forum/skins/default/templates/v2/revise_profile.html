@@ -1,0 +1,70 @@
+{% extends "v2/base.html" %}
+
+{% load i18n extra_tags extra_filters %}
+{% block title %}{% spaceless %}{% trans "Profile" %}{% endspaceless %}{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+$(function() {
+    $("#interestingTagInput").autocomplete({
+        source: '{% url matching_tags_json %}',
+        minLength: 1,
+        select: function( event, ui ) {
+            var index = $('#tags ul li').length;
+            $('#tags ul').append($('<li><label for="id_tags_'+index+'"><input checked="checked" type="checkbox" name="tags" value="'+ui.item.id+'" id="id_tags_'+index+'"> '+ui.item.name+'</label></li>'))
+
+            return false;
+        }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+            .append( "<a>" + item.name + " (" + item.used_count + ")</a>" )
+            .appendTo( ul );
+    };
+    $('#interestingTagAdd').click(function() {
+        var index = $('#tags ul li').length;
+        var name = $('#interestingTagInput').val().replace(/^\s+|\s+$/g, '');
+        if(name) {
+            $('#tags ul').append($('<li><label for="id_tags_'+index+'"><input checked="checked" type="checkbox" name="new_tags" value="'+name+'" id="id_tags_'+index+'"> '+name+'</label></li>'))        
+        }
+    });
+})
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="block-content" class="row-fluid">
+    <h1>We created your profile</h1>
+    
+    
+    <form action="." method="post">
+        <div>
+            {% if request.user.linkedin_photo_url %}
+                <img src="{{ request.user.linkedin_photo_url }}" />
+            {% else %}
+                {% gravatar request.user 128 %}
+            {% endif %}
+        </div>
+
+        <div>{{ profile_form.real_name }}</div>
+        <div>{{ profile_form.headline }}</div>
+        <div>{{ profile_form.location }}</div>
+        <div>{{ profile_form.industry }}</div>
+        <div>{{ request.user.email}}</div>
+
+        <div>What types of questions do you want to answer?</div>
+        <div>We took a guess based on your LinkedIn profile.</div>
+
+        <div id="tags">
+            {{ profile_form.tags }}
+        </div>
+        <div>
+            <input id="interestingTagInput" autocomplete="off" type="text"/>
+            <input id="interestingTagAdd" type="button" value="Add"/>
+        </div>
+
+        <input type="submit" value="I'm ready! Let's get started." class="btn btn-success"/>
+
+    </form>
+
+</div><!--/#block-content.row-fluid -->
+
+{% endblock %}

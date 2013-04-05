@@ -16,7 +16,11 @@
             <table width="100%">
                 <tr>
                     <td>
-                        {% gravatar view_user 128 %}
+                        {% if view_user.linkedin_photo_url %}
+                            <img src="{{ view_user.linkedin_photo_url }}" />
+                        {% else %}
+                            {% gravatar view_user 128 %}
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>

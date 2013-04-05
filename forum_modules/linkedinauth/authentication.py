@@ -1,12 +1,5 @@
 from consumer import OAuthAbstractAuthConsumer
 from forum.authentication.base import ConsumerTemplateContext
-
-try:
-    import json as simplejson
-except ImportError:
-    from django.utils import simplejson
-
-from lib import oauth
 import settings
 
 class LinkedinAuthConsumer(OAuthAbstractAuthConsumer):
@@ -14,28 +7,13 @@ class LinkedinAuthConsumer(OAuthAbstractAuthConsumer):
         OAuthAbstractAuthConsumer.__init__(self,
             str(settings.LINKEDIN_CONSUMER_KEY),
             str(settings.LINKEDIN_CONSUMER_SECRET),
-            "https://api.linkedin.com", #maybe? find out what this parameter is
-            "https://api.linkedin.com/uas/oauth/requestToken",
-            "https://api.linkedin.com/uas/oauth/accessToken",
-            "https://www.linkedin.com/uas/oauth/authorize",
+            "https://api.linkedin.com/uas/oauth2/accessToken",
+            "https://www.linkedin.com/uas/oauth2/authorization",
         )
 
     def get_user_data(self, key):
-        json = self.fetch_data(key, "http://api.linkedin.com/v1/people/~:(id)?format=json")
-        #json = self.fetch_data(key, "https://twitter.com/account/verify_credentials.json")
-        print "JSON DATA!!!"
-        print json
-        print "JSON DATA END!!!"
-
-        if 'id' in json:
-            creds = simplejson.loads(json)
-            username = creds['id']
-            return {
-                'username': username
-            }
-
-
-        return {}
+        url = "https://api.linkedin.com/v1/people/~:(id,skills,interests,first-name,last-name,headline,industry,picture-url,location)"
+        return self.fetch_data(key, url)
 
 class LinkedinAuthContext(ConsumerTemplateContext):
     mode = 'NOICON' #CHANGED FROM BIGICON TO REMOVE FROM THE SIGNIN.HTML TEMPLATE
