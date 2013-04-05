@@ -1,63 +1,11 @@
-{% extends "v2/base.html" %}
-{% load node_tags %}
-{% load extra_tags %}
-{% load extra_filters %}
+{% extends "v2/question_base.html" %}
 
-{% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
-
-{% block metadescription %}{{ question.meta_description }}{% endblock %}
-
-{% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
-
-{% block head %}
-    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEADER #}
-    <script type="text/javascript">
-        function submitClicked(e, f) {
-            window.removeEventListener('beforeunload', beforeUnload, true);
-            if (f) {
-                f.submit();
-            }
-        }
-
-        function beforeUnload(e) {
-            if($("textarea#editor")[0].value != "") {
-                return yourWorkWillBeLost(e);
-            }
-            var commentBoxes = $("textarea.commentBox");
-            for(var index = 0; index < commentBoxes.length; index++) {
-                if(commentBoxes[index].value != "") {
-                    return yourWorkWillBeLost(e);
-                }
-            }
-        }
-        window.addEventListener('beforeunload', beforeUnload, true);
-
-    </script>
+{% block answeractions %}
+    <a class="btn btn-success" href="{% url auth_signin %}" class="btn btn-success">Join our community now to add a comment or answer to this question!</a>        
 {% endblock %}
 
-{% block content %}
-
-{% include "v2/_question_top.html" %}
-
-    <!-- Answers header (results count, etc.) -->
-    <div class="row-fluid">
-        <div class="offset2 span7">
-            <div class="answer-buttons" style="margin:20px 0">
-                <a class="btn btn-success" href="{% url auth_signin %}" class="btn btn-success">Join our community now to add a comment or answer to this question!</a>
-            </div>
-            <h4>{{ question.answer_count }} answers:</h4>
-            {{ answers.paginator.page_numbers }}
-            <hr />
-        </div>
+{% block answersbottom %}
+        <h2>This is where you come in. If you're a student, you can start asking career questions that will help you prepare for your future. If you're a professional, you can start giving career advice to students who deeply need your advice.</h2>
+        <a class="btn btn-success" href="{% url auth_signin %}">Log in now to comment on or answer this question!</a>
     </div>
-
-
-    <!-- Answers -->
-    {% include "v2/_all_answers.html" with cta_text="Post kudos" %}
-
-<!-- Bottom Call To Action section (differs for each user type) !-->
-<div>
-    <div>This is where you come in. If you're a student, you can start asking career questions that will help you prepare for your future. If you're a professional, you can start giving career advice to students who deeply need your advice.</div>
-    <div><a href="{% url auth_signin %}">Log in now to comment on or answer this question!</a></div>
-</div>
 {% endblock %}

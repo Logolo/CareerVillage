@@ -10,6 +10,7 @@
 <div id="block-content" class="row-fluid">
     
     
+    {% if user.is_authenticated %}
     <!-- left column -->
     <div class="col-left col-sidebar span3">
 
@@ -17,7 +18,7 @@
         <div class="media profile">
             <!--<div class="update-link"><a href="{# TODO update profile link #}">update</a></div>-->
             <a class="pull-left" href="{{ user.get_profile_url }}">
-                <img class="profile-img media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" />
+                <img class="avatar media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" />
             </a>
             <div class="media-body">
                 <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
@@ -37,17 +38,19 @@
         {% block sidebar %}{% endblock %}
 
     </div><!--/.col-left -->
+    {% endif %}
 
 
     <!-- right column -->
-    <div class="col-right col-main list-questions span9">
+    <div class="col-right col-main list-questions {% if user.is_authenticated %}span9{% else %}span12{% endif %}">
 
         <!-- search form -->
         <h2>{% block search_prompt %}{% endblock %}</h2>
         <form  id="topsearch" action="{% url search_questions %}" method="get" class="form-search">
-            <div class="input-append" style="width:100%" >
-              <input style="width:80%" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" type="text">
-              <input type="submit" class="btn" name="Submit" value="search" />
+            <div class="input-append input-prepend" style="width:100%">
+              <span class="add-on" style="height:34px; line-height:34px;"><span class="icon-search"></span></span>    
+              <input style="width:70%; height:34px; line-height:34px;" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" placeholder="your career topic..." type="text">
+              <input type="submit" class="btn-large btn" name="Submit" value="search" />
             </div>
             <span id="searchoptions" style="display: none;">
                 <input id="type-question" type="radio" value="question" name="t" 
@@ -55,18 +58,18 @@
                 <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">Topics</label>
                 <input id="type-user" type="radio" value="user" name="t" /><label for="type-user">Users</label>
             </span>
+            {% block unanswered_only %}{% endblock %}
         </form>
-        {% if keywords %}
-            <div>Questions related to {{ keywords }}</div>
-        {% else %}
-            <div>Latest questions</div>
-        {% endif %}
 
         {% block skipsearch %}{% endblock %}
 
-        {% block unanswered_only %}{% endblock %}
-
-        <h4>Latest questions</h4> 
+        <!-- search results header -->
+        {% if keywords %}
+            <h3 class="section-header">Questions related to {{ keywords }}</h3>
+        {% else %}
+            <h3 class="section-header">Latest questions</h3> 
+        {% endif %}
+        <hr />
 
         <!-- search results -->
         <div class="items">

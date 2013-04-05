@@ -65,8 +65,9 @@ def vote_post(request, id, vote_type):
     if not user.is_authenticated():
         raise AnonymousNotAllowedException(_('vote'))
 
-    if user == post.author:
-        raise CannotDoOnOwnException(_('vote'))
+    ### Disabling the limitations on users voting for their own posts. Down with disenfranchisement! 
+    # if user == post.author:
+    #     raise CannotDoOnOwnException(_('vote'))
 
     if not (vote_type == 'up' and user.can_vote_up() or user.can_vote_down()):
         raise NotEnoughRepPointsException(vote_type == 'up' and _('upvote') or _('downvote'))

@@ -1,73 +1,29 @@
-{% extends "v2/base.html" %}
-{% load node_tags %}
-{% load extra_tags %}
-{% load extra_filters %}
+{% extends "v2/question_base.html" %}
 
-{% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
-
-{% block metadescription %}{{ question.meta_description }}{% endblock %}
-
-{% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
-
-{% block head %}
-    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEADER #}
-    <script type="text/javascript">
-        function submitClicked(e, f) {
-            window.removeEventListener('beforeunload', beforeUnload, true);
-            if (f) {
-                f.submit();
-            }
-        }
-
-        function beforeUnload(e) {
-            if($("textarea#editor")[0].value != "") {
-                return yourWorkWillBeLost(e);
-            }
-            var commentBoxes = $("textarea.commentBox");
-            for(var index = 0; index < commentBoxes.length; index++) {
-                if(commentBoxes[index].value != "") {
-                    return yourWorkWillBeLost(e);
-                }
-            }
-        }
-        window.addEventListener('beforeunload', beforeUnload, true);
-
-    </script>
+{% block answeractions %}
 {% endblock %}
 
-{% block content %} 
+{% block answersbottom %}
+    <!-- Your Response -->
+    <article id="your-response" class="row-fluid responsive">
+        
+        <div class="span2 left">
+            &nbsp;
+        </div><div class="span7 center">
 
-{% include "v2/_question_top.html" %}
+            <h4>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</h4>
+            <p>Your ball.</p>
+            <p>What are you going to do differently now that you have seen the above advice?</p>
+            {# TODO implement this form #}
+            <form action="" method="post">
+                <textarea name="student_intention" style="width:100%"></textarea>
+                <input type="submit" class="btn btn-success" value="Save"/>
+            </form>
 
-    <!-- Answers header (results count, etc.) -->
-    <div class="row-fluid">
-        <div class="offset2 span7">
-            <h4>{{ question.answer_count }} answers:</h4>
-            {{ answers.paginator.page_numbers }}
-            <hr />
+        </div><div class="span3 right">
+            &nbsp;
         </div>
-    </div>
-
-
-    <!-- Answers -->
-    {% include "v2/_all_answers.html" with cta_text="Post thank you" %}
-
-<!-- Bottom Call To Action section (differs for each user type) !-->
-<div>
-    <div>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</div>
-    <div>Your ball.</div>
-    <div>What are you going to do differently now that you have seen the above advice?</div>
-    <div>
-        <form action="" method="post">
-            <div>
-                <input type="textarea" name="student_intention"/>
-            </div>
-            <input type="submit" class="btn btn-success" value="Save"/>
-        </form>
-    </div>
-    <div>
-        <img src=""><!-- Image of graduate on pedestal -->
-    </div>
-</div>
+        
+    </article><!--/#your-response -->
 
 {% endblock %}

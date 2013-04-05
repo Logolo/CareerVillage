@@ -1,49 +1,48 @@
+{% load node_tags %}
+
 <!-- _question_top.html -->
 {% if refer_success %}
-<div>
-    <div>Nicely done!</div>
-    <div>You've referred {{ refer_questions_count }} questions to friends.</div>
-</div>
+    {# 
+        the classes "init modal-no-box" are custom to CareerVillage
+        "init" makes the dialog appear on pageload 
+        "modal-no-box" inverts the text color to white so that it's legible without the standard white box
+        NOTE: need to uncomment a line in v2.js for this to work (search for .modal.init)
+    #}
+    <!-- Modal -->
+    <div id="referral-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <h1>Nicely done!</h1>
+        <div>You've referred {{ refer_questions_count }} questions to friends.</div>
+    </div>
 {% endif %}
+
 <div id="question" class="row-fluid">
         
-    <table><tr><td class="span2">
+    <div class="span2 left">
 
-        <!-- Question like section -->
-        <div class="like-widget">
-            <h3>{{ question.score }}</h3>
-            <span class="thumbs-up"></span>
-            <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
-            class="like-question-button btn {% ifequal user_vote "up" %}on{% endifequal %}"
-             href="#{% url vote_post id=question.id,vote_type='up' %}" rel="nofollow">Like this</a>
-             <div class="follow-question" style="opacity:.1">
-                 <hr style="margin:5px 0 3px 0"/>
-                 <button class="btn-success follow-question-button btn"><span class="icon-star icon-white"></span> follow</button>
-            </div>
-        </div><!--/.like-section -->
+        <!-- Like section -->
+        {% vote_buttons_v2 question request.user %}
+        <!--/.like-section -->
         
-    </td><td class="span7">
+    </div><div class="span7 center">
 
         <!-- Question description section -->
-        <div style="padding-right:10px">
-            <h1 class="text-medium question-title">{{ question.headline }}</h1>
-            <h2 class="text-medium question-body">{{ question.html|safe }}{# TODO remove placeholder content #}I am a senior in high school, and I want to double major in English and buisness. I want to know what the best colleges are, and the requirements to get into the schools.</h2>
-            <div class="tags">
-                <h6 class="text-light">Question Topics</h6>
-                {% for tag in question.tagname_list %}
-                    <a href="{% url tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
-                {% endfor %}
-            </div>
-            <p style="font-size:11px"><a href="#">flag this question for review</a></p>
+        <h1 class="text-medium question-title">{{ question.headline }}</h1>
+        <h2 class="text-medium question-body">{{ question.html|safe }}{# TODO remove placeholder content #}I am a senior in high school, and I want to double major in English and buisness. I want to know what the best colleges are, and the requirements to get into the schools.</h2>
+        <div class="tags">
+            <h6 class="text-light">Question Topics</h6>
+            {% for tag in question.tagname_list %}
+                <a href="{% url tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
+            {% endfor %}
         </div>
+        <p style="font-size:11px"><a href="#">flag this question for review</a></p>
 
-    </td><td class="span3 profile-td">
+    </div><div class="span3 right">
 
         <!-- profile picture and summary info -->
         <div class="media profile">
             <p class="text-light clear">Posted on March 5, 2013{# TODO date #} by...</p>
             <a class="pull-left" href="{{ question.user.get_profile_url }}">
-                <img class="profile-img media-object" src="{# TODO question.user.profile image #}//si0.twimg.com/profile_images/534486785/cropped.JPG" />
+                <span class="avatar"><img class="media-object" src="{# TODO question.user.profile image #}//si0.twimg.com/profile_images/534486785/cropped.JPG" /></span>
             </a>
             <div class="media-body">
                 <h5><a href="{{ question.user.get_profile_url }}">John Mitchel{# TODO question.user.real_name #}</a></h5>
@@ -65,6 +64,6 @@
             </div>
         </div><!--/.profile -->
         
-    </td></tr></table>
+    </div>
 
 </div><!--/#question -->

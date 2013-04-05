@@ -2,42 +2,45 @@
 <!-- Next question entry -->
 <article class="row-fluid">
     
-    <div class="span2">
-
-        {# Like count #}
-        <div>{{question.score|intcomma}}</div>
-
-        {# Like label #}
-        <div>
-            {% ifequal question.score 1 %}Like
-            {% else %}Likes
-            {% endifequal %}
+    <!-- number of likes and answers -->
+    <div class="question-stats span2">
+        <div class="row-fluid">    
+            <!-- number of likes -->
+            <div class="box span6">
+                <h3>{{question.score|intcomma}}</h3>
+                <p>
+                    {% ifequal question.score 1 %}Like
+                    {% else %}Likes
+                    {% endifequal %}
+                </p>
+            </div>
+            <!-- number of answers -->
+            <div class="box span6">
+                <h3>{{question.answer_count|intcomma}}</h3>
+                <p>
+                    {% ifequal question.answer_count 1 %}
+                    Answer
+                    {% else %}
+                    Answers
+                    {% endifequal %}
+                </p>
+            </div>
         </div>
-
-        {# Answer count #}
-        <div>{{question.answer_count|intcomma}}</div>
-
-        {# Answer label #}
-        <div>
-            {% ifequal question.answer_count 1 %}
-            Answer
-            {% else %}
-            Answers
-            {% endifequal %}
+        <div class="row-fluid">
+            <!-- last activity (comment, new answer, etc.) datetime -->
+            <span class="timestamp">active {% diff_date question.last_activity_at %}</span>
         </div>
-    
     </div>
+
     <div class="span10">
 
-        {# Question time #}
-        <div>{% diff_date question.last_activity_at %}</div>
+        <!-- the question -->
+        <h2 class="text-primary"><a href="{{ question.get_absolute_url }}">{{question.headline}}</a></h2>
 
-        <h3><a href="{{ question.get_absolute_url }}">{{question.headline}}</a></h3>
-
-        {# Question tags #}
+        <!-- question tags -->
         <div class="tags">
             {% for tag in question.tagname_list %}
-                <a class="tag-link-{{ tag }}" href="{% url tag_questions tag|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>
+                <a class="badge tag-link-{{ tag }}" href="{% url tag_questions tag|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>
             {% endfor %}
         </div>
 

@@ -1,0 +1,75 @@
+{% extends "v2/base.html" %}
+{% load question_list_tags %}
+{% load extra_tags %}
+
+{% block head %}
+	{# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
+{% endblock %}
+
+{% block content %}
+
+<header class="row-fluid profile-page">
+
+    <div class="span8">
+        <div class="avatar avatar-large pull-left media-object">
+            <img class="" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" />
+        </div>
+        <div class="media-body">
+            <h1>{{ user.real_name }}</h1>
+            <h2 class="text-medium">
+                {# TODO user.headline (for professionals, wrap in if statement) #} Startup founder and social entrepreneur; TED-ster by night<br />
+                {# TODO user.location #} Houston, TX &bull;
+                {# TODO user.industry (for professionals, wrap in if statement) #} Healthcare
+            </h2>
+        </div>
+    </div>
+    
+    <div class="span4">
+        {% block user_stats %}{% endblock %}
+    </div>
+        
+</header>
+
+<hr />
+
+<div id="block-content" class="row-fluid profile-page">
+    
+    <!-- left column -->
+    <div class="col-left col-sidebar span3">
+
+        <div class="about sidebar-widget">
+            <h5>About Me</h5>
+            <p>I'm one of the founders of CareerVillage. I care a lot about helping students get career advice, and I really love it when professionals enjoy volunteering. I want to bring CareerVillage to every single high school student in America. If you have any suggestions that will help me make your experience better, please don't hesitate to let me know. I'm always available at jared@careervillage.org.</p>
+        </div>
+
+        <div class="topics sidebar-widget">
+            <h5>Topics I Follow</h5>
+            <div class="tags">
+                {# TODO real tags logic #}
+                <a class="badge tag-link-finance" href="/tags/finance/" title="see questions tagged 'finance'" rel="tag">finance</a>
+                <a class="badge tag-link-power" href="/tags/power/" title="see questions tagged 'power'" rel="tag">power</a>
+                <a class="badge tag-link-career-paths" href="/tags/career-paths/" title="see questions tagged 'career-paths'" rel="tag">career-paths</a>
+            </div>
+        </div>
+
+    </div><!--/.col-left -->
+
+
+    <!-- right column -->
+    <div class="col-right col-main list-questions span9">
+
+        <!-- questions user has interacted with -->
+        <div class="items">
+            {% for question in questions.paginator.page %}
+                {% question_list_item question %}
+            {% endfor %}
+        </div>
+
+        <!-- message below search results + not found -->
+        {% block append_results %}{% endblock %}
+    
+    </div><!--/.col-right -->
+
+
+</div><!--/#block-content.row-fluid -->
+{% endblock %}

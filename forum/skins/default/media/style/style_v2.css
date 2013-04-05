@@ -26,8 +26,18 @@
     max-width:1200px; 
     margin:0 auto;        
 }
+.left.span2 {
+    padding-top:20px;
+}
+.center.span7 {
+    padding:10px;
+}
+.right.span3 {
+    padding-left:10px;
+}
 
-/* layout adjustments for smaller screens 
+
+/* additional layout adjustments for smaller screens 
    medium breakpoint  */
 @media (max-width:840px) { 
     
@@ -35,7 +45,22 @@
     .profile .media-body {
         clear:both;
         padding-top:5px;
+    }    
+    .items article .span2 {
+        width: 23.404255319148934%;
     }
+    .items article .span10 {
+        width: 74.46808510638297%;
+    }
+}
+@media (max-width:790px) {
+    /* hide the right column on smaller screens */
+    .responsive .span3.right {
+        display:none;
+    }
+    .responsive .span7.center {
+        width:82.97872340425532%;
+    }    
 }
 
 
@@ -62,7 +87,30 @@
 
 
 /*************
- * PROFILE .profile
+ * PROFILE PAGE .profile-page
+ ***/
+
+header.profile-page {
+    min-height:128px;
+}
+header.profile-page .avatar {
+    margin-right:20px;
+}
+header.profile-page .avatar img {
+    border:1px solid #eee;
+}
+.profile-page .profile-stats {
+    padding-top:20px;
+}
+.profile-page .sidebar-widget {
+    border-right:1px solid #eee;
+    padding-right:8px;
+    margin-bottom:36px;
+}
+
+
+/*************
+ * EMBEDDED PROFILE .profile
  ***/
 
 .profile {
@@ -78,10 +126,6 @@
 .profile p {
     font-size:85%;
 }
-.profile-img {
-    width:64px;
-    height:64px;
-}
 .profile-stats {
     clear:both;
     padding-top:10px;
@@ -95,21 +139,56 @@
 }
 
 
-/*************
- * QUESTIONS LIST .col-main.list-questions
- * 
+/************
+ * SEARCH FORM & RESULTS
  ***/
+
 .list-questions {
     padding:0 1%;
 }
-.search-subtext {
-    
-}
 .list-questions .items article {
-    margin:5px 0;
-    padding:10px 0;
-    border-bottom:4px solid #eee;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
 }
+.list-questions .items article:hover {
+    background-color:#fafafa;
+}
+#topsearch .checkbox {
+    margin-top:8px;
+}
+.search-subtext a {
+    font-size:11px;
+    color:#777;
+    text-decoration:underline;
+    display:block;
+    margin-top:-10px;
+    margin-bottom:20px;
+}
+.question-stats {
+    clear:both;
+    padding-top:10px;
+}
+.question-stats h3,
+.question-stats p {
+    text-align:center;
+    line-height:120%;
+    margin:0;
+    padding:0;
+}
+.question-stats .timestamp {
+    display:block;
+    font-size:9px;
+    position:relative;
+    top:3px;
+    text-align:center;
+    color:#999;
+}
+
+
+/************
+ * LIKE WIDGET
+ ***/
+ 
 .like-widget {
     width:85px;
     float:left;
@@ -119,38 +198,13 @@
 .like-widget h3 {
     margin-top:-5px;
 }
-#question {
-    border:1px solid #eee;
-    background-color:#fafafa;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-}
-#question .profile-td {
-    background-color: #f3f3f3;
-    -webkit-border-radius: 0 12px 12px 0;
-    -moz-border-radius: 0 12px 12px 0;
-    border-radius: 0 12px 12px 0;
-}
-#question .question-asker {
-    min-height:32px;
-}
-#question .question-asker .profile-img {
-    width:32px;
-    height:32px;
-    float:right;
-    margin-right:4px;
-}
-#question .tags {
-    padding-bottom:10px;
-}
-#question .tags h6 {
-    margin:0;
-    font-weight:normal;
-    text-transform:uppercase;
-    font-size:11px;
-}
-#question .tags .badge {
+
+
+/************
+ * TAGS
+ ***/
+ 
+.tags .badge {
     color:#666;
     background-color:#fefefe;
     font-weight:normal;
@@ -162,8 +216,193 @@
     -ms-transition: background 0.3s ease;    
     transition: background 0.3s ease;
 }
-#question .tags .badge:hover {
+.tags .badge:hover {
     background-color:#ddEfFF;
+    color:#666;
+}
+
+
+/*************
+ * QUESTION
+ * 
+ ***/
+
+#question {
+    border:1px solid #eee;
+    background-color:#fafafa;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+#question .profile {
+    background-color:transparent;
+}
+#question .tags {
+    padding-bottom:10px;
+}
+#question .tags h6 {
+    margin:0;
+    font-weight:normal;
+    text-transform:uppercase;
+    font-size:11px;
+}
+#askform input,
+#askform textarea {
+    width:100%;
+    
+}
+
+/*************
+ * ANSWER
+ * 
+ ***/
+
+.answer {
+    border:1px solid transparent;
+}
+.answer .answer-comments {
+    margin:18px -18px -24px -18px;
+    padding:12px 22px 6px 22px;
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+    border:2px solid #d9e9d0;
+    border-top:1px solid #ccddcc;
+    background-color:#d9e9d0;
+}
+.answer .answer-comments:hover {
+    background-color:#d6ebcd;
+}
+.answer .new-comment textarea {
+    opacity:0.5;
+}
+.answer .answer-comments:hover .new-comment textarea,
+.answer .answer-comments .new-comment textarea:active,
+.answer .answer-comments .new-comment textarea:focus {
+    opacity:1;
+}
+.answer-body {
+    padding:18px 18px 12px 18px;
+    margin-bottom:18px;    
+    background-color:#e0efd8;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+#your-answer .answer-body {
+    background-color:#eee;
+}
+.answer textarea {
+    width:80%;
+}
+.answer .answer-comments h5 {
+    margin:0;
+    font-weight:normal;
+    color:#666;
+}
+.answer .avatar img {
+    display:block;
+    margin-right:10px;
+}
+.answer-comments .avatar img {
+    float:left;
+    margin:6px 8px 6px 0;
+}
+.answer-comments .comment-author {
+    color:#555;
+    font-size:11px;
+}
+.answer-actions {
+    text-align:center;
+    margin:20px 0;
+}
+.answer .answer-content p {
+    margin:12px 0;
+}
+.answer .answer-user h5 {
+    margin:0;
+    font-weight:normal;
+}
+.answer h5.answer-user a {
+    color:#444;
+    text-decoration:underline;
+}
+
+
+/*************
+ * SETTINGS
+ ***/
+
+#settings h4.subtitle {
+    text-align:center;
+}
+
+/* adjust the tabs so there's no separation between 
+   the tabs on the left and content area on the right */
+#settings .tabs-left .nav-tabs {
+    width:100%;
+    margin:0;
+}
+#settings .tabs-left  {
+    position:relative;
+    z-index:2;
+    background-color:#fff;
+}
+#settings .tab-content {
+    position:relative;
+    left:-21px; /* pull the content box 1px below the tabs so it appears to be a single unbroken element */
+    z-index:1;
+    margin:0 -6px 0 21px;
+    padding:24px 24px 32px 24px;
+    border:1px solid #ddd;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+#settings .tab-pane {
+    min-height:230px; /* pushes back to back to homepage button down to bottom right */
+}
+
+/* twitter bootstrap sets the label area of inline fields to 160px, 
+   but then at 760 the layout breaks, so here we 
+   adjust the width by minus 40px */
+#settings .form-horizontal .control-label {
+    width:120px;
+}
+#settings .form-horizontal .controls {
+    margin-left:140px;
+}
+
+/* make the submit button very obvious */
+#settings .submit {
+    min-width:220px;
+}
+
+/* present the notifications settings as clickable boxes
+   instead of radio buttons */
+#notifications article {
+    border:1px solid #eee;
+    background-color:#fcfcfc;
+    padding:1%;
+    min-height:240px;
+    -webkit-transition: background 0.3s ease;  
+    -moz-transition: background 0.3s ease;  
+    -o-transition: background 0.3s ease;   
+    -ms-transition: background 0.3s ease;    
+    transition: background 0.3s ease;
+}
+#notifications article.active {
+    background-color:#badd9b;
+}
+#notifications article:hover {
+    cursor:pointer;
+    background-color:#badd9b;
+}
+#notifications article img {
+    width:100%;
+    background-color:#eee;
+    min-height:40px;
+    
 }
 
 
@@ -180,7 +419,26 @@
     width:100%;
     margin: -16px 0 4px 0;
 }
-
+.avatar img,
+.avatar {
+    width:64px;
+    height:64px;
+}
+.avatar-medium,
+.avatar-medium img {
+    height:48px;
+    width:48px;
+}
+.avatar-small,
+.avatar-small img {
+    width:32px;
+    height:32px;
+}
+.avatar-large,
+.avatar-large img {
+    width:128px;
+    height:128px;
+}
 
 
 /*************
@@ -197,8 +455,54 @@ h2.text-medium {
     font-weight:normal; 
     color:#666;  
 }
+h2.text-primary {
+    font-size:24px;
+    line-height:120%; 
+    font-weight:normal; 
+    color:#333;  
+}
 .text-light {
     color:#999;
 }
+.text-subtext {
+    color:#333;
+    font-style:italic;
+    font-size:11px;
+}
+h4.text-soft-header {
+    color:#444;
+    margin:32px 0 12px 0;
+    padding-bottom:5px;
+    font-weight:normal;
+    border-bottom:1px solid #fcfcfc;
+}
+h4.subtitle {
+    margin-bottom:24px;
+    line-height:125%;
+}
+h3.section-header {
+    margin-top:-5px; 
+    font-weight:normal; 
+    margin-bottom:-20px; 
+}
 
 
+/*************
+ * MODAL CONFIRMATIONS
+ ***/
+
+.modal-no-box {
+    background-color:transparent;
+    border:0;
+}
+
+.modal-no-box h1, 
+.modal-no-box h2, 
+.modal-no-box h3, 
+.modal-no-box h4, 
+.modal-no-box h5, 
+.modal-no-box h6, 
+.modal-no-box p, 
+.modal-no-box li {
+    color:#fff;
+}
