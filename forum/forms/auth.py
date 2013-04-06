@@ -1,5 +1,5 @@
 from general import NextUrlField,  UserNameField,  UserEmailField, SetPasswordForm
-from forum.models import Question, User
+from forum.models import Question, User, Tag
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
@@ -10,6 +10,25 @@ class SimpleRegistrationForm(forms.Form):
     next = NextUrlField()
     username = UserNameField()
     email = UserEmailField()
+
+class ReviseProfileForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.none(), 
+        widget=forms.CheckboxSelectMultiple, 
+        required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(ReviseProfileForm, self).__init__(*args, **kwargs)
+        if args and args[0] and 'tags' in args[0]:
+            self.fields['tags'].queryset = Tag.objects.filter(id__in=args[0].getlist('tags'))
+        elif self.instance:
+            selected_tags = Tag.objects.filter(marked_by=self.instance, user_selections__reason='good')
+            self.fields['tags'].queryset = selected_tags
+            self.fields['tags'].initial = selected_tags
+
+    class Meta:
+        model = User
+        fields = ('real_name', 'industry', 'headline', 'location')
 
 class TemporaryLoginRequestForm(forms.Form):
     def __init__(self, data=None):

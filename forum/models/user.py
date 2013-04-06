@@ -127,6 +127,9 @@ class User(BaseModel, DjangoUser):
     location = models.CharField(max_length=100, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     about = models.TextField(blank=True)
+    headline = models.CharField(max_length=200, blank=True)
+    industry = models.CharField(max_length=200, blank=True)
+    linkedin_photo_url = models.URLField(blank=True)
 
     subscriptions = models.ManyToManyField('Node', related_name='subscribers', through='QuestionSubscription')
 

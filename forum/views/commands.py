@@ -520,6 +520,14 @@ def matching_tags(request):
 
     return HttpResponse(tag_output, mimetype="text/plain")
 
+def matching_tags_json(request):
+    if len(request.GET['term']) == 0:
+        raise CommandException(_("Invalid request"))
+
+    possible_tags = Tag.active.values('id', 'name', 'used_count').filter(name__icontains = request.GET['term'])[:20]
+
+    return HttpResponse(simplejson.dumps(list(possible_tags)), mimetype="application/json")
+
 def matching_users(request):
     if len(request.GET['q']) == 0:
         raise CommandException(_("Invalid request"))

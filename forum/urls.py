@@ -78,6 +78,7 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/(?P<user>\d+)?$' % _('subscribe/'), app.commands.subscribe, name='subscribe'),
     url(r'^%s(?P<id>\d+)/$' % _('subscribe/'), app.commands.subscribe, name='subscribe_simple'),
     url(r'^%s' % _('matching_tags/'), app.commands.matching_tags, name='matching_tags'),
+    url(r'^%s' % _('matching_tags_json/'), app.commands.matching_tags_json, name='matching_tags_json'),
     url(r'^%s' % _('matching_users/'), app.commands.matching_users, name='matching_users'),
     url(r'^%s(?P<id>\d+)/' % _('node_markdown/'), app.commands.node_markdown, name='node_markdown'),
     url(r'^%s(?P<id>\d+)/' % _('convert/'), app.commands.convert_to_comment, name='convert_to_comment'),
@@ -135,6 +136,7 @@ core_urls = (
     
     url(r'^%s%s$' % (_('account/'), _('signin/')), app.auth.signin_page, name='auth_signin'),
     url(r'^%s%s$' % (_('account/'), _('signout/')), app.auth.signout, name='user_signout'),
+    url(r'^%s%s$' % (_('account/'), _('revise/')), app.auth.revise_profile, name='revise_profile'),
     url(r'^%s(?P<provider>\w+)/%s$' % (_('account/'), _('signin/')), app.auth.prepare_provider_signin, name='auth_provider_signin'),
     url(r'^%s(?P<provider>\w+)/%s$' % (_('account/'), _('done/')), app.auth.process_provider_signin, name='auth_provider_done'),
     url(r'^%s%s$' % (_('account/'), _('register/')), app.auth.external_register, name='auth_external_register'),
