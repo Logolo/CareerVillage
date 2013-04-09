@@ -44,10 +44,13 @@ class OAuthAbstractAuthConsumer(AuthenticationConsumer):
             }
             data = urllib.urlencode(params)
             full_url='%s?%s'%(self.access_token_url, data)
-            request = urllib2.Request(full_url)
-            response = urllib2.urlopen(request)        
+            url_request = urllib2.Request(full_url)
+            response = urllib2.urlopen(url_request)        
             response = json.loads(response.read())
-            return response['access_token']
+
+            request.session['oauth2_access_token'] = response['access_token']
+            response = self.fetch_data(response['access_token'], 'https://api.linkedin.com/v1/people/~:(id)')            
+            return response['id']
         except:
             return
 
