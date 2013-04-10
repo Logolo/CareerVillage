@@ -25,6 +25,12 @@
                         <a class="pull-left" href="{{ user.get_profile_url }}">
                             <span class="avatar avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
                         </a>
+                        {% if user.is_staff or user == answer.user %}
+                            <span class="pull-right">
+                                <a href="{% url edit_answer answer.pk %}" class="btn">Edit</a>
+                                <a href="{% url delete_comment answer.pk %}" class="btn btn-danger">Delete</a>
+                            </span>
+                        {% endif %}
                         <div class="media-body">
                             <h5>
                                 <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
