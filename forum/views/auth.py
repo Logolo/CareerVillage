@@ -172,7 +172,7 @@ def external_register(request):
             tags = []
             if auth_provider == 'linkedin':
                 provider_class = AUTH_PROVIDERS[auth_provider].consumer
-                user_data = provider_class.get_user_data(request.session['assoc_key'])        
+                user_data = provider_class.get_user_data(request.session['oauth2_access_token'])
                 location = user_data.get('location', None)
                 user_.real_name = ('%s %s' % (user_data.get('firstName',''), user_data.get('lastName',''))).strip()
                 user_.industry = user_data.get('industry', '')
@@ -213,6 +213,7 @@ def external_register(request):
 
             del request.session['assoc_key']
             del request.session['auth_provider']
+            request.session.pop('oauth2_access_token', None)
 
             return login_and_forward(request, user_, forward, message=_("A welcome email has been sent to your email address. "))
     else:
