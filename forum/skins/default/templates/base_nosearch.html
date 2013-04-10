@@ -93,7 +93,6 @@
         <script type='text/javascript' src='{% media  "/media/js/customjs.js" %}'></script>
         <link rel="search" type="application/opensearchdescription+xml" href="{% url opensearch %}" title="{{ settings.APP_SHORT_NAME }} Search" />
         {% loadregistry head_content %}{% endloadregistry %}
-        <script type='text/javascript' src='https://ordernow_prod.s3.amazonaws.com/js/ordernow-slider-0.1.1.min.js'></script>
     </head>
     <body>
         <div class="notify" style="display:none;">
@@ -156,7 +155,7 @@
                     <div class="donatetext">
                         Help us bring career advice to more students across America.
                     </div>
-                    <div><a href="http://giv.lt/14lZbRm" class="on-checkout" target="_blank"><img src="https://ordernow_prod.s3.amazonaws.com/img/TheGivletButton.png" alt="Give Now"/></a></div>
+                    <div><a href="http://giv.lt/14lZbRm" class="on-checkout"><img src="https://ordernow_prod.s3.amazonaws.com/img/TheGivletButton.png" alt="Give Now"/></a></div>
                 </div>
             </div>
         {% endif %}
@@ -181,7 +180,6 @@
                 }
             </script>
         {% endif %}
-        <a href="http://giv.lt/14lZbRm" class='on-checkout'>GIVE NOW</a>
         <script type='text/javascript' src='https://ordernow_prod.s3.amazonaws.com/js/givlet-widget-latest.js'></script>
     </body>
 </html>
