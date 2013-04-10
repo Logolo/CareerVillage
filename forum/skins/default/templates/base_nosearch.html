@@ -42,7 +42,7 @@
         {% if settings.USE_CUSTOM_CSS|or_preview:request %}
         <link href="{% url custom_css %}" rel="stylesheet" type="text/css" />
         {% endif %}
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css"" />
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css" />
         {% block forestyle %}{% endblock %}
         <script src="http://www.google.com/jsapi" type="text/javascript"></script>
         <script type="text/javascript">
@@ -156,29 +156,8 @@
                     <div class="donatetext">
                         Help us bring career advice to more students across America.
                     </div>
-                    <div>
-                        <a href="https://www.givlet.org/product/SpfI/" class="btn success" target="_blank">Donate now!</a>
-                    </div>
+                    <div><a href="http://giv.lt/14lZbRm" class="on-checkout" target="_blank"><img src="https://ordernow_prod.s3.amazonaws.com/img/TheGivletButton.png" alt="Give Now"/></a></div>
                 </div>
-                <script type="text/javascript">
-                $(function()
-  {
-      var expanded = false;
-      $('#donatebox').click(function()
-                          {
-                              if (!expanded)
-                              {
-                                  $(this).animate({'right' : '0px'}, {duration : 400});
-                                  expanded = true;
-                              }
-                              else
-                              {
-                                 $(this).animate({'right' : '-200px'}, {duration: 400});
-                                  expanded = false;
-                              }
-                          });
-  });
-                </script>
             </div>
         {% endif %}
         {% block endjs %}
@@ -202,7 +181,8 @@
                 }
             </script>
         {% endif %}
-        <a href='http://giv.lt/14lZbRm' class='on-checkout'>GIVE NOW</a>
+        <a href="http://giv.lt/14lZbRm" class='on-checkout'>GIVE NOW</a>
+        <script type='text/javascript' src='https://ordernow_prod.s3.amazonaws.com/js/givlet-widget-latest.js'></script>
     </body>
 </html>
 <!-- end template base_nosearch.html -->

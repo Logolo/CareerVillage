@@ -1217,7 +1217,7 @@ textarea[readonly] {
 
 #donatebox {
   position: fixed;
-  right: -270px;
+  right: 0px;
   top:80%;
   background-color: rgba(0, 0, 0, 0.8);
   width: 306px;
