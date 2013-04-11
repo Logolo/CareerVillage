@@ -31,7 +31,7 @@
             {% if user.is_staff or user == question.user %}
             <span class="pull-right">
                 <a href="{% url edit_question question.pk %}" class="btn">Edit</a>
-                <a href="{% url delete_post question.pk %}" class="btn btn-danger">Delete</a>
+                <a href="{% url delete_post question.pk %}" class="btn btn-danger">{% if question.nis.deleted %}Undelete{% else %}Delete{% endif %}</a>
             </span>
             {% endif %}
         </h1>
