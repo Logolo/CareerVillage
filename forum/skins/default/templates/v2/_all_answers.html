@@ -28,7 +28,7 @@
                         {% if user.is_staff or user == answer.user %}
                             <span class="pull-right">
                                 <a href="{% url edit_answer answer.pk %}" class="btn">Edit</a>
-                                <a href="{% url delete_comment answer.pk %}" class="btn btn-danger">Delete</a>
+                                <a href="{% url delete_post answer.pk %}" class="btn btn-danger">Delete</a>
                             </span>
                         {% endif %}
                         <div class="media-body">
