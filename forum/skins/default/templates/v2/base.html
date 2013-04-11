@@ -33,7 +33,7 @@
                     {% if user.user_type == "educator" %}
                         <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
                     {% endif %}
-                    <li><a href="">Help</a></li>
+                    <li><a href="{% url about %}">About</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url user_signout %}?next={{ request.get_full_path }}">Logout</a></li>
                     {% else %}
