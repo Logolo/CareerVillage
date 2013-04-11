@@ -153,7 +153,7 @@ def homepage(request, keywords=None):
 
 def splash(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse(index))
+        return HttpResponseRedirect(reverse(homepage))
     else:
         return render_to_response("splash.html", context_instance=RequestContext(request))
 
