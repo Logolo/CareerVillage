@@ -1,0 +1,70 @@
+{% extends 'v2/base.html' %}
+
+{% load i18n node_tags %}
+{% block head %}{% endblock %}
+{% block title %}{% spaceless %}{% trans "Login or Signup" %}{% endspaceless %}{% endblock %}
+{% block content %}
+    <div id="signup-signin" class="row-fluid">
+
+        <!-- students & teachers -->
+        <div class="offset1 span5">
+            <div class="students-container">
+                <h1>Students &amp; Teachers</h1>
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="{% url auth_signin %}">{% trans 'Already have an account' %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url auth_signup %}">{% trans 'Signup!' %}</a>
+                    </li>
+                </ul>
+                <form class="form-horizontal signin-form" action="" method="POST">
+                    <div class="control-group">
+                        <label class="control-label" for="emailInput">{% trans 'Email' %}</label>
+                        <div class="controls">
+                            <input name="email" type="text" id="emailInput">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="passwordInput">{% trans 'Password' %}</label>
+                        <div class="controls">
+                            <input name="email" type="text" id="passwordInput">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+
+                            <button type="submit" class="btn pull-right">{% trans 'Login' %}</button>
+                            <a class="pull-right forgot-password subtle" href="#">{% trans 'Forgot your password?' %}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- professionals -->
+        <div class="span5">
+            <div class="professionals-container">
+                <h1>{% trans 'Professionals' %}</h1>
+                <p class="gray-bold">{% trans 'For first timers AND veterans...' %}</p>
+                <a href="#" class="linkedin-button">Linkedin</a>
+                <a class="subtle no-linkedin" href="https://www.linkedin.com/reg/join" target="_blank">
+                    {% trans "Don't have a linkedin account?" %}
+                </a>
+                {% blocktrans %}
+                    <p>
+                        <span class="bold">Logging in with LinkedIn helps student know that your advice is trustworthy.</span>
+                        We use your publicly available LinkedIn profile to show the students who is answering their questions.
+                        We only display four things: your name, photo, city and industry.
+                    </p>
+                    <p>
+                        <span class="bold">What stays private.</span>
+                        We never show anyone your email address. We only use that to inform you when there are questions
+                        relevant to your expertise.
+                    </p>
+
+                {% endblocktrans %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

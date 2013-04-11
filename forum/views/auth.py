@@ -69,7 +69,7 @@ def signin_page(request):
         msg = None
 
     return render_to_response(
-            'auth/signin.html',
+            'v2/account_signin.html',
             {
             'msg': msg,
             'all_providers': all_providers,
@@ -79,6 +79,9 @@ def signin_page(request):
             'smallicon_providers': smallicon_providers,
             },
             RequestContext(request))
+
+def signup_page(request):
+    pass
 
 def prepare_provider_signin(request, provider):
     force_email_request = request.REQUEST.get('validate_email', 'yes') == 'yes'

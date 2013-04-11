@@ -506,3 +506,83 @@ h3.section-header {
 .modal-no-box li {
     color:#fff;
 }
+
+
+/*
+ * SIGNUP/SIGNIN
+ */
+
+#signup-signin .students-container {
+    width: 90%;
+    padding: 0 5%;
+    border-right: 1px solid #626262;
+}
+#signup-signin h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#signup-signin .subtle {
+    color: #9d9d9d;
+    text-decoration: underline;
+    font-size: 13px;
+}
+
+#signup-signin .bold {
+    font-weight: bold;
+}
+
+#signup-signin ul.nav.nav-tabs li {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+}
+
+#signup-signin .form-horizontal {
+    width: 310px;
+    margin: 40px auto;
+}
+
+#signup-signin .form-horizontal .control-label {
+    width: 70px;
+}
+
+#signup-signin .form-horizontal .controls {
+    margin-left: 90px;
+}
+
+#signup-signin .form-horizontal .btn {
+    padding: 6px 12px;
+    line-height: 22px;
+}
+
+#signup-signin .form-horizontal .forgot-password {
+    margin-right: 10px;
+    padding-top: 8px;
+}
+
+#signup-signin .professionals-container {
+    width: 90%;
+    padding: 0 5%;
+}
+
+#signup-signin .professionals-container .linkedin-button {
+    display: block;
+    width: 300px;
+    margin: 30px auto;
+}
+
+#signup-signin .gray-bold {
+    font-weight: bold;
+    font-size: 16px;
+    color: #999999;
+    text-align: center;
+}
+
+#signup-signin .no-linkedin {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    margin: 30px auto;
+}
