@@ -7,7 +7,7 @@
 
 {% block content %}
 <div id="block-content" class="row-fluid">
-    
+
     <!-- left column -->
     <div class="col-left col-sidebar span3">
 
@@ -50,6 +50,12 @@
 
     <!-- right column -->
     <div class="col-right col-main list-questions span9">
+        {% if not user.is_student %}
+        <div class="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Are you a student?</strong> In CareerVillage students ask career questions and professionals answer them.
+        </div>
+        {% endif %}
         <div class="row-fluid">
             <h2>Go ahead... Ask us any career question :)</h2>
 
