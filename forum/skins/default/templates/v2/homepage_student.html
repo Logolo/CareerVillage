@@ -9,7 +9,7 @@
             <p>Karma</p>
         </div>
         <div class="box span6">
-            <h3>{# TODO user.questions? #}88</h3>
+            <h3>{{ request.user.get_question_count_total }}</h3>
             <p>Questions</p>
         </div>
     </div>

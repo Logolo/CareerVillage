@@ -8,7 +8,7 @@
             <p>Karma</p>
         </div>
         <div class="box span4">
-            <h3>{# TODO user.answers? #}88</h3>
+            <h3>{{ request.user.get_answer_count_total }}</h3>
             <p>Answers</p>
         </div>
         <div class="box span4">
