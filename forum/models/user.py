@@ -288,7 +288,7 @@ class User(BaseModel, DjangoUser):
                                    action_date__gte=(today - datetime.timedelta(days=1))).count()
 
     # helper function to get the counts of arbitrary node types within
-    # a specified number of days
+    # a specified number of days (Originally defaulted to 7 in OSQA.)
     def _get_field_count(self, field, days=7):
         today = datetime.date.today()
         recent_questions = self.nodes.filter(node_type=field, author=self,
@@ -300,7 +300,7 @@ class User(BaseModel, DjangoUser):
     def get_question_count(self, days=7):
         return self._get_field_count(field='question', days=days)
 
-    #answers in days
+    #answers in days 
     def get_answer_count(self, days=7):
         return self._get_field_count(field='answer', days=days)
 
@@ -315,12 +315,30 @@ class User(BaseModel, DjangoUser):
 #                    answers_received_count += 1
 #        return answers_received_count
 
-    #answers in days
+    #comments in days
     def get_comment_count(self, days=7):
         return self._get_field_count(field='comment', days=days)
         #today = datetime.date.today()
         #return self.actions.filter(canceled=False, action_type='comment',
         #    action_date__gte=(today - datetime.timedelta(days=days))).count()
+
+    # helper function to get the counts of arbitrary node types ever 
+    # in total (not limitd by a day count)
+    def _get_field_count_total(self, field):
+        total_questions = self.nodes.filter(node_type=field, author=self).filter_state(deleted=False)
+        return total_questions.count()
+
+    #total questions
+    def get_question_count_total(self):
+        return self._get_field_count_total(field='question')
+
+    #total answers
+    def get_answer_count_total(self):
+        return self._get_field_count_total(field='answer')
+
+    #total comments
+    def get_comment_count_total(self):
+        return self._get_field_count_total(field='comment')
 
     #true if last_seen within days
     def get_logged_in_within(self, days=7):

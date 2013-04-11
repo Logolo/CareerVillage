@@ -7,7 +7,7 @@
 
 {% block content %}
 <div id="block-content" class="row-fluid">
-    
+
     <!-- left column -->
     <div class="col-left col-sidebar span3">
 
@@ -20,7 +20,7 @@
             <div class="media-body">
                 <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
                 <p>
-                    <span>{# TODO user.headline (for professionals, wrap in if statement) #} Startup founder and social entrepreneur; TED-ster by night</span><br />
+                    {% ifequal request.user.user_type "student" %}{% else %}<span>{{ request.user.headline}}</span><br />{% endifequal %}
                     <span class="text-light">{# TODO user.location #} Houston, TX</span><br />
                     <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #} Healthcare</span>
                 </p>
@@ -34,7 +34,7 @@
                         <p>Karma</p>
                     </div>
                     <div class="box span6">
-                        <h3>{# TODO user.questions? #}88</h3>
+                        <h3>{{ request.user.get_question_count_total }}</h3>
                         <p>Questions</p>
                     </div>
                 </div>
@@ -50,6 +50,12 @@
 
     <!-- right column -->
     <div class="col-right col-main list-questions span9">
+        {% if not user.is_student %}
+        <div class="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Are you a student?</strong> In CareerVillage students ask career questions and professionals answer them.
+        </div>
+        {% endif %}
         <div class="row-fluid">
             <h2>Go ahead... Ask us any career question :)</h2>
 
