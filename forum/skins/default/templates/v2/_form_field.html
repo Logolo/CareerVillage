@@ -1,0 +1,12 @@
+<div class="control-group">
+    <label class="control-label" for="id_{{ field.html_name }}">
+        {% if label %}
+            {{ label }}
+        {% else %}
+            {{ field.label }}
+        {% endif %}
+    </label>
+    <div class="controls">
+        {{ field }}
+    </div>
+</div>

@@ -70,3 +70,20 @@ class ChangePasswordForm(SetPasswordForm):
             raise forms.ValidationError(_("Old password is incorrect. \
                     Please enter the correct password."))
         return self.cleaned_data['oldpw']
+
+
+class StudentSignupForm(forms.ModelForm):
+
+    password2 = forms.PasswordInput()
+    avatar_image = forms.CharField(max_length=200)
+
+    class Meta:
+        model = User
+        fields = ('email', 'password', 'first_name', 'last_name', 'location',)
+
+    def available_grades(self):
+        return [str(i) + "th" for i in range(5, 13)] + ['college', 'other']
+
+    def is_valid(self):
+        is_valid = super(self).is_valid()
+        return is_valid and self.cleaned_data['grade'] in self.available_grades()

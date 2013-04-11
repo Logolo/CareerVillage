@@ -21,7 +21,7 @@ import datetime
 import logging
 
 from forum.forms import SimpleRegistrationForm, ReviseProfileForm, TemporaryLoginRequestForm, \
-        ChangePasswordForm, SetPasswordForm
+        ChangePasswordForm, SetPasswordForm, StudentSignupForm
 from forum.utils.mail import send_template_email
 
 from forum.authentication.base import InvalidAuthentication
@@ -69,8 +69,7 @@ def signin_page(request):
         msg = None
 
     return render_to_response(
-            # 'auth/signin.html',
-            'v2/account_signin.html',
+            'account/signin.html',
             {
             'msg': msg,
             'all_providers': all_providers,
@@ -82,16 +81,18 @@ def signin_page(request):
             RequestContext(request))
 
 
-def signup_page(request):
-    user_type = request.GET.get('type')
-    if user_type:
-        if user_type == 'student':
-            return render_to_response('v2/account_signup_student.html', {}, RequestContext(request))
-        else:
-            pass
-    else:
-        return HttpResponseRedirect(reverse('auth_signin'))
+def login_page(request):
+    try:
+        msg = request.session['auth_error']
+        del request.session['auth_error']
+    except:
+        msg = None
+    return render_to_response('v2/account_signin.html', {'msg': msg}, RequestContext(request))
 
+
+def signup_student(request):
+    form = StudentSignupForm()
+    return render_to_response('v2/account_signup_student.html', {'form': form}, RequestContext(request))
 
 
 def prepare_provider_signin(request, provider):

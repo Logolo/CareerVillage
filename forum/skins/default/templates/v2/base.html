@@ -37,7 +37,7 @@
                     {% if user.is_authenticated %}
                         <li><a href="{% url user_signout %}?next={{ request.get_full_path }}">Logout</a></li>
                     {% else %}
-                        <li><a href="{% url auth_signin %}">Login</a></li>
+                        <li><a href="{% url auth_login %}">Login</a></li>
                     {% endif %}
                 </ul>
             </div>

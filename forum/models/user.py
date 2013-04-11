@@ -162,6 +162,24 @@ class User(BaseModel, DjangoUser):
         self.prop.user_type = _user_type
 
     @property
+    def grade(self):
+        if self.is_student():
+            return self.prop.grade
+        else:
+            return None
+
+    @grade.setter
+    def grade(self, _grade):
+        self.prop.grade = _grade
+
+    @property
+    def avatar_image(self):
+        if self.is_student():
+            return self.prop.avatar_image
+        else:
+            return None # TODO: return the gravatar url here
+
+    @property
     def is_siteowner(self):
         #todo: temporary thing, for now lets just assume that the site owner will always be the first user of the application
         return self.id == 1
@@ -486,6 +504,7 @@ class User(BaseModel, DjangoUser):
     class Meta:
         app_label = 'forum'
 
+
 class UserProperty(BaseModel):
     user = models.ForeignKey(User, related_name='properties')
     key = models.CharField(max_length=16)
@@ -504,6 +523,7 @@ class UserProperty(BaseModel):
             return cls._generate_cache_key("%s:%s" % (querydict['user'].id, querydict['key']))
 
         return None
+
 
 class UserPropertyDict(object):
     def __init__(self, user):
