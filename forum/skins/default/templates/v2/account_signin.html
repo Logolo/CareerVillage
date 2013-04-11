@@ -12,33 +12,49 @@
                 <h1>Students &amp; Teachers</h1>
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="{% url auth_signin %}">{% trans 'Already have an account' %}</a>
+                        <a href="#">{% trans 'Already have an account' %}</a>
                     </li>
                     <li>
-                        <a href="{% url auth_signup %}">{% trans 'Signup!' %}</a>
+                        <a href="#">{% trans 'Signup!' %}</a>
                     </li>
                 </ul>
-                <form class="form-horizontal signin-form" action="" method="POST">
-                    <div class="control-group">
-                        <label class="control-label" for="emailInput">{% trans 'Email' %}</label>
-                        <div class="controls">
-                            <input name="email" type="text" id="emailInput">
+                <div class="signin-tab">
+                    {% if msg %}
+                        <div class="alert alert-error">{{ msg }}</div>
+                    {% endif %}
+                    <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
+                        <input type="hidden" class="validate_email" name="validate_email" value="yes" />
+                        <div class="control-group">
+                            <label class="control-label" for="emailInput">{% trans 'Email' %}</label>
+                            <div class="controls">
+                                <input name="username" type="text" id="emailInput">
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="passwordInput">{% trans 'Password' %}</label>
-                        <div class="controls">
-                            <input name="email" type="text" id="passwordInput">
+                        <div class="control-group">
+                            <label class="control-label" for="passwordInput">{% trans 'Password' %}</label>
+                            <div class="controls">
+                                <input name="password" type="password" id="passwordInput">
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls">
+                        <div class="control-group">
+                            <div class="controls">
 
-                            <button type="submit" class="btn pull-right">{% trans 'Login' %}</button>
-                            <a class="pull-right forgot-password subtle" href="#">{% trans 'Forgot your password?' %}</a>
+                                <button type="submit" class="btn pull-right">{% trans 'Login' %}</button>
+                                <a class="pull-right forgot-password subtle" href="#">{% trans 'Forgot your password?' %}</a>
+                            </div>
                         </div>
+                    </form>
+                </div>
+                <div class="signup-tab">
+                    <div class="user-type">
+                        <div class="user-icon student"></div>
+                        <a class="btn" href="{% url auth_signup %}?type=student">{% trans "I'm a student" %}</a>
                     </div>
-                </form>
+                    <div class="user-type">
+                        <div class="user-icon educator"></div>
+                        <a class="btn" href="{% url auth_signup %}?type=educator">{% trans "I'm an educator" %}</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -67,4 +83,30 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    $(function(){
+        $('ul.nav li').click(function(e){
+            e.stopPropagation();
+
+            $('ul.nav li').removeClass('active');
+            $(this).addClass('active');
+
+            var $signinTab = $('.signin-tab'),
+                $signupTab = $('.signup-tab');
+            if ($signinTab.is(':visible')) {
+                $signinTab.hide();
+                $signupTab.show();
+            } else {
+                $signinTab.show();
+                $signupTab.hide();
+            }
+
+            return false
+        });
+    });
+    </script>
+
 {% endblock %}

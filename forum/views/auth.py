@@ -69,6 +69,7 @@ def signin_page(request):
         msg = None
 
     return render_to_response(
+            # 'auth/signin.html',
             'v2/account_signin.html',
             {
             'msg': msg,
@@ -80,8 +81,18 @@ def signin_page(request):
             },
             RequestContext(request))
 
+
 def signup_page(request):
-    pass
+    user_type = request.GET.get('type')
+    if user_type:
+        if user_type == 'student':
+            return render_to_response('v2/account_signup_student.html', {}, RequestContext(request))
+        else:
+            pass
+    else:
+        return HttpResponseRedirect(reverse('auth_signin'))
+
+
 
 def prepare_provider_signin(request, provider):
     force_email_request = request.REQUEST.get('validate_email', 'yes') == 'yes'

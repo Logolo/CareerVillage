@@ -515,7 +515,6 @@ h3.section-header {
 #signup-signin .students-container {
     width: 90%;
     padding: 0 5%;
-    border-right: 1px solid #626262;
 }
 #signup-signin h1 {
     text-align: center;
@@ -562,9 +561,77 @@ h3.section-header {
     padding-top: 8px;
 }
 
+#signup-signin .signup-tab {
+    display: none;
+}
+
+#signup-signin .signup-tab .btn {
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 1px 1px rgba(180, 180, 180, 0.74);
+    background-color: #00acc7;
+    *background-color: #26bdd7;
+    background-image: -moz-linear-gradient(top, #46cce6, #00acc7);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#46cce6), to(#00acc7));
+    background-image: -webkit-linear-gradient(top, #46cce6, #00acc7);
+    background-image: -o-linear-gradient(top, #46cce6, #00acc7);
+    background-image: linear-gradient(to bottom, #46cce6, #00acc7);
+    border: 1px solid #249ab0;
+    border-color: #249ab0 #37a7bc #259bb0;
+    border-bottom-color: #259bb0;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#46cce6', endColorstr='#00acc7', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#signup-signin .signup-tab .user-type {
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+#signup-signin .signup-tab .user-type .user-icon {
+    width: 50px;
+    height: 53px;
+    margin: 20px auto;
+    background-repeat: no-repeat;
+}
+
+#signup-signin .signup-tab .user-type .user-icon.student {
+    background-image: url("../images/student-icon.png");
+}
+
+#signup-signin .signup-tab .user-type .user-icon.educator {
+    background-image: url("../images/educator-icon.png");
+}
+
+#signup-signin .signup-tab .btn:hover,
+#signup-signin .signup-tab .btn:focus {
+    color: #f6f6f6;
+    text-decoration: none;
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear;
+}
+
+#signup-signin .signup-tab .btn:focus {
+    outline: thin dotted #ffffff;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+
+#signup-signin .signin-tab {
+}
+
 #signup-signin .professionals-container {
     width: 90%;
-    padding: 0 5%;
+    padding: 0 5% 20px 5%;
+    border-left: 2px solid #626262;
 }
 
 #signup-signin .professionals-container .linkedin-button {
