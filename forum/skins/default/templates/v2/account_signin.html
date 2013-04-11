@@ -48,11 +48,11 @@
                 <div class="signup-tab">
                     <div class="user-type">
                         <div class="user-icon student"></div>
-                        <a class="btn" href="{% url auth_signup %}?type=student">{% trans "I'm a student" %}</a>
+                        <a class="btn" href="{% url auth_signup_student %}">{% trans "I'm a student" %}</a>
                     </div>
                     <div class="user-type">
                         <div class="user-icon educator"></div>
-                        <a class="btn" href="{% url auth_signup %}?type=educator">{% trans "I'm an educator" %}</a>
+                        <a class="btn" href="#">{% trans "I'm an educator" %}</a>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                 <h1>{% trans 'Professionals' %}</h1>
                 <p class="gray-bold">{% trans 'For first timers AND veterans...' %}</p>
                 <a href="#" class="linkedin-button">Linkedin</a>
-                <a class="subtle no-linkedin" href="https://www.linkedin.com/reg/join" target="_blank">
+                <a class="subtle no-linkedin" href="#" target="_blank">
                     {% trans "Don't have a linkedin account?" %}
                 </a>
                 {% blocktrans %}
