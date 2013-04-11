@@ -1,7 +1,9 @@
 {% extends 'v2/base.html' %}
+{% load i18n node_tags extra_tags %}
 
-{% load i18n node_tags %}
-{% block head %}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% media "/media/style/zocial.css" %}">
+{% endblock %}
 {% block title %}{% spaceless %}{% trans "Login or Signup" %}{% endspaceless %}{% endblock %}
 {% block content %}
     <div id="signup-signin" class="row-fluid">
@@ -63,7 +65,7 @@
             <div class="professionals-container">
                 <h1>{% trans 'Professionals' %}</h1>
                 <p class="gray-bold">{% trans 'For first timers AND veterans...' %}</p>
-                <a href="#" class="linkedin-button">Linkedin</a>
+                <a href="{% url auth_provider_signin provider='linkedin' %}" class="zocial linkedin">{% trans 'Login with Linkedin' %}</a>
                 <a class="subtle no-linkedin" href="#" target="_blank">
                     {% trans "Don't have a linkedin account?" %}
                 </a>
