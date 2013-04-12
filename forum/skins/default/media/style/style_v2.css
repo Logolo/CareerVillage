@@ -506,3 +506,238 @@ h3.section-header {
 .modal-no-box li {
     color:#fff;
 }
+
+
+/*
+ * SIGNUP/SIGNIN
+ */
+
+#signup-signin .students-container {
+    width: 90%;
+    padding: 0 5%;
+}
+#signup-signin h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#signup-signin .subtle {
+    color: #9d9d9d;
+    text-decoration: underline;
+    font-size: 13px;
+}
+
+#signup-signin .bold {
+    font-weight: bold;
+}
+
+#signup-signin ul.nav.nav-tabs li {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+}
+
+#signup-signin .form-horizontal {
+    width: 310px;
+    margin: 40px auto;
+}
+
+#signup-signin .form-horizontal .control-label {
+    width: 70px;
+}
+
+#signup-signin .form-horizontal .controls {
+    margin-left: 90px;
+}
+
+#signup-signin .form-horizontal .btn {
+    padding: 6px 12px;
+    line-height: 22px;
+}
+
+#signup-signin .form-horizontal .forgot-password {
+    margin-right: 10px;
+    padding-top: 8px;
+}
+
+#signup-signin .signup-tab {
+    display: none;
+}
+
+#signup-signin .signup-tab .btn {
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 1px 1px rgba(180, 180, 180, 0.74);
+    background-color: #00acc7;
+    *background-color: #26bdd7;
+    background-image: -moz-linear-gradient(top, #46cce6, #00acc7);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#46cce6), to(#00acc7));
+    background-image: -webkit-linear-gradient(top, #46cce6, #00acc7);
+    background-image: -o-linear-gradient(top, #46cce6, #00acc7);
+    background-image: linear-gradient(to bottom, #46cce6, #00acc7);
+    border: 1px solid #249ab0;
+    border-color: #249ab0 #37a7bc #259bb0;
+    border-bottom-color: #259bb0;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#46cce6', endColorstr='#00acc7', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#signup-signin .signup-tab .user-type {
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+#signup-signin .signup-tab .user-type .user-icon {
+    width: 32px;
+    height: 32px;
+    margin: 30px auto;
+    background-repeat: no-repeat;
+}
+
+#signup-signin .signup-tab .user-type .user-icon.student {
+    background-image: url("../images/student-icon.png");
+}
+
+#signup-signin .signup-tab .user-type .user-icon.educator {
+    background-image: url("../images/educator-icon.png");
+}
+
+#signup-signin .signup-tab .btn:hover,
+#signup-signin .signup-tab .btn:focus {
+    color: #f6f6f6;
+    text-decoration: none;
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear;
+}
+
+#signup-signin .signup-tab .btn:focus {
+    outline: thin dotted #ffffff;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+
+#signup-signin .signin-tab {
+}
+
+#signup-signin .professionals-container {
+    width: 90%;
+    padding: 0 5% 20px 5%;
+    border-left: 2px solid #626262;
+}
+
+#signup-signin .professionals-container .linkedin-button {
+    display: block;
+    width: 300px;
+    margin: 30px auto;
+}
+
+#signup-signin .gray-bold {
+    font-weight: bold;
+    font-size: 16px;
+    color: #999999;
+    text-align: center;
+}
+
+#signup-signin .no-linkedin {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    margin: 30px auto;
+}
+
+#signup-signin .linkedin {
+    display: block;
+    width: 196px;
+    margin: 20px auto 0 auto;
+    font-size: 16px;
+}
+
+
+/**
+ * STUDENT SIGNUP
+ */
+
+#signup-student h2 {
+    color: #26bdd7;
+}
+
+#signup-student .bold {
+    font-weight: bold;
+    margin: 50px 0 20px 0;
+}
+
+#signup-student form {
+    position: relative;
+}
+
+#signup-student input[type=text],
+#signup-student input[type=password] {
+    height: 28px;
+}
+
+#signup-student .radio {
+    font-size: 12px;
+}
+
+#signup-student .radio-label {
+    width: 160px;
+    text-align: right;
+    padding: 5px;
+}
+
+#signup-student .avatar-selector {
+    position: absolute;
+    right: 0;
+}
+
+#signup-student .avatar-selector .btn {
+    display: block;
+    font-size: 12px;
+    width: 70px;
+    margin: 10px auto;
+}
+
+#signup-student .avatar-selector .img-polaroid {
+    border-radius: 4px;
+}
+
+#signup-student .btn-wide {
+    width: 100%;
+    margin: 30px auto;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+#signup-student .modal ul {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    width: 458px;
+}
+
+#signup-student .modal ul li.avatar-preview {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    margin: 3px;
+    padding: 2px;
+    float: left;
+    cursor: pointer;
+    border: solid 1px #ffffff;
+}
+
+#signup-student .modal ul li.avatar-preview.selected {
+    background-color: #def0da;
+    border:solid 1px #97cf9f;
+    border-radius: 5px;
+}

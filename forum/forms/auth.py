@@ -1,3 +1,4 @@
+from django.forms.util import ErrorList
 from general import NextUrlField,  UserNameField,  UserEmailField, SetPasswordForm
 from forum.models import Question, User, Tag
 from django.contrib.contenttypes.models import ContentType
@@ -70,3 +71,46 @@ class ChangePasswordForm(SetPasswordForm):
             raise forms.ValidationError(_("Old password is incorrect. \
                     Please enter the correct password."))
         return self.cleaned_data['oldpw']
+
+
+class StudentSignupForm(forms.ModelForm):
+
+    email = forms.EmailField(label=_("Your email address"))
+    password = forms.CharField(max_length=128, widget=forms.PasswordInput(), label=_("Create a password"))
+    password_confirm = forms.CharField(max_length=128, widget=forms.PasswordInput, label=_("Confirm your password"))
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+    avatar_image = forms.CharField(max_length=200)
+    grade = forms.CharField(required=False)
+
+    class Meta:
+        model = User
+        fields = ('email', 'password', 'first_name', 'last_name', 'location',)
+
+    def available_avatars(self):
+        return ["pixel_geek_%s_%s.png" % (g, e) for g in ['f', 'm'] for e in ['africa_carib', 'asian', 'black', 'blond', 'hispanic', 'red']]
+
+    def available_grades(self):
+        return [str(i) + "th" for i in range(5, 13)] + ['college', 'other']
+
+    def is_valid(self):
+        is_valid = super(StudentSignupForm, self).is_valid()
+        if is_valid:
+            valid_grade = True
+            valid_avatar = True
+            valid_password = True
+            if self.cleaned_data.get('grade') and not self.cleaned_data.get('grade') in self.available_grades():
+                valid_grade = False
+                self._errors['grade'].append("Invalid grade")
+            if not self.cleaned_data['avatar_image'] in self.available_avatars():
+                valid_avatar = False
+                self._errors['avatar'].append("Invalid avatar")
+            if self.cleaned_data['password'] != self.cleaned_data['password_confirm']:
+                valid_password = False
+                errors = self._errors.setdefault("password", ErrorList())
+                errors.append(_("Passwords don't match"))
+            return valid_grade and valid_avatar and valid_password
+        else:
+            return False
+
+

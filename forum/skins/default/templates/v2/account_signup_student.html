@@ -1,0 +1,82 @@
+{% extends 'v2/base.html' %}
+
+{% load i18n node_tags extra_tags %}
+
+{% block content %}
+    <div class="row-fluid" id="signup-student">
+        <div class="offset3 span6">
+            <h2>{% trans "Welcome! Let's setup your profile." %}</h2>
+
+            <form class="form-horizontal" method="post" action="">
+                <p class="bold">{% trans 'This is what you will sign into CareerVillage with' %}</p>
+                {% include 'v2/_form_field.html' with field=form.email %}
+                {% include 'v2/_form_field.html' with field=form.password %}
+                {% include 'v2/_form_field.html' with field=form.password_confirm %}
+
+                <p class="bold">{% trans 'Fill out your profile information' %}</p>
+                <div class="avatar-selector">
+                    <input type="hidden" name="{{ form.avatar_image.html_name }}" value="{{ form.available_avatars.0 }}">
+                    <img class="img-polaroid" src="{% media "/media/img/example_avatars/"|add:form.available_avatars.0 %}">
+                    <a role="button" data-toggle="modal" href="#avatar-select-modal" class="btn">{% trans 'Change' %}</a>
+                </div>
+                {% include 'v2/_form_field.html' with field=form.first_name %}
+                {% include 'v2/_form_field.html' with field=form.last_name %}
+                {% include 'v2/_form_field.html' with field=form.location label="Your City" %}
+
+                <div class="control-group{% if form.grade.errors %} error{% endif %}">
+                    <p class="radio-label">{% trans 'What grade are you in?' %}</p>
+                    {% for grade in form.available_grades %}
+                        <label class="radio inline" for="id_grade_{{ grade }}">
+                            <input id="id_grade_{{ grade }}" type="radio" name="grade" value="{{ grade }}">
+                            {{ grade }}
+                        </label>
+                    {% endfor %}
+                    {% for error in form.grade.errors %}
+                        <span class="help-block">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <input class="btn btn-success btn-wide" type="submit" value="{% trans "Save my profile. I'm ready to start my career research!" %}">
+            </form>
+        </div>
+
+        <div id="avatar-select-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="modal-label">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 id="modal-label">{% trans 'What avatar do you want to use?' %}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="muted">{% trans 'You can change this again anytime from your settings page' %}</p>
+                <ul>
+                    {% for avatar in form.available_avatars %}
+                        <li class="avatar-preview{% if forloop.counter == 1 %} selected{% endif %}">
+                            <img src="{% media "/media/img/example_avatars/"|add:avatar %}">
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans 'Cancel' %}</button>
+                <button class="btn btn-primary save">{% trans 'Save' %}</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function(){
+            $(".modal li.avatar-preview").click(function(){
+                $("li.avatar-preview").removeClass('selected');
+                $(this).addClass('selected');
+            });
+            $(".modal .save").click(function(){
+                var selectedAvatar = $("li.avatar-preview.selected img").attr('src'),
+                    avatarName = /([\w\-]+\.png)$/.exec(selectedAvatar)[0];
+                $(".avatar-selector img").attr('src', selectedAvatar);
+                $("input[name={{ form.avatar_image.html_name }}]").val(avatarName);
+                $(".modal").modal('hide');
+            });
+        });
+    </script>
+{% endblock %}

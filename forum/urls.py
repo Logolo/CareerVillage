@@ -134,7 +134,8 @@ core_urls = (
     
     (r'^i18n/', include('django.conf.urls.i18n')),
     
-    url(r'^%s%s$' % (_('account/'), _('signin/')), app.auth.signin_page, name='auth_signin'),
+    url(r'^%s$' % (_('login/'),), app.auth.login_page, name='auth_signin'),
+    url(r'^%s%s$' % (_('signup/'), _('student')), app.auth.signup_student, name='auth_signup_student'),
     url(r'^%s%s$' % (_('account/'), _('signout/')), app.auth.signout, name='user_signout'),
     url(r'^%s%s$' % (_('account/'), _('revise/')), app.auth.revise_profile, name='revise_profile'),
     url(r'^%s(?P<provider>\w+)/%s$' % (_('account/'), _('signin/')), app.auth.prepare_provider_signin, name='auth_provider_signin'),
