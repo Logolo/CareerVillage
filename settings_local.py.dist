@@ -31,6 +31,18 @@ DATABASE_ENGINE = ""
 DATABASE_HOST = ''
 DATABASE_PORT = ''
 
+# The following is in place since the upgrade to Django 1.4
+DATABASES = {
+  'default': {
+      'ENGINE': DATABASE_ENGINE,
+      'NAME': DATABASE_NAME,                      # Or path to database file if using sqlite3.
+      'USER': DATABASE_USER,                      # Not used with sqlite3.
+      'PASSWORD': DATABASE_PASSWORD,                  # Not used with sqlite3.
+      'HOST': DATABASE_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
+      'PORT': DATABASE_PORT,                      # Set to empty string for default. Not used with sqlite3.
+  }
+}
+
 CACHE_BACKEND = 'file://%s' % os.path.join(os.path.dirname(__file__),'cache').replace('\\','/')
 #CACHE_BACKEND = 'dummy://'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
