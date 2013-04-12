@@ -116,7 +116,7 @@ def signup_student(request):
             UserJoinsAction(user=user_, ip=request.META['REMOTE_ADDR']).save()
 
             send_validation_email(request)
-            redirect_to = request.GET.get('next', reverse('index'))
+            redirect_to = request.GET.get('next', reverse('homepage'))
 
             return login_and_forward(request, user_, redirect_to,
                               _("A confirmation email has been sent to your inbox."))
@@ -198,7 +198,7 @@ def process_provider_signin(request, provider):
         except AuthKeyUserAssociation.DoesNotExist:
             user_ = _create_linkedin_user(request, assoc_key)
             if user_:
-                return login_and_forward(request, user_, request.POST.get('next', reverse('index')))
+                return login_and_forward(request, user_, request.POST.get('next', reverse('homepage')))
 
     return HttpResponseRedirect(reverse('auth_signin'))
 
@@ -356,7 +356,7 @@ def revise_profile(request):
                 if tag_name:
                     tag = Tag.objects.create(name=tag_name, created_by=request.user)
                     MarkedTag.objects.create(user=request.user, tag=tag, reason='good')                
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse('homepage'))
 
     return render_to_response('v2/revise_profile.html', {
     'profile_form': form,
@@ -386,7 +386,7 @@ def request_temp_login(request):
 
                 messages.info(request, message=_("An email will be sent with your temporary login key. Please allow up to three minutes for it to arrive and check your spam folder!"))
 
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('homepage'))
     else:
         form = TemporaryLoginRequestForm()
 
@@ -436,7 +436,7 @@ def validate_email(request, user, code):
     if (ValidationHash.objects.validate(code, user, 'email', [user.email])):
         user.email_isvalid = True
         user.save()
-        return login_and_forward(request, user, reverse('index'), _("Thank you, your email is now validated."))
+        return login_and_forward(request, user, reverse('homepage'), _("Thank you, your email is now validated."))
     else:
         return render_to_response('auth/mail_already_validated.html', { 'user' : user }, RequestContext(request))
 
@@ -519,7 +519,7 @@ def login_and_forward(request, user, forward=None, message=None):
     messages.success(request, message)
 
     if not forward:
-        forward = request.session.get(ON_SIGNIN_SESSION_ATTR, reverse('index'))
+        forward = request.session.get(ON_SIGNIN_SESSION_ATTR, reverse('homepage'))
 
     pending_data = request.session.get(PENDING_SUBMISSION_SESSION_ATTR, None)
 
@@ -550,7 +550,7 @@ def forward_suspended_user(request, user, show_private_msg=True):
         message += (":<br />" + suspension.extra.get(msg_type, ''))
 
     messages.error(request, message)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('homepage'))
 
 @decorate.withfn(login_required)
 def signout(request):
