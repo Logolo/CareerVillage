@@ -24,12 +24,16 @@ TEMPLATE_DEBUG = DEBUG
 INTERNAL_IPS = ('127.0.0.1',)
 
 
-DATABASE_NAME = ""
-DATABASE_USER = ""
-DATABASE_PASSWORD = ""
-DATABASE_ENGINE = ""
-DATABASE_HOST = ''
-DATABASE_PORT = ''
+DATABASES = {
+    'default': {
+        'ENGINE': '',
+        'NAME': '',                      # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': ''                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
 
 # The following is in place since the upgrade to Django 1.4
 DATABASES = {
@@ -64,3 +68,5 @@ DJANGO_VERSION = 1.1
 OSQA_DEFAULT_SKIN = 'default'
 
 DISABLED_MODULES = ['books', 'recaptcha', 'project_badges']
+
+BLOCK_TEST = None
