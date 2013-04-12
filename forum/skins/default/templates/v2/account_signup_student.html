@@ -10,18 +10,8 @@
             <form class="form-horizontal" method="post" action="">
                 <p class="bold">{% trans 'This is what you will sign into CareerVillage with' %}</p>
                 {% include 'v2/_form_field.html' with field=form.email %}
-                {% include 'v2/_form_field.html' with field=form.password label="Create a password" %}
-                <div class="control-group{% if field.errors %} error{% endif %}">
-                    <label class="control-label" for="id_{{ form.password2.html_name }}">
-                        {% trans 'Confirm your password' %}
-                    </label>
-                    <div class="controls">
-                        <input type="password" name="{{ form.password2.html_name }}">
-                        {% for error in field.errors %}
-                            <span class="help-inline">{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                </div>
+                {% include 'v2/_form_field.html' with field=form.password %}
+                {% include 'v2/_form_field.html' with field=form.password_confirm %}
 
                 <p class="bold">{% trans 'Fill out your profile information' %}</p>
                 <div class="avatar-selector">
@@ -33,13 +23,16 @@
                 {% include 'v2/_form_field.html' with field=form.last_name %}
                 {% include 'v2/_form_field.html' with field=form.location label="Your City" %}
 
-                <div class="control-group">
+                <div class="control-group{% if form.grade.errors %} error{% endif %}">
                     <p class="radio-label">{% trans 'What grade are you in?' %}</p>
                     {% for grade in form.available_grades %}
                         <label class="radio inline" for="id_grade_{{ grade }}">
-                            <input id="id_grade_{{ grade }}" type="radio" name="grade">
+                            <input id="id_grade_{{ grade }}" type="radio" name="grade" value="{{ grade }}">
                             {{ grade }}
                         </label>
+                    {% endfor %}
+                    {% for error in form.grade.errors %}
+                        <span class="help-block">{{ error }}</span>
                     {% endfor %}
                 </div>
 

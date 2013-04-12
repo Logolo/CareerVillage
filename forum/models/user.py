@@ -179,6 +179,10 @@ class User(BaseModel, DjangoUser):
         else:
             return None # TODO: return the gravatar url here
 
+    @avatar_image.setter
+    def avatar_image(self, avatar_):
+        self.prop.avatar_image = avatar_
+
     @property
     def is_siteowner(self):
         #todo: temporary thing, for now lets just assume that the site owner will always be the first user of the application

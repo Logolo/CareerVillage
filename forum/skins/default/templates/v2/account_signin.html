@@ -50,7 +50,7 @@
                 <div class="signup-tab">
                     <div class="user-type">
                         <div class="user-icon student"></div>
-                        <a class="btn" href="{% url auth_signup_student %}">{% trans "I'm a student" %}</a>
+                        <a class="btn" href="{% url auth_signup_student %}?next={{ request.GET.next }}">{% trans "I'm a student" %}</a>
                     </div>
                     <div class="user-type">
                         <div class="user-icon educator"></div>
