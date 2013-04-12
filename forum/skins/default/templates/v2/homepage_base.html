@@ -23,9 +23,9 @@
             <div class="media-body">
                 <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
                 <p>
-                    <span>{# TODO user.headline (for professionals, wrap in if statement) #} Startup founder and social entrepreneur; TED-ster by night</span><br />
-                    <span class="text-light">{# TODO user.location #} Houston, TX</span><br />
-                    <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #} Healthcare</span>
+                    <span>{{ user.headline }}</span><br />
+                    <span class="text-light">{{ user.location }}</span><br />
+                    <span class="text-light">{{ user.headline }}</span>
                 </p>
             </div>
 
