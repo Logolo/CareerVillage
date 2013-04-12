@@ -21,7 +21,7 @@ import datetime
 import logging
 
 from forum.forms import SimpleRegistrationForm, ReviseProfileForm, TemporaryLoginRequestForm, \
-        ChangePasswordForm, SetPasswordForm
+        ChangePasswordForm, SetPasswordForm, StudentSignupForm
 from forum.utils.mail import send_template_email
 
 from forum.authentication.base import InvalidAuthentication
@@ -69,7 +69,7 @@ def signin_page(request):
         msg = None
 
     return render_to_response(
-            'auth/signin.html',
+            'account/signin.html',
             {
             'msg': msg,
             'all_providers': all_providers,
@@ -79,6 +79,54 @@ def signin_page(request):
             'smallicon_providers': smallicon_providers,
             },
             RequestContext(request))
+
+
+def login_page(request):
+    try:
+        msg = request.session['auth_error']
+        del request.session['auth_error']
+    except:
+        msg = None
+    return render_to_response('v2/account_signin.html', {'msg': msg}, RequestContext(request))
+
+
+def signup_student(request):
+    if request.method == 'POST':
+        form = StudentSignupForm(request.POST)
+        if form.is_valid():
+            user_ = User(username=form.cleaned_data['email'], email=form.cleaned_data['email'])
+            user_.set_password(form.cleaned_data['password'])
+            user_.first_name = form.cleaned_data['first_name']
+            user_.last_name = form.cleaned_data['last_name']
+            user_.save()
+
+            if form.cleaned_data.get('location'):
+                user_.location = form.cleaned_data['location']
+            if form.cleaned_data.get('grade'):
+                user_.grade = form.cleaned_data['grade']
+            user_.avatar_image = form.cleaned_data['avatar_image']
+            user_.user_type = 'student'
+
+            if User.objects.all().count() == 0:
+                user_.is_superuser = True
+                user_.is_staff = True
+
+            user_.save()
+
+            UserJoinsAction(user=user_, ip=request.META['REMOTE_ADDR']).save()
+
+            send_validation_email(request)
+            redirect_to = request.GET.get('next', reverse('index'))
+
+            return login_and_forward(request, user_, redirect_to,
+                              _("A confirmation email has been sent to your inbox."))
+
+        else:
+            return render_to_response('v2/account_signup_student.html', {'form': form, 'data':form.is_valid()}, RequestContext(request))
+    else:
+        form = StudentSignupForm()
+        return render_to_response('v2/account_signup_student.html', {'form': form}, RequestContext(request))
+
 
 def prepare_provider_signin(request, provider):
     force_email_request = request.REQUEST.get('validate_email', 'yes') == 'yes'
