@@ -174,7 +174,8 @@ def external_register(request):
                 provider_class = AUTH_PROVIDERS[auth_provider].consumer
                 user_data = provider_class.get_user_data(request.session['oauth2_access_token'])
                 location = user_data.get('location', None)
-                user_.real_name = ('%s %s' % (user_data.get('firstName',''), user_data.get('lastName',''))).strip()
+                user_.first_name = user_data.get('firstName','').strip()
+                user_.last_name = user_data.get('lastName','').strip()
                 user_.industry = user_data.get('industry', '')
                 user_.headline = user_data.get('headline', '')
                 user_.location = location.get('name', '') if location else ''

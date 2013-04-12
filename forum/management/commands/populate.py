@@ -18,7 +18,7 @@ class Command(BaseCommand):
             created = False
 
         if created:
-            user.real_name = real_name
+            user.first_name, user.last_name = real_name.split()
             user.email_isvalid = True
             user.set_password(password)
             user.user_type = user_type

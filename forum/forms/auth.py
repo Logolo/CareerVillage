@@ -28,7 +28,7 @@ class ReviseProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('real_name', 'industry', 'headline', 'location')
+        fields = ('industry', 'headline', 'location')
 
 class TemporaryLoginRequestForm(forms.Form):
     def __init__(self, data=None):
