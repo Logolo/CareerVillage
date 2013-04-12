@@ -196,18 +196,64 @@ def process_provider_signin(request, provider):
             user_ = assoc.user
             return login_and_forward(request, user_)
         except AuthKeyUserAssociation.DoesNotExist:
-            request.session['assoc_key'] = assoc_key
-            request.session['auth_provider'] = provider
-            return HttpResponseRedirect(reverse('auth_external_register'))
+            user_ = _create_linkedin_user(request, assoc_key)
+            if user_:
+                return login_and_forward(request, user_, request.POST.get('next', reverse('index')))
 
     return HttpResponseRedirect(reverse('auth_signin'))
+
+
+def _create_linkedin_user(request, assoc_key):
+
+    provider_class = AUTH_PROVIDERS['linkedin'].consumer
+    user_data = provider_class.get_user_data(request.session['oauth2_access_token'])
+    user_ = User(username='linkedin:%s' % (user_data['id'],))
+    user_.set_unusable_password()
+    user_.save()
+
+    if User.objects.all().count() == 0:
+        user_.is_superuser = True
+        user_.is_staff = True
+
+
+    location = user_data.get('location', None)
+    user_.first_name = user_data.get('firstName', '')
+    user_.last_name = user_data.get('lastName', '')
+    user_.industry = user_data.get('industry', '')
+    user_.headline = user_data.get('headline', '')
+    user_.location = location.get('name', '') if location else ''
+    user_.linkedin_photo_url = user_data.get('pictureUrl', '')
+    tags = [user_data['industry']]
+    if 'skills' in user_data:
+        tags.extend(s['skill']['name'] for s in user_data['skills']['values'])
+    if 'interests' in user_data:
+        tags.extend(i.strip() for i in user_data['interests'].split(','))
+
+    user_.save()
+
+    for tag_name in tags:
+        try:
+            tag = Tag.objects.get(name=tag_name)
+        except Tag.DoesNotExist:
+            tag = Tag.objects.create(name=tag_name, created_by=user_)
+        MarkedTag.objects.create(user=user_, tag=tag, reason='good')
+
+    UserJoinsAction(user=user_, ip=request.META['REMOTE_ADDR']).save()
+
+    uassoc = AuthKeyUserAssociation(user=user_, key=assoc_key, provider='linkedin')
+    uassoc.save()
+
+    request.session.pop('oauth2_access_token', None)
+
+    return user_
+
 
 def external_register(request):
     if request.method == 'POST' and 'bnewaccount' in request.POST:
         form1 = SimpleRegistrationForm(request.POST)
 
         if form1.is_valid():
-            user_ = User(username=form1.cleaned_data['username'], email=form1.cleaned_data['email'])
+            user_ = User(username=form1.cleaned_data['email'], email=form1.cleaned_data['email'])
             user_.email_isvalid = request.session.get('auth_validated_email', '') == form1.cleaned_data['email']
             user_.set_unusable_password()
 
@@ -467,7 +513,7 @@ def login_and_forward(request, user, forward=None, message=None):
     login(request, user)
 
     if message is None:
-        message = _("Welcome back %s, you are now logged in") % user.username
+        message = _("Welcome back %s, you are now logged in") % user.first_name
 
     #request.user.message_set.create(message=message)
     messages.success(request, message)
