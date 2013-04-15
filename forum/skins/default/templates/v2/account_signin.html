@@ -86,29 +86,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block scripts %}
-    <script>
-    $(function(){
-        $('ul.nav li').click(function(e){
-            e.stopPropagation();
-
-            $('ul.nav li').removeClass('active');
-            $(this).addClass('active');
-
-            var $signinTab = $('.signin-tab'),
-                $signupTab = $('.signup-tab');
-            if ($signinTab.is(':visible')) {
-                $signinTab.hide();
-                $signupTab.show();
-            } else {
-                $signinTab.show();
-                $signupTab.hide();
-            }
-
-            return false
-        });
-    });
-    </script>
-
-{% endblock %}

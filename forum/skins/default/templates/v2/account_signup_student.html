@@ -66,13 +66,9 @@
 {% block scripts %}
     <script>
         $(function(){
-            $(".modal li.avatar-preview").click(function(){
-                $("li.avatar-preview").removeClass('selected');
-                $(this).addClass('selected');
-            });
             $(".modal .save").click(function(){
                 var selectedAvatar = $("li.avatar-preview.selected img").attr('src'),
-                    avatarName = /([\w\-]+\.png)$/.exec(selectedAvatar)[0];
+                        avatarName = /([\w\-]+\.png)$/.exec(selectedAvatar)[0];
                 $(".avatar-selector img").attr('src', selectedAvatar);
                 $("input[name={{ form.avatar_image.html_name }}]").val(avatarName);
                 $(".modal").modal('hide');
