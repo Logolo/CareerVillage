@@ -450,7 +450,7 @@ header.profile-page .avatar img {
 
 
 /*************
- * BUTTONS
+ * FORMS & BUTTONS
  ***/
  
 .btn.btn-wide {
@@ -459,6 +459,25 @@ header.profile-page .avatar img {
     font-size: 18px;
     line-height: 36px;
 }
+label {
+    font-size:12px;
+    line-height:100%;
+    padding-top:4px;
+    color:#999;
+}
+.form-inline label,
+.form-horizontal label {
+    font-size:14px;
+    line-height:120%;
+    padding:auto;
+    color:#333;
+}
+
+.children-input-xl input {
+    width: 270px; 
+    max-width:100%;
+}
+
 
 /*************
  * TYPOGRAPHY
@@ -476,6 +495,12 @@ h2.text-medium {
 }
 h2.text-primary {
     font-size:24px;
+    line-height:120%; 
+    font-weight:normal; 
+    color:#333;  
+}
+h3.text-primary {
+    font-size:21px;
     line-height:120%; 
     font-weight:normal; 
     color:#333;  
@@ -516,6 +541,17 @@ h3.section-header {
 form h5 {
     margin:36px 0 18px 0;
 }
+.callout {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color:#fcfcfc;
+    padding:12px;
+}
+.callout-info {
+    background-color: #c6edf7;
+}
+
 
 /*************
  * MODAL CONFIRMATIONS
@@ -577,6 +613,7 @@ form h5 {
     text-align:center;
     color:#ddd;
 }
+
 
 /*
  * SIGNUP/SIGNIN
@@ -660,4 +697,24 @@ ul.user-type-selection li.user-type.active a:hover {
 /**
  * Educator SIGNUP
  */
+
+ 
+/**
+* Professional SIGNUP
+*/
+
+#tags ul,
+#tags li label,
+#tags li input {
+    margin:0;
+    padding:0;
+}
+#tags li {
+    margin:0;
+    padding:0;
+    list-style-type:none;
+    font-size:12px;
+    line-height:12px;
+    margin-bottom:10px;
+}
 
