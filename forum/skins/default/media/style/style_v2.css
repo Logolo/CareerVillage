@@ -330,6 +330,17 @@ header.profile-page .avatar img {
 
 
 /*************
+ * REFERRAL
+ ***/
+.referral-email-preview {
+    border: 1px solid #eee; 
+    box-shadow: 0 1px 3px #ccc; 
+    padding: 12px;
+    margin: 12px 0;    
+}
+
+
+/*************
  * SETTINGS
  ***/
 
@@ -494,8 +505,48 @@ h3.section-header {
 .modal-no-box {
     background-color:transparent;
     border:0;
+    -webkit-box-shadow: 0 0 0;
+       -moz-box-shadow: 0 0 0;
+            box-shadow: 0 0 0;
 }
-
+/* make close button easily visible without modal box */
+.modal-no-box button.close {
+    padding:2px 9px 4px 9px;
+    color:#eee;
+    opacity:1;
+    border:1px solid #666;
+    line-height:20px;
+    font-size:14px;
+    -webkit-border-radius: 24px;
+    -moz-border-radius: 24px;
+    border-radius: 24px;
+    background-color:#000;
+    -webkit-transition: background 0.3s ease;  
+    -moz-transition: background 0.3s ease;  
+    -o-transition: background 0.3s ease;   
+    -ms-transition: background 0.3s ease;    
+    transition: background 0.3s ease;    
+}
+.modal-no-box button.close:hover { 
+    background-color:#999;
+}
+/* align confirmation actions */
+.modal-no-box div.row-fluid {
+    text-align:center;    
+    margin:36px 0 24px 0;
+}
+.modal-no-box div.row-fluid a {
+    display:inline-block;
+    margin-bottom:12px;
+}
+.modal-no-box div.row-fluid .btn-group {
+    margin-top:12px;
+}
+/* make typography readable against dark background */
+.modal-no-box h1 {
+    font-size:52px;
+    line-height:64px;
+}
 .modal-no-box h1, 
 .modal-no-box h2, 
 .modal-no-box h3, 
@@ -504,9 +555,9 @@ h3.section-header {
 .modal-no-box h6, 
 .modal-no-box p, 
 .modal-no-box li {
-    color:#fff;
+    text-align:center;
+    color:#ddd;
 }
-
 
 /*
  * SIGNUP/SIGNIN
@@ -707,6 +758,8 @@ h3.section-header {
 }
 
 #signup-student .avatar-selector .img-polaroid {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
     border-radius: 4px;
 }
 
@@ -739,5 +792,7 @@ h3.section-header {
 #signup-student .modal ul li.avatar-preview.selected {
     background-color: #def0da;
     border:solid 1px #97cf9f;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
     border-radius: 5px;
 }

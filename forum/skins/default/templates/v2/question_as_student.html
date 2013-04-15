@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block answersbottom %}
-    <!-- Your Response -->
+
+    <!-- #your-response -->
+    {% if answers %}
     <article id="your-response" class="row-fluid responsive">
         
         <div class="span2 left">
@@ -24,6 +26,8 @@
             &nbsp;
         </div>
         
-    </article><!--/#your-response -->
-
+    </article>
+    {% endif %}
+    <!--/#your-response -->
+    
 {% endblock %}
