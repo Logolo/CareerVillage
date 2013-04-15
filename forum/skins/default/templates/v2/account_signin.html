@@ -6,83 +6,162 @@
 {% endblock %}
 {% block title %}{% spaceless %}{% trans "Login or Signup" %}{% endspaceless %}{% endblock %}
 {% block content %}
-    <div id="signup-signin" class="row-fluid">
+ 
+    <div id="signup-signin-new" class="row-fluid">
 
-        <!-- students & teachers -->
-        <div class="offset1 span5">
-            <div class="students-container">
-                <h1>Students &amp; Teachers</h1>
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#">{% trans 'Already have an account' %}</a>
-                    </li>
-                    <li>
-                        <a href="#">{% trans 'Signup!' %}</a>
-                    </li>
-                </ul>
-                <div class="signin-tab">
-                    {% if msg %}
-                        <div class="alert alert-error">{{ msg }}</div>
-                    {% endif %}
-                    <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
-                        <input type="hidden" class="validate_email" name="validate_email" value="yes" />
-                        <div class="control-group">
-                            <label class="control-label" for="emailInput">{% trans 'Email' %}</label>
-                            <div class="controls">
-                                <input name="username" type="text" id="emailInput">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="passwordInput">{% trans 'Password' %}</label>
-                            <div class="controls">
-                                <input name="password" type="password" id="passwordInput">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
+        <h1 class="center">Register / Sign In</h1>
+        <h1 class="text-medium center">What kind of user are you?</h1>
 
-                                <button type="submit" class="btn pull-right">{% trans 'Login' %}</button>
-                                <a class="pull-right forgot-password subtle" href="#">{% trans 'Forgot your password?' %}</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="signup-tab">
-                    <div class="user-type">
-                        <div class="user-icon student"></div>
-                        <a class="btn" href="{% url auth_signup_student %}?next={{ request.GET.next }}">{% trans "I'm a student" %}</a>
-                    </div>
-                    <div class="user-type">
-                        <div class="user-icon educator"></div>
-                        <a class="btn" href="#">{% trans "I'm an educator" %}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ul class="user-type-selection clearfix row-fluid">
 
-        <!-- professionals -->
-        <div class="span5">
-            <div class="professionals-container">
-                <h1>{% trans 'Professionals' %}</h1>
-                <p class="gray-bold">{% trans 'For first timers AND veterans...' %}</p>
-                <a href="{% url auth_provider_signin provider='linkedin' %}" class="zocial linkedin">{% trans 'Login with Linkedin' %}</a>
-                <a class="subtle no-linkedin" href="#" target="_blank">
-                    {% trans "Don't have a linkedin account?" %}
+            <!-- I'm a student --> 
+            <li class="user-type span4 center">
+                <a data-toggle="tab" href="#signup-signin-student">
+                    <div class="avatar avatar-large"><img src="{% media "/media/img/example_avatars/pixel_geek_f_africa_carib.png" %}"></div><br />
+                    <div class="btn btn-info">{% trans "I'm a student" %}</div>
                 </a>
-                {% blocktrans %}
-                    <p>
-                        <span class="bold">Logging in with LinkedIn helps student know that your advice is trustworthy.</span>
-                        We use your publicly available LinkedIn profile to show the students who is answering their questions.
-                        We only display four things: your name, photo, city and industry.
-                    </p>
-                    <p>
-                        <span class="bold">What stays private.</span>
-                        We never show anyone your email address. We only use that to inform you when there are questions
-                        relevant to your expertise.
-                    </p>
+            </li>
 
-                {% endblocktrans %}
-            </div>
-        </div>
+            <!-- I'm an educator -->
+            <li class="user-type span4 center">
+                <a data-toggle="tab" href="#signup-signin-educator">
+                    <div class="avatar avatar-large"><img src="{% media "/media/img/example_avatars/pixel_geek_m_asian.png" %}"></div><br />
+                    <div class="btn btn-info">{% trans "I'm an educator" %}</div>
+                </a>
+            </li>
+
+            <!-- I'm a professional -->
+            <li class="user-type span4 center">
+                <a data-toggle="tab" href="#signup-signin-professional">
+                    <div class="avatar avatar-large"><img src="{% media "/media/img/example_avatars/pixel_geek_f_blond.png" %}"></div><br />
+                    <div class="btn btn-info">{% trans "I'm a professional" %}</div>
+                </a>
+            </li>
+
+        </ul><!--/.custom-radio-elements -->
+
     </div>
+
+    <div class="tab-content row-fluid">
+
+        <!-- default empty pane -->
+        <div class="tab-pane active">            
+            <br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br />
+        </div>
+        
+        <!-- register/signup for Students -->
+        <div id="signup-signin-student" class="tab-pane">        
+            <br />
+
+            {% if msg %}
+                <div class="alert alert-error">{{ msg }}</div>
+            {% endif %}
+            <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
+                <input type="hidden" class="validate_email" name="validate_email" value="yes" />
+                <div class="control-group" style="margin:0">
+                    <label class="control-label">&nbsp;</label>
+                    <div class="controls">
+                        <h2 class="text-medium">Log in below or <a href="{% url auth_signup_student %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
+                    </div>
+                </div>
+                    
+                <div class="control-group">
+                    <label class="control-label" for="emailInput">{% trans 'Email' %}</label>
+                    <div class="controls">
+                        <input name="username" type="text" id="emailInput">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="passwordInput">{% trans 'Password' %}</label>
+                    <div class="controls">
+                        <input style="margin-bottom:4px" name="password" type="password" id="passwordInput"><br />
+                        <a href="#">{% trans 'Forgot your password?' %}</a>
+                    </div>
+
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-large">{% trans 'Login' %}</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div><!--/#signup-signin-student -->
+            
+
+        <!-- register/signup for Educators -->
+        <div id="signup-signin-educator" class="tab-pane">        
+            <br />
+
+            {% if msg %}
+                <div class="alert alert-error">{{ msg }}</div>
+            {% endif %}
+            <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
+                <input type="hidden" class="validate_email" name="validate_email" value="yes" />
+                <div class="control-group" style="margin:0">
+                    <label class="control-label">&nbsp;</label>
+                    <div class="controls">
+                        <h2 class="text-medium">Log in below or <a href="{% url auth_signup_student %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
+                    </div>
+                </div>
+                    
+                <div class="control-group">
+                    <label class="control-label" for="emailInput">{% trans 'Email' %}</label>
+                    <div class="controls">
+                        <input name="username" type="text" id="emailInput">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="passwordInput">{% trans 'Password' %}</label>
+                    <div class="controls">
+                        <input style="margin-bottom:4px" name="password" type="password" id="passwordInput"><br />
+                        <a href="#">{% trans 'Forgot your password?' %}</a>
+                    </div>
+
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-large">{% trans 'Login' %}</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div><!--/#signup-signin-educator -->
+
+        <!-- register/signup for Professionals -->
+        <div id="signup-signin-professional" class="tab-pane">        
+
+            <div class="span8 offset2">
+
+                <div class="center"><br />
+                    <h4 class="text-light">{% trans 'For first timers AND veterans...' %}</h4>
+                    <p><a href="{% url auth_provider_signin provider='linkedin' %}" class="zocial linkedin block">{% trans 'Login with Linkedin' %}</a></p>
+
+                    <!-- TODO connect linkedin button and no linked in account link -->
+                    <p><a class="subtle no-linkedin" href="#" target="_blank">
+                        {% trans "Don't have a linkedin account?" %}
+                    </a></p>
+                    
+                </div>
+
+            {% blocktrans %}
+                <p>
+                    <span class="bold">Logging in with LinkedIn helps student know that your advice is trustworthy.</span>
+                    We use your publicly available LinkedIn profile to show the students who is answering their questions.
+                    We only display four things: your name, photo, city and industry.
+                </p>
+                <p>
+                    <span class="bold">What stays private.</span>
+                    We never show anyone your email address. We only use that to inform you when there are questions
+                    relevant to your expertise.
+                </p>
+
+            {% endblocktrans %}
+            
+        </div><!--/#signup-signin-professional -->
+
+    </div><!--/.tab-content -->
+
+
 {% endblock %}
