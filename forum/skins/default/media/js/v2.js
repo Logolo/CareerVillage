@@ -110,6 +110,31 @@ $("#signup-student").find(".modal li.avatar-preview").click(function(){
 });
 
 
+$("#signup-signin").find('ul.nav li').click(function(e){
+    e.stopPropagation();
+
+    $('ul.nav li').removeClass('active');
+    $(this).addClass('active');
+
+    var $signinTab = $('.signin-tab'),
+        $signupTab = $('.signup-tab');
+    if ($signinTab.is(':visible')) {
+        $signinTab.hide();
+        $signupTab.show();
+    } else {
+        $signinTab.show();
+        $signupTab.hide();
+    }
+
+    return false
+});
+
+$("#signup-student").find(".modal li.avatar-preview").click(function(){
+    $("li.avatar-preview").removeClass('selected');
+    $(this).addClass('selected');
+});
+
+
 // legacy from question page - should be rewritten to not be so obtuse
 // commented out for now to prevent conflicts with templates that may have the same function
 // hard-coded into their template
