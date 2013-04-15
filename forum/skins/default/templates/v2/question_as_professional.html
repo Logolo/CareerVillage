@@ -14,7 +14,11 @@
             &nbsp;
         </div><div class="span7 center">
 
-            <h4 style="margin-top:0px">Your answer to this question:</h4>
+            {% if answers %}
+                <h4 style="margin-top:0px">Your answer to this question:</h4>
+            {% else %}    
+                <h4 style="margin-top:0px; color:red">Be the first to answer this question!</h4>
+            {% endif %}
 
             <!-- Answer user and body content section -->
             <div class="answer-body">

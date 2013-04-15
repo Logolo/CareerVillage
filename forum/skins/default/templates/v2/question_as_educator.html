@@ -8,23 +8,34 @@
 
 {% block answersbottom %}
     <!-- Your Answer -->
-    <div id="your-answer" class="answer row-fluid">
-        <table><tr><td class="left">
-            &nbsp;
-        </td><td class="center">
+    <article id="your-answer" class="answer row-fluid responsive">
 
-            <h4 style="margin-top:0px">Your answer to this question:</h4>
+        <div class="span2 left">
+            &nbsp;
+        </div><div class="span7 center">
+
+            {% if answers %}
+                <h4 style="margin-top:0px">Your answer to this question:</h4>
+            {% else %}    
+                <h4 style="margin-top:0px; color:red">Be the first to answer this question!</h4>
+            {% endif %}
 
             <!-- Answer user and body content section -->
             <div class="answer-body">
 
-                <h5 class="answer-user">
-                    <span class="avatar avatar-small"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
-                    <a href="{{ answer.user.get_profile_url }}">{{ user.real_name }}</a>
-                    <span class="text-light">{{ user.about }}</em><br />
-                    <span class="text-subtext">{{ user.location }}</span>
-                    <span class="text-subtext">{{ user.industry  }}</span>
-                </h5>
+                <div class="answer-user">
+                    <a class="pull-left" href="{{ user.get_profile_url }}">
+                        <span class="avatar avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
+                    </a>
+                    <div class="media-body">
+                        <h5>
+                            <a href="{{ user.get_profile_url }}">{{ user.real_name }}</a>
+                            <span class="text-light">{{ user.about }}</em></span><br />
+                            <span class="text-subtext">{{ user.location }}</span>
+                            <span class="text-subtext">{{ user.industry  }}</span>
+                        </h5>
+                    </div>
+                </div>
 
                 <!-- Answer body -->
                 <div class="answer-content">
@@ -43,10 +54,14 @@
 
                 </div>
 
-            </div><!--/.answer -->
-
-        </td><td class="span3 right">
+            </div><!--/.answer-body -->
+            
+        </div><div class="span3 right">
+            
             &nbsp;
-        </td></tr></table>
-    </div><!-- -->
+            <!-- Right side (differs for each user type) -->
+            
+        </div></article>
+
+    </article><!--/#your-answer -->
 {% endblock %}
