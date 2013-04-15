@@ -198,7 +198,7 @@ def process_provider_signin(request, provider):
         except AuthKeyUserAssociation.DoesNotExist:
             user_ = _create_linkedin_user(request, assoc_key)
             if user_:
-                return login_and_forward(request, user_, request.POST.get('next', reverse('homepage')))
+                return login_and_forward(request, user_, request.POST.get('next', reverse('revise_profile')))
 
     return HttpResponseRedirect(reverse('auth_signin'))
 
