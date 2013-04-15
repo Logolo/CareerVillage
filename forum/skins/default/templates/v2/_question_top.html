@@ -29,12 +29,17 @@
     {% endcomment %}
     <!-- Modal -->
     <div id="ask-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h1>Nice job!</h1>
-        <h3>Looks like that's Question # {{ask_questions_count}} for you!</h3>
-        <div>Okay, time to take it to the next level...</div>
-        <div>Follow the topics on this question</div>
-        <div>Share your question on Facebook</div>
-        <div>Umm… No thanks, I think I’ll just hang out here and admire my awesome question</div>
+        <h4>Looks like that's Question #{{ask_questions_count}} for you!</h4>
+        <div class="row-fluid">
+            <a class="btn btn-large btn-warning">Follow the topics on this question</a><br />
+            <a class="btn btn-large btn-warning">Share your question on Facebook</a>
+            <div class="btn-group">
+                <a href="/home/" class="btn btn-inverse"><span class="icon-home icon-white"></span> Return Home</a>
+                <a href="#" class="btn btn-inverse" data-dismiss="modal"><span class="icon-eye-open icon-white"></span> View Your Question</a>
+            </div>
+        </div>
     </div>
 {% endif %}
 
