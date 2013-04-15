@@ -9,6 +9,12 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Deleting field 'User.real_name'
+        for user in orm.User.objects.all():
+            names = user.real_name.split(' ', 1)
+            user.first_name = names[0]
+            if len(names) > 1:
+                user.last_name = names[1]
+            user.save()
         db.delete_column('forum_user', 'real_name')
 
     def backwards(self, orm):
@@ -16,6 +22,9 @@ class Migration(SchemaMigration):
         db.add_column('forum_user', 'real_name',
                       self.gf('django.db.models.fields.CharField')(default='', max_length=100, blank=True),
                       keep_default=False)
+        for user in orm.User.objects.all():
+            user.real_name = "%s %s" % (user.first_name, user.last_name)
+            user.save()
 
 
     models = {
