@@ -330,6 +330,17 @@ header.profile-page .avatar img {
 
 
 /*************
+ * REFERRAL
+ ***/
+.referral-email-preview {
+    border: 1px solid #eee; 
+    box-shadow: 0 1px 3px #ccc; 
+    padding: 12px;
+    margin: 12px 0;    
+}
+
+
+/*************
  * SETTINGS
  ***/
 

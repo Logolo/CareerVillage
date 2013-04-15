@@ -16,39 +16,51 @@
 {% include "v2/_question_top.html" %}
 
 {% if not question.closed %}
-    <div class="offset2 span9">
-    {% if success %}
-        <h1 class="text-medium">Success!</h1>
-    {% endif %}
 
-    <h1 class="text-medium">
-        Inspire your friends to help this student!<br/>
-        Refer them to this question&hellip; 
-    </h1>
-
-    <form id="fmanswer" action="." method="post">
-        <div class="clearfix {% if refer_friend_form.email.errors %}error{% endif %}">
-            <label for="id_email">Who do you want<br/>to send this to?</label>
-            <div class="input">
-                <input type="text" name="email" id="id_email" value="{{ refer_friend_form.data.email }}" placeholder="example@example.com">
-                <span class="help-inline">{{ refer_friend_form.email.errors|join:", " }}</span>
-            </div>
-        </div>    
-        <div style="border: thin solid black; box-shadow: 0 5px 6px #555; padding: 25px; margin: 35px 0 40px 0;">
-            <p>
-                From: You<br/>
-                To: Friend<br/>
-                Subject: Career question for you
-            </p>
-            <p>
-                {{ message|linebreaks }}
-            </p>
+    <article class="row-fluid answer resp">
+        
+        <div class="span2 left">
+        
+        </div><div class="span7 center">
+            
+            <h4 style="margin-bottom:36px">Inspire your friends to help this student!<br />
+            Refer them to this question…</h4>
+            
+            <form id="fmanswer" action="." method="post">
+                <div class="form-inline clearfix {% if refer_friend_form.email.errors %}error{% endif %}">
+                    <label for="id_email" style="font-weight:bold">Just enter your friend's email address:</label><br />
+                    <input type="text" name="email" id="id_email" value="{{ refer_friend_form.data.email }}" placeholder="example@example.com">
+                    <input type="submit"
+                        value="Send" 
+                        class="submit btn btn-success"/>        
+                        <span>+25 Karma</span>
+                    <div class="help-inline">{{ refer_friend_form.email.errors|join:", " }}</div>
+                </div>
+                    
+                <hr />
+                <h5>Preview of your referral email:</h5>
+                <div class="referral-email-preview">
+                    <p>
+                        From: You<br/>
+                        To: Friend<br/>
+                        Subject: Career question for you
+                    </p>
+                    <p>
+                        {{ message|linebreaks }}
+                    </p>
+                </div>
+            </form>
         </div>
-        <input type="submit"
-            value="Refer this question to a friend now" 
-            class="btn btn-success"/>        
-        <div>+25 Karma</div>
-    </form>
-    </div>
+
+        </div><div class="span3 right">
+
+            &nbsp;
+            <!-- Right side (differs for each user type) -->
+
+        </div>
+
+    </article><!--/.answer -->
+
+            
 {% endif %}
 {% endblock %}
