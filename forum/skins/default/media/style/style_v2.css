@@ -432,23 +432,20 @@ header.profile-page .avatar img {
 }
 .avatar img,
 .avatar {
+    max-width:100%;
     width:64px;
-    height:64px;
 }
 .avatar-medium,
 .avatar-medium img {
-    height:48px;
     width:48px;
 }
 .avatar-small,
 .avatar-small img {
     width:32px;
-    height:32px;
 }
 .avatar-large,
 .avatar-large img {
     width:128px;
-    height:128px;
 }
 
 
