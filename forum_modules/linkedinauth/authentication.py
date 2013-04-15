@@ -12,7 +12,7 @@ class LinkedinAuthConsumer(OAuthAbstractAuthConsumer):
         )
 
     def get_user_data(self, key):
-        url = "https://api.linkedin.com/v1/people/~:(id,skills,interests,first-name,last-name,headline,industry,picture-url,location)"
+        url = "https://api.linkedin.com/v1/people/~:(id,skills,interests,first-name,last-name,email-address,headline,industry,picture-url,location)"
         return self.fetch_data(key, url)
 
 class LinkedinAuthContext(ConsumerTemplateContext):
