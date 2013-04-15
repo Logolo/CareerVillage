@@ -268,7 +268,8 @@ class Migration(SchemaMigration):
             'silver': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'subscriptions': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'subscribers'", 'symmetrical': 'False', 'through': "orm['forum.QuestionSubscription']", 'to': "orm['forum.Node']"}),
             'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'primary_key': 'True'}),
-            'website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'})
+            'website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
+            'real_name': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
         },
         'forum.userproperty': {
             'Meta': {'unique_together': "(('user', 'key'),)", 'object_name': 'UserProperty'},
