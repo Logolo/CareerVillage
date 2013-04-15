@@ -453,6 +453,17 @@ header.profile-page .avatar img {
 
 
 /*************
+ * BUTTONS
+ ***/
+ 
+.btn.btn-wide {
+    display:block;
+    width: 100%;
+    font-size: 18px;
+    line-height: 36px;
+}
+
+/*************
  * TYPOGRAPHY
  ***/
 
@@ -481,6 +492,9 @@ h2.text-primary {
 .text-light {
     color:#999;
 }
+.text-blue {
+    color: #26bdd7;
+}
 .text-subtext {
     color:#333;
     font-style:italic;
@@ -501,6 +515,9 @@ h3.section-header {
     margin-top:-5px; 
     font-weight:normal; 
     margin-bottom:-20px; 
+}
+form h5 {
+    margin:36px 0 18px 0;
 }
 
 /*************
@@ -600,67 +617,30 @@ ul.user-type-selection li.user-type.active a:hover {
  * STUDENT SIGNUP
  */
 
-#signup-student h2 {
-    color: #26bdd7;
-}
-
-#signup-student .bold {
-    font-weight: bold;
-    margin: 50px 0 20px 0;
-}
-
 #signup-student form {
     position: relative;
 }
-
-#signup-student input[type=text],
-#signup-student input[type=password] {
-    height: 28px;
-}
-
-#signup-student .radio {
-    font-size: 12px;
-}
-
-#signup-student .radio-label {
-    width: 160px;
-    text-align: right;
-    padding: 5px;
-}
-
 #signup-student .avatar-selector {
     position: absolute;
     right: 0;
 }
-
 #signup-student .avatar-selector .btn {
     display: block;
     font-size: 12px;
     width: 70px;
     margin: 10px auto;
 }
-
 #signup-student .avatar-selector .img-polaroid {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
-
-#signup-student .btn-wide {
-    width: 100%;
-    margin: 30px auto;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 30px;
-}
-
 #signup-student .modal ul {
     list-style: none;
     margin: 0 auto;
     padding: 0;
     width: 458px;
 }
-
 #signup-student .modal ul li.avatar-preview {
     display: inline-block;
     width: 64px;
@@ -671,7 +651,6 @@ ul.user-type-selection li.user-type.active a:hover {
     cursor: pointer;
     border: solid 1px #ffffff;
 }
-
 #signup-student .modal ul li.avatar-preview.selected {
     background-color: #def0da;
     border:solid 1px #97cf9f;
@@ -679,3 +658,9 @@ ul.user-type-selection li.user-type.active a:hover {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
+
+/**
+ * Educator SIGNUP
+ */
+
