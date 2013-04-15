@@ -371,18 +371,18 @@ def question(request, id, slug='', answer=None):
 
 @decorators.render("v2/question_answer_form.html", 'questions')
 def new_answer(request, id, slug='', answer=None):
+    try:
+        question = Question.objects.get(id=id)
+    except:
+        if slug:
+            question = match_question_slug(id, slug)
+            if question is not None:
+                return HttpResponseRedirect(question.get_absolute_url())
+        raise Http404()
     if request.user.is_authenticated():
         if request.user.user_type == "student":
             return HttpResponsePermanentRedirect(question.get_absolute_url())
         else: #The user is not a student. 
-            try:
-                question = Question.objects.get(id=id)
-            except:
-                if slug:
-                    question = match_question_slug(id, slug)
-                    if question is not None:
-                        return HttpResponseRedirect(question.get_absolute_url())
-                raise Http404()
             if question.nis.deleted and not request.user.can_view_deleted_post(question):
                 raise Http404
             if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
