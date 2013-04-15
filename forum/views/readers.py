@@ -543,6 +543,12 @@ def question_as_loggedout(request, id, slug='', answer=None):
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
     "subscription": subscription,
+    "refer_success": request.session.pop('refer_success', False),
+    "refer_questions_count": request.session.pop('refer_questions_count', 0),
+    "ask_success": request.session.pop('ask_success', False),
+    "ask_questions_count": request.session.pop('ask_questions_count', 0),
+    "answer_success": request.session.pop('answer_success', False),
+    "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 
 @decorators.render("v2/question_as_educator.html", 'questions')
@@ -600,7 +606,13 @@ def question_as_educator(request, id, slug='', answer=None):
     "answer" : answer_form,
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
-    "subscription": subscription
+    "subscription": subscription,
+    "refer_success": request.session.pop('refer_success', False),
+    "refer_questions_count": request.session.pop('refer_questions_count', 0),
+    "ask_success": request.session.pop('ask_success', False),
+    "ask_questions_count": request.session.pop('ask_questions_count', 0),
+    "answer_success": request.session.pop('answer_success', False),
+    "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 
 @decorators.render("v2/question_as_professional.html", 'questions')
@@ -660,6 +672,10 @@ def question_as_professional(request, id, slug='', answer=None):
     "subscription": subscription,
     "refer_success": request.session.pop('refer_success', False),
     "refer_questions_count": request.session.pop('refer_questions_count', 0),
+    "ask_success": request.session.pop('ask_success', False),
+    "ask_questions_count": request.session.pop('ask_questions_count', 0),
+    "answer_success": request.session.pop('answer_success', False),
+    "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 REVISION_TEMPLATE = template.loader.get_template('node/revision.html')
 
@@ -718,6 +734,12 @@ def question_as_student(request, id, slug='', answer=None):
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
     "subscription": subscription,
+    "refer_success": request.session.pop('refer_success', False),
+    "refer_questions_count": request.session.pop('refer_questions_count', 0),
+    "ask_success": request.session.pop('ask_success', False),
+    "ask_questions_count": request.session.pop('ask_questions_count', 0),
+    "answer_success": request.session.pop('answer_success', False),
+    "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 
 def revisions(request, id):

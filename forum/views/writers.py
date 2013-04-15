@@ -130,6 +130,8 @@ def ask_v2(request):
                     if settings.WIKI_ON and request.POST.get('wiki', False):
                         question.nstate.wiki = ask_action
 
+                    request.session['ask_success'] = True
+                    request.session['ask_questions_count'] = request.user.get_question_count_total()
                     return HttpResponseRedirect(question.get_absolute_url())
                 else:
                     request.session[PENDING_SUBMISSION_SESSION_ATTR] = {
@@ -297,6 +299,8 @@ def answer(request, id):
             if settings.WIKI_ON and request.POST.get('wiki', False):
                 answer.nstate.wiki = answer_action
 
+            request.session['answer_success'] = True
+            request.session['answer_questions_count'] = request.user.get_answer_count_total()
             return HttpResponseRedirect(answer.get_absolute_url())
         else:
             request.session[PENDING_SUBMISSION_SESSION_ATTR] = {

@@ -13,6 +13,46 @@
     <div id="referral-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <h1>Nicely done!</h1>
         <h3>You've referred {{ refer_questions_count }} questions to friends.</h3>
+        <div>Let's keep it going...</div>
+        <div>Refer another person to this question</div>
+        <div>See questions that need answers</div>
+        <div>Umm… No thanks, I think I’ll just hang out here on this question</div>
+    </div>
+{% endif %}
+
+{% if ask_success %}
+    {% comment %}
+        the classes "init modal-no-box" are custom to CareerVillage
+        "init" makes the dialog appear on pageload 
+        "modal-no-box" inverts the text color to white so that it's legible without the standard white box
+        NOTE: need to uncomment a line in v2.js for this to work (search for .modal.init)
+    {% endcomment %}
+    <!-- Modal -->
+    <div id="ask-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <h1>Nice job!</h1>
+        <h3>Looks like that's Question # {{ask_questions_count}} for you!</h3>
+        <div>Okay, time to take it to the next level...</div>
+        <div>Follow the topics on this question</div>
+        <div>Share your question on Facebook</div>
+        <div>Umm… No thanks, I think I’ll just hang out here and admire my awesome question</div>
+    </div>
+{% endif %}
+
+{% if answer_success %}
+    {% comment %}
+        the classes "init modal-no-box" are custom to CareerVillage
+        "init" makes the dialog appear on pageload 
+        "modal-no-box" inverts the text color to white so that it's legible without the standard white box
+        NOTE: need to uncomment a line in v2.js for this to work (search for .modal.init)
+    {% endcomment %}
+    <!-- Modal -->
+    <div id="answer-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <h1>Thanks for answering {{ question.author.first_name }}'s question!</h1>
+        <h3>You have answered {{ answer_questions_count }} question(s) so far.</h3>
+        <div>What's next, chief?</div>
+        <div>Ask a friend to answer this question also</div>
+        <div>See questions that need answers</div>
+        <div>Umm… No thanks, I think I’ll just hang out here and admire my awesome answer</div>
     </div>
 {% endif %}
 
