@@ -165,7 +165,7 @@ def process_provider_signin(request, provider):
             if isinstance(assoc_key, (type, User)):
                 if request.user != assoc_key:
                     request.session['auth_error'] = _(
-                            "Sorry, these login credentials belong to anoother user. Plese terminate your current session and try again."
+                            "Sorry, these login credentials belong to another user. Please terminate your current session (by logging out or clearing your cookies) and try again. For help, contact us at team@careervillage.org"
                             )
                 else:
                     request.session['auth_error'] = _("You are already logged in with that user.")
@@ -177,7 +177,7 @@ def process_provider_signin(request, provider):
                                 "These login credentials are already associated with your account.")
                     else:
                         request.session['auth_error'] = _(
-                                "Sorry, these login credentials belong to anoother user. Plese terminate your current session and try again."
+                                "Sorry, these login credentials belong to another user. Please terminate your current session (by logging out or clearing your cookies) and try again. For help, contact us at team@careervillage.org"
                                 )
                 except:
                     uassoc = AuthKeyUserAssociation(user=request.user, key=assoc_key, provider=provider)
