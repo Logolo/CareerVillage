@@ -11,12 +11,17 @@
     {% endcomment %}
     <!-- Modal -->
     <div id="referral-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <h1>Nicely done!</h1>
-        <h3>You've referred {{ refer_questions_count }} questions to friends.</h3>
-        <div>Let's keep it going...</div>
-        <div>Refer another person to this question</div>
-        <div>See questions that need answers</div>
-        <div>Umm… No thanks, I think I’ll just hang out here on this question</div>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1>Nice job!</h1>
+        <h4>You've referred {{ refer_questions_count }} questions to friends.</h4>
+        <div class="row-fluid">
+            <a class="btn btn-large btn-warning">Refer another person to this question</a><br />
+            <a class="btn btn-large btn-warning">See questions that need answers</a>
+            <div class="btn-group">
+                <a href="/home/" class="btn btn-inverse"><span class="icon-home icon-white"></span> Return Home</a>
+                <a href="#" class="btn btn-inverse" data-dismiss="modal"><span class="icon-eye-open icon-white"></span> View Your Question</a>
+            </div>
+        </div>
     </div>
 {% endif %}
 
@@ -52,12 +57,17 @@
     {% endcomment %}
     <!-- Modal -->
     <div id="answer-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <h1>Thanks for answering {{ question.author.first_name }}'s question!</h1>
-        <h3>You have answered {{ answer_questions_count }} question(s) so far.</h3>
-        <div>What's next, chief?</div>
-        <div>Ask a friend to answer this question also</div>
-        <div>See questions that need answers</div>
-        <div>Umm… No thanks, I think I’ll just hang out here and admire my awesome answer</div>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1>Nice job!</h1>
+        <h4>You've referred {{ refer_questions_count }} questions to friends.</h4>
+        <div class="row-fluid">
+            <a class="btn btn-large btn-warning">Ask a friend to answer this question also</a><br />
+            <a class="btn btn-large btn-warning">See questions that need answers</a>
+            <div class="btn-group">
+                <a href="/home/" class="btn btn-inverse"><span class="icon-home icon-white"></span> Return Home</a>
+                <a href="#" class="btn btn-inverse" data-dismiss="modal"><span class="icon-eye-open icon-white"></span> View Your Question</a>
+            </div>
+        </div>        
     </div>
 {% endif %}
 
