@@ -122,7 +122,6 @@ class User(BaseModel, DjangoUser):
     referral_count = models.PositiveIntegerField(default=0)
 
     last_seen = models.DateTimeField(default=datetime.datetime.now)
-    real_name = models.CharField(max_length=100, blank=True)
     website = models.URLField(max_length=200, blank=True)
     location = models.CharField(max_length=100, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
@@ -148,6 +147,20 @@ class User(BaseModel, DjangoUser):
             self._prop = prop
 
         return prop
+
+    def display_name(self, context):
+        if context == 'safe':
+            initial = self.last_name[0].upper() if self.last_name else ''
+            return "%s %s." % (self.first_name, initial,)
+        elif context == 'full':
+            return "%s %s" % (self.first_name, self.last_name,)
+
+    @property
+    def real_name(self):
+        if self.is_student():
+            return self.display_name('safe')
+        else:
+            return self.display_name('full')
 
     # User type if the role of the user: student, educator or professional
     @property
