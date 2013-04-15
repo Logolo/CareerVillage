@@ -12,6 +12,10 @@
         <h1 class="text-center">Register / Sign In</h1>
         <h1 class="text-medium text-center">What kind of user are you?</h1>
 
+        {% if msg %}
+            <div class="alert alert-error">{{ msg }}</div>
+        {% endif %}
+
         <ul class="user-type-selection clearfix row-fluid">
 
             <!-- I'm a student --> 
@@ -54,9 +58,6 @@
         <div id="signup-signin-student" class="tab-pane">        
             <br />
 
-            {% if msg %}
-                <div class="alert alert-error">{{ msg }}</div>
-            {% endif %}
             <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
                 <input type="hidden" class="validate_email" name="validate_email" value="yes" />
                 <div class="control-group" style="margin:0">
@@ -94,9 +95,6 @@
         <div id="signup-signin-educator" class="tab-pane">        
             <br />
 
-            {% if msg %}
-                <div class="alert alert-error">{{ msg }}</div>
-            {% endif %}
             <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
                 <input type="hidden" class="validate_email" name="validate_email" value="yes" />
                 <div class="control-group" style="margin:0">
