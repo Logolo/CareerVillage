@@ -466,7 +466,9 @@ label {
     color:#999;
 }
 .form-inline label,
-.form-horizontal label {
+.form-horizontal label,
+label.checkbox,
+label.radio {
     font-size:14px;
     line-height:120%;
     padding:auto;
