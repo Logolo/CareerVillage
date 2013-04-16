@@ -98,6 +98,17 @@ $(".like-question-button").click(function(e){
     });
 });
 
+/* user type selector for login/register page */
+$('.user-type-selection a[data-toggle=tab]').click(function(e){
+  $('body').animate({scrollTop: $(this).offset().top - 10}, 300);
+});
+
+/* avatar selector for student registration */
+$("#signup-student").find(".modal li.avatar-preview").click(function(){
+    $("li.avatar-preview").removeClass('selected');
+    $(this).addClass('selected');
+});
+
 
 $("#signup-signin").find('ul.nav li').click(function(e){
     e.stopPropagation();
