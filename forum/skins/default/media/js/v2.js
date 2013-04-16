@@ -39,9 +39,16 @@ $(".custom-radio-elements .radio-el").click(function(e){
 
 /*** 
  * trigger modal dialog to open on page load if it has the class "init"
- * NOTE: COMMENT OUT FOLLOWING LINE TO ENABLE
  */ 
  $('.modal.init').modal('show'); 
+
+
+ /*** 
+  * give popovers a data attribute to close themselves at the click of a button
+  */
+ $('body').on('click', '.popover [data-dismiss=popover]', function(e){
+   $(this).closest('.popover').hide();
+ });
  
 
 /*** 
