@@ -200,6 +200,18 @@ $("#signup-student").find(".modal li.avatar-preview").click(function(){
     $(this).addClass('selected');
 });
 
+/* flag for review toggle */
+$('.flag-for-review').click(function(e){
+    e.preventDefault();
+    $form = $("#flag-question-form");
+
+    if ($form.is(':visible')) {
+        $form.slideUp();
+    } else {
+        $form.slideDown();
+    }
+});
+
 
 // legacy from question page - should be rewritten to not be so obtuse
 // commented out for now to prevent conflicts with templates that may have the same function
