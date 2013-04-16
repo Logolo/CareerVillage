@@ -194,26 +194,7 @@ $("#signup-student").find(".modal li.avatar-preview").click(function(){
     $(this).addClass('selected');
 });
 
-
-$("#signup-signin").find('ul.nav li').click(function(e){
-    e.stopPropagation();
-
-    $('ul.nav li').removeClass('active');
-    $(this).addClass('active');
-
-    var $signinTab = $('.signin-tab'),
-        $signupTab = $('.signup-tab');
-    if ($signinTab.is(':visible')) {
-        $signinTab.hide();
-        $signupTab.show();
-    } else {
-        $signinTab.show();
-        $signupTab.hide();
-    }
-
-    return false
-});
-
+/* preview avatar selection for student registration*/
 $("#signup-student").find(".modal li.avatar-preview").click(function(){
     $("li.avatar-preview").removeClass('selected');
     $(this).addClass('selected');
