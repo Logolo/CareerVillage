@@ -69,7 +69,7 @@ def signin_page(request):
         msg = None
 
     return render_to_response(
-            'account/signin.html',
+            'auth/signin.html',
             {
             'msg': msg,
             'all_providers': all_providers,
@@ -394,6 +394,38 @@ def request_temp_login(request):
 
     return render_to_response(
             'auth/temp_login_request.html', {'form': form},
+            context_instance=RequestContext(request))
+
+def request_temp_login_v2(request):
+    if request.method == 'POST':
+        form = TemporaryLoginRequestForm(request.POST)
+
+        if form.is_valid():
+            users = form.user_cache
+
+            for u in users:
+                if u.is_suspended():
+                    return forward_suspended_user(request, u, False)
+
+            for u in users:
+                try:
+                    hash = get_object_or_404(ValidationHash, user=u, type='templogin')
+                    if hash.expiration < datetime.datetime.now():
+                        hash.delete()
+                        return request_temp_login(request)
+                except:
+                    hash = ValidationHash.objects.create_new(u, 'templogin', [u.id])
+
+                send_template_email([u], "v2/emails/password-reset.html", {'temp_login_code': hash})
+
+                messages.info(request, message=_("An email will be sent with your temporary login key. Please allow up to three minutes for it to arrive and check your spam folder!"))
+
+            return HttpResponseRedirect(reverse('login'))
+    else:
+        form = TemporaryLoginRequestForm()
+
+    return render_to_response(
+            'v2/password_reset.html', {'form': form},
             context_instance=RequestContext(request))
 
 def temp_signin(request, user, code):
