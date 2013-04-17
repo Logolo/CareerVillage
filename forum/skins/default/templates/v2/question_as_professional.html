@@ -39,13 +39,11 @@
 
                 <!-- Answer body -->
                 <div class="answer-content">
-                    <form id="fmanswer" action="{% url answer question.id %}" method="post">
+                    <form id="fmanswer" data-message-on-exit="Warning: your answer will be lost if you leave this page!" data-message-on-exit-field="text" action="{% url answer question.id %}" method="post">
                         {% if not question.closed %}
-                            <div>
-                                {{ answer.text }}
-                                {{ answer.text.errors }}
-                            </div>
-                            <input type="button"
+                            {{ answer.text }}
+                            {{ answer.text.errors }}
+                            <input type="submit"
                                 value="Submit advice" 
                                 class="btn btn-success pull-right" /><br /><br />
                             <p><span class="form-error"></span></p>

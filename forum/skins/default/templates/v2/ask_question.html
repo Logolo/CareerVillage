@@ -61,6 +61,7 @@
 
             <div id="askform">
                 <form id="fmask" action="" method="post" accept-charset="utf-8">
+
                     {% if not request.user.is_authenticated %}
                             {% if "ask"|contained_in:settings.REQUIRE_EMAIL_VALIDATION_TO %}
                             {% trans "and validate your email." %}{% else %}{% endif %}
@@ -72,23 +73,31 @@
                             </div>
                         {% endif %}
                     {% endif %}
-                    <div>
-                        <span class="form-error"></span><br/>
-                        <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" placeholder="What's your career question?"  value="{{ form.title.value }}">
-                        {{ form.title.errors }}
-                    </div>
-                    <div>
-                        <div id="wmd-button-bar" class="wmd-panel"></div>
-                        {{ form.text }} {{ form.text.errors }}
-                        <div id="previewer" class="wmd-preview"></div>
-                        <span class="form-error"></span>
-                    </div>
-                    <div>
-                        <span class="form-error"></span><br/>
-                        <input autocomplete="off" id="id_tags" type="text" name="tags" size="100" placeholder="What are some topics this question is about?" value="{{ form.tags.value }}">
-                        {{ form.tags.errors }}
-                    </div>
+
+                    <!-- Question Title -->
+                    <label>Question Title</label>
+                    <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" placeholder="What's your career question?"  value="{{ form.title.value }}">
+                    {{ form.title.errors }}
+
+                    <!-- Question Description -->
+                    <label>Description</label>
+                    <div id="wmd-button-bar" class="wmd-panel"></div>
+                    {{ form.text }} {{ form.text.errors }}
+                    <div id="previewer" class="wmd-preview"></div>
+
+                    <!-- Question Topics/Tags -->
+                    <label>Topics</label>
+                    <input autocomplete="off" class="has-popover" id="id_tags" type="text" name="tags" size="100" placeholder="What are some topics this question is about?" value="{{ form.tags.value }}"
+                        data-placement="left"
+                        data-trigger="focus"
+                        data-content="Add as many topics as you want, just include a space between each word" 
+                    />
+                    
+
+                    {{ form.tags.errors }}
+
                     {% if form.recaptcha %}
+                    <!-- ReCaptcha -->
                     <div class="question-captcha" style="float: left">
                         {{ form.recaptcha.errors }}
                         {{ form.recaptcha }}
@@ -97,13 +106,13 @@
                     {% endif %}
                     
                     {% if not request.user.is_authenticated %}                                                                        
-                    <input name="ask" type="submit" value="{% trans "Login to submit this question" %}" class="btn btn-success"/>
+                    <input name="ask" type="submit" value="{% trans "Login to submit this question" %}" class="btn btn-success" />
                     {% else %}
                     <input name="ask" type="submit" value="{% trans "Submit this question" %}" class="btn btn-success"/>
                     {% endif %}
                 </form>
                 <div>
-                    <a onclick="history.back()" href="#">I changed my mind. Take me back.</a>
+                    <a onclick="history.back(); return false;" href="">I changed my mind. Take me back.</a>
                 </div>
             </div>
         </div>
