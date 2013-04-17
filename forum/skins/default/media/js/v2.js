@@ -71,11 +71,9 @@ $(".like-question-button").click(function(e){
     var liking = ($widget.hasClass('on'))? false : true;
     var $likes = $widget.find('h3');
     
-    // is this your first or second time liking
-    // TODO connect this to backend somehow
-    var first_like = false;
-    var second_like = false;
-
+    // number of times this user has liked a question/answer before
+    like_count = $widget.data('like-count');
+    
     // like ajax request
     $.getJSON($this.attr('href'), function(data, e) {
 
@@ -100,7 +98,7 @@ $(".like-question-button").click(function(e){
         }
 
         // for first time likers, suggest they share on facebook
-        if (liking && first_like) {
+        if (liking && like_count == 0) {
           
           message =  "We can automatically share your likes on Facebook so your friends benefit too. How about it?</p> \
                       <button class='btn-success btn'>Yes, share on Facebook</button><br /> \
@@ -117,7 +115,7 @@ $(".like-question-button").click(function(e){
         }
         
         // for second time likers, suggest they follow this question
-        if (liking && second_like) {
+        if (liking && like_count == 1) {
           message =  "Get an email when there's new content for this question. Just click the follow button!</p> \
                       <button style='margin-top:4px' class='btn' data-dismiss='popover'>Ok</button> \
                       ";
