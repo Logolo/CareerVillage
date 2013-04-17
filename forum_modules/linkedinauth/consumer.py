@@ -23,7 +23,7 @@ class OAuthAbstractAuthConsumer(AuthenticationConsumer):
         params = {
             'response_type': 'code',
             'client_id': self.consumer_key,
-            'scope': 'r_fullprofile',
+            'scope': 'r_fullprofile r_emailaddress',
             'state': request.session['linkedin_state'],
             'redirect_uri': request.session['linkedin_redirect_to']
         }

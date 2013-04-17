@@ -69,7 +69,7 @@ def signin_page(request):
         msg = None
 
     return render_to_response(
-            'account/signin.html',
+            'auth/signin.html',
             {
             'msg': msg,
             'all_providers': all_providers,
@@ -116,7 +116,7 @@ def signup_student(request):
             UserJoinsAction(user=user_, ip=request.META['REMOTE_ADDR']).save()
 
             send_validation_email(request)
-            redirect_to = request.GET.get('next', reverse('index'))
+            redirect_to = request.GET.get('next', reverse('homepage'))
 
             return login_and_forward(request, user_, redirect_to,
                               _("A confirmation email has been sent to your inbox."))
@@ -165,7 +165,7 @@ def process_provider_signin(request, provider):
             if isinstance(assoc_key, (type, User)):
                 if request.user != assoc_key:
                     request.session['auth_error'] = _(
-                            "Sorry, these login credentials belong to anoother user. Plese terminate your current session and try again."
+                            "Sorry, these login credentials belong to another user. Please terminate your current session (by logging out or clearing your cookies) and try again. For help, contact us at team@careervillage.org"
                             )
                 else:
                     request.session['auth_error'] = _("You are already logged in with that user.")
@@ -177,7 +177,7 @@ def process_provider_signin(request, provider):
                                 "These login credentials are already associated with your account.")
                     else:
                         request.session['auth_error'] = _(
-                                "Sorry, these login credentials belong to anoother user. Plese terminate your current session and try again."
+                                "Sorry, these login credentials belong to another user. Please terminate your current session (by logging out or clearing your cookies) and try again. For help, contact us at team@careervillage.org"
                                 )
                 except:
                     uassoc = AuthKeyUserAssociation(user=request.user, key=assoc_key, provider=provider)
@@ -196,18 +196,66 @@ def process_provider_signin(request, provider):
             user_ = assoc.user
             return login_and_forward(request, user_)
         except AuthKeyUserAssociation.DoesNotExist:
-            request.session['assoc_key'] = assoc_key
-            request.session['auth_provider'] = provider
-            return HttpResponseRedirect(reverse('auth_external_register'))
+            user_ = _create_linkedin_user(request, assoc_key)
+            if user_:
+                return login_and_forward(request, user_, request.POST.get('next', reverse('revise_profile')))
 
     return HttpResponseRedirect(reverse('auth_signin'))
+
+
+def _create_linkedin_user(request, assoc_key):
+
+    provider_class = AUTH_PROVIDERS['linkedin'].consumer
+    user_data = provider_class.get_user_data(request.session['oauth2_access_token'])
+    user_ = User(username='linkedin:%s' % (user_data['id'],))
+    user_.set_unusable_password()
+    user_.save()
+
+    if User.objects.all().count() == 0:
+        user_.is_superuser = True
+        user_.is_staff = True
+
+
+    location = user_data.get('location', None)
+    user_.first_name = user_data.get('firstName', '')
+    user_.last_name = user_data.get('lastName', '')
+    user_.user_type = 'professional'
+    user_.email = user_data.get('emailAddress', '')
+    user_.industry = user_data.get('industry', '')
+    user_.headline = user_data.get('headline', '')
+    user_.location = location.get('name', '') if location else ''
+    user_.linkedin_photo_url = user_data.get('pictureUrl', '')
+    tags = [user_data['industry']]
+    if 'skills' in user_data:
+        tags.extend(s['skill']['name'] for s in user_data['skills']['values'])
+    if 'interests' in user_data:
+        tags.extend(i.strip() for i in user_data['interests'].split(','))
+
+    user_.save()
+
+    for tag_name in tags:
+        try:
+            tag = Tag.objects.get(name=tag_name)
+        except Tag.DoesNotExist:
+            tag = Tag.objects.create(name=tag_name, created_by=user_)
+        MarkedTag.objects.create(user=user_, tag=tag, reason='good')
+
+    UserJoinsAction(user=user_, ip=request.META['REMOTE_ADDR']).save()
+
+    uassoc = AuthKeyUserAssociation(user=user_, key=assoc_key, provider='linkedin')
+    uassoc.save()
+
+    request.session.pop('oauth2_access_token', None)
+
+    return user_
+
 
 def external_register(request):
     if request.method == 'POST' and 'bnewaccount' in request.POST:
         form1 = SimpleRegistrationForm(request.POST)
 
         if form1.is_valid():
-            user_ = User(username=form1.cleaned_data['username'], email=form1.cleaned_data['email'])
+            user_ = User(username=form1.cleaned_data['email'], email=form1.cleaned_data['email'])
             user_.email_isvalid = request.session.get('auth_validated_email', '') == form1.cleaned_data['email']
             user_.set_unusable_password()
 
@@ -222,7 +270,8 @@ def external_register(request):
                 provider_class = AUTH_PROVIDERS[auth_provider].consumer
                 user_data = provider_class.get_user_data(request.session['oauth2_access_token'])
                 location = user_data.get('location', None)
-                user_.real_name = ('%s %s' % (user_data.get('firstName',''), user_data.get('lastName',''))).strip()
+                user_.first_name = user_data.get('firstName','').strip()
+                user_.last_name = user_data.get('lastName','').strip()
                 user_.industry = user_data.get('industry', '')
                 user_.headline = user_data.get('headline', '')
                 user_.location = location.get('name', '') if location else ''
@@ -303,14 +352,19 @@ def revise_profile(request):
         form.save()
         request.user.tag_selections.all().delete()
         for tag in form.cleaned_data['tags']:
-            MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
+            if not MarkedTag.objects.filter(user=request.user, tag=tag):
+                MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
         if 'new_tags' in request.POST:
             for tag_name in request.POST.getlist('new_tags'):
                 tag_name = tag_name.strip()
                 if tag_name:
-                    tag = Tag.objects.create(name=tag_name, created_by=request.user)
-                    MarkedTag.objects.create(user=request.user, tag=tag, reason='good')                
-        return HttpResponseRedirect(reverse('index'))
+                    try:
+                        tag = Tag.objects.get(name=tag_name)
+                    except Tag.DoesNotExist:
+                        tag = Tag.objects.create(name=tag_name, created_by=request.user)
+                    if not MarkedTag.objects.filter(user=request.user, tag=tag):
+                        MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
+        return HttpResponseRedirect(reverse('homepage'))
 
     return render_to_response('v2/revise_profile.html', {
     'profile_form': form,
@@ -340,12 +394,44 @@ def request_temp_login(request):
 
                 messages.info(request, message=_("An email will be sent with your temporary login key. Please allow up to three minutes for it to arrive and check your spam folder!"))
 
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('homepage'))
     else:
         form = TemporaryLoginRequestForm()
 
     return render_to_response(
             'auth/temp_login_request.html', {'form': form},
+            context_instance=RequestContext(request))
+
+def request_temp_login_v2(request):
+    if request.method == 'POST':
+        form = TemporaryLoginRequestForm(request.POST)
+
+        if form.is_valid():
+            users = form.user_cache
+
+            for u in users:
+                if u.is_suspended():
+                    return forward_suspended_user(request, u, False)
+
+            for u in users:
+                try:
+                    hash = get_object_or_404(ValidationHash, user=u, type='templogin')
+                    if hash.expiration < datetime.datetime.now():
+                        hash.delete()
+                        return request_temp_login(request)
+                except:
+                    hash = ValidationHash.objects.create_new(u, 'templogin', [u.id])
+
+                send_template_email([u], "v2/emails/password-reset.html", {'temp_login_code': hash})
+
+                messages.info(request, message=_("An email will be sent with your temporary login key. Please allow up to three minutes for it to arrive and check your spam folder!"))
+
+            return HttpResponseRedirect(reverse('login'))
+    else:
+        form = TemporaryLoginRequestForm()
+
+    return render_to_response(
+            'v2/password_reset.html', {'form': form},
             context_instance=RequestContext(request))
 
 def temp_signin(request, user, code):
@@ -390,7 +476,7 @@ def validate_email(request, user, code):
     if (ValidationHash.objects.validate(code, user, 'email', [user.email])):
         user.email_isvalid = True
         user.save()
-        return login_and_forward(request, user, reverse('index'), _("Thank you, your email is now validated."))
+        return login_and_forward(request, user, reverse('homepage'), _("Thank you, your email is now validated."))
     else:
         return render_to_response('auth/mail_already_validated.html', { 'user' : user }, RequestContext(request))
 
@@ -467,13 +553,13 @@ def login_and_forward(request, user, forward=None, message=None):
     login(request, user)
 
     if message is None:
-        message = _("Welcome back %s, you are now logged in") % user.username
+        message = _("Welcome back %s, you are now logged in") % user.first_name
 
     #request.user.message_set.create(message=message)
     messages.success(request, message)
 
     if not forward:
-        forward = request.session.get(ON_SIGNIN_SESSION_ATTR, reverse('index'))
+        forward = request.session.get(ON_SIGNIN_SESSION_ATTR, reverse('homepage'))
 
     pending_data = request.session.get(PENDING_SUBMISSION_SESSION_ATTR, None)
 
@@ -504,7 +590,7 @@ def forward_suspended_user(request, user, show_private_msg=True):
         message += (":<br />" + suspension.extra.get(msg_type, ''))
 
     messages.error(request, message)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('homepage'))
 
 @decorate.withfn(login_required)
 def signout(request):

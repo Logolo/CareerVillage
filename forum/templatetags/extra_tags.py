@@ -42,6 +42,29 @@ def gravatar(user, size):
     'username': template.defaultfilters.urlencode(username),
     })
 
+@register.simple_tag
+def avatar(user, size, css_class=''):
+    img_template = '<img class="%(class)s" width="%(size)s" height="%(size)s" src="%(src)s">'
+    if user.linkedin_photo_url:
+        avatar_tag = img_template % {
+            'src': user.linkedin_photo_url,
+            'size': size,
+            'class': css_class,
+        }
+    elif user.avatar_image:
+        avatar_tag = img_template % {
+            'src': media("/media/img/example_avatars/%s" % (user.avatar_image,)),
+            'size': size,
+            'class': css_class,
+        }
+    else:
+        avatar_tag = gravatar(user, size)
+
+    return avatar_tag
+
+
+
+
 
 @register.simple_tag
 def get_score_badge(user):

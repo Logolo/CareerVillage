@@ -9,6 +9,6 @@
              href="{% url vote_post id=post.id,vote_type='up' %}" rel="nofollow">{% ifequal user_vote 'up' %}Liked{% else %}Like this{% endifequal %}</a>
              <div class="follow-question" style="opacity:.1">
                  <hr style="margin:5px 0 3px 0"/>
-                 <button class="follow-question-button btn"><span class="icon-star"></span> follow</button>
+                 <button class="follow-question-button btn-success btn"><span class="icon-star icon-white"></span> <span class="text">follow</span></button>
             </div>
         </div>

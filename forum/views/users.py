@@ -153,7 +153,7 @@ def edit_user(request, id):
 
             if settings.EDITABLE_SCREEN_NAME:
                 user.username = sanitize_html(form.cleaned_data['username'])
-            user.real_name = sanitize_html(form.cleaned_data['realname'])
+            user.first_name, user.last_name = sanitize_html(form.cleaned_data['realname']).split(" ")
             user.website = sanitize_html(form.cleaned_data['website'])
             user.location = sanitize_html(form.cleaned_data['city'])
             user.date_of_birth = form.cleaned_data['birthday']

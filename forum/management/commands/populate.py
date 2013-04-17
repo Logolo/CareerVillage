@@ -18,7 +18,7 @@ class Command(BaseCommand):
             created = False
 
         if created:
-            user.real_name = real_name
+            user.first_name, user.last_name = real_name.split()
             user.email_isvalid = True
             user.set_password(password)
             user.user_type = user_type
@@ -34,7 +34,7 @@ class Command(BaseCommand):
         firstname = "John"
         lastname = "Educator"
         real_name = firstname+" "+lastname
-        email = "example1@careervillage.org"
+        email = "Educator1@example.com"
         username = "Educator1"
         password = "password"
         join_date = datetime.datetime(2012, 3, 31)
@@ -55,7 +55,7 @@ class Command(BaseCommand):
         firstname = "Samantha"
         lastname = "Student"
         real_name = firstname+" "+lastname
-        email = "example2@careervillage.org"
+        email = "Student1@example.com"
         username = "Student1"
         password = "password"
         join_date = datetime.datetime(2012, 3, 31)
@@ -75,7 +75,7 @@ class Command(BaseCommand):
         firstname = "Suzy"
         lastname = "Student"
         real_name = firstname+" "+lastname
-        email = "example3@careervillage.org"
+        email = "Student2@example.com"
         username = "Student2"
         password = "password"
         join_date = datetime.datetime(2012, 3, 31)
@@ -95,7 +95,7 @@ class Command(BaseCommand):
         firstname = "Sarah"
         lastname = "Student"
         real_name = firstname+" "+lastname
-        email = "example4@careervillage.org"
+        email = "Student3@example.com"
         username = "Student3"
         password = "password"
         join_date = datetime.datetime(2012, 3, 31)
@@ -119,7 +119,7 @@ class Command(BaseCommand):
         firstname = "Jamie"
         lastname = "Professional"
         real_name = firstname+" "+lastname
-        email = "example5@careervillage.org"
+        email = "Professional1@example.com"
         username = "Professional1"
         password = "password"
         join_date = datetime.datetime(2012, 3, 31)
@@ -144,7 +144,7 @@ class Command(BaseCommand):
         firstname = "Lex"
         lastname = "Professional"
         real_name = firstname+" "+lastname
-        email = "example6@careervillage.org"
+        email = "Professional2@example.com"
         username = "Professional2"
         password = "password"
         join_date = datetime.datetime(2012, 3, 31)
@@ -169,7 +169,7 @@ class Command(BaseCommand):
         firstname = "Sam"
         lastname = "Professional"
         real_name = firstname+" "+lastname
-        email = "example6@careervillage.org"
+        email = "Professional3@example.com"
         username = "Professional3"
         password = "password"
         join_date = datetime.datetime(2012, 3, 31)

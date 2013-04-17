@@ -11,8 +11,65 @@
     {% endcomment %}
     <!-- Modal -->
     <div id="referral-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <h1>Nicely done!</h1>
-        <h3>You've referred {{ refer_questions_count }} questions to friends.</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1>Nice job!</h1>
+        <h4>You've referred {{ refer_questions_count }} question(s) to friends.</h4>
+        <div class="row-fluid">
+            <a href="{% url refer_friend question.id %}" class="btn btn-large btn-warning">Refer another person to this question</a><br />
+            <a href="{% url unanswered %}" class="btn btn-large btn-warning">See questions that need answers</a>
+            <div class="btn-group">
+                <a href="/home/" class="btn btn-inverse"><span class="icon-home icon-white"></span> Return Home</a>
+                <a href="#" class="btn btn-inverse" data-dismiss="modal"><span class="icon-eye-open icon-white"></span> View This Question</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if ask_success %}
+    {% comment %}
+        the classes "init modal-no-box" are custom to CareerVillage
+        "init" makes the dialog appear on pageload 
+        "modal-no-box" inverts the text color to white so that it's legible without the standard white box
+        NOTE: need to uncomment a line in v2.js for this to work (search for .modal.init)
+    {% endcomment %}
+    <!-- Modal -->
+    <div id="ask-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1>Nice job!</h1>
+        <h4>Looks like that's Question #{{ask_questions_count}} for you!</h4>
+        <div class="row-fluid">
+            <!-- TODO: these buttons need functionality -->
+            <a class="btn btn-large btn-warning">Follow the topics on this question</a><br />
+            <a class="btn btn-large btn-warning">Share your question on Facebook</a>
+            <div class="btn-group">
+                <a href="/home/" class="btn btn-inverse"><span class="icon-home icon-white"></span> Return Home</a>
+                <a href="#" class="btn btn-inverse" data-dismiss="modal"><span class="icon-eye-open icon-white"></span> View Your Question</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if answer_success %}
+    {% comment %}
+        the classes "init modal-no-box" are custom to CareerVillage
+        "init" makes the dialog appear on pageload 
+        "modal-no-box" inverts the text color to white so that it's legible without the standard white box
+        NOTE: need to uncomment a line in v2.js for this to work (search for .modal.init)
+    {% endcomment %}
+    <!-- Modal -->
+    <div id="answer-success" class="init modal-no-box modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1>Nice job!</h1>
+        <h4>You have answered {{ answer_questions_count }} question(s) so far.</h4>
+        <div class="row-fluid">
+            <!-- TODO: these buttons need correct links -->
+            <a href="{% url refer_friend question.id %}" class="btn btn-large btn-warning">Ask a friend to also answer this question</a><br />
+            <a href="{% url unanswered %}" class="btn btn-large btn-warning">See questions that need answers</a>
+            <div class="btn-group">
+                <a href="/home/" class="btn btn-inverse"><span class="icon-home icon-white"></span> Return Home</a>
+                <a href="#" class="btn btn-inverse" data-dismiss="modal"><span class="icon-eye-open icon-white"></span> View This Question</a>
+            </div>
+        </div>        
     </div>
 {% endif %}
 
@@ -44,7 +101,7 @@
                 <a href="{% url tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
             {% endfor %}
         </div>
-        <p style="font-size:11px"><a href="#">flag this question for review</a></p>
+        <p style="font-size:11px"><a class="flag-for-review" href="#">flag this question for review</a></p>
 
     </div><div class="span3 right">
 
@@ -52,7 +109,7 @@
         <div class="media profile">
             <p class="text-light clear">Posted {% diff_date question.added_at %} by...</p>
             <a class="pull-left" href="{{ question.user.get_profile_url }}">
-                <span class="avatar"><img class="media-object" src="{# TODO question.user.profile image #}//si0.twimg.com/profile_images/534486785/cropped.JPG" /></span>
+                <span class="avatar">{% avatar question.user 128 %}></span>
             </a>
             <div class="media-body">
                 <h5><a href="{{ question.user.get_profile_url }}">{{ question.author.real_name }}</a></h5>
@@ -77,3 +134,13 @@
     </div>
 
 </div><!--/#question -->
+
+<div id="flag-question-form" class="reveal row-fluid" style="display:none">
+    <form action="" method="post" class="offset2 span9">
+        <h6>See something which is inappropriate on CareerVillage? <span style="font-weight:normal">An administrator will review the post and remove it from the site if they agree. Please leave a note for the administrator to help them understand what's wrong:</span></h6>
+        <textarea placeholder="Explain what's wrong" name="flag_for_review"></textarea>
+        <button class="submit pull-right btn btn-inverse" style="padding-left:32px; padding-right:32px">Submit</button>
+        <a class="flag-for-review pull-right btn btn-default" style="margin-right:8px">Cancel</a>
+    </form>
+    
+</div>

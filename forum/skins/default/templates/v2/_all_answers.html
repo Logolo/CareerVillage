@@ -8,7 +8,7 @@
     <section class="row-fluid">        
 
     {% for answer in answers.paginator.page %}
-        <article class="row-fluid answer resp">
+        <article class="row-fluid answer responsive">
             
             <div class="span2 left">
 
@@ -23,7 +23,7 @@
 
                     <div class="answer-user">
                         <a class="pull-left" href="{{ user.get_profile_url }}">
-                            <span class="avatar avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
+                            <span class="avatar avatar-medium">{% avatar answer.user 128 %}</span>
                         </a>
                         {% if user.is_staff or user == answer.user %}
                             <span class="pull-right">
@@ -68,6 +68,6 @@
     
 {% else %}<!-- No answers yet -->
 
-    <h2>Be the first one to answer this question!</h2>
+
 
 {% endif %}

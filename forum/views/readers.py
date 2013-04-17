@@ -379,18 +379,18 @@ def question(request, id, slug='', answer=None):
 
 @decorators.render("v2/question_answer_form.html", 'questions')
 def new_answer(request, id, slug='', answer=None):
+    try:
+        question = Question.objects.get(id=id)
+    except:
+        if slug:
+            question = match_question_slug(id, slug)
+            if question is not None:
+                return HttpResponseRedirect(question.get_absolute_url())
+        raise Http404()
     if request.user.is_authenticated():
         if request.user.user_type == "student":
             return HttpResponsePermanentRedirect(question.get_absolute_url())
         else: #The user is not a student. 
-            try:
-                question = Question.objects.get(id=id)
-            except:
-                if slug:
-                    question = match_question_slug(id, slug)
-                    if question is not None:
-                        return HttpResponseRedirect(question.get_absolute_url())
-                raise Http404()
             if question.nis.deleted and not request.user.can_view_deleted_post(question):
                 raise Http404
             if settings.FORCE_SINGLE_URL and (slug != slugify(question.title)):
@@ -551,6 +551,12 @@ def question_as_loggedout(request, id, slug='', answer=None):
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
     "subscription": subscription,
+    "refer_success": request.session.pop('refer_success', False),
+    "refer_questions_count": request.session.pop('refer_questions_count', 0),
+    "ask_success": request.session.pop('ask_success', False),
+    "ask_questions_count": request.session.pop('ask_questions_count', 0),
+    "answer_success": request.session.pop('answer_success', False),
+    "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 
 @decorators.render("v2/question_as_educator.html", 'questions')
@@ -608,7 +614,13 @@ def question_as_educator(request, id, slug='', answer=None):
     "answer" : answer_form,
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
-    "subscription": subscription
+    "subscription": subscription,
+    "refer_success": request.session.pop('refer_success', False),
+    "refer_questions_count": request.session.pop('refer_questions_count', 0),
+    "ask_success": request.session.pop('ask_success', False),
+    "ask_questions_count": request.session.pop('ask_questions_count', 0),
+    "answer_success": request.session.pop('answer_success', False),
+    "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 
 @decorators.render("v2/question_as_professional.html", 'questions')
@@ -668,6 +680,10 @@ def question_as_professional(request, id, slug='', answer=None):
     "subscription": subscription,
     "refer_success": request.session.pop('refer_success', False),
     "refer_questions_count": request.session.pop('refer_questions_count', 0),
+    "ask_success": request.session.pop('ask_success', False),
+    "ask_questions_count": request.session.pop('ask_questions_count', 0),
+    "answer_success": request.session.pop('answer_success', False),
+    "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 REVISION_TEMPLATE = template.loader.get_template('node/revision.html')
 
@@ -726,6 +742,12 @@ def question_as_student(request, id, slug='', answer=None):
     "answers" : answers,
     "similar_questions" : question.get_related_questions(),
     "subscription": subscription,
+    "refer_success": request.session.pop('refer_success', False),
+    "refer_questions_count": request.session.pop('refer_questions_count', 0),
+    "ask_success": request.session.pop('ask_success', False),
+    "ask_questions_count": request.session.pop('ask_questions_count', 0),
+    "answer_success": request.session.pop('answer_success', False),
+    "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 
 def revisions(request, id):
