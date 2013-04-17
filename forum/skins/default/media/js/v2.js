@@ -46,6 +46,8 @@ $(".custom-radio-elements .radio-el").click(function(e){
  /*** 
   * give popovers a data attribute to close themselves at the click of a button
   */
+// enable popovers on any element with class has-popover
+$(".has-popover").popover(); 
  $('body').on('click', '.popover [data-dismiss=popover]', function(e){
    $(this).closest('.popover').hide();
  });
