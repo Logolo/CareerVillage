@@ -28,7 +28,13 @@
                         {% if user.is_staff or user == answer.user %}
                             <span class="pull-right">
                                 <a href="{% url edit_answer answer.pk %}" class="btn">Edit</a>
-                                <a href="{% url delete_post answer.pk %}" class="btn btn-danger">Delete</a>
+                                <a href="#" class="has-popover btn btn-danger"
+                                    data-placement="top"
+                                    data-html="true"
+                                    data-content="<p>Are you 100% sure? Deleting an answer cannot be undone. It's appropriate to delete an answer if it contains content inappropriate for young people, is spam, or if you are the author and no longer want your post displayed publicly.</p>
+                                                  <div class='text-center'><button class='btn' data-dismiss='popover'>Cancel</button>
+                                                  <a href='{% url delete_post answer.pk %}' class='btn btn-inverse'>Yes, I'm sure</a></div>"
+                                    >Delete</a>
                             </span>
                         {% endif %}
                         <div class="media-body">
