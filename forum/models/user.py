@@ -304,6 +304,9 @@ class User(BaseModel, DjangoUser):
         return self.actions.filter(canceled=False, action_type__in=("voteup", "votedown"),
                                    action_date__gte=(today - datetime.timedelta(days=1))).count()
 
+    def get_vote_count_total(self):
+        return self.actions.filter(canceled=False, action_type__in=("voteup", "votedown")).count()
+
     # helper function to get the counts of arbitrary node types within
     # a specified number of days (Originally defaulted to 7 in OSQA.)
     def _get_field_count(self, field, days=7):
