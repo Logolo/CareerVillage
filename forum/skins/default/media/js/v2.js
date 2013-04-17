@@ -218,7 +218,32 @@ $('.flag-for-review').click(function(e){
 
     }
 
+/* 
+ * Display an error to users when they leave a page with a form partially completed
+ * This is optin and handled through data attributes:
+ * 1. add the attribute data-message-on-exit="your message here" to the form
+ * 2. add the attribute data-message-on-exit-field="nameoffield" to the form, 
+      with nameoffield being the name attribute of the content to check the existance of when the user is leaving the page
+ * If the user has entered data into the specified field and the page load was NOT initiated by a form submit, then show the error message
+ */
+$(window).on('beforeunload', function(){
 
+    var message;
+
+    // iterate through each of the flagged forms to check for partial completeness
+    $('form[data-message-on-exit]').each(function(i, el){
+        field = $(el).data('message-on-exit-field');
+        if ( $(el).find('[name='+ field +']').val() ) {
+            message = $(el).data('message-on-exit');
+        }
+    });
+    
+    if (message) return message;
+
+});
+$('form[data-message-on-exit]').submit(function(e){
+    $(window).unbind('beforeunload');
+});
 
 
 }); // end jquery enclosure
