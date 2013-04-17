@@ -600,6 +600,12 @@ def question_as_educator(request, id, slug='', answer=None):
     else:
         subscription = False
 
+    # email referral preview
+    refer_friend_message_context = {
+        "question": question, 
+        "question_uri": request.build_absolute_uri(reverse('question', args=[question.id])),
+        "user": request.user
+    }
 
     return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
     "question" : question,
@@ -613,6 +619,7 @@ def question_as_educator(request, id, slug='', answer=None):
     "ask_questions_count": request.session.pop('ask_questions_count', 0),
     "answer_success": request.session.pop('answer_success', False),
     "answer_questions_count": request.session.pop('answer_questions_count', 0),
+    "refer_friend_message": template.loader.render_to_string('v2/question_refer_friend_message.html', refer_friend_message_context),
     })
 
 @decorators.render("v2/question_as_professional.html", 'questions')
@@ -664,6 +671,13 @@ def question_as_professional(request, id, slug='', answer=None):
     else:
         subscription = False
 
+    # email referral preview
+    refer_friend_message_context = {
+        "question": question, 
+        "question_uri": request.build_absolute_uri(reverse('question', args=[question.id])),
+        "user": request.user
+    }
+
     return pagination.paginated(request, ('answers', AnswerPaginatorContext()), {
     "question" : question,
     "answer" : answer_form,
@@ -676,6 +690,7 @@ def question_as_professional(request, id, slug='', answer=None):
     "ask_questions_count": request.session.pop('ask_questions_count', 0),
     "answer_success": request.session.pop('answer_success', False),
     "answer_questions_count": request.session.pop('answer_questions_count', 0),
+    "refer_friend_message": template.loader.render_to_string('v2/question_refer_friend_message.html', refer_friend_message_context),
     })
 REVISION_TEMPLATE = template.loader.get_template('node/revision.html')
 

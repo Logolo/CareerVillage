@@ -212,9 +212,34 @@ $('.flag-for-review').click(function(e){
     }
 });
 
+/* refer a friend toggle */
+$('.refer-friend').click(function(e){
+    e.preventDefault();
+    
+    // scroll the user to the 
+    $('body').animate({scrollTop: $(this).offset().top - 240}, 300);
+    
+    $form = $("#refer-friend-form");
+    if ($form.is(':visible')) {
+        $form.slideUp();
+    } else {
+        $form.slideDown();
     }
+});
 
+/* validate email on refere a friend form */
+$("#fmanswer").validate({
+    rules: {
+		email: {
+			required: true,
+			email: true
+		}
+    },
+    errorPlacement: function(error, element) {
+        error.appendTo( element.parent() );
     }
+});
+
 
 /* 
  * Display an error to users when they leave a page with a form partially completed
