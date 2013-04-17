@@ -219,6 +219,7 @@ def _create_linkedin_user(request, assoc_key):
     location = user_data.get('location', None)
     user_.first_name = user_data.get('firstName', '')
     user_.last_name = user_data.get('lastName', '')
+    user_.user_type = 'professional'
     user_.email = user_data.get('emailAddress', '')
     user_.industry = user_data.get('industry', '')
     user_.headline = user_data.get('headline', '')
