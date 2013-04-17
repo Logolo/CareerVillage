@@ -264,9 +264,8 @@ header.profile-page .avatar img {
     position:relative;
     z-index:1;
     top:-20px;
-    padding-top:20px;
     border:1px solid #eee;
-    background-color:#ebd7d7;
+    background-color:#fededd;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
