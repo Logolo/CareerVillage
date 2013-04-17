@@ -55,14 +55,10 @@
     <div><!-- center -->
         <div class="container-fluid">
             <div class="row-fluid">
-                <div><a href="">(CareerVillage Logo)</a></div>
-                <div><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></div>
-                <div><a href="">Help</a></div>
-                {% if user.is_authenticated %}
-                <div><a href="">Logout</a></div>
-                {% else %}
-                <div><a href="">Login</a></div>
-                {% endif %}
+                <div style="text-align:right; line-height:32px">
+                    <a class="logo pull-left"><img style="height:32px" src="{% media "/media/img/CareerVillageLogo_1.png" %}" /></a>
+                    <a href="/about/">About</a> <span class="divider"></span> <a href="/faq/">FAQ</a> <span class="divider"></span> <a href="/privacy/">Privacy</a> <span class="divider"></span> <a href="mailto: team@careervillage.org" target="_blank">Support</a> <span class="divider"></span> <a href="mailto: team@careervillage.org">Contact</a>
+                </div>
             </div>
         </div>
     </div>

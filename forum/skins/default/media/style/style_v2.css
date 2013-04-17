@@ -72,8 +72,15 @@
 #main-footer {
     margin-top:60px;
     background-color:#ddd;
-    min-height:200px;
+    height:60px;
     padding-top:20px;
+}
+#main-footer .divider {
+    background-color:#ccc;
+    display:inline-block;
+    margin:0 3px;
+    height:12px;
+    width:1px;
 }
 
 
