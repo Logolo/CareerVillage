@@ -351,13 +351,18 @@ def revise_profile(request):
         form.save()
         request.user.tag_selections.all().delete()
         for tag in form.cleaned_data['tags']:
-            MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
+            if not MarkedTag.objects.filter(user=request.user, tag=tag):
+                MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
         if 'new_tags' in request.POST:
             for tag_name in request.POST.getlist('new_tags'):
                 tag_name = tag_name.strip()
                 if tag_name:
-                    tag = Tag.objects.create(name=tag_name, created_by=request.user)
-                    MarkedTag.objects.create(user=request.user, tag=tag, reason='good')                
+                    try:
+                        tag = Tag.objects.get(name=tag_name)
+                    except Tag.DoesNotExist:
+                        tag = Tag.objects.create(name=tag_name, created_by=request.user)
+                    if not MarkedTag.objects.filter(user=request.user, tag=tag):
+                        MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
         return HttpResponseRedirect(reverse('homepage'))
 
     return render_to_response('v2/revise_profile.html', {

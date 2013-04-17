@@ -20,10 +20,17 @@ $(function() {
             .appendTo( ul );
     };
     $('#interestingTagAdd').click(function() {
-        var index = $('#tags ul li').length;
+        var $tags = $('#tags').find('ul li'), index = $tags.length;
         var name = $('#interestingTagInput').val().replace(/^\s+|\s+$/g, '');
-        if(name) {
-            $('#tags ul').append($('<li><label for="id_tags_'+index+'"><input checked="checked" type="checkbox" name="new_tags" value="'+name+'" id="id_tags_'+index+'"> '+name+'</label></li>'))        
+
+        var exists = false;
+        $tags.find('label').each(function(){
+            if ($(this).text().trim() == $.trim(name)) {
+                exists = true;
+            }
+        });
+        if(name && !exists) {
+            $('#tags ul').append($('<li><label for="id_tags_'+index+'"><input checked="checked" type="checkbox" name="new_tags" value="'+name+'" id="id_tags_'+index+'"> '+name+'</label></li>'))
         }
     });
 })
