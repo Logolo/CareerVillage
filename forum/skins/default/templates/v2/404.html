@@ -1,0 +1,32 @@
+{% extends "v2/base.html" %}
+
+{% block head %}
+	{# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
+{% endblock %}
+
+{% block content %}
+<div id="block-content" class="row-fluid">
+        
+    <div class="offset1 span10">
+
+        <div class="row-fluid" style="padding:48px 0">
+            <div class="span6">
+                <img style="width:80%;" src="{% media "/media/img/cv-tree-icon-rgb-vector-LARGE.png" %}" />
+            </div>
+            <div class="span6">
+                <h2 style="margin-top:64px">Hmm, not found...</h2>
+                <h4>Sorry if this is our fault! </h4>
+                <h4 style="margin-top:32px; font-weight:normal"><a href="mailto: team@careervillage.org" target="_blank">Email us</a> if you think something's broken.</h4>
+                <h4 style="font-weight:normal">You could also try our <a href="/faq/">Frequently Asked Questions</a></h4>
+              {% if user.is_authenticated %}
+                <h4 style="font-weight:normal">Or head back to the <a href="{% url homepage %}">homepage</a></h4>
+              {% else %}
+                <h4 style="font-weight:normal">Or head back to the <a href="{% url homepage %}">homepage</a></h4>
+              {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+</div><!--/#block-content.row-fluid -->
+{% endblock %}
