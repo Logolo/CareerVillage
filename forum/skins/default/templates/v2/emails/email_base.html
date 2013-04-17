@@ -1,0 +1,85 @@
+{% load extra_filters extra_tags i18n email_tags %}
+
+{% comment %}
+    EMAIL TEMPLATING
+
+    1. style
+    Email markup is way behind the times. Mailchimp ensures consistency across all email clients by assuming the worst.
+    That means we need to a) use tables for layout and b) declare styles inline wherever possible
+    Instead of using stylesheets we have set the values for each tag at top of this base django template
+    Include an elements associated style inline. Each paragraph, for example, should look like: <p style="{{p_styles}}"></p>
+
+    2. blocks
+    email_teaser - Use this area to offer a short teaser of your email's content. Text here will show in the preview area of some email clients.
+    email_content - This is the body of the email
+
+    3. html versus plain text
+    There are two versions of this base template, one for HTML and one for Plain Text
+    Whenever you update one, make sure to update the other
+
+{% endcomment %}
+
+{% declare %}
+    content_styles="color:#505050;font-family:Helvetica;font-size:14px;line-height:150%;text-align:left"
+    p_styles="color:#505050;font-family:Helvetica;font-size:14px;line-height:150%;text-align:left"
+    h1_styles="color:#505050;display:block;font-family:Helvetica;font-size:30px;font-weight:normal;line-height:100%;margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;text-align:left" 
+    h2_styles="padding-top:20px; color:#505050;display:block;font-family:Helvetica;font-size:24px;font-weight:normal;line-height:100%;margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;text-align:left"
+    h3_styles="color:#505050;display:block;font-family:Helvetica;font-size:20px;font-weight:normal;line-height:100%;margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;text-align:left"
+{% enddeclare %}
+    
+<!-- email wrapper -->
+<div marginwidth="0" marginheight="0" style="margin:0;padding:0;background-color:#fff;width:100%!important">
+    <center>
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="margin:0;padding:0;background-color:#fff;min-height:100%!important;width:100%!important">
+            <tbody>
+                <tr>
+                    <td align="center" valign="top" style="border-collapse:collapse">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td align="center" valign="top" width="50" style="padding-top:40px;padding-right:5px;padding-bottom:40px;padding-left:5px;border-collapse:collapse;background-color:#0db297;border-right:2px solid #fff">
+                                        <img src="{% media  '/media/img/icon_envelope.png' %}" height="40" width="40" style="border:0;min-height:auto;line-height:100%;outline:none;text-decoration:none">
+                                    </td>
+                                    <td valign="top" style="border-collapse:collapse;border-left:2px solid #0db297;padding-left:20px; padding-right:20px">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tbody>
+                                            
+                                                <!-- header and main content-->
+                                                {% block content %}{% endblock %}
+
+                                                <!-- footer -->
+                                                <tr>
+                                                    <td>
+                                                        <div style="color:#707070;font-family:Helvetica;font-size:11px;line-height:125%;text-align:left">
+                                                            <a href="https://www.twitter.com/careervillage/" style="color:#0db297;font-weight:normal;text-decoration:none" target="_blank">follow on Twitter</a> | <a href="#13e105378c916c07_13e1050129638adc_" style="color:#0db297;font-weight:normal;text-decoration:none">friend on Facebook</a> | <a href="http://us4.forward-to-friend1.com/forward?u=61f79e65294087acf3220dc80&amp;id=fa8f158f9a&amp;e=3c88cb3629" style="color:#0db297;font-weight:normal;text-decoration:none" target="_blank">forward to a friend</a>&nbsp;
+                                                        </div>
+                                                        <div style="color:#707070;font-family:Helvetica;font-size:11px;line-height:125%;text-align:left">
+                                                            <em>Copyright © 2013 CareerVillage, All rights reserved.</em><br>
+                                                            You are receiving this email because you are an admin for CareerVillage<br>
+                                                            <strong>Our mailing address is:</strong><br>
+                                                            <div>
+                                                                <span>CareerVillage</span>
+                                                                <div>
+                                                                    <div>
+                                                                        48 Charles Street, Suite #4
+                                                                    </div><span>Boston</span>, <span>MA</span> <span>02114</span>
+                                                                </div><br>
+                                                                <a href="http://careervillage.us4.list-manage.com/vcard?u=61f79e65294087acf3220dc80&amp;id=fe69e1ab08" target="_blank">Add us to your address book</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            
+                                            
+                                            </tbody>
+                                        </table><br>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+</div><!-- end email wrapper -->

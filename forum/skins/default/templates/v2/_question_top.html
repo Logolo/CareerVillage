@@ -101,7 +101,7 @@
                 <a href="{% url tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
             {% endfor %}
         </div>
-        <p style="font-size:11px"><a href="#">flag this question for review</a></p>
+        <p style="font-size:11px"><a class="flag-for-review" href="#">flag this question for review</a></p>
 
     </div><div class="span3 right">
 
@@ -134,3 +134,13 @@
     </div>
 
 </div><!--/#question -->
+
+<div id="flag-question-form" class="reveal row-fluid" style="display:none">
+    <form action="" method="post" class="offset2 span9">
+        <h6>See something which is inappropriate on CareerVillage? <span style="font-weight:normal">An administrator will review the post and remove it from the site if they agree. Please leave a note for the administrator to help them understand what's wrong:</span></h6>
+        <textarea placeholder="Explain what's wrong" name="flag_for_review"></textarea>
+        <button class="submit pull-right btn btn-inverse" style="padding-left:32px; padding-right:32px">Submit</button>
+        <a class="flag-for-review pull-right btn btn-default" style="margin-right:8px">Cancel</a>
+    </form>
+    
+</div>
