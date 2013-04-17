@@ -98,6 +98,11 @@ $(".like-question-button").click(function(e){
     });
 });
 
+/***
+ * tooltip handler
+ */
+$('[data-tooltip]').tooltip();
+
 
 // legacy from question page - should be rewritten to not be so obtuse
 // commented out for now to prevent conflicts with templates that may have the same function

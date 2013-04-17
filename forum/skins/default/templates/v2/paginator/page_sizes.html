@@ -1,0 +1,10 @@
+{% spaceless %}
+{% load i18n %}
+<div class="paginator">
+    <div class="btn-group" data-toggle="buttons-radio" title="{% trans 'Page size' %}" data-tooltip>
+    {% for size, url in sizes %}
+        <a class="btn{% ifequal size current %} active{% endifequal %}" href="{{ url }}">{{ size }}</a>
+    {% endfor %}
+    </div>
+</div>
+{% endspaceless %}

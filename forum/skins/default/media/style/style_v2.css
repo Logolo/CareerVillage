@@ -75,6 +75,19 @@
     padding-top:20px;
 }
 
+/*************
+ * PAGINATION
+ * Pagination controls used on different pages
+ ***/
+
+.pagesize {
+    float: right;
+    margin-top: 23px;
+}
+.paginator .btn-group a {
+    font-size: 12px;
+    padding: 2px 4px;
+}
 
 /*************
  * SIDEBAR .col-sidebar
