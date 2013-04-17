@@ -4,7 +4,7 @@ $(function(){
     
 
 /****
- * Custom radio elements
+ * Extend Twitter Bootstrap with a Custom Radio Elements Selector
  * toggle hidden radio buttons by clicking on other elements
  * 1. add "radio-el" class to an element that you want to toggle a radio button
  * 2. add "custom-radio-elements" class to an ancestor
@@ -38,20 +38,20 @@ $(".custom-radio-elements .radio-el").click(function(e){
 
 
 /*** 
- * trigger modal dialog to open on page load if it has the class "init"
+ * Init Twitter Bootstrap JS and Add Minor Extensions
  */ 
- $('.modal.init').modal('show'); 
 
+// trigger modal dialog to open on page load if it has the class "init"
+$('.modal.init').modal('show'); 
 
- /*** 
-  * give popovers a data attribute to close themselves at the click of a button
-  */
 // enable popovers on any element with class has-popover
 $(".has-popover").popover(); 
+
+// give popovers a data attribute to close themselves at the click of a button
  $('body').on('click', '.popover [data-dismiss=popover]', function(e){
    $(this).closest('.popover').hide();
  });
- 
+
 
 /*** 
  * trigger ajax and animations when the like button and follow buttons are clicked
