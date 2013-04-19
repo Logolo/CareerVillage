@@ -774,3 +774,7 @@ ul.user-type-selection li.user-type.active a:hover {
     margin-bottom:10px;
 }
 
+.help-inline.error {
+    color: #B94A48;
+}
+

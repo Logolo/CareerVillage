@@ -469,7 +469,10 @@ def user_preferences(request, user):
 
 def settings_account(request):
     if request.user.is_authenticated():
-        form = SettingsAccountForm(request.POST)
+        if request.method == 'POST':
+            form = SettingsAccountForm(request.POST)
+        else:
+            form = SettingsAccountForm()
         return render_to_response('v2/settings_account.html', {
             'user': request.user,
             'form' : form,
@@ -484,8 +487,10 @@ def settings_account(request):
 
 def settings_password(request):
     if request.user.is_authenticated():
-        FormClass = ChangePasswordForm
-        form = FormClass(request.POST, user=request.user)
+        if request.method == 'POST':
+            form = ChangePasswordForm(request.POST, user=request.user)
+        else:
+            form = ChangePasswordForm(user=request.user)
         return render_to_response('v2/settings_password.html', {
             'user': request.user,
             'form' : form,

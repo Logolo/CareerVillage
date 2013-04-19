@@ -58,18 +58,44 @@ $(function() {
                 <div class="span9 children-input-xl">
                     <!-- Name, Headline, Location, Industry -->
                     <label>Your Name:</label>
-                    {{ profile_form.first_name }}<br />
-                    {{ profile_form.last_name }}<br />
+                    {{ profile_form.first_name }}
+                    {% for error in profile_form.first_name.errors %}
+                        <span class="help-inline error">{{ error }}</span>
+                    {% endfor %}
+                    <br />
+                    {{ profile_form.last_name }}
+                    {% for error in profile_form.last_name.errors %}
+                        <span class="help-inline error">{{ error }}</span>
+                    {% endfor %}
+                    <br />
+
                     <label>Your Professional Headline:</label>
-                    {{ profile_form.headline }}<br />
+                    {{ profile_form.headline }}
+                    {% for error in profile_form.headline.errors %}
+                        <span class="help-inline error">{{ error }}</span>
+                    {% endfor %}
+                    <br />
+
                     <label>Your Location:</label>
-                    {{ profile_form.location }}<br />
+                    {{ profile_form.location }}
+                    {% for error in profile_form.location.errors %}
+                        <span class="help-inline error">{{ error }}</span>
+                    {% endfor %}
+                    <br />
+
                     <label>Your Industry:</label>
-                    {{ profile_form.industry }}<br />
+                    {{ profile_form.industry }}
+                    {% for error in profile_form.industry.errors %}
+                        <span class="help-inline error">{{ error }}</span>
+                    {% endfor %}
+                    <br />
 
                     <!-- Email -->
                     <label>Your Email <em>(never publicly visible)</em>:</label>
                     {{ profile_form.email }}
+                    {% for error in profile_form.email.errors %}
+                        <span class="help-inline error error">{{ error }}</span>
+                    {% endfor %}
                 </div>
 
             </div>
