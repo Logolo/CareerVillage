@@ -422,11 +422,11 @@ def request_temp_login_v2(request):
                 except:
                     hash = ValidationHash.objects.create_new(u, 'templogin', [u.id])
 
-                send_template_email([u], "v2/emails/password-reset.html", {'temp_login_code': hash})
+                send_template_email([u], "v2/emails/email_password_reset.html", {'temp_login_code': hash})
 
                 messages.info(request, message=_("An email will be sent with your temporary login key. Please allow up to three minutes for it to arrive and check your spam folder!"))
 
-            return HttpResponseRedirect(reverse('login'))
+            return HttpResponseRedirect(reverse('auth_signin'))
     else:
         form = TemporaryLoginRequestForm()
 
