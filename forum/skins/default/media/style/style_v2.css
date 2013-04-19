@@ -260,13 +260,13 @@ header.profile-page .avatar img {
 #askform textarea {
     width:100%;
 }
+
 #flag-question-form {
     position:relative;
     z-index:1;
     top:-20px;
-    padding-top:20px;
     border:1px solid #eee;
-    background-color:#ebd7d7;
+    background-color:#fededd;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
@@ -320,8 +320,19 @@ header.profile-page .avatar img {
 #your-answer .answer-body {
     background-color:#eee;
 }
+.answer-content {
+    padding:3px 0;
+    margin-left:58px;
+}
+.new-comment form {
+    margin-left:40px;    
+}
+.new-comment input.text,
 .answer textarea {
-    width:80%;
+    width:100%; 
+    -webkit-box-sizing: border-box; 
+    -moz-box-sizing: border-box; 
+    box-sizing: border-box;
 }
 .answer .answer-comments h5 {
     margin:0;
@@ -502,7 +513,10 @@ label.radio {
     padding:auto;
     color:#333;
 }
-
+.errorlist,
+label.error {
+    color:#b94a48;
+}
 .children-input-xl input {
     width: 270px; 
     max-width:100%;
@@ -564,7 +578,6 @@ h4.subtitle {
     line-height:125%;
 }
 h3.section-header {
-    margin-top:-5px; 
     font-weight:normal; 
     margin-bottom:-20px; 
 }

@@ -18,6 +18,31 @@
     <div class="answer-actions">
         {% block answeractions %}{% endblock %}
     </div>
+    
+    <!-- hidden refer a friend form -->
+    <div id="refer-friend-form" class="reveal row-fluid clearfix" style="display:none">
+        <form id="fmanswer" action="{% url refer_friend question.id %}" method="post" class="offset2 span9">
+            <div class="form-inline clearfix">
+                <label for="id_email" style="font-weight:bold">Just enter your friend's email address:</label><br />
+                <input type="text" name="email" id="id_email" placeholder="example@example.com">
+                <input type="submit"
+                    value="Send" 
+                    class="submit btn btn-success"/>        
+                    <span>+25 Karma</span>
+            </div>        
+            <div class="referral-email-preview clearfix">
+                <label>Preview of the email that will be sent on your behalf:</label>
+                <p>
+                    From: You<br/>
+                    To: Friend<br/>
+                    Subject: Career question for you
+                </p>
+                <p>
+                    {{ refer_friend_message|linebreaks }}
+                </p>
+            </div>
+        </form>
+    </div>
 
     <!-- Results Count -->
     <h3 class="section-header">{{ question.answer_count }} answers:</h3>

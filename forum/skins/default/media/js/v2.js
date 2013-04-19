@@ -4,7 +4,7 @@ $(function(){
     
 
 /****
- * Custom radio elements
+ * Extend Twitter Bootstrap with a Custom Radio Elements Selector
  * toggle hidden radio buttons by clicking on other elements
  * 1. add "radio-el" class to an element that you want to toggle a radio button
  * 2. add "custom-radio-elements" class to an ancestor
@@ -38,18 +38,20 @@ $(".custom-radio-elements .radio-el").click(function(e){
 
 
 /*** 
- * trigger modal dialog to open on page load if it has the class "init"
+ * Init Twitter Bootstrap JS and Add Minor Extensions
  */ 
- $('.modal.init').modal('show'); 
 
+// trigger modal dialog to open on page load if it has the class "init"
+$('.modal.init').modal('show'); 
 
- /*** 
-  * give popovers a data attribute to close themselves at the click of a button
-  */
+// enable popovers on any element with class has-popover
+$(".has-popover").popover(); 
+
+// give popovers a data attribute to close themselves at the click of a button
  $('body').on('click', '.popover [data-dismiss=popover]', function(e){
    $(this).closest('.popover').hide();
  });
- 
+
 
 /*** 
  * trigger ajax and animations when the like button and follow buttons are clicked
@@ -69,11 +71,9 @@ $(".like-question-button").click(function(e){
     var liking = ($widget.hasClass('on'))? false : true;
     var $likes = $widget.find('h3');
     
-    // is this your first or second time liking
-    // TODO connect this to backend somehow
-    var first_like = false;
-    var second_like = false;
-
+    // number of times this user has liked a question/answer before
+    like_count = $widget.data('like-count');
+    
     // like ajax request
     $.getJSON($this.attr('href'), function(data, e) {
 
@@ -98,7 +98,7 @@ $(".like-question-button").click(function(e){
         }
 
         // for first time likers, suggest they share on facebook
-        if (liking && first_like) {
+        if (liking && like_count == 0) {
           
           message =  "We can automatically share your likes on Facebook so your friends benefit too. How about it?</p> \
                       <button class='btn-success btn'>Yes, share on Facebook</button><br /> \
@@ -115,7 +115,7 @@ $(".like-question-button").click(function(e){
         }
         
         // for second time likers, suggest they follow this question
-        if (liking && second_like) {
+        if (liking && like_count == 1) {
           message =  "Get an email when there's new content for this question. Just click the follow button!</p> \
                       <button style='margin-top:4px' class='btn' data-dismiss='popover'>Ok</button> \
                       ";
@@ -212,33 +212,61 @@ $('.flag-for-review').click(function(e){
     }
 });
 
-
-// legacy from question page - should be rewritten to not be so obtuse
-// commented out for now to prevent conflicts with templates that may have the same function
-// hard-coded into their template
-/*
-function submitClicked(e, f) {
-    window.removeEventListener('beforeunload', beforeUnload, true);
-    if (f) {
-        f.submit();
+/* refer a friend toggle */
+$('.refer-friend').click(function(e){
+    e.preventDefault();
+    
+    // scroll the user to the 
+    $('body').animate({scrollTop: $(this).offset().top - 240}, 300);
+    
+    $form = $("#refer-friend-form");
+    if ($form.is(':visible')) {
+        $form.slideUp();
+    } else {
+        $form.slideDown();
     }
-}
+});
 
-function beforeUnload(e) {
-    if($("textarea#editor")[0].value != "") {
-        return yourWorkWillBeLost(e);
+/* validate email on refere a friend form */
+$("#fmanswer").validate({
+    rules: {
+		email: {
+			required: true,
+			email: true
+		}
+    },
+    errorPlacement: function(error, element) {
+        error.appendTo( element.parent() );
     }
-    var commentBoxes = $("textarea.commentBox");
-    for(var index = 0; index < commentBoxes.length; index++) {
-        if(commentBoxes[index].value != "") {
-            return yourWorkWillBeLost(e);
+});
+
+
+/* 
+ * Display an error to users when they leave a page with a form partially completed
+ * This is optin and handled through data attributes:
+ * 1. add the attribute data-message-on-exit="your message here" to the form
+ * 2. add the attribute data-message-on-exit-field="nameoffield" to the form, 
+      with nameoffield being the name attribute of the content to check the existance of when the user is leaving the page
+ * If the user has entered data into the specified field and the page load was NOT initiated by a form submit, then show the error message
+ */
+$(window).on('beforeunload', function(){
+
+    var message;
+
+    // iterate through each of the flagged forms to check for partial completeness
+    $('form[data-message-on-exit]').each(function(i, el){
+        field = $(el).data('message-on-exit-field');
+        if ( $(el).find('[name='+ field +']').val() ) {
+            message = $(el).data('message-on-exit');
         }
-    }
-}
-window.addEventListener('beforeunload', beforeUnload, true);
-*/
+    });
+    
+    if (message) return message;
 
-
+});
+$('form[data-message-on-exit]').submit(function(e){
+    $(window).unbind('beforeunload');
+});
 
 
 }); // end jquery enclosure

@@ -26,8 +26,9 @@
                         <a class="comment-author" href="{{ answer.user.get_profile_url }}">{{ user.real_name }}</a>
 
                         <!-- new comment form -->
-                        <form id="comment-{{ post.id }}-form" method="post" action="{% url comment id=post.id %}" accept-charset="utf-8">
-                            <textarea name="comment" class="" placeholder="comment..."></textarea>
+                        <form id="comment-{{ post.id }}-form" data-message-on-exit="Warning: your comment will be lost if you leave this page!" data-message-on-exit-field="comment"  
+                            method="post" action="{% url comment id=post.id %}" accept-charset="utf-8">
+                            <input name="comment" type="text" class="text" placeholder="comment..." />
                             <input type="submit" style="display:none;" value="comment" />
                         </form>
 
