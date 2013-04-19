@@ -44,6 +44,7 @@ core_urls = (
     url(r'^%s$' % _('logout/'), app.meta.logout, name='logout'),
 
     url(r'^%s$' % _('home/'), app.readers.homepage, name='homepage'),
+    url(r'^%s(?P<tag>.*)/$' % _('home/tags/'), app.readers.tag_v2, name='home_tag_questions'),
 
     url(r'^%s(?P<id>\d+)/%s$' % (_('answers/'), _('edit/')), app.writers.edit_answer, name='edit_answer'),
     url(r'^%s(?P<id>\d+)/$' % _('revisions/'), app.readers.revisions, name='revisions'),
