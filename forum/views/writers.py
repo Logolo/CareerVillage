@@ -181,6 +181,19 @@ def edit_question(request, id):
     else:
         raise Http404
 
+
+def edit_question_v2(request, id, slug):
+    question = get_object_or_404(Question, id=id)
+    if question.nis.deleted and not request.user.can_view_deleted_post(question):
+        raise Http404
+    if request.user.can_edit_post(question):
+        return _edit_question(request, question, template='v2/question_edit.html')
+    elif request.user.can_retag_questions():
+        return _retag_question(request, question)
+    else:
+        raise Http404
+
+
 def _retag_question(request, question):
     if request.method == 'POST':
         form = RetagQuestionForm(question, request.POST)

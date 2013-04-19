@@ -200,6 +200,12 @@ $("#signup-student").find(".modal li.avatar-preview").click(function(){
     $(this).addClass('selected');
 });
 
+$('#id_revision').unbind().change(function(){
+    $("#select_revision").click();
+});
+
+
+
 /* flag for review toggle */
 $('.flag-for-review').click(function(e){
     e.preventDefault();
@@ -249,7 +255,7 @@ $("#fmanswer").validate({
       with nameoffield being the name attribute of the content to check the existance of when the user is leaving the page
  * If the user has entered data into the specified field and the page load was NOT initiated by a form submit, then show the error message
  */
-$(window).on('beforeunload', function(){
+$(window).on('beforeunload', function(e){
 
     var message;
 
@@ -260,8 +266,20 @@ $(window).on('beforeunload', function(){
             message = $(el).data('message-on-exit');
         }
     });
-    
-    if (message) return message;
+
+    if (message){
+        if (/chrome|safari/i.test(document.userAgent)) {
+            return message;
+        } else {
+            e.cancelBubble = true;
+            e.stopPropagation();
+            e.preventDefault();
+            e.returnValue = message;
+            return e;
+        }
+
+
+    }
 
 });
 $('form[data-message-on-exit]').submit(function(e){

@@ -21,7 +21,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 	background: transparent;
 }
 body{
-    font-family: "segoe ui",Helvetica,"Microsoft YaHei",ËÎÌå,Tahoma,Verdana,MingLiu,PMingLiu,Arial,sans-serif;
+    font-family: "segoe ui",Helvetica,"Microsoft YaHei",ï¿½ï¿½ï¿½ï¿½,Tahoma,Verdana,MingLiu,PMingLiu,Arial,sans-serif;
     font-size: 80%;
 
     margin:0;
@@ -48,7 +48,7 @@ input, select, button, textarea
 {
 	border: 1px solid #999;
 	font-size:100%;
-    font-family:"segoe ui",Helvetica,"Microsoft YaHei",ËÎÌå,Tahoma,Verdana,MingLiu,PMingLiu,Arial,sans-serif;
+    font-family:"segoe ui",Helvetica,"Microsoft YaHei",ï¿½ï¿½ï¿½ï¿½,Tahoma,Verdana,MingLiu,PMingLiu,Arial,sans-serif;
 }
 
 input
@@ -131,7 +131,7 @@ h2 {
     font-weight:bold;
     margin-bottom:7px;
 }
-h3 {display:block;font-size:120%;font-family:Trebuchet MS,"segoe ui",Helvetica,"Microsoft YaHei",ËÎÌå,Tahoma,Verdana,MingLiu,PMingLiu,Arial,sans-serif;font-weight:bold;}
+h3 {display:block;font-size:120%;font-family:Trebuchet MS,"segoe ui",Helvetica,"Microsoft YaHei",ï¿½ï¿½ï¿½ï¿½,Tahoma,Verdana,MingLiu,PMingLiu,Arial,sans-serif;font-weight:bold;}
 h3 a:visited{
    color:#86B0E1;
 }
@@ -311,19 +311,23 @@ h4 {display:block;font-size:90%; font-family:Verdana;color:#ccc;}
 	color: White;
 }
 
+#editform,
 #askform{
     padding:5px;
     line-height:20px;
 }
+#editform .title-desc,
 #askform .title-desc{
     color:#999;
     font-size:90%;
 }
 
+#editform #description,
 #askform #description{
     padding:20px 0 20px 0;
 }
 
+#editform .submit,
 #askform .submit{
     padding:5px 10px 5px 10px;
     font-size:120%;
@@ -715,7 +719,7 @@ h4 {display:block;font-size:90%; font-family:Verdana;color:#ccc;}
 	padding: 2px 4px 2px 4px;
 	text-decoration: none;
     height:20px;
-    font-family:Microsoft Yahei,ËÎÌå,Tahoma;
+    font-family:Microsoft Yahei,ï¿½ï¿½ï¿½ï¿½,Tahoma;
 	font-size: 90%;
 	line-height: 2.2;
 	white-space:nowrap;
@@ -953,7 +957,7 @@ div.grippie {
 }
 
 .openid-samples .list, .list li{
-    font-family:Trebuchet MS,"segoe ui",Helvetica,"Microsoft YaHei",ËÎÌå,Tahoma,Verdana,MingLiu,PMingLiu,Arial,sans-serif;
+    font-family:Trebuchet MS,"segoe ui",Helvetica,"Microsoft YaHei",ï¿½ï¿½ï¿½ï¿½,Tahoma,Verdana,MingLiu,PMingLiu,Arial,sans-serif;
     list-style:none !important;
     margin-left:-30px !important;
     line-height:20px !important;
