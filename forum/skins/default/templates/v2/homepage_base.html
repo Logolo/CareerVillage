@@ -8,8 +8,7 @@
 
 {% block content %}
 <div id="block-content" class="row-fluid">
-    
-    
+
     {% if user.is_authenticated %}
     <!-- left column -->
     <div class="col-left col-sidebar span3">
@@ -77,9 +76,12 @@
                 {% question_list_item question %}
             {% endfor %}
         </div>
+        <div class="pagesize">{{ questions.paginator.page_sizes }}</div>
+        <div class="pagination pagination-centered">{{ questions.paginator.page_numbers }}</div>
 
         <!-- message below search results + not found -->
-        {% block append_results %}{% endblock %}
+        {% block append_results %}
+        {% endblock %}
     
     </div><!--/.col-right -->
 

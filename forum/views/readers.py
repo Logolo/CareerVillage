@@ -24,6 +24,7 @@ from forum.utils.mail import send_template_email
 from forum.utils.html import sanitize_html, hyperlink
 from forum.utils.diff import textDiff as htmldiff
 from forum.utils import pagination
+from forum.utils.v2 import pagination as pagination_v2
 from forum.forms import *
 from forum.models import *
 from forum.forms import get_next_url
@@ -105,16 +106,17 @@ def search_results(request):
 def search_results_base(request, user_type_check=False, keywords=None, loggedout=False):
     if loggedout or (request.user.is_authenticated() and user_type_check):
         paginator_context = QuestionListPaginatorContext()
-        paginator_context.base_path = reverse('questions')
+        paginator_context.base_path = reverse('homepage')
 
         if keywords is None:
             return question_list(request,
                                  Question.objects.all(),
-                                 base_path=reverse('questions'),
+                                 base_path=reverse('homepage'),
                                  feed_url=reverse('latest_questions_feed'),
-                                 paginator_context=paginator_context)
+                                 paginator_context=paginator_context,
+                                 v2=True)
         else:
-            return get_question_search_results(request, keywords=keywords)
+            return get_question_search_results(request, keywords=keywords, v2=True)
 
     else:
         return HttpResponseRedirect(reverse(homepage))
@@ -205,10 +207,10 @@ def user_questions(request, mode, user, slug):
     else:
         raise Http404
 
-
     return question_list(request, questions,
                          mark_safe(description % hyperlink(user.get_profile_url(), user.username)),
                          page_title=description % user.username)
+
 
 def question_list(request, initial,
                   list_description=_('questions'),
@@ -216,7 +218,8 @@ def question_list(request, initial,
                   page_title=_("All Questions"),
                   allowIgnoreTags=True,
                   feed_url=None,
-                  paginator_context=None):
+                  paginator_context=None,
+                  v2=False):
 
     questions = initial.filter_state(deleted=False)
 
@@ -244,16 +247,20 @@ def question_list(request, initial,
 
         feed_url = mark_safe(escape(request.path + "?type=rss" + req_params))
 
-    return pagination.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), {
-    "questions" : questions.distinct(),
-    "questions_count" : questions.count(),
-    "keywords" : keywords,
-    "list_description": list_description,
-    "base_path" : base_path,
-    "page_title" : page_title,
-    "tab" : "questions",
-    'feed_url': feed_url,
-    })
+    tpl_context = {
+        "questions" : questions.distinct(),
+        "questions_count" : questions.count(),
+        "keywords" : keywords,
+        "list_description": list_description,
+        "base_path" : base_path,
+        "page_title" : page_title,
+        "tab" : "questions",
+        'feed_url': feed_url,
+        }
+    if v2:
+        return pagination_v2.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), tpl_context)
+    else:
+        return pagination.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), tpl_context)
 
 
 def search(request):
@@ -272,7 +279,7 @@ def search(request):
     else:
         return render_to_response("search.html", context_instance=RequestContext(request))
 
-def get_question_search_results(request, keywords):
+def get_question_search_results(request, keywords, v2=False):
     can_rank, initial = Question.objects.search(keywords)
 
     if can_rank:
@@ -286,7 +293,8 @@ def get_question_search_results(request, keywords):
                          _("questions matching '%(keywords)s'") % {'keywords': keywords},
                          None,
                          _("questions matching '%(keywords)s'") % {'keywords': keywords},
-                         paginator_context=paginator_context)
+                         paginator_context=paginator_context,
+                         v2=v2)
 
 @decorators.render('questions.html')
 def question_search(request, keywords):

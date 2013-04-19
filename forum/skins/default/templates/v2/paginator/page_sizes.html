@@ -1,0 +1,10 @@
+{% spaceless %}
+{% load i18n %}
+<div class="paginator">
+    <div class="btn-group" title="{% trans 'Page size' %}">
+    {% for size, url in sizes %}
+        <a class="btn{% ifequal size current %} active{% endifequal %}" href="{{ url }}">{{ size }}</a>
+    {% endfor %}
+    </div>
+</div>
+{% endspaceless %}
