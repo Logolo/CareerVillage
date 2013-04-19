@@ -1,7 +1,7 @@
 {% load i18n %}
 
 
-    <div class="like-widget {% ifequal user_vote 'up' %}on{% endifequal %}" data-like-count="{{ request.user.reputation }}">
+    <div class="like-widget {% ifequal user_vote 'up' %}on{% endifequal %}" data-like-count="{{ user_vote_count_total }}">
             <h3>{{ post.score }}</h3>
             <span class="thumbs-up"></span>
             <a id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"

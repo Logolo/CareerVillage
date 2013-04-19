@@ -27,6 +27,7 @@ def vote_buttons_v2(post, user):
 
     if user.is_authenticated():
         context['user_vote'] = {1: 'up', -1: 'down', None: 'none'}[VoteAction.get_for(user, post)]
+        context['user_vote_count_total'] = user.get_vote_count_total()
 
     return context
 
