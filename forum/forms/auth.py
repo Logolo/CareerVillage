@@ -7,10 +7,12 @@ from django.utils.safestring import mark_safe
 from django import forms
 import logging
 
+
 class SimpleRegistrationForm(forms.Form):
     next = NextUrlField()
     username = UserNameField()
     email = UserEmailField()
+
 
 class ReviseProfileForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
@@ -27,9 +29,14 @@ class ReviseProfileForm(forms.ModelForm):
             self.fields['tags'].queryset = selected_tags
             self.fields['tags'].initial = selected_tags
 
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['email'].required = True
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'industry', 'headline', 'location', 'email')
+
 
 class TemporaryLoginRequestForm(forms.Form):
     def __init__(self, data=None):
