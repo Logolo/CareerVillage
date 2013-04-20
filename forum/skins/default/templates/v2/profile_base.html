@@ -15,11 +15,11 @@
             {% avatar user 128 %}
         </div>
         <div class="media-body">
-            <h1>{{ user.real_name }}</h1>
+            <h1>{{ view_user.real_name }}</h1>
             <h2 class="text-medium">
-                {# TODO user.headline (for professionals, wrap in if statement) #} Startup founder and social entrepreneur; TED-ster by night<br />
-                {# TODO user.location #} Houston, TX &bull;
-                {# TODO user.industry (for professionals, wrap in if statement) #} Healthcare
+                {{ view_user.headline }}<br />
+                {{ view_user.location }} &bull;
+                {{ view_user.industry }}
             </h2>
         </div>
     </div>
@@ -41,14 +41,21 @@
             <h5>About Me</h5>
             <p>I'm one of the founders of CareerVillage. I care a lot about helping students get career advice, and I really love it when professionals enjoy volunteering. I want to bring CareerVillage to every single high school student in America. If you have any suggestions that will help me make your experience better, please don't hesitate to let me know. I'm always available at jared@careervillage.org.</p>
         </div>
-
         <div class="topics sidebar-widget">
             <h5>Topics I Follow</h5>
             <div class="tags">
-                {# TODO real tags logic #}
-                <a class="badge tag-link-finance" href="/tags/finance/" title="see questions tagged 'finance'" rel="tag">finance</a>
-                <a class="badge tag-link-power" href="/tags/power/" title="see questions tagged 'power'" rel="tag">power</a>
-                <a class="badge tag-link-career-paths" href="/tags/career-paths/" title="see questions tagged 'career-paths'" rel="tag">career-paths</a>
+                {% for tag in followed_tags %}
+                    <a class="badge tag-link-{{ tag.tag }}" href="{% url tag_questions tag.tag|urlencode %}" title="see questions tagged '{{ tag.tag }}'" rel="tag">{{ tag.tag }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="topics sidebar-widget">
+            <h5>Topics I'm Active On</h5>
+            <div class="tags">
+                {% for tag in user_tags %}
+                    <a class="badge tag-link-{{ tag.name }}" href="{% url tag_questions tag|urlencode %}" title="see questions tagged '{{ tag.name }}'" rel="tag">{{ tag.name }}</a>
+                {% endfor %}
             </div>
         </div>
 
@@ -58,15 +65,29 @@
     <!-- right column -->
     <div class="col-right col-main list-questions span9">
 
+        <h5>My activity on CareerVillage</h5>
+        <!-- answers user has interacted with -->
+        <div class="items">
+            {% for answer in answers.paginator.page %}
+                {% question_list_item answer %}
+            {% endfor %}
+        </div>
         <!-- questions user has interacted with -->
         <div class="items">
             {% for question in questions.paginator.page %}
                 {% question_list_item question %}
             {% endfor %}
         </div>
+        {% if no_activity %}
+            Nothing yet. Still looking for my first opportunity to contribute! 
+        {% endif %}
 
         <!-- message below search results + not found -->
+
+        <!-- Pagination -->
         {% block append_results %}{% endblock %}
+        <div class="pagesize">{{ questions.paginator.page_sizes }}</div>
+        <div class="pagination pagination-centered">{{ questions.paginator.page_numbers }}</div>
     
     </div><!--/.col-right -->
 

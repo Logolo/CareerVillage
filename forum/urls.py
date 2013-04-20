@@ -123,7 +123,10 @@ core_urls = (
     url(r'^%s(?P<cohort>.*)/(?P<days>\d+)/$' % (_('cohorts/')), app.users.cohort, name='cohort'),
 
 
-    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/$' % _('users/'), app.users.user_profile, name='user_profile'),
+    url(r'^%s(?P<id>\d+)/$' % _('users/'), app.users.user_profile_v2, name='user_profile_v2'),
+
+    # v1 url:
+    # url(r'^%s(?P<id>\d+)/(?P<slug>.*)/$' % _('users/'), app.users.user_profile, name='user_profile'),
     url(r'^%s$' % _('badges/'), app.meta.badges, name='badges'),
     url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]+)/?$' % _('badges/'), app.meta.badge, name='badge'),
     # (r'^admin/doc/' % _('admin/doc'), include('django.contrib.admindocs.urls')),
