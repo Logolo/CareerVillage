@@ -270,6 +270,7 @@ header.profile-page .avatar img {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
+    padding-left:10px;
 }
 #flag-question-form textarea {
     margin-top:-4px; 
