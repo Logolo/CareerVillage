@@ -61,8 +61,9 @@ $(".like-question-button").click(function(e){
     e.preventDefault();
     $this = $(this);
 
-    // disable the button prevent multiple likes
-    $this.addClass('disabled');                 
+    // prevent multiple submissions
+    if ($this.hasClass('loading')) return; 
+    $this.addClass('loading');
 
     $widget = $(this).closest('.like-widget');
     $follow = $widget.find('.follow-question');
@@ -78,7 +79,7 @@ $(".like-question-button").click(function(e){
     $.getJSON($this.attr('href'), function(data, e) {
 
         // re-enable the button
-        $this.removeClass('disabled');
+        $this.removeClass('loading');
 
         // respond to error
         if (!data.success && data['error_message'] != undefined) {
@@ -92,15 +93,18 @@ $(".like-question-button").click(function(e){
             return;
         }
         
-        // update like button, count and widget status
+        // update like button, count, data-likes-count and widget status
         if (liking) {
-            $this.text('Liked');
+            $this.text('Liked').addClass('disabled');
             $likes.text(parseInt($likes.text())+1);
             $widget.addClass('on');
+            $('[data-like-count]').data('like-count', like_count+1);
         } else {
-            $this.text('Like this');
+            $widget.popover('hide');
+            $this.text('Like this').removeClass('disabled');
             $likes.text(parseInt($likes.text())-1);
             $widget.removeClass('on');
+            $('[data-like-count]').data('like-count', like_count-1);
         }
 
         // for first time likers, suggest they share on facebook
@@ -139,7 +143,7 @@ $(".like-question-button").click(function(e){
             if (liking) {
                 $follow.animate({'opacity': 1});
             } else {
-                $follow.animate({'opacity': .2});
+                $follow.animate({'opacity': 0});
             }            
         }
 
@@ -150,41 +154,54 @@ $(".follow-question-button").click(function(e){
     e.preventDefault();
     $this = $(this);
 
-    // disable the button prevent multiple follows
-    $this.addClass('disabled');
+    // prevent multiple submissions
+    if ($this.hasClass('loading')) return; 
+    $this.addClass('loading');
 
     $widget = $this.closest('.like-widget');
+    $follow = $widget.find('.follow-question');
     $followButtons = $('.follow-question-button');
 
     // are we following or unfollowing
-    var following = ($this.hasClass('on'))? false : true;
+    var following = ($follow.hasClass('on'))? false : true;
+    console.log(following);
 
     // follow ajax request
     // TODO: connect this to the backend
-    //$.getJSON($this.attr('href'), function(data, e) {
+    // $.getJSON($this.attr('href'), function(data, e) {
 
-    // re-enable the button
-    $this.removeClass('disabled');
+        // re-enable the button
+        $this.removeClass('loading');
 
-    // respond to error
-    /* TODO: error handling when connected to backend
-    if (!data.success && data['error_message'] != undefined) {
-        console.log(data.error_message);
-        return;
-    }*/
-    
-    // update button text
-    if (following) {
-        $followButtons.find('.text').text('following');
-        $followButtons.addClass('on');
-        $followButtons.find('.icon-star').hide();
-    } else {
-        $followButtons.find('.text').text(' follow');
-        $followButtons.removeClass('on');
-        $followButtons.find('.icon-star').show();
-    }
+        // respond to error
+        /* TODO uncomment when AJAX works
+        if (!data.success && data['error_message'] != undefined) {
+            $widget.popover({
+              'placement': 'right',
+              'trigger': 'hover',
+              'title': '',
+              'html': true,
+              'content': data.error_message
+            }).popover('show');
+            return;
+        } 
+        */
 
-  //});
+        // update button text and follow status
+        if (following) {
+            $follow.addClass('on');
+            $followButtons.addClass('disabled');
+            $followButtons.find('.text').text('following');
+            $followButtons.find('.icon-star').hide();
+        } else {
+            $follow.removeClass('on');
+            $followButtons.removeClass('disabled');
+            $followButtons.find('.text').text(' follow');
+            $followButtons.find('.icon-star').show();
+        }
+
+    // TODO: uncomment when AJAX works
+    // });
   
 });
 
