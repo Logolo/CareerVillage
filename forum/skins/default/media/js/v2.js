@@ -204,12 +204,22 @@ $("#signup-student").find(".modal li.avatar-preview").click(function(){
 $('.flag-for-review').click(function(e){
     e.preventDefault();
     $form = $("#flag-question-form");
+    $form.find('form').show();
+    $form.find('.confirmation').hide();
+    $form.slideDown();
+});
 
-    if ($form.is(':visible')) {
-        $form.slideUp();
-    } else {
-        $form.slideDown();
-    }
+/* flag for review submission and confirmation */
+$("#flag-question-form").submit(function(e){
+    e.preventDefault();
+    $form = $(this);
+    
+    // post the form
+    $.post($form.attr('action'), $form.serialize());
+
+    // animate the confirmation
+    $form.find('form').slideUp();
+    $form.find('.confirmation').show();
 });
 
 /* refer a friend toggle */
