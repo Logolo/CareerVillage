@@ -82,8 +82,14 @@ $(".like-question-button").click(function(e){
 
         // respond to error
         if (!data.success && data['error_message'] != undefined) {
-            console.log(data.error_message);
-            //return;
+            $widget.popover({
+              'placement': 'right',
+              'trigger': 'hover',
+              'title': '',
+              'html': true,
+              'content': data.error_message
+            }).popover('show');
+            return;
         }
         
         // update like button, count and widget status
