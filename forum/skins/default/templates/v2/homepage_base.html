@@ -8,8 +8,7 @@
 
 {% block content %}
 <div id="block-content" class="row-fluid">
-    
-    
+
     {% if user.is_authenticated %}
     <!-- left column -->
     <div class="col-left col-sidebar span3">
@@ -18,7 +17,7 @@
         <div class="media profile">
             <!--<div class="update-link"><a href="{# TODO update profile link #}">update</a></div>-->
             <a class="pull-left" href="{{ user.get_profile_url }}">
-                <img class="avatar media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" />
+                {% avatar user 128 %}
             </a>
             <div class="media-body">
                 <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
@@ -77,9 +76,12 @@
                 {% question_list_item question %}
             {% endfor %}
         </div>
+        <div class="pagesize">{{ questions.paginator.page_sizes }}</div>
+        <div class="pagination pagination-centered">{{ questions.paginator.page_numbers }}</div>
 
         <!-- message below search results + not found -->
-        {% block append_results %}{% endblock %}
+        {% block append_results %}
+        {% endblock %}
     
     </div><!--/.col-right -->
 

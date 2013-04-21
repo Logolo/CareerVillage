@@ -1,0 +1,18 @@
+{% spaceless %}
+{% load i18n %}
+
+<ul>
+    <li {% if not has_previous %}class="disabled"{% endif %} title="{% trans "previous" %}"><a href="{{ previous_url|default_if_none:'#' }}">&laquo;</a></li>
+    {% for range in page_numbers %}
+        {% if range %}
+            {% for num, url in range %}
+                <li {% ifequal num current %}class="active"{% endifequal %}><a href="{{ url }}">{{ num }}</a></li>
+            {% endfor %}
+        {% else %}
+            <li class="disabled"><a href="#">...</a></li>
+        {% endif %}
+    {% endfor %}
+    <li {% if not has_next %}class="disabled"{% endif %} title="{% trans "next page" %}"><a href="{{ next_url|default_if_none:'#' }}">&raquo;</a></li>
+
+</ul>
+{% endspaceless %}

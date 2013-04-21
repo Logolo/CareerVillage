@@ -219,6 +219,7 @@ def _create_linkedin_user(request, assoc_key):
     location = user_data.get('location', None)
     user_.first_name = user_data.get('firstName', '')
     user_.last_name = user_data.get('lastName', '')
+    user_.user_type = 'professional'
     user_.email = user_data.get('emailAddress', '')
     user_.industry = user_data.get('industry', '')
     user_.headline = user_data.get('headline', '')
@@ -351,13 +352,18 @@ def revise_profile(request):
         form.save()
         request.user.tag_selections.all().delete()
         for tag in form.cleaned_data['tags']:
-            MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
+            if not MarkedTag.objects.filter(user=request.user, tag=tag):
+                MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
         if 'new_tags' in request.POST:
             for tag_name in request.POST.getlist('new_tags'):
                 tag_name = tag_name.strip()
                 if tag_name:
-                    tag = Tag.objects.create(name=tag_name, created_by=request.user)
-                    MarkedTag.objects.create(user=request.user, tag=tag, reason='good')                
+                    try:
+                        tag = Tag.objects.get(name=tag_name)
+                    except Tag.DoesNotExist:
+                        tag = Tag.objects.create(name=tag_name, created_by=request.user)
+                    if not MarkedTag.objects.filter(user=request.user, tag=tag):
+                        MarkedTag.objects.create(user=request.user, tag=tag, reason='good')
         return HttpResponseRedirect(reverse('homepage'))
 
     return render_to_response('v2/revise_profile.html', {
@@ -416,11 +422,11 @@ def request_temp_login_v2(request):
                 except:
                     hash = ValidationHash.objects.create_new(u, 'templogin', [u.id])
 
-                send_template_email([u], "v2/emails/password-reset.html", {'temp_login_code': hash})
+                send_template_email([u], "v2/emails/email_password_reset.html", {'temp_login_code': hash})
 
                 messages.info(request, message=_("An email will be sent with your temporary login key. Please allow up to three minutes for it to arrive and check your spam folder!"))
 
-            return HttpResponseRedirect(reverse('login'))
+            return HttpResponseRedirect(reverse('auth_signin'))
     else:
         form = TemporaryLoginRequestForm()
 

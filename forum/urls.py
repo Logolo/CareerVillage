@@ -44,6 +44,7 @@ core_urls = (
     url(r'^%s$' % _('logout/'), app.meta.logout, name='logout'),
 
     url(r'^%s$' % _('home/'), app.readers.homepage, name='homepage'),
+    url(r'^%s(?P<tag>.*)/$' % _('home/tags/'), app.readers.tag_v2, name='home_tag_questions'),
 
     url(r'^%s(?P<id>\d+)/%s$' % (_('answers/'), _('edit/')), app.writers.edit_answer, name='edit_answer'),
     url(r'^%s(?P<id>\d+)/$' % _('revisions/'), app.readers.revisions, name='revisions'),
@@ -138,7 +139,7 @@ core_urls = (
     url(r'^%s%s$' % (_('signup/'), _('student')), app.auth.signup_student, name='auth_signup_student'),
     url(r'^%s$' % (_('password-reset/'),), app.auth.request_temp_login_v2, name='auth_request_tempsignin_v2'),
 
-    url(r'^%s%s$' % (_('account/'), _('signin/')), app.auth.signin_page, name='auth_signin'),
+#    url(r'^%s%s$' % (_('account/'), _('signin/')), app.auth.signin_page, name='auth_signin'),
     url(r'^%s%s$' % (_('account/'), _('signout/')), app.auth.signout, name='user_signout'),
     url(r'^%s%s$' % (_('account/'), _('revise/')), app.auth.revise_profile, name='revise_profile'),
     url(r'^%s(?P<provider>\w+)/%s$' % (_('account/'), _('signin/')), app.auth.prepare_provider_signin, name='auth_provider_signin'),

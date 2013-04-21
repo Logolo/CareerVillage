@@ -27,6 +27,7 @@ def vote_buttons_v2(post, user):
 
     if user.is_authenticated():
         context['user_vote'] = {1: 'up', -1: 'down', None: 'none'}[VoteAction.get_for(user, post)]
+        context['user_vote_count_total'] = user.get_vote_count_total()
         ''' TODO - the following is copied from favorite_mark function defined later in this file, which may or may not work
             once the AJAX is hooked up to the follow button this template tag should be tested and enabled
             we just need to return 1 if they've followed this question

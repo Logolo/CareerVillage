@@ -8,7 +8,7 @@
                 {% for comment in comments %}
                     <div id="comment-{{comment.id}}">
                         <a class="pull-left" href="{{ user.get_profile_url }}">
-                            <span class="avatar avatar-small"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
+                            <span class="avatar avatar-small">{% avatar comment.user 64 %}</span>
                         </a>
                         <div class="media-body">
                             <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>

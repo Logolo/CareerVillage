@@ -109,7 +109,7 @@
         <div class="media profile">
             <p class="text-light clear">Posted {% diff_date question.added_at %} by...</p>
             <a class="pull-left" href="{{ question.user.get_profile_url }}">
-                <span class="avatar"><img class="media-object" src="{# TODO question.user.profile image #}//si0.twimg.com/profile_images/534486785/cropped.JPG" /></span>
+                <span class="avatar">{% avatar question.user 128 %}></span>
             </a>
             <div class="media-body">
                 <h5><a href="{{ question.user.get_profile_url }}">{{ question.author.real_name }}</a></h5>

@@ -83,6 +83,19 @@
     width:1px;
 }
 
+/*************
+ * PAGINATION
+ * Pagination controls used on different pages
+ ***/
+
+.pagesize {
+    float: right;
+    margin-top: 23px;
+}
+.paginator .btn-group a {
+    font-size: 12px;
+    padding: 2px 4px;
+}
 
 /*************
  * SIDEBAR .col-sidebar
@@ -763,5 +776,9 @@ ul.user-type-selection li.user-type.active a:hover {
     font-size:12px;
     line-height:12px;
     margin-bottom:10px;
+}
+
+.help-inline.error {
+    color: #B94A48;
 }
 

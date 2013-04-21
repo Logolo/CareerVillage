@@ -40,7 +40,7 @@
         <!-- question tags -->
         <div class="tags">
             {% for tag in question.tagname_list %}
-                <a class="badge tag-link-{{ tag }}" href="{% url tag_questions tag|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>
+                <a class="badge tag-link-{{ tag }}" href="{% url home_tag_questions tag|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>
             {% endfor %}
         </div>
 

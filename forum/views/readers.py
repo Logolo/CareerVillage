@@ -24,6 +24,7 @@ from forum.utils.mail import send_template_email
 from forum.utils.html import sanitize_html, hyperlink
 from forum.utils.diff import textDiff as htmldiff
 from forum.utils import pagination
+from forum.utils.v2 import pagination as pagination_v2
 from forum.forms import *
 from forum.models import *
 from forum.forms import get_next_url
@@ -102,37 +103,48 @@ def search_results(request):
     else:
         return homepage(request)
 
-def search_results_base(request, user_type_check=False, keywords=None, loggedout=False):
+def search_results_base(request, user_type_check=False, keywords=None, loggedout=False, tag=None):
     if loggedout or (request.user.is_authenticated() and user_type_check):
         paginator_context = QuestionListPaginatorContext()
-        paginator_context.base_path = reverse('questions')
+        paginator_context.base_path = reverse('homepage')
 
         if keywords is None:
-            return question_list(request,
-                                 Question.objects.all(),
-                                 base_path=reverse('questions'),
-                                 feed_url=reverse('latest_questions_feed'),
-                                 paginator_context=paginator_context)
+            if tag is None:
+                return question_list(request,
+                                     Question.objects.all(),
+                                     base_path=reverse('homepage'),
+                                     feed_url=reverse('latest_questions_feed'),
+                                     paginator_context=paginator_context,
+                                     v2=True)
+            else:
+                return question_list(request,
+                                     Question.objects.filter(tags=tag),
+                                     list_description=mark_safe(_('questions tagged <span class="tag">%(tag)s</span>') % {'tag': tag}),
+                                     base_path=reverse('homepage'),
+                                     page_title=mark_safe(_('Questions Tagged With %(tag)s') % {'tag': tag}),
+                                     feed_url=reverse('latest_questions_feed'),
+                                     paginator_context=paginator_context,
+                                     v2=True)
         else:
-            return get_question_search_results(request, keywords=keywords)
+            return get_question_search_results(request, keywords=keywords, v2=True, tag=tag)
 
     else:
         return HttpResponseRedirect(reverse(homepage))
 
 @decorators.render('v2/homepage_professional.html')
-def homepage_professional(request, keywords):
-    return search_results_base(request, request.user.is_professional(), keywords)
+def homepage_professional(request, keywords, tag):
+    return search_results_base(request, request.user.is_professional(), keywords, tag=tag)
 
 @decorators.render('v2/homepage_student.html')
-def homepage_student(request, keywords):
-    return search_results_base(request, request.user.is_student(), keywords)
+def homepage_student(request, keywords, tag):
+    return search_results_base(request, request.user.is_student(), keywords, tag=tag)
 
 @decorators.render('v2/homepage_educator.html')
-def homepage_educator(request, keywords):
-    return search_results_base(request, request.user.is_educator(), keywords)
+def homepage_educator(request, keywords, tag):
+    return search_results_base(request, request.user.is_educator(), keywords, tag=tag)
 
 @decorators.render('v2/homepage_loggedout.html')
-def homepage_loggedout(request, keywords):
+def homepage_loggedout(request, keywords, tag):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse(homepage))
     else:
@@ -140,16 +152,30 @@ def homepage_loggedout(request, keywords):
 
 def homepage(request, keywords=None):
     if request.user.is_authenticated():
-        if request.user.is_student():
-            return homepage_student(request, keywords)
-        elif request.user.is_professional():
-            return homepage_professional(request, keywords)
-        elif request.user.is_educator():
-            return homepage_educator(request, keywords)
-        else: # If the user's status is unknown, we default to professional
-            return homepage_professional(request, keywords)
+        return homepage_questions(request, keywords)
     else:
         return HttpResponseRedirect(reverse(splash))
+
+
+def tag_v2(request, tag):
+    try:
+        tag = Tag.active.get(name=unquote(tag))
+    except Tag.DoesNotExist:
+        raise Http404
+
+    return homepage_questions(request, None, tag)
+
+
+def homepage_questions(request, keywords, tag=None):
+    if request.user.is_student():
+        return homepage_student(request, keywords, tag)
+    elif request.user.is_professional():
+        return homepage_professional(request, keywords, tag)
+    elif request.user.is_educator():
+        return homepage_educator(request, keywords, tag)
+    else: # If the user's status is unknown, we default to professional
+        return homepage_professional(request, keywords, tag)
+
 
 def splash(request):
     if request.user.is_authenticated():
@@ -205,10 +231,10 @@ def user_questions(request, mode, user, slug):
     else:
         raise Http404
 
-
     return question_list(request, questions,
                          mark_safe(description % hyperlink(user.get_profile_url(), user.username)),
                          page_title=description % user.username)
+
 
 def question_list(request, initial,
                   list_description=_('questions'),
@@ -216,7 +242,8 @@ def question_list(request, initial,
                   page_title=_("All Questions"),
                   allowIgnoreTags=True,
                   feed_url=None,
-                  paginator_context=None):
+                  paginator_context=None,
+                  v2=False):
 
     questions = initial.filter_state(deleted=False)
 
@@ -244,16 +271,20 @@ def question_list(request, initial,
 
         feed_url = mark_safe(escape(request.path + "?type=rss" + req_params))
 
-    return pagination.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), {
-    "questions" : questions.distinct(),
-    "questions_count" : questions.count(),
-    "keywords" : keywords,
-    "list_description": list_description,
-    "base_path" : base_path,
-    "page_title" : page_title,
-    "tab" : "questions",
-    'feed_url': feed_url,
-    })
+    tpl_context = {
+        "questions" : questions.distinct(),
+        "questions_count" : questions.count(),
+        "keywords" : keywords,
+        "list_description": list_description,
+        "base_path" : base_path,
+        "page_title" : page_title,
+        "tab" : "questions",
+        'feed_url': feed_url,
+        }
+    if v2:
+        return pagination_v2.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), tpl_context)
+    else:
+        return pagination.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), tpl_context)
 
 
 def search(request):
@@ -272,8 +303,11 @@ def search(request):
     else:
         return render_to_response("search.html", context_instance=RequestContext(request))
 
-def get_question_search_results(request, keywords):
-    can_rank, initial = Question.objects.search(keywords)
+def get_question_search_results(request, keywords, v2=False, tag=None):
+    if tag is None:
+        can_rank, initial = Question.objects.search(keywords)
+    else:
+        can_rank, initial = Question.objects.filter(tags=tag).search(keywords)
 
     if can_rank:
         paginator_context = QuestionListPaginatorContext()
@@ -282,11 +316,20 @@ def get_question_search_results(request, keywords):
     else:
         paginator_context = None
 
-    return question_list(request, initial,
-                         _("questions matching '%(keywords)s'") % {'keywords': keywords},
-                         None,
-                         _("questions matching '%(keywords)s'") % {'keywords': keywords},
-                         paginator_context=paginator_context)
+    if tag is None:
+        return question_list(request, initial,
+                             _("questions matching '%(keywords)s'") % {'keywords': keywords},
+                             None,
+                             _("questions matching '%(keywords)s'") % {'keywords': keywords},
+                             paginator_context=paginator_context,
+                             v2=v2)
+    else:
+        return question_list(request, initial,
+                             _("questions matching '%(keywords)s' and tag '%(tag)s'") % {'keywords': keywords, 'tag': tag},
+                             None,
+                             _("questions matching '%(keywords)s' and tag '%(tag)s'") % {'keywords': keywords, 'tag': tag},
+                             paginator_context=paginator_context,
+                             v2=v2)
 
 @decorators.render('questions.html')
 def question_search(request, keywords):

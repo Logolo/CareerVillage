@@ -1,4 +1,5 @@
 {% extends "v2/question_base.html" %}
+{% load extra_tags %}
 
 {% block answeractions %}
     <a class="btn btn-large btn-success" href="#your-answer">I can <u>answer</u> this question!</a>
@@ -25,7 +26,7 @@
 
                 <div class="answer-user">
                     <a class="pull-left" href="{{ user.get_profile_url }}">
-                        <span class="avatar avatar-medium"><img class="media-object" src="{# TODO profile image #}//si0.twimg.com/profile_images/2282186333/46xf73u5map5l9eos0xa_bigger.jpeg" /></span>
+                        <span class="avatar avatar-medium">{% avatar user 128 %}</span>
                     </a>
                     <div class="media-body">
                         <h5>
