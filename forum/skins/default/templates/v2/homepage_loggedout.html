@@ -7,12 +7,22 @@
 
 {% block skipsearch %}
     <div>
-        <a href="{% url ask_v2 %}">
-            Or skip straight to asking a new question...
+        <a href="{% url auth_signin %}">
+            Login to ask a question
         </a>
     </div>
     {% endblock %}
 
 {% block unanswered_only %}
     {# Empty for Students #}
+    {% endblock %}
+
+{% block append_results %}
+    {# appears just below search results #}
+    {% if questions %}
+    {% else %}
+        <h4>
+            Looks like we don't have a question about that yet. <a href="{% url auth_signin %}">Login to ask a question!</a>
+        </h4>
+    {% endif %}
     {% endblock %}
