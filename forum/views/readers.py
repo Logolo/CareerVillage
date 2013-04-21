@@ -124,6 +124,7 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
                                      page_title=mark_safe(_('Questions Tagged With %(tag)s') % {'tag': tag}),
                                      feed_url=reverse('latest_questions_feed'),
                                      paginator_context=paginator_context,
+                                     tag=tag,
                                      v2=True)
         else:
             return get_question_search_results(request, keywords=keywords, v2=True, tag=tag)
@@ -243,6 +244,7 @@ def question_list(request, initial,
                   allowIgnoreTags=True,
                   feed_url=None,
                   paginator_context=None,
+                  tag=None,
                   v2=False):
 
     questions = initial.filter_state(deleted=False)
@@ -275,6 +277,7 @@ def question_list(request, initial,
         "questions" : questions.distinct(),
         "questions_count" : questions.count(),
         "keywords" : keywords,
+        "tag" : tag,
         "list_description": list_description,
         "base_path" : base_path,
         "page_title" : page_title,
