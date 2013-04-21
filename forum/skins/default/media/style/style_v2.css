@@ -177,13 +177,18 @@ header.profile-page .avatar img {
 #topsearch .checkbox {
     margin-top:8px;
 }
-.search-subtext a {
-    font-size:11px;
-    color:#777;
+.search-subtext {
+    font-size:14px;
     text-decoration:underline;
-    display:block;
     margin-top:-10px;
     margin-bottom:20px;
+}
+.search-subtext a.label {
+    padding:4px 8px;
+    background-color:#3a87ad;
+}
+.search-subtext a.label:hover {
+    background-color: #2d6987;
 }
 .question-stats {
     clear:both;
