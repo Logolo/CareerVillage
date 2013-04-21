@@ -227,6 +227,13 @@ $("#signup-student").find(".modal li.avatar-preview").click(function(){
 $('.flag-for-review').click(function(e){
     e.preventDefault();
     $form = $("#flag-question-form");
+
+    // hide if already open
+    if ($form.is(':visible')) {
+      $form.slideUp();
+      return;  
+    }
+
     $form.find('form').show();
     $form.find('.confirmation').hide();
     $form.slideDown();
