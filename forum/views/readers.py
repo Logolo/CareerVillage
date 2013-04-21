@@ -145,11 +145,11 @@ def homepage_educator(request, keywords, tag):
     return search_results_base(request, request.user.is_educator(), keywords, tag=tag)
 
 @decorators.render('v2/homepage_loggedout.html')
-def homepage_loggedout(request, keywords, tag):
+def homepage_loggedout(request, keywords=None, tag=None):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse(homepage))
     else:
-        return search_results_base(request, True, keywords, loggedout=True)
+        return search_results_base(request, True, keywords, loggedout=True, tag=tag)
 
 def homepage(request, keywords=None):
     if request.user.is_authenticated():
@@ -168,7 +168,9 @@ def tag_v2(request, tag):
 
 
 def homepage_questions(request, keywords, tag=None):
-    if request.user.is_student():
+    if request.user.is_anonymous():
+        return homepage_loggedout(request, keywords, tag)
+    elif request.user.is_student():
         return homepage_student(request, keywords, tag)
     elif request.user.is_professional():
         return homepage_professional(request, keywords, tag)
