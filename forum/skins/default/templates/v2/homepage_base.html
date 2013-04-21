@@ -65,6 +65,8 @@
         <!-- search results header -->
         {% if keywords %}
             <h3 class="section-header">Questions related to <em style="color:#678">{{ keywords }}</em></h3>
+        {% elif tag %}
+            <h3 class="section-header">Questions related to <em style="color:#678">{{ tag }}</em></h3>
         {% else %}
             <h3 class="section-header">Latest questions</h3> 
         {% endif %}
