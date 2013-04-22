@@ -129,6 +129,7 @@ $(".like-question-button").click(function(e){
         }
 
         // show/hide the follow button if exists in this context
+        /*
         if ($follow.length) {
             if (liking) {
                 $follow.animate({'opacity': 1});
@@ -136,6 +137,7 @@ $(".like-question-button").click(function(e){
                 $follow.animate({'opacity': .2});
             }            
         }
+        */
 
     });
 });
@@ -181,6 +183,16 @@ $(".follow-question-button").click(function(e){
 
     return false;
   
+}).hover(function(){
+    var $this = $(this);
+    if ($this.hasClass('on')) {
+        $this.find('.text').text('unfollow');
+    }
+}, function(){
+    var $this = $(this);
+    if ($this.hasClass('on')) {
+        $(this).find('.text').text('following');
+    }
 });
 
 

@@ -8,7 +8,7 @@ register = template.Library()
 
 @register.filter
 def follows(user, question):
-    if user:
+    if user.is_authenticated():
         return any([question.id == q.id for q in user.subscriptions.all()])
     else:
         return False

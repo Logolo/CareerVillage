@@ -273,6 +273,10 @@ header.profile-page .avatar img {
     text-transform:uppercase;
     font-size:11px;
 }
+#question .follow-question-button.on:hover {
+    cursor: pointer;
+}
+
 #askform input,
 #askform textarea {
     width:100%;
