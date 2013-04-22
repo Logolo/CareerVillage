@@ -14,6 +14,10 @@
  * set container class to "container-fluid" and rows to "row-fluid" 
  ***/
 
+.hidden {
+    display: none;
+}
+
 #main-nav > .navbar-inner > div {
      max-width:1200px;
      margin: 0 auto;

@@ -154,31 +154,32 @@ $(".follow-question-button").click(function(e){
     var following = ($this.hasClass('on'))? false : true;
 
     // follow ajax request
-    // TODO: connect this to the backend
-    //$.getJSON($this.attr('href'), function(data, e) {
+    $.getJSON($this.attr('href'), function(data, e) {
 
-    // re-enable the button
-    $this.removeClass('disabled');
+        // re-enable the button
+        $this.removeClass('disabled');
 
-    // respond to error
-    /* TODO: error handling when connected to backend
-    if (!data.success && data['error_message'] != undefined) {
-        console.log(data.error_message);
-        return;
-    }*/
-    
-    // update button text
-    if (following) {
-        $followButtons.find('.text').text('following');
-        $followButtons.addClass('on');
-        $followButtons.find('.icon-star').hide();
-    } else {
-        $followButtons.find('.text').text(' follow');
-        $followButtons.removeClass('on');
-        $followButtons.find('.icon-star').show();
-    }
+        // respond to error
+        // TODO: error handling when connected to backend
+        if (!data.success && data['error_message'] != undefined) {
+            console.log(data['error_message']);
+            return;
+        }
 
-  //});
+        // update button text
+        if (following) {
+            $this.find('.text').text('following');
+            $this.addClass('disabled').addClass('on');
+            $this.find('.icon-star').addClass('hidden');
+        } else {
+            $this.find('.text').text(' follow');
+            $this.removeClass('disabled').removeClass('on');
+            $this.find('.icon-star').removeClass('hidden');
+        }
+
+    });
+
+    return false;
   
 });
 

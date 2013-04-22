@@ -23,7 +23,7 @@ def vote_buttons(post, user):
 
 @register.inclusion_tag('v2/_vote_buttons.html')
 def vote_buttons_v2(post, user):
-    context = dict(post=post, user_vote='none')
+    context = dict(post=post, user_vote='none', user=user)
 
     if user.is_authenticated():
         context['user_vote'] = {1: 'up', -1: 'down', None: 'none'}[VoteAction.get_for(user, post)]
