@@ -710,6 +710,13 @@ ul.user-type-selection li.user-type.active a:hover {
     background-color:#ffffe0;
     border:1px solid #cc6;
 }
+.signin-tab-pane {
+    width:520px; 
+    background-color:#ffffe0; 
+    margin-top:20px; 
+    padding:20px 0; 
+    border: 1px solid #cc6;
+}
 
 
 /**

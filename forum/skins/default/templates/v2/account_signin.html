@@ -55,14 +55,14 @@
         </div>
         
         <!-- register/signup for Students -->
-        <div id="signup-signin-student" class="tab-pane">        
-            <br />
+        <div id="signup-signin-student" class="tab-pane signin-tab-pane clearfix">        
 
             <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
                 <input type="hidden" class="validate_email" name="validate_email" value="yes" />
                 <div class="control-group" style="margin:0">
                     <label class="control-label">&nbsp;</label>
                     <div class="controls">
+                        <h3>Students</h3>
                         <h2 class="text-medium">Log in below or <a href="{% url auth_signup_student %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
         </div><!--/#signup-signin-student -->
             
         <!-- register/signup for Educators -->
-        <div id="signup-signin-educator" class="tab-pane">        
+        <div id="signup-signin-educator" class="tab-pane signin-tab-pane clearfix" style="margin-right:auto; margin-left:auto">        
             <br />
 
             <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
@@ -99,7 +99,8 @@
                 <div class="control-group" style="margin:0">
                     <label class="control-label">&nbsp;</label>
                     <div class="controls">
-                        <h2 class="text-medium">Log in below or <a href="{% url auth_signup_student %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
+                        <h3>Educators</h3>
+                        <h2 class="text-medium">Log in below or <a href="{# TODO educator signup page #}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
                     </div>
                 </div>
                     
@@ -127,11 +128,12 @@
         </div><!--/#signup-signin-educator -->
 
         <!-- register/signup for Professionals -->
-        <div id="signup-signin-professional" class="tab-pane">        
+        <div id="signup-signin-professional" class="tab-pane signin-tab-pane clearfix" style="float:right">
 
             <div class="span8 offset2">
 
                 <div class="text-center"><br />
+                    <h3>Professionals</h3>
                     <h4 class="text-light">{% trans 'For first timers AND veterans...' %}</h4>
                     <p><a href="{% url auth_provider_signin provider='linkedin' %}" class="zocial linkedin block">{% trans 'Login with Linkedin' %}</a></p>
 
