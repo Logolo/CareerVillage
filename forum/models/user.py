@@ -130,6 +130,8 @@ class User(BaseModel, DjangoUser):
     industry = models.CharField(max_length=200, blank=True)
     linkedin_photo_url = models.URLField(blank=True)
 
+    facebook_access_token = models.CharField(max_length=250)
+
     subscriptions = models.ManyToManyField('Node', related_name='subscribers', through='QuestionSubscription')
 
     vote_up_count = DenormalizedField("actions", canceled=False, action_type="voteup")

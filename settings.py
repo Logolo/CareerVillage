@@ -35,6 +35,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     #'django.core.context_processors.auth',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
+    'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
 )
 
 ROOT_URLCONF = 'urls'
@@ -136,28 +141,32 @@ AUTHENTICATION_BACKENDS = ('forum.authentication.backend.CaseInsensitiveModelBac
                            'social_auth.backends.facebook.FacebookBackend',
 )
 #AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['user_type']
 
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 
+# SOCIAL_AUTH_USER_MODEL = 'forum.models.user.User'
+
 SOCIAL_AUTH_PIPELINE = (
+
     'social_auth.backends.pipeline.social.social_auth_user',
-    'social_auth.backends.pipeline.associate.associate_by_email',
-    'social_auth.backends.pipeline.misc.save_status_to_session',
-    'social.pipeline.redirect_to_form',
-    'social.pipeline.username',
+    'social_auth.backends.pipeline.social.associate_user',
+    'forum.authentication.pipeline.create_user',
+
+    # 'social_auth.backends.pipeline.misc.save_status_to_session',
+
     'social_auth.backends.pipeline.user.create_user',
     'social_auth.backends.pipeline.social.associate_user',
     'social_auth.backends.pipeline.social.load_extra_data',
     'social_auth.backends.pipeline.user.update_user_details',
     'social_auth.backends.pipeline.misc.save_status_to_session',
-    'social.pipeline.redirect_to_form2',
-    'social.pipeline.first_name',
+
 )
 
 FACEBOOK_APP_ID = '509955625712593'
 FACEBOOK_API_SECRET = '1cfa69cc598fc6526e6d975ec0761474'
-FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'publish_actions']
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
