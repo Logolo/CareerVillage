@@ -62,15 +62,20 @@
 
         {% block skipsearch %}{% endblock %}
 
+        <ul class="nav nav-tabs">
+            <li{% if not relevant and not keywords %} class="active"{% endif %}><a href="/home">Latest questions</a></li>
+            <li{% if relevant %} class="active"{% endif %}><a href="/relevant">Relevant for you</a></li>
+            {% if keywords %}
+                <li class="active"><a href="/home">Search results</a></li>
+            {% elif tag %}
+                <li class="active"><a href="/home">{{ tag }}</a></li>
+            {% endif %}
+        </ul>
+
         <!-- search results header -->
         {% if keywords %}
-            <h3 class="section-header">Questions related to <em style="color:#678">{{ keywords }}</em></h3>
-        {% elif tag %}
-            <h3 class="section-header">Questions related to <em style="color:#678">{{ tag }}</em></h3>
-        {% else %}
-            <h3 class="section-header">Latest questions</h3> 
+            <h3 class="section-header">Questions related to {{ keywords }}</h3>
         {% endif %}
-        <hr />
 
         <!-- search results -->
         <div class="items">

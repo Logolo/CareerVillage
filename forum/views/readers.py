@@ -103,7 +103,8 @@ def search_results(request):
     else:
         return homepage(request)
 
-def search_results_base(request, user_type_check=False, keywords=None, loggedout=False, tag=None):
+
+def search_results_base(request, user_type_check=False, keywords=None, loggedout=False, tag=None, relevant=False):
     if loggedout or (request.user.is_authenticated() and user_type_check):
         paginator_context = QuestionListPaginatorContext()
         paginator_context.base_path = reverse('homepage')
@@ -115,7 +116,8 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
                                      base_path=reverse('homepage'),
                                      feed_url=reverse('latest_questions_feed'),
                                      paginator_context=paginator_context,
-                                     v2=True)
+                                     v2=True,
+                                     relevant=relevant)
             else:
                 return question_list(request,
                                      Question.objects.filter(tags=tag),
@@ -125,7 +127,8 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
                                      feed_url=reverse('latest_questions_feed'),
                                      paginator_context=paginator_context,
                                      tag=tag,
-                                     v2=True)
+                                     v2=True,
+                                     relevant=relevant)
         else:
             return get_question_search_results(request, keywords=keywords, v2=True, tag=tag)
 
@@ -133,16 +136,16 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
         return HttpResponseRedirect(reverse(homepage))
 
 @decorators.render('v2/homepage_professional.html')
-def homepage_professional(request, keywords, tag):
-    return search_results_base(request, request.user.is_professional(), keywords, tag=tag)
+def homepage_professional(request, keywords, tag, relevant):
+    return search_results_base(request, request.user.is_professional(), keywords, tag=tag, relevant=relevant)
 
 @decorators.render('v2/homepage_student.html')
-def homepage_student(request, keywords, tag):
-    return search_results_base(request, request.user.is_student(), keywords, tag=tag)
+def homepage_student(request, keywords, tag, relevant):
+    return search_results_base(request, request.user.is_student(), keywords, tag=tag, relevant=relevant)
 
 @decorators.render('v2/homepage_educator.html')
-def homepage_educator(request, keywords, tag):
-    return search_results_base(request, request.user.is_educator(), keywords, tag=tag)
+def homepage_educator(request, keywords, tag, relevant):
+    return search_results_base(request, request.user.is_educator(), keywords, tag=tag, relevant=relevant)
 
 @decorators.render('v2/homepage_loggedout.html')
 def homepage_loggedout(request, keywords=None, tag=None):
@@ -151,9 +154,17 @@ def homepage_loggedout(request, keywords=None, tag=None):
     else:
         return search_results_base(request, True, keywords, loggedout=True, tag=tag)
 
+
 def homepage(request, keywords=None):
     if request.user.is_authenticated():
         return homepage_questions(request, keywords)
+    else:
+        return HttpResponseRedirect(reverse(splash))
+
+
+def relevant(request, keywords=None):
+    if request.user.is_authenticated():
+        return homepage_questions(request, keywords, relevant=True)
     else:
         return HttpResponseRedirect(reverse(splash))
 
@@ -167,17 +178,17 @@ def tag_v2(request, tag):
     return homepage_questions(request, None, tag)
 
 
-def homepage_questions(request, keywords, tag=None):
+def homepage_questions(request, keywords, tag=None, relevant=False):
     if request.user.is_anonymous():
-        return homepage_loggedout(request, keywords, tag)
+        return homepage_loggedout(request, keywords, tag, relevant)
     elif request.user.is_student():
-        return homepage_student(request, keywords, tag)
+        return homepage_student(request, keywords, tag, relevant)
     elif request.user.is_professional():
-        return homepage_professional(request, keywords, tag)
+        return homepage_professional(request, keywords, tag, relevant)
     elif request.user.is_educator():
-        return homepage_educator(request, keywords, tag)
+        return homepage_educator(request, keywords, tag, relevant)
     else: # If the user's status is unknown, we default to professional
-        return homepage_professional(request, keywords, tag)
+        return homepage_professional(request, keywords, tag, relevant)
 
 
 def splash(request):
@@ -247,7 +258,8 @@ def question_list(request, initial,
                   feed_url=None,
                   paginator_context=None,
                   tag=None,
-                  v2=False):
+                  v2=False,
+                  relevant=False):
 
     questions = initial.filter_state(deleted=False)
 
@@ -285,6 +297,7 @@ def question_list(request, initial,
         "page_title" : page_title,
         "tab" : "questions",
         'feed_url': feed_url,
+        'relevant': relevant
         }
     if v2:
         return pagination_v2.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), tpl_context)
