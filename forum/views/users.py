@@ -333,7 +333,7 @@ def user_profile(request, user):
 def user_profile_v2(request, user):
     # user = User.objects.get(id=id)
     questions = Question.objects.filter_state(deleted=False).filter(author=user).order_by('-added_at')
-    answers = Answer.objects.filter_state(deleted=False).filter(author=user).order_by('-added_at')
+    answers = Question.objects.filter_state(deleted=False).filter(id__in=Answer.objects.filter(author=user).values_list('parent_id', flat=True).order_by('-added_at'))
     no_activity = False
     if len(questions) == 0 and len(answers) == 0:
         no_activity = True
