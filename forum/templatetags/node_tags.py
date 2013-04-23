@@ -23,11 +23,23 @@ def vote_buttons(post, user):
 
 @register.inclusion_tag('v2/_vote_buttons.html')
 def vote_buttons_v2(post, user):
-    context = dict(post=post, user_vote='none')
+    context = dict(post=post, user_vote='none', user_favorite='none')
 
     if user.is_authenticated():
         context['user_vote'] = {1: 'up', -1: 'down', None: 'none'}[VoteAction.get_for(user, post)]
         context['user_vote_count_total'] = user.get_vote_count_total()
+        ''' TODO - the following is copied from favorite_mark function defined later in this file, which may or may not work
+            once the AJAX is hooked up to the follow button this template tag should be tested and enabled
+            we just need to return 1 if they've followed this question
+            the display logic is already present in _vote_buttons.html, so it should just start working once this template tag is completed
+        try:
+            FavoriteAction.objects.get(canceled=False, node=post, user=user)
+            favorited = 1
+        except:
+            favorited = 0
+        context['user_favorite'] = favorited
+        '''
+        context['user_favorite'] = 0
 
     return context
 

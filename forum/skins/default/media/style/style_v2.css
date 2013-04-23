@@ -177,13 +177,18 @@ header.profile-page .avatar img {
 #topsearch .checkbox {
     margin-top:8px;
 }
-.search-subtext a {
-    font-size:11px;
-    color:#777;
+.search-subtext {
+    font-size:14px;
     text-decoration:underline;
-    display:block;
     margin-top:-10px;
     margin-bottom:20px;
+}
+.search-subtext a.label {
+    padding:4px 8px;
+    background-color:#3a87ad;
+}
+.search-subtext a.label:hover {
+    background-color: #2d6987;
 }
 .question-stats {
     clear:both;
@@ -286,6 +291,7 @@ header.profile-page .avatar img {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
+    padding-left:10px;
 }
 #flag-question-form textarea {
     margin-top:-4px; 
@@ -293,6 +299,9 @@ header.profile-page .avatar img {
     -webkit-box-sizing: border-box; 
     -moz-box-sizing: border-box; 
     box-sizing: border-box;
+}
+#flag-question-form h5.confirmation {
+    margin-top:32px;
 }
 
 
@@ -703,6 +712,13 @@ ul.user-type-selection li.user-type.active a,
 ul.user-type-selection li.user-type.active a:hover {
     background-color:#ffffe0;
     border:1px solid #cc6;
+}
+.signin-tab-pane {
+    width:520px; 
+    background-color:#ffffe0; 
+    margin-top:20px; 
+    padding:20px 0; 
+    border: 1px solid #cc6;
 }
 
 

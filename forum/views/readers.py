@@ -124,6 +124,7 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
                                      page_title=mark_safe(_('Questions Tagged With %(tag)s') % {'tag': tag}),
                                      feed_url=reverse('latest_questions_feed'),
                                      paginator_context=paginator_context,
+                                     tag=tag,
                                      v2=True)
         else:
             return get_question_search_results(request, keywords=keywords, v2=True, tag=tag)
@@ -144,11 +145,11 @@ def homepage_educator(request, keywords, tag):
     return search_results_base(request, request.user.is_educator(), keywords, tag=tag)
 
 @decorators.render('v2/homepage_loggedout.html')
-def homepage_loggedout(request, keywords, tag):
+def homepage_loggedout(request, keywords=None, tag=None):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse(homepage))
     else:
-        return search_results_base(request, True, keywords, loggedout=True)
+        return search_results_base(request, True, keywords, loggedout=True, tag=tag)
 
 def homepage(request, keywords=None):
     if request.user.is_authenticated():
@@ -167,7 +168,9 @@ def tag_v2(request, tag):
 
 
 def homepage_questions(request, keywords, tag=None):
-    if request.user.is_student():
+    if request.user.is_anonymous():
+        return homepage_loggedout(request, keywords, tag)
+    elif request.user.is_student():
         return homepage_student(request, keywords, tag)
     elif request.user.is_professional():
         return homepage_professional(request, keywords, tag)
@@ -243,6 +246,7 @@ def question_list(request, initial,
                   allowIgnoreTags=True,
                   feed_url=None,
                   paginator_context=None,
+                  tag=None,
                   v2=False):
 
     questions = initial.filter_state(deleted=False)
@@ -275,6 +279,7 @@ def question_list(request, initial,
         "questions" : questions.distinct(),
         "questions_count" : questions.count(),
         "keywords" : keywords,
+        "tag" : tag,
         "list_description": list_description,
         "base_path" : base_path,
         "page_title" : page_title,

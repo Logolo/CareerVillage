@@ -84,6 +84,23 @@
     </div><div class="span7 center">
 
         <!-- Question description section -->
+        {% if user.is_staff or user == question.user %}
+        <span class="pull-right" style="margin-top:10px">
+            <a href="{% url edit_question question.pk %}" class="btn">Edit</a>
+            {% if question.nis.deleted %}
+                <a href="#" class="has-popover btn btn-danger"
+                    data-placement="bottom"
+                    data-html="true"
+                    data-content="<p>Are you 100% sure?</p>
+                                  <div class='text-center'><button class='btn' data-dismiss='popover'>Cancel</button>
+                                  <a href='{% url delete_post question.pk %}' class='btn btn-inverse'>Yes, I'm sure</a></div>"
+                    >Delete</a>
+            {% else %}
+                <a href="{% url delete_post question.pk %}" class="btn btn-success">Undelete</a>
+            {% endif %}
+        </span>
+        {% endif %}
+
         <h1 class="text-medium question-title">
             {{ question.headline }}
             {% if user.is_staff or user == question.user %}
@@ -98,7 +115,7 @@
         <div class="tags">
             <h6 class="text-light">Question Topics</h6>
             {% for tag in question.tagname_list %}
-                <a href="{% url tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
+                <a href="{% url home_tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
             {% endfor %}
         </div>
         <p style="font-size:11px"><a class="flag-for-review" href="#">flag this question for review</a></p>
@@ -143,4 +160,5 @@
         <button class="submit pull-right btn btn-inverse" style="padding-left:32px; padding-right:32px">Submit</button>
         <a class="flag-for-review pull-right btn btn-default" style="margin-right:8px">Cancel</a>
     </form>
+    <h5 class="confirmation" style="display:none"><div class="offset2 span9 ">Thanks for your help keeping CareerVillage safe!</div></h5>
 </div>
