@@ -86,6 +86,11 @@
                         <button type="submit" class="btn btn-large">{% trans 'Login' %}</button>
                     </div>
                 </div>
+                Facebook login START
+                {% for name in social_auth.backends.oauth2 %}
+                    <li><a rel="nofollow" href="{% url "socialauth_begin" name %}">{{ name|title }}</a></li>
+                {% endfor %}
+                Facebook login END
             </form>
             
         </div><!--/#signup-signin-student -->
