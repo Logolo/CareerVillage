@@ -14,6 +14,10 @@
  * set container class to "container-fluid" and rows to "row-fluid" 
  ***/
 
+.hidden {
+    display: none;
+}
+
 #main-nav > .navbar-inner > div {
      max-width:1200px;
      margin: 0 auto;
@@ -275,8 +279,13 @@ header.profile-page .avatar img {
     font-size:11px;
 }
 
+#question .follow-question-button.on:hover {
+    cursor: pointer;
+}
+
 #editform input,
 #editform textarea,
+
 #askform input,
 #askform textarea {
     width:100%;

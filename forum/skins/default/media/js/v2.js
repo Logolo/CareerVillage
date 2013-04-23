@@ -139,6 +139,7 @@ $(".like-question-button").click(function(e){
         }
 
         // show/hide the follow button if exists in this context
+        /*
         if ($follow.length) {
             if (liking) {
                 $follow.animate({'opacity': 1});
@@ -146,6 +147,7 @@ $(".like-question-button").click(function(e){
                 $follow.animate({'opacity': 0});
             }            
         }
+        */
 
     });
 });
@@ -167,14 +169,13 @@ $(".follow-question-button").click(function(e){
     console.log(following);
 
     // follow ajax request
-    // TODO: connect this to the backend
-    // $.getJSON($this.attr('href'), function(data, e) {
+    $.getJSON($this.attr('href'), function(data, e) {
 
         // re-enable the button
-        $this.removeClass('loading');
+        $this.removeClass('disabled');
 
         // respond to error
-        /* TODO uncomment when AJAX works
+        // TODO: error handling when connected to backend
         if (!data.success && data['error_message'] != undefined) {
             $widget.popover({
               'placement': 'right',
@@ -184,25 +185,33 @@ $(".follow-question-button").click(function(e){
               'content': data.error_message
             }).popover('show');
             return;
-        } 
-        */
-
-        // update button text and follow status
-        if (following) {
-            $follow.addClass('on');
-            $followButtons.addClass('disabled');
-            $followButtons.find('.text').text('following');
-            $followButtons.find('.icon-star').hide();
-        } else {
-            $follow.removeClass('on');
-            $followButtons.removeClass('disabled');
-            $followButtons.find('.text').text(' follow');
-            $followButtons.find('.icon-star').show();
         }
 
-    // TODO: uncomment when AJAX works
-    // });
+        // update button text
+        if (following) {
+            $this.find('.text').text('following');
+            $this.addClass('disabled').addClass('on');
+            $this.find('.icon-star').addClass('hidden');
+        } else {
+            $this.find('.text').text(' follow');
+            $this.removeClass('disabled').removeClass('on');
+            $this.find('.icon-star').removeClass('hidden');
+        }
+
+    });
+
+    return false;
   
+}).hover(function(){
+    var $this = $(this);
+    if ($this.hasClass('on')) {
+        $this.find('.text').text('unfollow');
+    }
+}, function(){
+    var $this = $(this);
+    if ($this.hasClass('on')) {
+        $(this).find('.text').text('following');
+    }
 });
 
 

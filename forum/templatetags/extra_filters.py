@@ -2,8 +2,17 @@ from django import template
 from django.utils.safestring import mark_safe
 import logging
 import markdown
+from forum.models import Node
 
 register = template.Library()
+
+@register.filter
+def follows(user, question):
+    if user.is_authenticated():
+        return any([question.id == q.id for q in user.subscriptions.all()])
+    else:
+        return False
+
 
 @template.defaultfilters.stringfilter
 @register.filter
