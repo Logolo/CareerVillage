@@ -329,6 +329,46 @@ def user_profile(request, user):
     "total_awards" : len(awards),
     })
     
+@user_view('v2/profile_base.html', 'stats', _('overview'), _('user overview'))
+def user_profile_v2(request, user):
+    # user = User.objects.get(id=id)
+    questions = Question.objects.filter_state(deleted=False).filter(author=user).order_by('-added_at')
+    answers = Question.objects.filter_state(deleted=False).filter(id__in=Answer.objects.filter(author=user).values_list('parent_id', flat=True).order_by('-added_at'))
+    no_activity = False
+    if len(questions) == 0 and len(answers) == 0:
+        no_activity = True
+    print no_activity
+
+    up_votes = user.vote_up_count
+    down_votes = user.vote_down_count
+    votes_today = user.get_vote_count_today()
+    votes_total = int(settings.MAX_VOTES_PER_DAY)
+
+    user_tags = Tag.objects.filter(Q(nodes__author=user) | Q(nodes__children__author=user)) \
+        .annotate(user_tag_usage_count=Count('name')).order_by('-user_tag_usage_count')
+
+    followed_tags = MarkedTag.objects.filter(user=user)
+
+    awards = [(Badge.objects.get(id=b['id']), b['count']) for b in
+              Badge.objects.filter(awards__user=user).values('id').annotate(count=Count('cls')).order_by('-count')]
+    return pagination.paginated(request, (
+    ('questions', QuestionListPaginatorContext('USER_QUESTION_LIST', _('questions'), 15)),
+    ('answers', QuestionListPaginatorContext('USER_ANSWER_LIST', _('answers'), 15))), {
+    "view_user" : user,
+    "questions" : questions,
+    "answers" : answers,
+    "no_activity" : no_activity,
+    "up_votes" : up_votes,
+    "down_votes" : down_votes,
+    "total_votes": up_votes + down_votes,
+    "votes_today_left": votes_total-votes_today,
+    "votes_total_per_day": votes_total,
+    "user_tags" : user_tags[:50],
+    "followed_tags" : followed_tags,
+    "awards": awards,
+    "total_awards" : len(awards),
+    })
+
 @user_view('users/recent.html', 'recent', _('recent activity'), _('recent user activity'))
 def user_recent(request, user):
     activities = user.actions.exclude(
