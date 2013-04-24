@@ -1,20 +1,21 @@
 import datetime
-from forum import settings
+import logging
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import simplejson
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render_to_response
 from django.utils.translation import ungettext, ugettext as _
-from django.template import RequestContext
-from forum.models import *
-from forum.models.node import NodeMetaClass
-from forum.actions import *
 from django.core.urlresolvers import reverse
+import facebook
+
+from forum import settings
+from forum.models import *
+from forum.actions import *
 from forum.utils.decorators import ajax_method, ajax_login_required
 from decorators import command, CommandException, RefreshPageCommand
 from forum.modules import decorate
-from forum import settings
-import logging
+
 
 class NotEnoughRepPointsException(CommandException):
     def __init__(self, action):
@@ -56,6 +57,18 @@ class CannotDoubleActionException(CommandException):
                         ) % {'action': action, 'faq_url': reverse('faq')}
                 )
 
+@ajax_login_required
+def publish_like(request, id):
+    if request.method == 'POST':
+        user = request.user
+        question = get_object_or_404(Question, pk=id)
+        publish = request.POST['publish'] == 'true'
+        user.prop.likes = publish
+        user.save()
+        if publish:
+            graph = facebook.GraphAPI(user)
+    else:
+        return HttpResponseRedirect(reverse('homepage'))
 
 @decorate.withfn(command)
 def vote_post(request, id, vote_type):

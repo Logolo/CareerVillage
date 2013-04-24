@@ -1,5 +1,8 @@
 from django.utils.translation import ugettext as _
 from django.db.models import F
+from django.core.signals import Signal
+from django.db.models.signals import post_save
+
 from forum.models.action import ActionProxy, DummyActionProxy
 from forum.models import Vote, Flag, Referral
 from forum import settings
@@ -231,3 +234,12 @@ class QuestionViewAction(DummyActionProxy):
     def process_action(self):
         self.node.extra_count = F('extra_count') + 1
         self.node.save()
+
+
+# Signals
+def publish_like(sender, instance, created, **kwargs):
+    user = instance.user
+    if created and user.access_token:
+        pass
+
+post_save.connect(publish_like, sender=VoteUpAction)
