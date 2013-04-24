@@ -730,6 +730,23 @@ ul.user-type-selection li.user-type.active a:hover {
     border: 1px solid #cc6;
 }
 
+.social-signin {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.social-signin ul.social-providers {
+    margin: 0 auto;
+    padding: 0;
+}
+
+.social-signin ul.social-providers li {
+    list-style: none;
+    display: block;
+    margin: 10px 0;
+}
+
 
 /**
  * STUDENT SIGNUP
