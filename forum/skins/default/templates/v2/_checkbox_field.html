@@ -1,0 +1,15 @@
+<div class="control-group{% if field.errors %} error{% endif %}">
+    <div class="controls">
+        <label class="checkbox inline" for="id_{{ field.html_name }}">
+            {% if label %}
+                {{ label }}
+            {% else %}
+                {{ field.label }}
+            {% endif %}
+            {{ field }}
+        </label>
+        {% for error in field.errors %}
+            <span class="help-block">{{ error }}</span>
+        {% endfor %}
+    </div>
+</div>

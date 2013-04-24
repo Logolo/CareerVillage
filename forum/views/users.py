@@ -3,6 +3,7 @@ from django.db.models import Q, Count
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -527,14 +528,33 @@ def settings_following_topics(request):
         I work on getting the pages hooked up.'''
         return HttpResponseRedirect(reverse('homepage'))
 
+@login_required
 def settings_social_networks(request):
-    if request.user.is_authenticated():
+    user = request.user
+    if request.method == 'POST':
+        form = SocialSettingsForm(request.POST)
+        if form.is_valid():
+            user.prop.likes = form.cleaned_data['likes']
+            user.prop.new_question = form.cleaned_data['new_question']
+            user.prop.new_answer = form.cleaned_data['new_answer']
+            user.prop.new_badge_or_points = form.cleaned_data['new_badge_or_points']
+            user.prop.new_answers_notification = form.cleaned_data['new_answers_notification']
+            user.prop.new_badge_notification = form.cleaned_data['new_badge_notification']
+            user.save()
+
         return render_to_response('v2/settings_social_networks.html', {
-            'user': request.user,
+            'form': form,
             }, context_instance=RequestContext(request))
-    else: 
-        '''This user is logged out. We should redirect them to 
-        login first, and then have them come to this page. 
-        Temporarily, I'll redurect them to the homepage while 
-        I work on getting the pages hooked up.'''
-        return HttpResponseRedirect(reverse('homepage'))
+        # return HttpResponseRedirect(reverse('settings_social_networks'))
+    else:
+        form = SocialSettingsForm(initial={
+            'likes': user.prop.likes,
+            'new_question': user.prop.new_question,
+            'new_answer': user.prop.new_answer,
+            'new_badge_or_points': user.prop.new_badge_or_points,
+            'new_answers_notification': user.prop.new_answers_notification,
+            'new_badge_notification': user.prop.new_badge_notification,
+        })
+        return render_to_response('v2/settings_social_networks.html', {
+            'form': form,
+            }, context_instance=RequestContext(request))

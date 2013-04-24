@@ -545,7 +545,7 @@ class User(BaseModel, DjangoUser):
 
 class UserProperty(BaseModel):
     user = models.ForeignKey(User, related_name='properties')
-    key = models.CharField(max_length=16)
+    key = models.CharField(max_length=25)
     value = PickledObjectField()
 
     class Meta:
