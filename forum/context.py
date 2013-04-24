@@ -1,4 +1,4 @@
-from forum import settings
+from django.conf import settings
 
 def application_settings(context):
     return {'settings': settings}

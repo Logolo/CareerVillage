@@ -108,7 +108,7 @@ $(".like-question-button").click(function(e){
         }
 
         // for first time likers, suggest they share on facebook
-        if (liking && like_count == 0 || true) {
+        if (liking && like_count == 0) {
 
             var shareBtn = $('<button>').addClass('btn-success btn').text('Yes, share on Facebook'),
               dontShareBtn = $('<button>').addClass('btn btn-mini').css('margin-top', '4px').text('No thanks'),
@@ -119,10 +119,18 @@ $(".like-question-button").click(function(e){
               .append(dontShareBtn);
 
             shareBtn.click(function(){
-                $.post('/');
+                $.post($this.data('publish-url'), {
+                    'publish': 'true'
+                }, function(){
+
+                });
             });
             dontShareBtn.click(function(){
-
+                $.post($this.data('publish-url'), {
+                    'publish': 'false'
+                }, function(){
+                    $widget.popover('hide');
+                });
             });
 
 

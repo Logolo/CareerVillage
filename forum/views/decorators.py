@@ -58,7 +58,7 @@ def command(func, request, *args, **kwargs):
         response['success'] = True
     except Exception, e:
         import traceback
-        #traceback.print_exc()
+        # traceback.print_exc()
 
         if isinstance(e, CommandException):
             response = {

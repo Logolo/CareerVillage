@@ -22,6 +22,7 @@ def create_user(request, *args, **kwargs):
 
     user.user_type = request.session['user_type']
     user.facebook_access_token = access_token
+    user.facebook_uid = kwargs['uid']
     user_details = kwargs.get('details', {})
     user.email = user_details.get('email')
     user.first_name = user_details.get('first_name', '')
