@@ -182,14 +182,13 @@ header.profile-page .avatar img {
     margin-top:8px;
 }
 .search-subtext {
-    font-size:14px;
-    text-decoration:underline;
-    margin-top:-10px;
-    margin-bottom:20px;
+    float:right;
+    margin-top:8px;
 }
 .search-subtext a.label {
     padding:4px 8px;
-    background-color:#3a87ad;
+    font-size: 14px;
+    font-weight: normal;
 }
 .search-subtext a.label:hover {
     background-color: #2d6987;

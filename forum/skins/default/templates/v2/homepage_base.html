@@ -63,7 +63,6 @@
             {% endcomment %}
         </form>
 
-        {% block skipsearch %}{% endblock %}
 
         <ul class="nav nav-tabs">
             <li{% if not relevant and not keywords %} class="active"{% endif %}><a href="/home">Latest questions</a></li>
@@ -73,6 +72,7 @@
             {% elif tag %}
                 <li class="active"><a href="/home">{{ tag }}</a></li>
             {% endif %}
+        {% block askquestion %}{% endblock %}
         </ul>
 
         <!-- search results header -->
