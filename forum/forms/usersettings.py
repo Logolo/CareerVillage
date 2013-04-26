@@ -6,10 +6,22 @@ from django.utils.safestring import mark_safe
 from django import forms
 import logging
 
+
 class SettingsAccountForm(forms.Form):
     username = UserNameField()
     realname = forms.CharField(label=_('Real name'), required=True, max_length=255, widget=forms.TextInput(attrs={'size' : 35, 'placeholder' : 'Placeholder for user\'s name'}))
     email = UserEmailField()
+
+
+class SocialSettingsForm(forms.Form):
+
+    likes = forms.BooleanField(initial=False, required=False)
+    new_question = forms.BooleanField(initial=False, required=False)
+    new_answer = forms.BooleanField(initial=False, required=False)
+    new_badge_or_points = forms.BooleanField(initial=False, required=False)
+
+    new_answers_notification = forms.BooleanField(initial=False, required=False)
+    new_badge_notification = forms.BooleanField(initial=False, required=False)
 
 # class SettingsPasswordForm(forms.Form):
 #     currentpassword = forms.P

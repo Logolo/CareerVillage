@@ -7,6 +7,11 @@
 {% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
 
 {% block head %}
+    <meta property="fb:app_id" content="{{ settings.FACEBOOK_APP_ID }}" />
+    <meta property="og:type"   content="{{ settings.FACEBOOK_APP_NAMESPACE }}:question" />
+    <meta property="og:url"    content="{{ settings.APP_URL }}{% url question id=question.id slug=question.title|slugify %}" />
+    <meta property="og:title"  content="{{ question.title }}" />
+    <meta property="og:image"  content="https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png" />
 {% endblock %}
 
 {% block content %}

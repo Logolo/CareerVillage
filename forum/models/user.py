@@ -1,9 +1,8 @@
 from base import *
 from utils import PickledObjectField
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User as DjangoUser, AnonymousUser as DjangoAnonymousUser
-from django.db.models import Q
+
 try:
     from hashlib import md5
 except:
@@ -130,6 +129,9 @@ class User(BaseModel, DjangoUser):
     industry = models.CharField(max_length=200, blank=True)
     linkedin_photo_url = models.URLField(blank=True)
 
+    facebook_access_token = models.CharField(max_length=250)
+    facebook_uid = models.CharField(max_length=100, blank=True, default='')
+
     subscriptions = models.ManyToManyField('Node', related_name='subscribers', through='QuestionSubscription')
 
     vote_up_count = DenormalizedField("actions", canceled=False, action_type="voteup")
@@ -173,6 +175,10 @@ class User(BaseModel, DjangoUser):
     @user_type.setter
     def user_type(self, _user_type):
         self.prop.user_type = _user_type
+
+    @property
+    def can_publish_likes(self):
+        return self.facebook_access_token and self.prop.likes
 
     @property
     def grade(self):
@@ -545,7 +551,7 @@ class User(BaseModel, DjangoUser):
 
 class UserProperty(BaseModel):
     user = models.ForeignKey(User, related_name='properties')
-    key = models.CharField(max_length=16)
+    key = models.CharField(max_length=25)
     value = PickledObjectField()
 
     class Meta:

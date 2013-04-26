@@ -59,21 +59,21 @@ $(".has-popover").popover();
 
 $(".like-question-button").click(function(e){
     e.preventDefault();
-    $this = $(this);
+    var $this = $(this);
 
     // prevent multiple submissions
     if ($this.hasClass('loading')) return; 
     $this.addClass('loading');
 
-    $widget = $(this).closest('.like-widget');
-    $follow = $widget.find('.follow-question');
+    var $widget = $(this).closest('.like-widget'),
+        $follow = $widget.find('.follow-question');
 
     // are we liking or unliking
     var liking = ($widget.hasClass('on'))? false : true;
     var $likes = $widget.find('h3');
     
     // number of times this user has liked a question/answer before
-    like_count = $widget.data('like-count');
+    var like_count = $widget.data('like-count');
     
     // like ajax request
     $.getJSON($this.attr('href'), function(data, e) {
@@ -109,18 +109,38 @@ $(".like-question-button").click(function(e){
 
         // for first time likers, suggest they share on facebook
         if (liking && like_count == 0) {
-          
-          message =  "We can automatically share your likes on Facebook so your friends benefit too. How about it?</p> \
-                      <button class='btn-success btn'>Yes, share on Facebook</button><br /> \
-                      <button style='margin-top:4px' class='btn btn-mini' data-dismiss='popover'>No thanks</button><br /> \
-                      ";
-          $widget.popover({
-            'placement': 'right',
-            'trigger': 'manual',
-            'title': '<h5 style="margin:0">Thanks for liking this question!</h5>',
-            'html': true,
-            'content': message
-          }).popover('show');          
+
+            var shareBtn = $('<button>').addClass('btn-success btn').text('Yes, share on Facebook'),
+              dontShareBtn = $('<button>').addClass('btn btn-mini').css('margin-top', '4px').text('No thanks'),
+              message =  $('<p>')
+              .text("We can automatically share your likes on Facebook so your friends benefit too. How about it?")
+              .append(shareBtn)
+              .append($('<br>'))
+              .append(dontShareBtn);
+
+            shareBtn.click(function(){
+                $.post($this.data('publish-url'), {
+                    'publish': 'true'
+                }, function(){
+
+                });
+            });
+            dontShareBtn.click(function(){
+                $.post($this.data('publish-url'), {
+                    'publish': 'false'
+                }, function(){
+                    $widget.popover('hide');
+                });
+            });
+
+
+            $widget.popover({
+                'placement': 'right',
+                'trigger': 'manual',
+                'title': '<h5 style="margin:0">Thanks for liking this question!</h5>',
+                'html': true,
+                'content': message
+            }).popover('show');
 
         }
         
