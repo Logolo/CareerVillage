@@ -9,11 +9,11 @@
             <p>Karma</p>
         </div>
         <div class="box span4">
-            <h3>{{ request.user.get_answer_count_total }}</h3>
+            <h3>{{ user.get_answer_count_total }}</h3>
             <p>Answers</p>
         </div>
         <div class="box span4">
-            <h3>{# TODO user.referrals? #}73</h3>
+            <h3>{{ user.referral_count }}</h3>
             <p>Referrals</p>
         </div>
     </div>
