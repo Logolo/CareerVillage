@@ -57,7 +57,9 @@
                 <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">Topics</label>
                 <input id="type-user" type="radio" value="user" name="t" /><label for="type-user">Users</label>
             </span>
+            {% comment %}{# The unanswered only flag isn't working yet. Issue #265 #}
             {% block unanswered_only %}{% endblock %}
+            {% endcomment %}
         </form>
 
         {% block skipsearch %}{% endblock %}
