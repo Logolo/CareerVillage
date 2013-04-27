@@ -71,9 +71,12 @@
         </ul>
 
         <!-- search results header -->
+
+{% comment %}
         {% if keywords %}
             <h3 class="section-header">Questions related to {{ keywords }}</h3>
         {% endif %}
+{% endcomment %}
 
         <!-- search results -->
         <div class="items">

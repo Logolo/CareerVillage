@@ -111,13 +111,22 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
 
         if keywords is None:
             if tag is None:
-                return question_list(request,
-                                     Question.objects.all(),
-                                     base_path=reverse('homepage'),
-                                     feed_url=reverse('latest_questions_feed'),
-                                     paginator_context=paginator_context,
-                                     v2=True,
-                                     relevant=relevant)
+                if not relevant:
+                    return question_list(request,
+                                         Question.objects.all(),
+                                         base_path=reverse('homepage'),
+                                         feed_url=reverse('latest_questions_feed'),
+                                         paginator_context=paginator_context,
+                                         v2=True,
+                                         relevant=relevant)
+                else:
+                    return question_list(request,
+                                         Question.objects.filter(tags__in=request.user.tag_selections.filter(reason='good').values_list('tag_id', flat=True)),
+                                         base_path=reverse('homepage'),
+                                         feed_url=reverse('latest_questions_feed'),
+                                         paginator_context=paginator_context,
+                                         v2=True,
+                                         relevant=relevant)
             else:
                 return question_list(request,
                                      Question.objects.filter(tags=tag),
