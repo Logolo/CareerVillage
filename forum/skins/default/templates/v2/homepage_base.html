@@ -76,9 +76,12 @@
         </ul>
 
         <!-- search results header -->
+
+{% comment %}
         {% if keywords %}
             <h3 class="section-header">Questions related to {{ keywords }}</h3>
         {% endif %}
+{% endcomment %}
 
         <!-- search results -->
         <div class="items">
@@ -86,7 +89,9 @@
                 {% question_list_item question %}
             {% endfor %}
         </div>
-        <div class="pagesize">{{ questions.paginator.page_sizes }}</div>
+        {% if questions %}
+            <div class="pagesize">{{ questions.paginator.page_sizes }}</div>
+        {% endif %}
         <div class="pagination pagination-centered">{{ questions.paginator.page_numbers }}</div>
 
         <!-- message below search results + not found -->

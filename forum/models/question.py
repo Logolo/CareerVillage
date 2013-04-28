@@ -23,7 +23,7 @@ class Question(Node):
     def closed(self):
         return self.nis.closed
 
-    @property    
+    @property
     def view_count(self):
         return self.extra_count
 
@@ -41,7 +41,7 @@ class Question(Node):
     def accepted_answers(self):
         return self.answers.filter(~models.Q(state_string__contains="(deleted)"), marked=True)
 
-    @models.permalink    
+    @models.permalink
     def get_absolute_url(self):
         return ('question', (), {'id': self.id, 'slug': django_urlquote(slugify(self.title))})
         

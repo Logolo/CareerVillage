@@ -111,13 +111,22 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
 
         if keywords is None:
             if tag is None:
-                return question_list(request,
-                                     Question.objects.all(),
-                                     base_path=reverse('homepage'),
-                                     feed_url=reverse('latest_questions_feed'),
-                                     paginator_context=paginator_context,
-                                     v2=True,
-                                     relevant=relevant)
+                if not relevant:
+                    return question_list(request,
+                                         Question.objects.all(),
+                                         base_path=reverse('homepage'),
+                                         feed_url=reverse('latest_questions_feed'),
+                                         paginator_context=paginator_context,
+                                         v2=True,
+                                         relevant=relevant)
+                else:
+                    return question_list(request,
+                                         Question.objects.filter(tags__in=request.user.tag_selections.filter(reason='good').values_list('tag_id', flat=True)),
+                                         base_path=reverse('homepage'),
+                                         feed_url=reverse('latest_questions_feed'),
+                                         paginator_context=paginator_context,
+                                         v2=True,
+                                         relevant=relevant)
             else:
                 return question_list(request,
                                      Question.objects.filter(tags=tag),
@@ -297,7 +306,8 @@ def question_list(request, initial,
         "page_title" : page_title,
         "tab" : "questions",
         'feed_url': feed_url,
-        'relevant': relevant
+        'relevant': relevant,
+        'user_tags_count': request.user.tag_selections.count()
         }
     if v2:
         return pagination_v2.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), tpl_context)
