@@ -307,7 +307,7 @@ def question_list(request, initial,
         "tab" : "questions",
         'feed_url': feed_url,
         'relevant': relevant,
-        'user_tags_count': request.user.tag_selections.count()
+        'user_tags_count': request.user.tag_selections.count() if request.user.is_authenticated() else 0
         }
     if v2:
         return pagination_v2.paginated(request, ('questions', paginator_context or QuestionListPaginatorContext()), tpl_context)
