@@ -10,7 +10,6 @@
 {% block content %}
 <div id="block-content" class="row-fluid">
 
-    {% if user.is_authenticated %}
     <!-- left column -->
     <div class="col-left col-sidebar span3">
 
@@ -21,7 +20,7 @@
                 {% avatar user 128 %}
             </a>
             <div class="media-body">
-                <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
+                <h5><a href="{{ user.get_profile_url }}">{{ user.real_name|default:"You" }}</a></h5>
                 <p>
                     <span>{{ user.headline }}</span><br />
                     <span class="text-light">{{ user.location }}</span><br />
@@ -38,11 +37,10 @@
         {% block sidebar %}{% endblock %}
 
     </div><!--/.col-left -->
-    {% endif %}
 
 
     <!-- right column -->
-    <div class="col-right col-main list-questions {% if user.is_authenticated %}span9{% else %}span12{% endif %}">
+    <div class="col-right col-main list-questions span9">
 
         <!-- search form -->
         <h2>{% block search_prompt %}{% endblock %}</h2>
