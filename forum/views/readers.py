@@ -165,10 +165,7 @@ def homepage_loggedout(request, keywords=None, tag=None):
 
 
 def homepage(request, keywords=None):
-    if request.user.is_authenticated():
-        return homepage_questions(request, keywords)
-    else:
-        return HttpResponseRedirect(reverse(splash))
+    return homepage_questions(request, keywords)
 
 
 def relevant(request, keywords=None):
@@ -189,7 +186,7 @@ def tag_v2(request, tag):
 
 def homepage_questions(request, keywords, tag=None, relevant=False):
     if request.user.is_anonymous():
-        return homepage_loggedout(request, keywords, tag, relevant)
+        return homepage_loggedout(request, keywords, tag)
     elif request.user.is_student():
         return homepage_student(request, keywords, tag, relevant)
     elif request.user.is_professional():

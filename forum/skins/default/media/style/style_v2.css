@@ -746,6 +746,12 @@ ul.user-type-selection li.user-type.active a:hover {
     margin: 10px 0;
 }
 
+.signup-cta .btn {
+    display: block;
+    width: 120px;
+    margin: 20px auto 0 auto;
+}
+
 
 /**
  * STUDENT SIGNUP
