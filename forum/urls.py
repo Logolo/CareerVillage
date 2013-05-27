@@ -189,4 +189,3 @@ def urlname(name):
     return name
 
 urlpatterns += patterns('', *core_defined)
-
