@@ -281,7 +281,7 @@ class User(BaseModel, DjangoUser):
 
     @models.permalink
     def get_profile_url(self):
-        return ('user_profile', (), {'id': self.id, 'slug': slugify(self.username)})
+        return ('user_profile_v2', (), {'id': self.id})
 
     def get_absolute_url(self):
         return self.get_profile_url()
