@@ -75,13 +75,13 @@
 
 <div id="question" class="row-fluid">
         
-    <div class="span2 left">
+    <div class="span1 left">
 
         <!-- Like section -->
         {% vote_buttons_v2 question request.user %}
         <!--/.like-section -->
         
-    </div><div class="span7 center">
+    </div><div class="span8 center">
 
         <!-- Question description section -->
         {% if user.is_staff or user == question.user %}
@@ -101,7 +101,7 @@
         </span>
         {% endif %}
 
-        <h1 class="text-medium question-title">
+        <h1 class="text-primary question-title">
             {{ question.headline }}
         </h1>
 
@@ -114,7 +114,7 @@
         </div>
         <p style="font-size:11px"><a class="flag-for-review" href="#">flag this question for review</a></p>
 
-    </div><div class="span3 right">
+    </div><div class="span2 right">
 
         <!-- profile picture and summary info -->
         <div class="media profile">
