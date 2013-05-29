@@ -2,6 +2,7 @@
 {% load question_list_tags %}
 {% load extra_tags %}
 
+{% block title %}{{ view_user.real_name }}'s profile{% endblock %}
 {% block head %}
 	{# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
 {% endblock %}
@@ -17,9 +18,10 @@
         <div class="media-body">
             <h1>{{ view_user.real_name }}</h1>
             <h2 class="text-medium">
+                {% if view_user.is_student %}Student<br />{% endif %}
                 {{ view_user.headline }}<br />
-                {{ view_user.location }} &bull;
-                {{ view_user.industry }}
+                {{ view_user.location }} {% if view_user.industry %}&bull;
+                {{ view_user.industry }} {% endif %}
             </h2>
         </div>
     </div>
