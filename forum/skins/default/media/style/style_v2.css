@@ -166,6 +166,15 @@ header.profile-page .avatar img {
     margin:0;
     padding:0;
 }
+.profile-stats .stats-border {
+    padding-top:5px;
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+.profile-stats .stats-border-last {
+    padding-top:5px;
+    border-top: 1px solid #ddd;
+}
 
 
 /************

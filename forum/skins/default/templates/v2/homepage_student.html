@@ -4,13 +4,13 @@
 {% block user_stats %}
 <div class="profile-stats">
     <div class="row-fluid">    
-        <div class="box span6">
+        <div class="box span6 stats-border">
             <h3>{{ user.reputation }}</h3>
-            <p>Karma</p>
+            <p class="text-light">Karma</p>
         </div>
-        <div class="box span6">
+        <div class="box span6 stats-border-last">
             <h3>{{ request.user.get_question_count_total }}</h3>
-            <p>Questions</p>
+            <p class="text-light">Questions</p>
         </div>
     </div>
 </div>
