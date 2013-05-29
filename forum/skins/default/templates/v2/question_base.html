@@ -2,6 +2,7 @@
 {% load node_tags %}
 {% load extra_tags %}
 {% load extra_filters %}
+{% load humanize %}
 {% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
 {% block metadescription %}{{ question.meta_description }}{% endblock %}
 {% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
@@ -50,7 +51,7 @@
     </div>
 
     <!-- Results Count -->
-    <h3 class="section-header">{{ question.answer_count }} answers:</h3>
+    <h3 class="section-header">{{ question.answer_count|apnumber|capfirst }} answers:</h3>
     {{ answers.paginator.page_numbers }}
     <hr />
 
