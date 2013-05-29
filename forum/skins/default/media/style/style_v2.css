@@ -380,6 +380,9 @@ header.profile-page .avatar img {
     display:block;
     margin-right:10px;
 }
+.answer-comments .comment-body {
+    margin-bottom: 14px;
+}
 .answer-comments .avatar img {
     float:left;
     margin:6px 8px 6px 0;
@@ -387,6 +390,26 @@ header.profile-page .avatar img {
 .answer-comments .comment-author {
     color:#555;
     font-size:11px;
+    font-weight: bold;
+    display: inline;
+}
+.answer-comments .comment-date {
+    color:#999;
+    font-size:11px;
+    float:right;
+    margin-right:40px;
+}
+.answer-comments .comment-text {
+    background-color: #f5f9f3;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 8px 8px 0 8px;
+    margin-right: 40px;
+    color:#555;
+}
+.answer-comments .comment-login {
+    margin:20px 40px 20px 20px;
+    text-align: right;
 }
 .answer-actions {
     text-align:center;
