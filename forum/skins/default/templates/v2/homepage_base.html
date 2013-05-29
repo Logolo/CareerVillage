@@ -10,6 +10,7 @@
 {% block content %}
 <div id="block-content" class="row-fluid">
 
+    {% block left-column %}
     <!-- left column -->
     <div class="col-left col-sidebar span3">
 
@@ -37,18 +38,19 @@
         {% block sidebar %}{% endblock %}
 
     </div><!--/.col-left -->
+    {% endblock %}
 
 
     <!-- right column -->
-    <div class="col-right col-main list-questions span9">
+    <div class="col-right col-main list-questions {% block right-column-style %}span9{% endblock %}">
 
         <!-- search form -->
         <h2>{% block search_prompt %}{% endblock %}</h2>
         <form  id="topsearch" action="{% url search_questions %}" method="get" class="form-search">
             <div class="input-append input-prepend" style="width:100%">
               <span class="add-on" style="height:34px; line-height:34px;"><span class="icon-search"></span></span>    
-              <input style="width:70%; height:34px; line-height:34px; font-size:18px" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" placeholder="your career topic..." type="text">
-              <input type="submit" class="btn-large btn" name="Submit" value="search" />
+              <input style="width:70%; height:34px; line-height:34px; font-size:18px" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" placeholder="Search for a career topic..." type="text">
+              <input type="submit" class="btn-large btn bold" name="Submit" value="Search" />
             </div>
             <span id="searchoptions" style="display: none;">
                 <input id="type-question" type="radio" value="question" name="t" 
@@ -62,15 +64,15 @@
         </form>
 
 
-        <ul class="nav nav-tabs">
-            <li{% if not relevant and not keywords %} class="active"{% endif %}><a href="/home">Latest questions</a></li>
+        <ul class="nav nav-tabs bold">
+            <li{% if not relevant and not keywords and not tag %} class="active"{% endif %}><a href="/home">Latest questions</a></li>
             {% if user.is_authenticated %}
                 <li{% if relevant %} class="active"{% endif %}><a href="/relevant">Relevant for you</a></li>
             {% endif %}
             {% if keywords %}
                 <li class="active"><a href="/home">Search results</a></li>
             {% elif tag %}
-                <li class="active"><a href="/home">{{ tag }}</a></li>
+                <li class="active"><a href="/home">Tagged with "{{ tag }}"</a></li>
             {% endif %}
         {% block askquestion %}{% endblock %}
         </ul>

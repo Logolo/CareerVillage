@@ -2,26 +2,11 @@
 
 {% load i18n %}
 
-{% block user_stats %}
-    <div class="profile-stats">
-        <div class="row-fluid">
-            <div class="box span6">
-                <h3>0</h3>
-                <p>Karma</p>
-            </div>
-            <div class="box span6">
-                <h3>0</h3>
-                <p>Questions</p>
-            </div>
-        </div>
-    </div>
-    <div class="signup-cta">
-        <a class="btn btn-primary" href="{% url auth_signin %}">{% trans 'Sign up!' %}</a>
-    </div>
-{% endblock %}
+{% block left-column %}
+<!-- Empty -->
+    {% endblock %}
 
 {% block search_prompt %}
-    What do you have questions about?
     {% endblock %}
 
 {% block skipsearch %}
@@ -35,6 +20,8 @@
 {% block unanswered_only %}
     {# Empty for Students #}
     {% endblock %}
+
+{% block right-column-style %}span12{% endblock %}
 
 {% block append_results %}
     {# appears just below search results #}
