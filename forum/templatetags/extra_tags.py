@@ -24,7 +24,7 @@ register = template.Library()
 GRAVATAR_TEMPLATE = ('<img class="gravatar" width="%(size)s" height="%(size)s" '
 'src="http://www.gravatar.com/avatar/%(gravatar_hash)s'
 '?s=%(size)s&amp;d=%(default)s&amp;r=%(rating)s" '
-'alt="%(username)s\'s gravatar image" />')
+'alt="My avatar image" />')
 
 @register.simple_tag
 def gravatar(user, size):
@@ -45,27 +45,26 @@ def gravatar(user, size):
 @register.simple_tag
 def avatar(user, size, css_class=''):
     img_template = '<img class="%(class)s" width="%(size)s" height="%(size)s" src="%(src)s">'
-    if user.is_authenticated():
-        if user.linkedin_photo_url:
-            avatar_tag = img_template % {
-                'src': user.linkedin_photo_url,
-                'size': size,
-                'class': css_class,
-            }
-        elif user.avatar_image:
-            avatar_tag = img_template % {
-                'src': media("/media/img/example_avatars/%s" % (user.avatar_image,)),
-                'size': size,
-                'class': css_class,
-            }
-        else:
-            avatar_tag = gravatar(user, size)
-    else:
+    if user.linkedin_photo_url:
         avatar_tag = img_template % {
-            'src': media("/media/images/nophoto.png"),
+            'src': user.linkedin_photo_url,
             'size': size,
             'class': css_class,
         }
+    elif user.avatar_image:
+        avatar_tag = img_template % {
+            'src': media("/media/img/example_avatars/%s" % (user.avatar_image,)),
+            'size': size,
+            'class': css_class,
+        }
+    else:
+        avatar_tag = gravatar(user, size)
+    # else:
+    #     avatar_tag = img_template % {
+    #         'src': media("/media/images/nophoto.png"),
+    #         'size': size,
+    #         'class': css_class,
+    #     }
 
     return avatar_tag
 
