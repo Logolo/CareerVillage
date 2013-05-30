@@ -22,7 +22,7 @@
                 <div class="answer-body">
 
                     <div class="answer-user">
-                        <a class="pull-left" href="{{ user.get_profile_url }}">
+                        <a class="pull-left" href="{{ answer.user.get_profile_url }}">
                             <span class="avatar avatar-medium">{% avatar answer.user 128 %}</span>
                         </a>
                         {% if user.is_staff or user == answer.user %}

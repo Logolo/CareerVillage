@@ -4,17 +4,17 @@
 {% block user_stats %}
 <div class="profile-stats">
     <div class="row-fluid">    
-        <div class="box span4">
+        <div class="box span4 stats-border">
             <h3>{{ user.reputation }}</h3>
-            <p>Karma</p>
+            <p class="text-light">Karma</p>
         </div>
-        <div class="box span4">
+        <div class="box span4 stats-border">
             <h3>{{ user.get_answer_count_total }}</h3>
-            <p>Answers</p>
+            <p class="text-light">Answers</p>
         </div>
-        <div class="box span4">
+        <div class="box span4 stats-border-last">
             <h3>{{ user.referral_count }}</h3>
-            <p>Referrals</p>
+            <p class="text-light">Referrals</p>
         </div>
     </div>
 </div>

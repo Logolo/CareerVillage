@@ -23,8 +23,8 @@
                     <div class="comment-login"><a class="btn" href="{% url auth_signin %}">Login to comment</a></div>
                 {% else %}
                     <div class="new-comment">
-                        <a class="comment-author-pic avatar avatar-small" href="{{ answer.user.get_profile_url }}">{% gravatar user 64 %}</a>
-                        <a class="comment-author" href="{{ answer.user.get_profile_url }}">{{ user.real_name }}</a>
+                        <a class="comment-author-pic avatar avatar-small" href="{{ user.get_profile_url }}">{% avatar user 64 %}</a>
+                        <a class="comment-author" href="{{ user.get_profile_url }}">{{ user.real_name }}</a>
 
                         <!-- new comment form -->
                         <form id="comment-{{ post.id }}-form" data-message-on-exit="Warning: your comment will be lost if you leave this page!" data-message-on-exit-field="comment"  
