@@ -72,9 +72,10 @@ required=False))
 
 GRAVATAR_DEFAULT_CHOICES = (
     ('mm', _('(mystery-man) a simple, cartoon-style silhouetted outline of a person (does not vary by email hash)')),
-    ('identicon', _('a geometric pattern based on an email hash')),
-    ('monsterid', _('a generated "monster" with different colors, faces, etc')),
-    ('wavatar', _('generated faces with differing features and backgrounds')),
+    ('identicon', _('IDENTICON - a geometric pattern based on an email hash')),
+    ('monsterid', _('MONSTERID - a generated "monster" with different colors, faces, etc')),
+    ('wavatar', _('WAVATAR - generated faces with differing features and backgrounds')),
+    ('retro', _('RETRO - awesome generated, 8-bit arcade-style pixelated faces')),
 )
 
 GRAVATAR_DEFAULT_IMAGE = Setting('GRAVATAR_DEFAULT_IMAGE', 'identicon', USERS_SET, dict(
