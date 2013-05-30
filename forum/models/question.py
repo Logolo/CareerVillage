@@ -3,6 +3,7 @@ from base import *
 from django.utils.translation import ugettext as _
 
 
+
 class QuestionManager(NodeManager):
     def search(self, keywords):
         return False, self.filter(models.Q(title__icontains=keywords) | models.Q(body__icontains=keywords) |
@@ -92,4 +93,13 @@ class QuestionSubscription(models.Model):
 class QuestionRevision(NodeRevision):
     class Meta:
         proxy = True
-        
+
+
+def publish_new_question(sender, instance, created, **kwargs):
+    from forum.actions.facebook import NewQuestion
+    user = instance.user
+    if created and user.can_publish_new_question:
+        ask_question = NewQuestion(user, instance)
+        ask_question.publish()
+
+post_save.connect(publish_new_question, sender=Question)
