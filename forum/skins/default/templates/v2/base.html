@@ -29,25 +29,26 @@
             <div class="container-fluid">
                 <a href="/home/" class="brand">(CareerVillage Logo)</a>
                 <ul class="nav pull-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}">{{ user.real_name }} <b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <li><a href="{{ user.get_profile_url }}">Your profile</a></li>
-                            <li class="divider"></li>
-                            <li><a href="{% url settings_account %}">Account</a></li>
-                            <li><a href="{% url settings_password %}">Password</a></li>
-                            <li><a href="{% url settings_notifications %}">Notifications</a></li>
-                            <li><a href="{% url settings_following_topics %}">Topics you follow</a></li>
-                            <li><a href="{% url settings_social_networks %}">Social networks</a></li>
-                        </ul>
-                    </li>
                     {% if user.user_type == "educator" %}
                         <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
                     {% endif %}
-                    <li><a href="{% url about %}">About</a></li>
                     {% if user.is_authenticated %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}">{{ user.real_name }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li><a href="{{ user.get_profile_url }}">Your profile</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url settings_account %}">Account</a></li>
+                                <li><a href="{% url settings_password %}">Password</a></li>
+                                <li><a href="{% url settings_notifications %}">Notifications</a></li>
+                                <li><a href="{% url settings_following_topics %}">Topics you follow</a></li>
+                                <li><a href="{% url settings_social_networks %}">Social networks</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url about %}">About</a></li>
                         <li><a href="{% url user_signout %}?next={{ request.get_full_path }}">Logout</a></li>
                     {% else %}
+                        <li><a href="{% url about %}">About</a></li>
                         <li><a href="{% url auth_signin %}?next={{ request.get_full_path }}">Login</a></li>
                     {% endif %}
                 </ul>
