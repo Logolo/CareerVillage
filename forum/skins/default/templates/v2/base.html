@@ -29,6 +29,9 @@
             <div class="container-fluid">
                 <a href="/home/" class="brand">(CareerVillage Logo)</a>
                 <ul class="nav pull-right">
+                    {% if user.is_superuser %}
+                        <li><a href="{% url admin_index %}">Admin</a></li>
+                    {% endif %}
                     {% if user.user_type == "educator" %}
                         <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
                     {% endif %}
