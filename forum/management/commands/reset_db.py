@@ -44,7 +44,7 @@ class Command(BaseCommand):
                         (db["NAME"], db["USER"]))
         cursor.execute(create_query)
 
-        call_command('syncdb', all=True, interactive=False)
+        call_command('syncdb', migrate_all=True, interactive=False)
         call_command('migrate', fake=True)
         #call_command('populate')
 
