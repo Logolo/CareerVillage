@@ -1,25 +1,26 @@
 {% load extra_tags %}
 {% load i18n %}
 {% load i18n %}
+{% load humanize %}
 
             <div id="comments-container-{{ post.id }}">
 
-                <h4>{{ comments|length }} Comment(s)</h4>
+                <h4>{{ comments|length|apnumber|capfirst }} comment{{ comments|length|pluralize }}</h4>
                 {% for comment in comments %}
-                    <div id="comment-{{comment.id}}">
+                    <div id="comment-{{comment.id}}" class="comment-body">
                         <a class="pull-left" href="{{ user.get_profile_url }}">
                             <span class="avatar avatar-small">{% avatar comment.user 64 %}</span>
                         </a>
                         <div class="media-body">
-                            <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
+                            <h5 class="comment-author"><a href="{{ user.get_profile_url }}">{{ comment.user.real_name }}</a></h5>
                             <span class="comment-date">{% diff_date comment.added_at %}</span>
-                            <p class="comment-text">{{comment.comment}}</p>
+                            <div class="comment-text">{{comment.comment}}</div>
                         </div>
                     </div>
                 {% endfor %}
 
                 {% if user.is_anonymous %}
-                    <div><a class="btn btn-success" href="">To like this answer or comment on it, please login now</a></div>
+                    <div class="comment-login"><a class="btn" href="{% url auth_signin %}">Login to comment</a></div>
                 {% else %}
                     <div class="new-comment">
                         <a class="comment-author-pic avatar avatar-small" href="{{ answer.user.get_profile_url }}">{% gravatar user 64 %}</a>

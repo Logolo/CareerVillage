@@ -24,17 +24,21 @@
 }
 #main-body {
     position:relative;
-    max-width:1200px; 
-    margin:80px auto 0 auto;
+    /*max-width:1200px; */
+    margin-top:70px;
 }
 #main-footer > div {
     max-width:1200px; 
     margin:0 auto;        
 }
+.left.span1 {
+    padding-top:20px;
+    width:85px;
+}
 .left.span2 {
     padding-top:20px;
 }
-.center.span7 {
+.center.span8 {
     padding:10px;
 }
 .right.span3 {
@@ -376,6 +380,9 @@ header.profile-page .avatar img {
     display:block;
     margin-right:10px;
 }
+.answer-comments .comment-body {
+    margin-bottom: 14px;
+}
 .answer-comments .avatar img {
     float:left;
     margin:6px 8px 6px 0;
@@ -383,6 +390,26 @@ header.profile-page .avatar img {
 .answer-comments .comment-author {
     color:#555;
     font-size:11px;
+    font-weight: bold;
+    display: inline;
+}
+.answer-comments .comment-date {
+    color:#999;
+    font-size:11px;
+    float:right;
+    margin-right:40px;
+}
+.answer-comments .comment-text {
+    background-color: #f5f9f3;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 8px 8px 0 8px;
+    margin-right: 40px;
+    color:#555;
+}
+.answer-comments .comment-login {
+    margin:20px 40px 20px 20px;
+    text-align: right;
 }
 .answer-actions {
     text-align:center;
@@ -569,6 +596,10 @@ h2.text-medium {
     line-height:140%; 
     font-weight:normal; 
     color:#666;  
+}
+h1.text-primary {
+    font-size:32px;
+    line-height:130%; 
 }
 h2.text-primary {
     font-size:24px;
