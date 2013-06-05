@@ -11,14 +11,14 @@ class FacebookStory(object):
 
     BASE_URL = "https://graph.facebook.com/"
 
-    def __init__(self, user, obj):
+    def __init__(self, user, object):
         self._user = user
-        self._obj = obj
+        self._object = object
 
     def get_url(self):
         pass
 
-    def get_obj_url(self):
+    def get_object_url(self):
         pass
 
     def get_data(self):
@@ -42,31 +42,34 @@ class LikeQuestion(FacebookStory):
     def get_url(self):
         return "%sme/og.likes" % (self.BASE_URL,)
 
-    def get_obj_url(self):
-        return settings.APP_URL + reverse('question', kwargs={'id': self._obj.id})
+    def get_object_url(self):
+        return settings.APP_URL + reverse('question', kwargs={'id': self._object.id})
 
     def get_data(self):
         return {
-            'object': self.get_obj_url(),
+            'object': self.get_object_url(),
         }
 
 
 class NewQuestion(FacebookStory):
 
+    def __init__(self, user, object, message=None):
+        super(NewQuestion, self).__init__(user, object)
+        self._message = message
+
     def get_url(self):
         return "%sme/%s:ask" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
 
-    def get_obj_url(self):
-        return settings.APP_URL + reverse('question', kwargs={'id': self._obj.id})
+    def get_object_url(self):
+        return settings.APP_URL + reverse('question', kwargs={'id': self._object.id})
 
     def get_data(self):
-        return {
-            #TODO: use for staging
-            'question': self.get_obj_url(),
-            #'question': 'http://samples.ogp.me/523169144391241',
-            'title': "Test Question",
-            'og:url': self.get_obj_url(),
+        data = {
+            'question': 'http://samples.ogp.me/523169144391241' if settings.DEBUG else self.get_object_url(),
         }
+        if self._message:
+            data['message'] = self._message
+        return data
 
 
 class OpenGraphError(Exception):

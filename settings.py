@@ -1,6 +1,9 @@
 # encoding:utf-8
 import os.path
 import sys
+import djcelery
+
+djcelery.setup_loader()
 
 SITE_ID = 1
 
@@ -63,6 +66,9 @@ FACEBOOK_APP_NAMESPACE = 'cv-dev-cc'
 FACEBOOK_API_SECRET = '1cfa69cc598fc6526e6d975ec0761474'
 FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'publish_actions']
 
+#http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
+BROKER_URL = 'django://'
+
 # User settings
 from settings_local import *
 
@@ -117,8 +123,13 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.markup',
     'social_auth',
+    'djcelery',
     'forum',
 ]
+
+#http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
+if DEBUG:
+    INSTALLED_APPS.append('kombu.transport.django')
 
 if DEBUG:
     try:

@@ -58,7 +58,8 @@ Run the development server
 
 Now run:
 
-    python manage.py runserver  
+    python manage.py runserver
+    python manage.py celery worker --loglevel=info --autoreload
     
 Open a browser and go to http://localhost:8000/ to see the skeleton OSQA site up and running.
 
