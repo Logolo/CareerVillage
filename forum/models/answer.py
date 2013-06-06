@@ -26,7 +26,8 @@ class AnswerRevision(NodeRevision):
 
 def notify_new_answer(sender, instance, created, **kwargs):
     from forum.tasks import answer_notification
-    if created and instance.parent.user.subscription_settings.notify_answers:
+    user = instance.parent.user
+    if created and user.subscription_settings.notify_answers and user.is_student():
         answer_notification.apply_async(countdown=10, args=(instance.id,))
 
 post_save.connect(notify_new_answer, sender=Answer)
