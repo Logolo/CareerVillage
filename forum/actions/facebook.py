@@ -8,7 +8,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 
 
-class Facebook(object):
+class Graph(object):
 
     BASE_URL = "https://graph.facebook.com/"
 
@@ -19,7 +19,11 @@ class Facebook(object):
         return value
 
 
-class FacebookStory(Facebook):
+class GraphException(Exception):
+    pass
+
+
+class Story(Graph):
 
     def __init__(self, user, object):
         self._user = user
@@ -44,10 +48,10 @@ class FacebookStory(Facebook):
             urllib2.urlopen(url, urllib.urlencode(data))
         except urllib2.HTTPError, e:
             error = json.loads(e.read())
-            raise OpenGraphError(error['error'])
+            raise GraphException(error['error'])
 
 
-class FacebookNotification(Facebook):
+class Notification(Graph):
 
     def __init__(self, user):
         self._user = user
@@ -73,10 +77,10 @@ class FacebookNotification(Facebook):
             urllib2.urlopen(self.get_url(), urllib.urlencode(self.get_data()))
         except urllib2.HTTPError, e:
             error = json.loads(e.read())
-            raise OpenGraphError(error['error'])
+            raise GraphException(error['error'])
 
 
-class LikeQuestion(FacebookStory):
+class LikeQuestionStory(Story):
 
     def get_url(self):
         return "%sme/og.likes" % (self.BASE_URL,)
@@ -90,10 +94,10 @@ class LikeQuestion(FacebookStory):
         }
 
 
-class NewQuestion(FacebookStory):
+class AskQuestionStory(Story):
 
     def __init__(self, question, message=None):
-        super(NewQuestion, self).__init__(question.user, question)
+        super(AskQuestionStory, self).__init__(question.user, question)
         self._message = message
 
     def get_url(self):
@@ -111,7 +115,7 @@ class NewQuestion(FacebookStory):
         return data
 
 
-class AnswerNotification(FacebookNotification):
+class AnswerNotification(Notification):
 
     def __init__(self, answer):
         super(AnswerNotification, self).__init__(answer.parent.author)
@@ -124,7 +128,3 @@ class AnswerNotification(FacebookNotification):
     def get_template(self):
         return _("%s just answered your question. Check it out and say thanks at %s.") % (
             self._answerer.display_name('safe'), self.get_href())
-
-
-class OpenGraphError(Exception):
-    pass

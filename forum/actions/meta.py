@@ -3,7 +3,7 @@ from django.db.models import F
 from django.core.signals import Signal
 from django.db.models.signals import post_save
 
-from forum.actions.facebook import LikeQuestion
+from forum.actions.facebook import LikeQuestionStory
 from forum.models.action import ActionProxy, DummyActionProxy
 from forum.models import Vote, Flag, Referral
 from forum import settings
@@ -241,7 +241,7 @@ class QuestionViewAction(DummyActionProxy):
 def publish_like(sender, instance, created, **kwargs):
     user = instance.user
     if created and user.can_publish_likes:
-        like = LikeQuestion(user, instance.node)
+        like = LikeQuestionStory(user, instance.node)
         like.publish()
 
 post_save.connect(publish_like, sender=VoteUpAction)
