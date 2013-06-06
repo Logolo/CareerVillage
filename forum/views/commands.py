@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from forum import settings
 from forum.models import *
 from forum.actions import *
-from forum.actions.facebook import LikeQuestion
+from forum.actions.facebook import LikeQuestionStory
 from forum.utils.decorators import ajax_method, ajax_login_required
 from decorators import command, CommandException, RefreshPageCommand
 from forum.modules import decorate
@@ -68,7 +68,7 @@ def publish_like(request, id):
         user.prop.likes = publish
         user.save()
         if publish:
-            like = LikeQuestion(user, question)
+            like = LikeQuestionStory(user, question)
             like.publish()
 
         response = {'status': 'OK'}
