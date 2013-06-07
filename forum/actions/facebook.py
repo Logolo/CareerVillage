@@ -45,7 +45,7 @@ class Story(Graph):
             'access_token': self._user.facebook_access_token
         })
         try:
-            urllib2.urlopen(url, urllib.urlencode(data))
+            urllib2.urlopen(url, urllib.urlencode(data), timeout=30)
         except urllib2.HTTPError, e:
             error = json.loads(e.read())
             raise GraphException(error['error'])

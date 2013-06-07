@@ -45,8 +45,7 @@ def or_preview(setting, request):
         previewing = request.session.get('previewing_settings', {})
         if setting.name in previewing:
             return previewing[setting.name]
-
-    return setting.value
+    return setting and setting.value
 
 @register.filter
 def getval(map, key):
