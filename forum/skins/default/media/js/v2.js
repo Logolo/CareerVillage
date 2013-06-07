@@ -360,7 +360,7 @@ $(function(){
      * Utils
      */
 
-// Obtain cookie by its name
+    // Obtain cookie by its name
     function get_cookie(name) {
         var name_eq = name + "=";
         var ca = document.cookie.split(';');
@@ -372,90 +372,133 @@ $(function(){
         return null;
     }
 
-// Add CSRF token
+    // Add CSRF token
     function add_csrf(params) {
         params['csrfmiddlewaretoken'] = get_cookie('csrftoken');
         return params;
     }
 
+    var LOADING_CLASS = 'loading';
+
+    var ATTR_TEXT_LOADING = 'data-text-loading';
+    var ATTR_TEXT_SUCCESS = 'data-text-success';
+    var ATTR_TEXT_ORIGINAL = 'data-text-original';
 
     /*
-     * "New Question" -> ask-success (modal actions)
+     * Put a button in loading mode
+     * button -- a button
+     * loading -- true if loading
+     */
+    function set_loading(button, loading) {
+        if (loading) {
+            // Toggle status
+            button.addClass('disabled');
+            button.addClass(LOADING_CLASS);
+            button.text(button.attr(ATTR_TEXT_LOADING));
+
+            // Save original text
+            button.attr(ATTR_TEXT_ORIGINAL, button.text());
+        } else {
+            // Toggle status
+            button.removeClass(LOADING_CLASS);
+            button.removeClass('disabled');
+
+            // Restore original text
+            button.text(button.attr(ATTR_TEXT_ORIGINAL));
+        }
+    }
+
+    /*
+     * Generic command callback
+     * button -- the button that triggers the action
+     * params -- http post parameters
+     * finish -- function called when the action finishes
+     */
+    function handle_command(button, params, finish) {
+        if (button.hasClass('disabled')) {
+            return;
+        }
+
+        var href = button.attr('href');
+
+        // Update status
+        if (button.hasClass(LOADING_CLASS)) {
+            return;
+        } else {
+            set_loading(button, true);
+        }
+
+        // Make AJAX request
+        $.post(href, add_csrf(params), function(data) {
+            // Update status
+            set_loading(button, false);
+
+            // Handle result
+            if (data.success) {
+                button.text(button.attr(ATTR_TEXT_SUCCESS));
+            } else {
+                button.text(data.error_message);
+            }
+
+            button.addClass('disabled');
+
+            // Finish
+            finish(data);
+        });
+    }
+
+    /*
+     * answer-success (modal actions)
+     * template: "_question_top.html"
+     */
+
+    var answer_success = $('#answer-success');
+
+    if (answer_success) {
+        /*
+         * ACTION: Share answer on Facebook
+         */
+
+        // 1. Find inputs
+        var share_answer_message = answer_success.find('#share-answer-message').first();
+        var share_answer_checkbox = answer_success.find('#share-answer-checkbox').first();
+
+        // 2. Show form
+        var option_share_answer = answer_success.find('#option-share-answer');
+        var div_share_answer = answer_success.find('#div-share-answer');
+        div_share_answer.hide();
+        option_share_answer.click(function() {
+            option_share_answer.fadeOut(function() {
+                div_share_answer.fadeIn();
+                share_answer_message.focus();
+            });
+        });
+
+        // 3. Call command
+        var command_share_answer = answer_success.find('#command-share-answer').first();
+        command_share_answer.click(function(e) {
+            e.preventDefault();
+            handle_command($(this), {
+                'message': share_answer_message.val(),
+                'auto_share': share_answer_checkbox.is(":checked")
+            }, function(data) {
+                if (data.success) {
+                    setTimeout(function() {
+                        div_share_answer.slideUp();
+                    }, 800);
+                }
+            });
+        });
+    }
+
+    /*
+     * ask-success (modal actions)
+     * template: "_question_top.html"
      */
 
     var ask_success = $('#ask-success');
 
     if (ask_success) {
-        var LOADING_CLASS = 'loading';
-
-        var ATTR_TEXT_LOADING = 'data-text-loading';
-        var ATTR_TEXT_SUCCESS = 'data-text-success';
-        var ATTR_TEXT_ORIGINAL = 'data-text-original';
-
-        /*
-         * Put a button in loading mode
-         * button -- a button
-         * loading -- true if loading
-         */
-        function set_loading(button, loading) {
-            if (loading) {
-                // Toggle status
-                button.addClass('disabled');
-                button.addClass(LOADING_CLASS);
-                button.text(button.attr(ATTR_TEXT_LOADING));
-
-                // Save original text
-                button.attr(ATTR_TEXT_ORIGINAL, button.text());
-            } else {
-                // Toggle status
-                button.removeClass(LOADING_CLASS);
-                button.removeClass('disabled');
-
-                // Restore original text
-                button.text(button.attr(ATTR_TEXT_ORIGINAL));
-            }
-        }
-
-        /*
-         * Generic command callback
-         * button -- the button that triggers the action
-         * params -- http post parameters
-         * finish -- function called when the action finishes
-         */
-        function handle_command(button, params, finish) {
-            if (button.hasClass('disabled')) {
-                return;
-            }
-
-            var href = button.attr('href');
-
-            // Update status
-            if (button.hasClass(LOADING_CLASS)) {
-                return;
-            } else {
-                set_loading(button, true);
-            }
-
-            // Make AJAX request
-            $.post(href, add_csrf(params), function(data) {
-                // Update status
-                set_loading(button, false);
-
-                // Handle result
-                if (data.success) {
-                    button.text(button.attr(ATTR_TEXT_SUCCESS));
-                } else {
-                    button.text(data.error_message);
-                }
-
-                button.addClass('disabled');
-
-                // Finish
-                finish(data);
-            });
-
-        }
-
         /*
          * ACTION: Follow question's topics
          */
@@ -473,7 +516,8 @@ $(function(){
         /*
          * ACTION: Share question on facebook
          */
-        // 1. Input data
+
+        // 1. Find inputs
         var share_question_message = ask_success.find('#share-question-message').first();
         var share_question_checkbox = ask_success.find('#share-question-checkbox').first();
 

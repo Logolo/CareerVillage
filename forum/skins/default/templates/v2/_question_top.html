@@ -63,7 +63,7 @@
                                 Share automatically from now on
                             </label>
 
-                            <a href="{% url forum.views.commands.publish_story question.id %}" class="btn btn-warning btn-large"
+                            <a href="{% url forum.views.commands.publish_question_story question.id %}" class="btn btn-warning btn-large"
                                id="command-share-question"
                                data-text-success="Done"
                                data-text-loading="Loading">
@@ -99,6 +99,39 @@
             <!-- TODO: these buttons need correct links -->
             <a href="{% url refer_friend question.id %}" class="btn btn-large btn-warning">Ask a friend to also answer this question</a><br />
             <a href="{% url unanswered %}" class="btn btn-large btn-warning">See questions that need answers</a>
+
+
+            {% if user.facebook_access_token %}
+                {% if answer_questions_count == 1 or not user.prop.new_answer %}
+                    <a class="btn btn-large btn-warning" id="option-share-answer">
+                        Share your answer on Facebook
+                    </a>
+
+                    <div id="div-share-answer" style="margin: 10px 0px;">
+                        <textarea name="share-answer-message" id="share-answer-message"
+                                  placeholder="No message" style="width: 360px; height: 70px; resize: none;"></textarea>
+                        <br/>
+
+                        <div>
+                            <label>
+                                <input type="checkbox" name="share-answer-checkbox" id="share-answer-checkbox"
+                                       style="margin-right: 4px;" value="" checked />
+                                Share automatically from now on
+                            </label>
+
+                            <a href="{% url forum.views.commands.publish_answer_story answer_id %}" class="btn btn-warning btn-large"
+                               id="command-share-answer"
+                               data-text-success="Done"
+                               data-text-loading="Loading">
+                                <span class="icon-share icon-white"></span>
+                                Share
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+
             <div class="btn-group">
                 <a href="/home/" class="btn btn-inverse"><span class="icon-home icon-white"></span> Return Home</a>
                 <a href="#" class="btn btn-inverse" data-dismiss="modal"><span class="icon-eye-open icon-white"></span> View This Question</a>

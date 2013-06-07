@@ -87,7 +87,7 @@ def follow_topics(request, id):
 
 @ajax_login_required
 @ajax_method
-def publish_story(request, id):
+def publish_question_story(request, id):
     """ Publish "new question" story on Facebook.
     """
     if request.method == 'POST':
@@ -117,6 +117,41 @@ def publish_story(request, id):
                 'error_message': _('Unauthorized')
             }
     return {}
+
+
+@ajax_login_required
+@ajax_method
+def publish_answer_story(request, id):
+    """ Publish "new answer" story on Facebook.
+    """
+    if request.method == 'POST':
+        user = request.user
+        answer = get_object_or_404(Answer, pk=id)
+
+        message = request.POST.get('message')
+        auto_share = True if request.POST.get('auto_share') == 'true' else False
+
+        from forum.tasks import new_answer
+        if answer.user == user:
+            if auto_share:
+                user.prop.new_answer = True
+
+            if message:
+                new_answer.apply_async(countdown=10, args=(answer.id, message))
+            else:
+                new_answer.apply_async(countdown=10, args=(answer.id,))
+
+            return {
+                'success': True,
+                'error_message': ''
+            }
+        else:
+            return {
+                'success': False,
+                'error_message': _('Unauthorized')
+            }
+    return {}
+
 
 @decorate.withfn(command)
 def vote_post(request, id, vote_type):

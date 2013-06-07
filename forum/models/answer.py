@@ -31,3 +31,11 @@ def notify_new_answer(sender, instance, created, **kwargs):
         answer_notification.apply_async(countdown=10, args=(instance.id,))
 
 post_save.connect(notify_new_answer, sender=Answer)
+
+
+def publish_new_answer(sender, instance, created, **kwargs):
+    from forum.tasks import new_answer
+    if created and instance.user.can_publish_new_answer:
+        new_answer.apply_async(countdown=10, args=(instance.id,))
+
+post_save.connect(publish_new_answer, sender=Answer)

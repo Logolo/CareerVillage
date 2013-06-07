@@ -115,6 +115,27 @@ class AskQuestionStory(Story):
         return data
 
 
+class NewAnswerStory(Story):
+
+    def __init__(self, answer, message=None):
+        super(NewAnswerStory, self).__init__(answer.author, answer.parent)
+        self._message = message
+
+    def get_url(self):
+        return "%sme/%s:answer" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
+
+    def get_object_url(self):
+        return settings.APP_URL + reverse('question', kwargs={'id': self._object.id})
+
+    def get_data(self):
+        data = {
+            'question': 'http://samples.ogp.me/523169144391241' if settings.DEBUG else self.get_object_url(),
+        }
+        if self._message:
+            data['message'] = self._message
+        return data
+
+
 class AnswerNotification(Notification):
 
     def __init__(self, answer):
