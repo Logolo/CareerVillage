@@ -45,3 +45,11 @@ class MarkedTag(models.Model):
     class Meta:
         app_label = 'forum'
 
+
+def publish_follow_topic(sender, instance, created, **kwargs):
+    from forum.tasks import follow_topic
+    # TODO: Verify that the user has authorized the application to post interesting topics
+    if created and instance.reason == 'good':
+        follow_topic.apply_async(countdown=10, args=(instance.user.id, instance.tag.id))
+
+post_save.connect(publish_follow_topic, sender=MarkedTag)

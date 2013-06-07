@@ -79,11 +79,30 @@ def publish_like(request, id):
 def follow_topics(request, id):
     """ Follow the topics of the specified question
     """
-    # TODO: Command implementation
-    return {
-        'success': False,
-        'error_message': 'Not implemented'
-    }
+    if request.method == 'POST':
+        user = request.user
+        question = get_object_or_404(Question, pk=id)
+
+        # Get topics to follow
+        tag_names = question.tagname_list()
+        to_follow = Tag.objects.filter(name__in=tag_names)
+
+        # Exclude already marked
+        marked = MarkedTag.objects.filter(user=user, tag__name__in=tag_names)
+        to_follow = to_follow.exclude(id__in=marked.values_list('tag__id', flat=True).query)
+
+        # Follow topics
+        for tag in to_follow:
+            mt = MarkedTag(user=user, reason='good', tag=tag)
+            mt.save()
+
+        # Return response
+        return {
+            'success': True,
+            'error_message': ''
+        }
+
+    return {}
 
 @ajax_login_required
 @ajax_method

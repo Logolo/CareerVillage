@@ -136,6 +136,24 @@ class NewAnswerStory(Story):
         return data
 
 
+class FollowTopicStory(Story):
+
+    def __init__(self, user, topic):
+        super(FollowTopicStory, self).__init__(user, topic)
+
+    def get_url(self):
+        return "%sme/%s:interest" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
+
+    def get_object_url(self):
+        return settings.APP_URL + self._object.get_absolute_url()
+
+    def get_data(self):
+        data = {
+            'topic': 'http://samples.ogp.me/540313696010119' if settings.DEBUG else self.get_object_url(),
+        }
+        return data
+
+
 class AnswerNotification(Notification):
 
     def __init__(self, answer):
