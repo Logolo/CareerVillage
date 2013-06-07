@@ -109,3 +109,11 @@ class Award(models.Model):
     class Meta:
         unique_together = ('user', 'badge', 'node')
         app_label = 'forum'
+
+
+def publish_new_award(sender, instance, created, **kwargs):
+    from forum.tasks import new_award
+    if created and instance.user.can_publish_new_award:
+        new_award.apply_async(countdown=10, args=(instance.id,))
+
+post_save.connect(publish_new_award, sender=Award)

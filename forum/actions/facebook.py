@@ -136,6 +136,24 @@ class NewAnswerStory(Story):
         return data
 
 
+class NewAwardStory(Story):
+
+    def __init__(self, award):
+        super(NewAwardStory, self).__init__(award.user, award.badge)
+
+    def get_url(self):
+        return "%sme/%s:award" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
+
+    def get_object_url(self):
+        return settings.APP_URL + self._object.get_absolute_url()
+
+    def get_data(self):
+        data = {
+            'badge': 'http://samples.ogp.me/540345576006931' if settings.DEBUG else self.get_object_url(),
+        }
+        return data
+
+
 class FollowTopicStory(Story):
 
     def __init__(self, user, topic):

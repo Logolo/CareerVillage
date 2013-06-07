@@ -1,6 +1,6 @@
 from celery import task
-from forum.actions.facebook import AskQuestionStory, NewAnswerStory, FollowTopicStory, AnswerNotification
-from forum.models import Question, Answer, User, Tag
+from forum.actions.facebook import AskQuestionStory, NewAnswerStory, NewAwardStory, FollowTopicStory, AnswerNotification
+from forum.models import Question, Answer, Award, User, Tag
 
 
 @task()
@@ -11,6 +11,11 @@ def new_question(question_id, message=None):
 @task()
 def new_answer(answer_id, message=None):
     NewAnswerStory(Answer.objects.get(id=answer_id), message).publish()
+
+
+@task()
+def new_award(award_id):
+    NewAwardStory(Award.objects.get(id=award_id)).publish()
 
 
 @task()
