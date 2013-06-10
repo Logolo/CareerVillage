@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 
@@ -9,26 +10,44 @@ from forum.views.auth import login_and_forward
 
 def create_user(request, *args, **kwargs):
     backend = kwargs['backend']
+
+    response = kwargs.get('response', {})
+    details = kwargs.get('details', {})
+
+    # User type
+    user_type = request.session['user_type']
+
+    # Facebook-specific information
+    facebook_access_token = response.get('access_token')
+    facebook_uid = kwargs.get('uid')
+
+    # User-specific information
+    user_email = details.get('email')
+    user_first_name = details.get('first_name')
+    user_last_name = details.get('last_name')
+
+    # Obtain user
     try:
-        user = User.objects.get(username='%s:%s' % (backend.name, kwargs['uid'],))
+        user = User.objects.get(username=user_email)
     except User.DoesNotExist:
-        user = User(username='%s:%s' % (backend.name, kwargs['uid'],))
+        # Create user
+        user = User(username=user_email)
         user.set_unusable_password()
         user.save()
 
+        # Register action
         UserJoinsAction(user=user, ip=request.META['REMOTE_ADDR']).save()
 
-    access_token = kwargs['response']['access_token']
+    # Update information
+    user.user_type = user_type
 
-    user.user_type = request.session['user_type']
-    user.facebook_access_token = access_token
-    user.facebook_uid = kwargs['uid']
-    user_details = kwargs.get('details', {})
-    user.email = user_details.get('email')
-    user.first_name = user_details.get('first_name', '')
-    user.last_name = user_details.get('last_name', '')
+    if facebook_access_token and facebook_uid:
+        user.facebook_access_token = facebook_access_token
+        user.facebook_uid = facebook_uid
+
+    user.first_name = user_first_name
+    user.last_name = user_last_name
+
     user.save()
 
-    return login_and_forward(request, user, reverse('homepage'),
-              _("You are now logged in.")
-    )
+    return login_and_forward(request, user, reverse('homepage'), _("You are now logged in."))
