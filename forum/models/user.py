@@ -185,6 +185,14 @@ class User(BaseModel, DjangoUser):
         return self.facebook_access_token and self.prop.new_question
 
     @property
+    def can_publish_new_answer(self):
+        return self.facebook_access_token and self.prop.new_answer
+
+    @property
+    def can_publish_new_award(self):
+        return self.facebook_access_token and self.prop.new_badge_or_points
+
+    @property
     def grade(self):
         if self.is_student():
             return self.prop.grade

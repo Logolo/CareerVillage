@@ -143,10 +143,67 @@ class AskQuestionStory(Story):
         return data
 
 
-class AnswerNotification(Notification):
+class AnswerQuestionStory(Story):
+
+    def __init__(self, answer, message=None):
+        super(AnswerQuestionStory, self).__init__(answer.author, answer.parent)
+        self._message = message
+
+    def get_url(self):
+        return "%sme/%s:answer" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
+
+    def get_object_url(self):
+        return settings.APP_URL + reverse('question', kwargs={'id': self._object.id})
+
+    def get_data(self):
+        data = {
+            'question': 'http://samples.ogp.me/523169144391241' if settings.DEBUG else self.get_object_url(),
+        }
+        if self._message:
+            data['message'] = self._message
+        return data
+
+
+class AwardBadgeStory(Story):
+
+    def __init__(self, award):
+        super(AwardBadgeStory, self).__init__(award.user, award.badge)
+
+    def get_url(self):
+        return "%sme/%s:award" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
+
+    def get_object_url(self):
+        return settings.APP_URL + self._object.get_absolute_url()
+
+    def get_data(self):
+        data = {
+            'badge': 'http://samples.ogp.me/358124060976871' if settings.DEBUG else self.get_object_url(),
+        }
+        return data
+
+
+class InterestTopicStory(Story):
+
+    def __init__(self, user, topic):
+        super(InterestTopicStory, self).__init__(user, topic)
+
+    def get_url(self):
+        return "%sme/%s:interest" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
+
+    def get_object_url(self):
+        return settings.APP_URL + self._object.get_absolute_url()
+
+    def get_data(self):
+        data = {
+            'topic': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
+        }
+        return data
+
+
+class AnswerQuestionNotification(Notification):
 
     def __init__(self, answer):
-        super(AnswerNotification, self).__init__(answer.parent.author)
+        super(AnswerQuestionNotification, self).__init__(answer.parent.author)
         self._question = answer.parent
         self._answerer = answer.author
 

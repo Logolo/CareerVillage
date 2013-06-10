@@ -314,6 +314,7 @@ def answer(request, id):
 
             request.session['answer_success'] = True
             request.session['answer_questions_count'] = request.user.get_answer_count_total()
+            request.session['answer_id'] = answer.id
             return HttpResponseRedirect(answer.get_absolute_url())
         else:
             request.session[PENDING_SUBMISSION_SESSION_ATTR] = {

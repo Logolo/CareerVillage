@@ -686,6 +686,7 @@ def question_as_educator(request, id, slug='', answer=None):
     "ask_success": request.session.pop('ask_success', False),
     "ask_questions_count": request.session.pop('ask_questions_count', 0),
     "answer_success": request.session.pop('answer_success', False),
+    "answer_id": request.session.pop('answer_id', None),
     "answer_questions_count": request.session.pop('answer_questions_count', 0),
     "refer_friend_message": template.loader.render_to_string('v2/question_refer_friend_message.html', refer_friend_message_context),
     })
@@ -757,6 +758,7 @@ def question_as_professional(request, id, slug='', answer=None):
     "ask_success": request.session.pop('ask_success', False),
     "ask_questions_count": request.session.pop('ask_questions_count', 0),
     "answer_success": request.session.pop('answer_success', False),
+    "answer_id": request.session.pop('answer_id', None),
     "answer_questions_count": request.session.pop('answer_questions_count', 0),
     "refer_friend_message": template.loader.render_to_string('v2/question_refer_friend_message.html', refer_friend_message_context),
     })
@@ -822,6 +824,7 @@ def question_as_student(request, id, slug='', answer=None):
     "ask_success": request.session.pop('ask_success', False),
     "ask_questions_count": request.session.pop('ask_questions_count', 0),
     "answer_success": request.session.pop('answer_success', False),
+    "answer_id": request.session.pop('answer_id', None),
     "answer_questions_count": request.session.pop('answer_questions_count', 0),
     })
 

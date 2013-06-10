@@ -5,6 +5,17 @@
 {% load user_tags %}
 {% load humanize %}
 {% block title %}{% spaceless %}{{ badge.name }} - {% trans "Award" %}{% endspaceless %}{% endblock %}
+
+{% block meta %}
+    {{ block.super }}
+
+    <meta property="fb:app_id" content="{{ settings.FACEBOOK_APP_ID }}" />
+    <meta property="og:type"   content="{{ settings.FACEBOOK_APP_NAMESPACE }}:award" />
+    <meta property="og:url"    content="{{ settings.APP_URL }}{{ badge.get_absolute_url }}" />
+    <meta property="og:title"  content="{{ badge.name }}" />
+    <meta property="og:image"  content="https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png" />
+{% endblock %}
+
 {% block forejs %}
        <script type="text/javascript">
         $().ready(function(){
