@@ -1,9 +1,10 @@
 from django.test import TestCase
-from forum.models.user import User, DEFAULT_USER_TYPE
+from forum.models import User
 from forum.actions import AskAction, DeleteAction, AnswerAction, CommentAction
 from forum.forms import AskForm, AnswerForm
 
 # This test file was written to fix the cohort question display bug
+
 
 class StudentTestCase(TestCase):
     '''
@@ -89,20 +90,17 @@ class StudentTestCase(TestCase):
 
 class UserTest(TestCase):
 
-
     def setUp(self):
-        self.user = User(username='super')
-        self.user.save()
-        self.user.prop.user_type = None
+        self.user = User(username='super', type=User.TYPE_STUDENT)
         self.user.save()
 
     def test_user_type_default(self):
-        self.assertEqual(self.user.user_type, DEFAULT_USER_TYPE)
+        self.assertEqual(self.user.type, User.DEFAULT_TYPE)
 
     def test_user_type_permanence(self):
-        self.user.user_type = "educator"
+        self.user.type = User.TYPE_STUDENT
         u = User.objects.get(username='super')
-        self.assertEqual(u.user_type, "educator")
+        self.assertEqual(u.type, User.TYPE_STUDENT)
 
     def test_gravatar(self):
         

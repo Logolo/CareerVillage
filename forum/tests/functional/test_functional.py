@@ -1,14 +1,14 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import LiveServerTestCase
 from forum.models.question import Question
-from forum.models.user import User
+from forum.models import User
 from selenium.webdriver.firefox.webdriver import WebDriver as FirefoxWebDriver
 from selenium.common.exceptions import NoSuchElementException
 from django.core.urlresolvers import reverse
 from forum.tests.utils import create_question
 import time
-
 import socket
+
 
 class FunctionalTestCase(LiveServerTestCase):
     '''
@@ -133,7 +133,7 @@ class FunctionalTestCase(LiveServerTestCase):
         self.assertEqual(self.user.id, question.author.id)
 
     def test_answer_question(self):
-        self.user.user_type = "professional"
+        self.user.type = User.TYPE_PROFESSIONAL
         question = create_question(self.user2)
         self.login()
         self.load_url(question.get_absolute_url())

@@ -291,9 +291,9 @@ def v2comments_rightside(post, user):
     if user.is_anonymous():
         cta_text = "Join our community"
     else:
-        if user.user_type == "student":
+        if user.type == "S":
             cta_text = "Say thank you"
-        else: # Any other user type 
+        else:  # Any other user type
             cta_text = "Post kudos"
 
     comments = []

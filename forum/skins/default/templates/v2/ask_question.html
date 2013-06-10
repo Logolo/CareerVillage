@@ -20,7 +20,7 @@
             <div class="media-body">
                 <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
                 <p>
-                    {% ifequal request.user.user_type "student" %}{% else %}<span>{{ request.user.headline}}</span><br />{% endifequal %}
+                    {% ifequal request.user.type "S" %}{% else %}<span>{{ request.user.headline}}</span><br />{% endifequal %}
                     <span class="text-light">{{ user.location }}</span><br />
                     <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #}</span>
                 </p>

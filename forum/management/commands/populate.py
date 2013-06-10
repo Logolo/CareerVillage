@@ -8,7 +8,7 @@ from random import choice
 
 class Command(BaseCommand):
 
-    def _create_user(self, username, email, date_joined, real_name, password, user_type):
+    def _create_user(self, username, email, date_joined, real_name, password, type):
 
         user = User.objects.get_or_create(username=username, email=email, date_joined=date_joined)
         print user
@@ -20,8 +20,8 @@ class Command(BaseCommand):
         if created:
             user.first_name, user.last_name = real_name.split()
             user.email_isvalid = True
+            user.type = type
             user.set_password(password)
-            user.user_type = user_type
             user.save()
             UserJoinsQuietly(user=user).save()
 

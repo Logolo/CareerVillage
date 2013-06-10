@@ -426,11 +426,11 @@ def answer_redirect(request, answer):
 
 def question(request, id, slug='', answer=None):
     if request.user.is_authenticated():
-        if request.user.user_type == "student":
+        if request.user.type == User.TYPE_STUDENT:
             return question_as_student(request, id, slug=slug, answer=answer)
-        if request.user.user_type == "professional":
+        if request.user.type == User.TYPE_PROFESSIONAL:
             return question_as_professional(request, id, slug=slug, answer=answer)
-        if request.user.user_type == "educator":
+        if request.user.type == User.TYPE_EDUCATOR:
             return question_as_educator(request, id, slug=slug, answer=answer)
         else: # If the user's status is unknown, we default to professional
             return question_as_professional(request, id, slug=slug, answer=answer)
@@ -448,7 +448,7 @@ def new_answer(request, id, slug='', answer=None):
                 return HttpResponseRedirect(question.get_absolute_url())
         raise Http404()
     if request.user.is_authenticated():
-        if request.user.user_type == "student":
+        if request.user.type == User.TYPE_STUDENT:
             return HttpResponsePermanentRedirect(question.get_absolute_url())
         else: #The user is not a student. 
             if question.nis.deleted and not request.user.can_view_deleted_post(question):
@@ -486,9 +486,9 @@ def new_answer(request, id, slug='', answer=None):
 @decorators.render("v2/question_refer_friend_form.html", 'questions')
 def refer_friend(request, id):
     if request.user.is_authenticated():
-        if request.user.user_type == "student":
+        if request.user.type == User.TYPE_STUDENT:
             return HttpResponsePermanentRedirect(question.get_absolute_url())
-        else: #The user is not a student. 
+        else:  # The user is not a student.
             question = get_object_or_404(Question, id=id)
             if question.nis.deleted and not request.user.can_view_deleted_post(question):
                 raise Http404

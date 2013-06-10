@@ -105,7 +105,7 @@ def signup_student(request):
             if form.cleaned_data.get('grade'):
                 user_.grade = form.cleaned_data['grade']
             user_.avatar_image = form.cleaned_data['avatar_image']
-            user_.user_type = 'student'
+            user_.type = User.TYPE_STUDENT
 
             if User.objects.all().count() == 0:
                 user_.is_superuser = True
@@ -215,11 +215,10 @@ def _create_linkedin_user(request, assoc_key):
         user_.is_superuser = True
         user_.is_staff = True
 
-
     location = user_data.get('location', None)
     user_.first_name = user_data.get('firstName', '')
     user_.last_name = user_data.get('lastName', '')
-    user_.user_type = 'professional'
+    user_.type = User.TYPE_PROFESSIONAL
     user_.email = user_data.get('emailAddress', '')
     user_.industry = user_data.get('industry', '')
     user_.headline = user_data.get('headline', '')

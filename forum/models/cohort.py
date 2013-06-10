@@ -10,12 +10,14 @@ from forum.models import Question
 # NOTE: It is assumed that students will be added to cohorts upon joining
 # the site and the Cohort functions reflect this. 
 
+
 class Cohort(BaseModel):
-    name            = models.CharField(max_length=255, unique=True)
-    educators       = models.ManyToManyField('User', related_name='educator_of')
-    students        = models.ManyToManyField('User', related_name='student_of')
-    created_at      = models.DateTimeField(default=datetime.datetime.now, blank=True, null=True)
-    kickoff_date    = models.DateTimeField(default=datetime.datetime.now, blank=True, null=True)
+
+    name = models.CharField(max_length=255, unique=True)
+    educators = models.ManyToManyField('User', related_name='educator_of')
+    students = models.ManyToManyField('User', related_name='student_of')
+    created_at = models.DateTimeField(default=datetime.datetime.now, blank=True, null=True)
+    kickoff_date = models.DateTimeField(default=datetime.datetime.now, blank=True, null=True)
 
     class Meta:
         app_label = 'forum'

@@ -1,24 +1,22 @@
+import logging
+import string
 from base import *
 from utils import PickledObjectField
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.models import User as DjangoUser, AnonymousUser as DjangoAnonymousUser
-
-try:
-    from hashlib import md5
-except:
-    from md5 import new as md5
-
-import string
+from hashlib import md5
 from random import Random
-
 from django.utils.translation import ugettext as _
-import logging
 
-DEFAULT_USER_TYPE = "student"
 
 class AnonymousUser(DjangoAnonymousUser):
+
     reputation = 0
-    
+
+    @property
+    def type(self):
+        return User.TYPE_ANONYMOUS
+
     def get_visible_answers(self, question):
         return question.answers.filter_state(deleted=False)
 
@@ -94,11 +92,13 @@ class AnonymousUser(DjangoAnonymousUser):
     def is_a_super_user_or_staff(self):
         return False
 
+
 def true_if_is_super_or_staff(fn):
     def decorated(self, *args, **kwargs):
         return self.is_superuser or self.is_staff or fn(self, *args, **kwargs)
 
     return decorated
+
 
 def false_if_validation_required_to(item):
     def decorator(fn):
@@ -110,7 +110,22 @@ def false_if_validation_required_to(item):
         return decorated
     return decorator
 
+
 class User(BaseModel, DjangoUser):
+
+    TYPE_ANONYMOUS = 'A'
+    TYPE_STUDENT = 'S'
+    TYPE_PROFESSIONAL = 'P'
+    TYPE_EDUCATOR = 'E'
+    TYPES = (
+        (TYPE_STUDENT, 'Student',),
+        (TYPE_PROFESSIONAL, 'Professional',),
+        (TYPE_EDUCATOR, 'Educator',),
+    )
+    DEFAULT_TYPE = TYPE_STUDENT
+
+    type = models.CharField(max_length=1, choices=TYPES, default=DEFAULT_TYPE)
+
     is_approved = models.BooleanField(default=False)
     email_isvalid = models.BooleanField(default=False)
 
@@ -127,8 +142,11 @@ class User(BaseModel, DjangoUser):
     about = models.TextField(blank=True)
     headline = models.CharField(max_length=200, blank=True)
     industry = models.CharField(max_length=200, blank=True)
+
+    #linkedin
     linkedin_photo_url = models.URLField(blank=True)
 
+    #facebook
     facebook_access_token = models.CharField(max_length=250)
     facebook_uid = models.CharField(max_length=100, blank=True, default='')
 
@@ -164,18 +182,6 @@ class User(BaseModel, DjangoUser):
         else:
             return self.display_name('full')
 
-    # User type if the role of the user: student, educator or professional
-    @property
-    def user_type(self):
-        if self.prop.user_type is not None:
-            return self.prop.user_type
-        else:
-            return DEFAULT_USER_TYPE
-
-    @user_type.setter
-    def user_type(self, _user_type):
-        self.prop.user_type = _user_type
-
     @property
     def can_publish_likes(self):
         return self.facebook_access_token and self.prop.likes
@@ -208,7 +214,7 @@ class User(BaseModel, DjangoUser):
         if self.is_student():
             return self.prop.avatar_image
         else:
-            return None # TODO: return the gravatar url here
+            return None  # TODO: return the gravatar url here
 
     @avatar_image.setter
     def avatar_image(self, avatar_):
@@ -216,37 +222,17 @@ class User(BaseModel, DjangoUser):
 
     @property
     def is_siteowner(self):
-        #todo: temporary thing, for now lets just assume that the site owner will always be the first user of the application
+        # TODO: temporary thing, for now lets just assume that the site owner will always be the first user of the application
         return self.id == 1
 
     def is_student(self):
-        student_status = False
-        if self.user_type == "student":
-            student_status = True
-        else:
-            if len(self.student_of.all()) > 0:
-                student_status = True
-        return student_status
+        return (self.type == User.TYPE_STUDENT) or (self.student_of.count() > 0)
 
     def is_professional(self):
-        professional_status = False
-        if self.user_type == "professional":
-            professional_status = True
-        else:
-            if len(self.student_of.all()) == 0:
-                if len(self.educator_of.all()) == 0:
-                    professional_status = True
-        return professional_status
+        return (self.type == User.TYPE_PROFESSIONAL) or (self.student_of.count() > 0 and self.educator_of.count() > 0)
 
-    def is_educator(self):
-        educator_status = False
-        if self.user_type == "educator":
-            educator_status = True
-        else:
-            if len(self.student_of.all()) == 0:
-                if len(self.educator_of.all()) > 0:
-                    educator_status = True
-        return educator_status
+    def is_professional(self):
+        return (self.type == User.TYPE_EDUCATOR) or (self.student_of.count() > 0 and self.educator_of.count() > 0)
 
     @property
     def decorated_name(self):
