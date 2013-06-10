@@ -213,3 +213,17 @@ class AnswerQuestionNotification(Notification):
     def get_template(self):
         return _("%s just answered your question. Check it out and say thanks at %s.") % (
             self._answerer.display_name('safe'), self.get_href())
+
+
+class TopicQuestionNotification(Notification):
+
+    def __init__(self, user, question_count):
+        super(TopicQuestionNotification, self).__init__(user)
+        self._question_count = question_count
+
+    def get_href(self):
+        return settings.APP_URL + reverse('relevant')
+
+    def get_template(self):
+        return _("Over the last week, there have been %s questions about topics you are interested in.") \
+                    % self._question_count

@@ -13,6 +13,7 @@ class Referral(models.Model):
     class Meta:
         app_label = 'forum'
 
+
 class Vote(models.Model):
     user = models.ForeignKey(User, related_name="votes")
     node = models.ForeignKey(Node, related_name="votes")
@@ -36,6 +37,7 @@ class Flag(models.Model):
         app_label = 'forum'
         unique_together = ('user', 'node')
 
+
 class BadgesQuerySet(models.query.QuerySet):
     def get(self, *args, **kwargs):
         try:
@@ -56,16 +58,18 @@ class BadgeManager(models.Manager):
     def get_query_set(self):
         return BadgesQuerySet(self.model)
 
+
 class Badge(models.Model):
+
     GOLD = 1
     SILVER = 2
     BRONZE = 3
 
-    type        = models.SmallIntegerField()
-    cls         = models.CharField(max_length=50, null=True)
+    type = models.SmallIntegerField()
+    cls = models.CharField(max_length=50, null=True)
     awarded_count = models.PositiveIntegerField(default=0)
     
-    awarded_to    = models.ManyToManyField(User, through='Award', related_name='badges')
+    awarded_to = models.ManyToManyField(User, through='Award', related_name='badges')
 
     objects = BadgeManager()
 
@@ -90,12 +94,12 @@ class Badge(models.Model):
         else:
             super(Badge, self).save(*args, **kwargs)
 
-
     class Meta:
         app_label = 'forum'
 
 
 class Award(models.Model):
+
     user = models.ForeignKey(User)
     badge = models.ForeignKey('Badge', related_name="awards")
     node = models.ForeignKey(Node, null=True)
@@ -104,7 +108,6 @@ class Award(models.Model):
 
     trigger = models.ForeignKey(Action, related_name="awards", null=True)
     action = models.OneToOneField(Action, related_name="award")
-
 
     class Meta:
         unique_together = ('user', 'badge', 'node')
