@@ -45,7 +45,7 @@ class Story(Graph):
             'access_token': self._user.facebook_access_token
         })
         try:
-            urllib2.urlopen(url, urllib.urlencode(data))
+            urllib2.urlopen(url, urllib.urlencode(data), timeout=30)
         except urllib2.HTTPError, e:
             error = json.loads(e.read())
             raise GraphException(error['error'])
@@ -90,8 +90,36 @@ class LikeQuestionStory(Story):
 
     def get_data(self):
         return {
-            'object': self.get_object_url(),
+            'question': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
         }
+
+
+class LikeAnswerStory(Story):
+
+    def get_url(self):
+        return "%sme/og.likes" % (self.BASE_URL,)
+
+    def get_object_url(self):
+        return settings.APP_URL + reverse('answer', kwargs={'id': self._object.id})
+
+    def get_data(self):
+        return {
+            'answer': 'http://samples.ogp.me/358124874310123' if settings.DEBUG else self.get_object_url(),
+        }
+
+
+class LikeAnswerStory(Story):
+
+    def get_url(self):
+        return "%sme/og.likes" % (self.BASE_URL,)
+
+    def get_object_url(self):
+        return settings.APP_URL + reverse('answer', kwargs={'id': self._object.id})
+
+    def get_data(self):
+        return {
+            'question': 'http://samples.ogp.me/523169144391241' if settings.DEBUG else self.get_object_url(),
+            }
 
 
 class AskQuestionStory(Story):
@@ -108,17 +136,17 @@ class AskQuestionStory(Story):
 
     def get_data(self):
         data = {
-            'question': 'http://samples.ogp.me/523169144391241' if settings.DEBUG else self.get_object_url(),
+            'question': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
         }
         if self._message:
             data['message'] = self._message
         return data
 
 
-class NewAnswerStory(Story):
+class AnswerQuestionStory(Story):
 
     def __init__(self, answer, message=None):
-        super(NewAnswerStory, self).__init__(answer.author, answer.parent)
+        super(AnswerQuestionStory, self).__init__(answer.author, answer.parent)
         self._message = message
 
     def get_url(self):
@@ -136,10 +164,10 @@ class NewAnswerStory(Story):
         return data
 
 
-class NewAwardStory(Story):
+class AwardBadgeStory(Story):
 
     def __init__(self, award):
-        super(NewAwardStory, self).__init__(award.user, award.badge)
+        super(AwardBadgeStory, self).__init__(award.user, award.badge)
 
     def get_url(self):
         return "%sme/%s:award" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
@@ -149,15 +177,15 @@ class NewAwardStory(Story):
 
     def get_data(self):
         data = {
-            'badge': 'http://samples.ogp.me/540345576006931' if settings.DEBUG else self.get_object_url(),
+            'badge': 'http://samples.ogp.me/358124060976871' if settings.DEBUG else self.get_object_url(),
         }
         return data
 
 
-class FollowTopicStory(Story):
+class InterestTopicStory(Story):
 
     def __init__(self, user, topic):
-        super(FollowTopicStory, self).__init__(user, topic)
+        super(InterestTopicStory, self).__init__(user, topic)
 
     def get_url(self):
         return "%sme/%s:interest" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE,)
@@ -167,15 +195,15 @@ class FollowTopicStory(Story):
 
     def get_data(self):
         data = {
-            'topic': 'http://samples.ogp.me/540313696010119' if settings.DEBUG else self.get_object_url(),
+            'topic': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
         }
         return data
 
 
-class AnswerNotification(Notification):
+class AnswerQuestionNotification(Notification):
 
     def __init__(self, answer):
-        super(AnswerNotification, self).__init__(answer.parent.author)
+        super(AnswerQuestionNotification, self).__init__(answer.parent.author)
         self._question = answer.parent
         self._answerer = answer.author
 
@@ -187,10 +215,10 @@ class AnswerNotification(Notification):
             self._answerer.display_name('safe'), self.get_href())
 
 
-class WeeklyNotification(Notification):
+class TopicQuestionNotification(Notification):
 
     def __init__(self, user, question_count):
-        super(WeeklyNotification, self).__init__(user)
+        super(TopicQuestionNotification, self).__init__(user)
         self._question_count = question_count
 
     def get_href(self):

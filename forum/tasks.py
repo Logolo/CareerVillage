@@ -1,34 +1,39 @@
 from celery import task
-from forum.actions.facebook import (AskQuestionStory, NewAnswerStory, NewAwardStory, FollowTopicStory,
-                                    AnswerNotification, WeeklyNotification)
+from forum.actions.facebook import AskQuestionStory, LikeQuestionStory, AwardBadgeStory,\
+    AnswerQuestionNotification, AnswerQuestionStory, LikeAnswerStory, InterestTopicStory, TopicQuestionNotification
 from forum.models import Question, Answer, Award, User, Tag
 
 
 @task()
-def new_question(question_id, message=None):
+def like_question_story(question_id, message=None):
+    LikeQuestionStory(Question.objects.get(id=question_id), message).publish()
+
+
+@task()
+def ask_question_story(question_id, message=None):
     AskQuestionStory(Question.objects.get(id=question_id), message).publish()
 
 
 @task()
-def new_answer(answer_id, message=None):
-    NewAnswerStory(Answer.objects.get(id=answer_id), message).publish()
+def answer_question_story(answer_id, message=None):
+    AnswerQuestionStory(Answer.objects.get(id=answer_id), message).publish()
 
 
 @task()
-def new_award(award_id):
-    NewAwardStory(Award.objects.get(id=award_id)).publish()
+def award_badge_story(award_id):
+    AwardBadgeStory(Award.objects.get(id=award_id)).publish()
 
 
 @task()
-def follow_topic(user_id, topic_id):
-    FollowTopicStory(User.objects.get(id=user_id), Tag.objects.get(id=topic_id)).publish()
+def interest_topic_story(user_id, topic_id):
+    InterestTopicStory(User.objects.get(id=user_id), Tag.objects.get(id=topic_id)).publish()
 
 
 @task()
-def answer_notification(answer_id):
-    AnswerNotification(Answer.objects.get(id=answer_id)).notify()
+def answer_question_notification(answer_id):
+    AnswerQuestionNotification(Answer.objects.get(id=answer_id)).notify()
 
 
 @task()
-def weekly_notification(user_id, question_count):
-    WeeklyNotification(User.objects.get(id=user_id), question_count).notify()
+def topic_question_notification(user_id, question_count):
+    TopicQuestionNotification(User.objects.get(id=user_id), question_count).notify()

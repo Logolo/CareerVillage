@@ -4,7 +4,7 @@ from django.core.management.base import NoArgsCommand
 from django.db.models import Q
 
 from forum.models import User, Question, MarkedTag
-from forum.tasks import weekly_notification
+from forum.tasks import topic_question_notification
 
 
 class Command(NoArgsCommand):
@@ -26,4 +26,4 @@ class Command(NoArgsCommand):
 
             # Send notification
             if question_count:
-                weekly_notification.apply_async(countdown=10, args=(user.id, question_count))
+                topic_question_notification.apply_async(countdown=10, args=(user.id, question_count))

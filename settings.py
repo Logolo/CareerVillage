@@ -61,9 +61,6 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 ALLOW_FILE_TYPES = ('.jpg', '.jpeg', '.gif', '.bmp', '.png', '.tiff')
 ALLOW_MAX_FILE_SIZE = 1024 * 1024
 
-FACEBOOK_APP_ID = '509955625712593'
-FACEBOOK_APP_NAMESPACE = 'cv-dev-cc'
-FACEBOOK_API_SECRET = '1cfa69cc598fc6526e6d975ec0761474'
 FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'publish_actions']
 
 #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django

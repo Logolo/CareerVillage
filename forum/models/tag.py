@@ -5,15 +5,20 @@ from django.utils.translation import ugettext as _
 
 from forum import modules
 
+
 class ActiveTagManager(models.Manager):
+
     def get_query_set(self):
         return super(ActiveTagManager, self).get_query_set().exclude(used_count__lt=1)
 
+
 class Tag(BaseModel):
-    name            = models.CharField(max_length=255, unique=True)
-    created_by      = models.ForeignKey(User, related_name='created_tags')
-    created_at      = models.DateTimeField(default=datetime.datetime.now, blank=True, null=True)
-    marked_by       = models.ManyToManyField(User, related_name="marked_tags", through="MarkedTag")
+
+    name = models.CharField(max_length=255, unique=True)
+    created_by = models.ForeignKey(User, related_name='created_tags')
+    created_at = models.DateTimeField(default=datetime.datetime.now, blank=True, null=True)
+    marked_by = models.ManyToManyField(User, related_name="marked_tags", through="MarkedTag")
+
     # Denormalised data
     used_count = models.PositiveIntegerField(default=0)
 
@@ -36,7 +41,9 @@ class Tag(BaseModel):
     def get_absolute_url(self):
         return ('tag_questions', (), {'tag': self.name})
 
+
 class MarkedTag(models.Model):
+
     TAG_MARK_REASONS = (('good', _('interesting')), ('bad', _('ignored')))
     tag = models.ForeignKey(Tag, related_name='user_selections')
     user = models.ForeignKey(User, related_name='tag_selections')
@@ -46,10 +53,10 @@ class MarkedTag(models.Model):
         app_label = 'forum'
 
 
-def publish_follow_topic(sender, instance, created, **kwargs):
-    from forum.tasks import follow_topic
+def publish_interest_topic(sender, instance, created, **kwargs):
+    from forum.tasks import interest_topic_story
     # TODO: Verify that the user has authorized the application to post interesting topics
     if created and instance.reason == 'good':
-        follow_topic.apply_async(countdown=10, args=(instance.user.id, instance.tag.id))
+        interest_topic_story.apply_async(countdown=10, args=(instance.user.id, instance.tag.id))
 
-post_save.connect(publish_follow_topic, sender=MarkedTag)
+post_save.connect(publish_interest_topic, sender=MarkedTag)
