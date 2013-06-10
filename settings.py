@@ -111,6 +111,7 @@ MODULE_LIST = filter(lambda m: getattr(m, 'CAN_USE', True), [
 
 
 INSTALLED_APPS = [
+    'longerusername',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

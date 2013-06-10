@@ -14,3 +14,4 @@ python-openid==2.2.5
 selenium==2.31.0
 wsgiref==0.1.2
 django-celery==3.0.17
+longerusername==0.4
