@@ -1,5 +1,6 @@
 from celery import task
-from forum.actions.facebook import AskQuestionStory, NewAnswerStory, NewAwardStory, FollowTopicStory, AnswerNotification
+from forum.actions.facebook import (AskQuestionStory, NewAnswerStory, NewAwardStory, FollowTopicStory,
+                                    AnswerNotification, WeeklyNotification)
 from forum.models import Question, Answer, Award, User, Tag
 
 
@@ -19,11 +20,15 @@ def new_award(award_id):
 
 
 @task()
+def follow_topic(user_id, topic_id):
+    FollowTopicStory(User.objects.get(id=user_id), Tag.objects.get(id=topic_id)).publish()
+
+
+@task()
 def answer_notification(answer_id):
     AnswerNotification(Answer.objects.get(id=answer_id)).notify()
 
 
 @task()
-def follow_topic(user_id, topic_id):
-    FollowTopicStory(User.objects.get(id=user_id), Tag.objects.get(id=topic_id)).publish()
-
+def weekly_notification(user_id, question_count):
+    WeeklyNotification(User.objects.get(id=user_id), question_count).notify()
