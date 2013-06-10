@@ -97,15 +97,12 @@ def publish_story(request, id):
         message = request.POST.get('message')
         auto_share = True if request.POST.get('auto_share') == 'true' else False
 
-        from forum.tasks import new_question
+        from forum.tasks import ask_question_story
         if question.user == user:
             if auto_share:
                 user.prop.new_question = True
 
-            if message:
-                new_question.apply_async(countdown=10, args=(question.id, message))
-            else:
-                new_question.apply_async(countdown=10, args=(question.id,))
+            ask_question_story.apply_async(countdown=10, args=(question.id, message or None))
 
             return {
                 'success': True,

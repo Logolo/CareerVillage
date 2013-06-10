@@ -1,6 +1,5 @@
 from django.utils.translation import ugettext as _
 from django.db.models import F
-from django.core.signals import Signal
 from django.db.models.signals import post_save
 
 from forum.actions.facebook import LikeQuestionStory
@@ -25,6 +24,7 @@ class ReferralAction(ActionProxy):
 
     def cancel_action(self):
         self.referral.delete()
+
 
 class VoteAction(ActionProxy):
     def update_node_score(self, inc):
@@ -78,6 +78,7 @@ class VoteUpAction(VoteAction):
 
     def describe(self, viewer=None):
         return self.describe_vote(_("voted up"), viewer)
+
 
 class VoteDownAction(VoteAction):
     def repute_users(self):
@@ -222,6 +223,7 @@ class DeleteAction(ActionProxy):
         else:
             return _("flagged by multiple users: ") + "; ".join([f.extra for f in FlagAction.objects.filter(node=self.node)])
 
+
 class UnknownAction(ActionProxy):
     pass
 
@@ -241,7 +243,7 @@ class QuestionViewAction(DummyActionProxy):
 def publish_like(sender, instance, created, **kwargs):
     user = instance.user
     if created and user.can_publish_likes:
-        like = LikeQuestionStory(user, instance.node)
-        like.publish()
+
+        LikeQuestionStory(user, instance.node).publish()
 
 post_save.connect(publish_like, sender=VoteUpAction)

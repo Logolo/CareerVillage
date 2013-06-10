@@ -1,10 +1,15 @@
 from celery import task
-from forum.actions.facebook import AskQuestionStory, AnswerNotification
+from forum.actions.facebook import AskQuestionStory, LikeQuestionStory, AnswerNotification
 from forum.models import Question, Answer
 
 
 @task()
-def new_question(question_id, message=None):
+def like_question_story(question_id, message=None):
+    LikeQuestionStory(Question.objects.get(id=question_id), message).publish()
+
+
+@task()
+def ask_question_story(question_id, message=None):
     AskQuestionStory(Question.objects.get(id=question_id), message).publish()
 
 
