@@ -12,7 +12,7 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
 
         for user in User.objects.filter(subscription_settings__notify_answers=True).exclude(
-                Q(facebook_access_token__isnull=True) | Q(facebook_access_token='')):
+                facebook_access_token__isnull=True):
 
             # Obtain interesting tags query set
             marked = MarkedTag.objects.filter(user=user, reason='good')

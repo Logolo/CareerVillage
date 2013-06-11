@@ -469,22 +469,29 @@ $(function(){
         });
     }
 
-    var checkFacebook = function(scope, callback) {
+    var checkFacebook = function(scope, setting, callback) {
+        var save = function(authResponse) {
+            $.get('/facebook/', {
+                'access_token': authResponse.accessToken,
+                'setting': setting
+            }, function(response){
+                callback();
+            });
+        };
         FB.getLoginStatus(function(response) {
             if (response.authResponse) {
-                callback();
+                save(response.authResponse);
             } else {
                 FB.ui(
                     {
                         method: 'oauth',
                         scope: scope,
-                        response_type: 'code'
+                        //response_type: 'code'
                     },
                     function(response) {
                         FB.getLoginStatus(function(response) {
                             if (response.authResponse) {
-                                //TODO: update access_token
-                                callback();
+                                save(response.authResponse);
                             }
                         }, true);
                     }
@@ -493,8 +500,21 @@ $(function(){
         }, true);
     };
 
-    var askForm = $('#fmask');
-    var autoShareCheckbox = askForm.find('#auto-share-checkbox');
+    var askForm = $('#askform > form');
+    if (askForm.length) {
+        var post = false;
+        askForm.submit(function(e){
+            if (post) return true;
+            //TODO: see checkbox before continue
+            checkFacebook('email, publish_actions', 'new_question', function(){
+                post = true;
+                askForm.submit();
+            });
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
+        });
+    };
 
     /*
     askForm.submit(function(e) {

@@ -13,12 +13,11 @@ def create_user(request, *args, **kwargs):
     response = kwargs.get('response', {})
     details = kwargs.get('details', {})
 
-    # User-specific information
-    user_email = details.get('email')
-
     # Facebook information
-    facebook_access_token = response.get('access_token')
+    print response
     facebook_uid = kwargs.get('uid')
+    facebook_email = details.get('email')
+    facebook_access_token = response.get('access_token')
 
     changed = created = False
 
@@ -26,7 +25,7 @@ def create_user(request, *args, **kwargs):
         user = User.objects.get(facebook_uid=facebook_uid)
     except User.DoesNotExist:
         try:
-            user = User.objects.get(username=user_email)
+            user = User.objects.get(username=facebook_email)
         except User.DoesNotExist:
             if request.user.is_authenticated():
                 user = request.user
@@ -34,8 +33,7 @@ def create_user(request, *args, **kwargs):
                 # Create user
                 changed = created = True
 
-                user = User(username=user_email,
-                            email=user_email)
+                user = User(username=facebook_email, email=facebook_email)
 
                 user.type = request.session['user_type']
                 user.first_name = details.get('first_name')
@@ -46,9 +44,9 @@ def create_user(request, *args, **kwargs):
         changed = True
 
         # Update Facebook information
-        user.facebook_access_token = facebook_access_token
         user.facebook_uid = facebook_uid
-        user.facebook_email = user_email
+        user.facebook_email = facebook_email
+        user.facebook_access_token = facebook_access_token
 
     if changed:
         user.save()

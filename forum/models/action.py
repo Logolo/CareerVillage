@@ -5,6 +5,7 @@ from forum.utils import html
 from base import *
 import re
 
+
 class ActionQuerySet(CachedQuerySet):
     def obj_from_datadict(self, datadict):
         cls = ActionProxyMetaClass.types.get(datadict['action_type'], None)
@@ -15,13 +16,14 @@ class ActionQuerySet(CachedQuerySet):
         else:
             return super(ActionQuerySet, self).obj_from_datadict(datadict)
 
-    def get(self, *args, **kwargs):            
+    def get(self, *args, **kwargs):
         action = super(ActionQuerySet, self).get(*args, **kwargs).leaf()
 
         if not isinstance(action, self.model):
             raise self.model.DoesNotExist()
 
         return action
+
 
 class ActionManager(CachedManager):
     use_for_related_fields = True
@@ -42,7 +44,7 @@ class ActionManager(CachedManager):
 class Action(BaseModel):
     user = models.ForeignKey('User', related_name="actions")
     real_user = models.ForeignKey('User', related_name="proxied_actions", null=True)
-    ip   = models.CharField(max_length=16)
+    ip = models.CharField(max_length=16)
     node = models.ForeignKey('Node', null=True, related_name="actions")
     action_type = models.CharField(max_length=16)
     action_date = models.DateTimeField(default=datetime.datetime.now)
@@ -151,7 +153,7 @@ class Action(BaseModel):
             self.save()
             self.cancel_reputes()
             self.cancel_action()
-        #self.trigger_hooks(False)
+            #self.trigger_hooks(False)
 
     @classmethod
     def get_current(cls, **kwargs):
@@ -184,6 +186,7 @@ class Action(BaseModel):
     class Meta:
         app_label = 'forum'
 
+
 def trigger_hooks(action, hooks, new):
     for cls, hooklist in hooks.items():
         if isinstance(action, cls):
@@ -192,8 +195,10 @@ def trigger_hooks(action, hooks, new):
                     hook(action=action, new=new)
                 except Exception, e:
                     import traceback
+
                     logging.error("Error in %s hook: %s" % (cls.__name__, str(e)))
                     logging.error(traceback.format_exc())
+
 
 class ActionProxyMetaClass(BaseMetaClass):
     types = {}
@@ -207,6 +212,7 @@ class ActionProxyMetaClass(BaseMetaClass):
 
         new_cls.Meta = Meta
         return new_cls
+
 
 class ActionProxy(Action):
     __metaclass__ = ActionProxyMetaClass
@@ -232,22 +238,25 @@ class ActionProxy(Action):
             node_desc = node_link
 
         return _("%(user)s %(node_name)s %(node_desc)s") % {
-        'user': self.hyperlink(node.author.get_profile_url(), self.friendly_ownername(viewer, node.author)),
-        'node_name': node.friendly_name,
-        'node_desc': node_desc,
+            'user': self.hyperlink(node.author.get_profile_url(), self.friendly_ownername(viewer, node.author)),
+            'node_name': node.friendly_name,
+            'node_desc': node_desc,
         }
 
     def affected_links(self, viewer):
-        return ", ".join([self.hyperlink(u.get_profile_url(), self.friendly_username(viewer, u)) for u in set([r.user for r in self.reputes.all()])])
+        return ", ".join([self.hyperlink(u.get_profile_url(), self.friendly_username(viewer, u)) for u in
+                          set([r.user for r in self.reputes.all()])])
 
     class Meta:
         proxy = True
+
 
 class DummyActionProxyMetaClass(type):
     def __new__(cls, *args, **kwargs):
         new_cls = super(DummyActionProxyMetaClass, cls).__new__(cls, *args, **kwargs)
         ActionProxyMetaClass.types[new_cls.get_type()] = new_cls
         return new_cls
+
 
 class DummyActionProxy(object):
     __metaclass__ = DummyActionProxyMetaClass

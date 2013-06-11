@@ -2,8 +2,7 @@ from django.utils.html import strip_tags
 from django.utils.translation import ugettext as _
 from forum.models.action import ActionProxy
 from forum.models import Comment, Question, Answer, NodeRevision
-import logging
-from forum.models.user import User
+
 
 class NodeEditAction(ActionProxy):
     def create_revision_data(self, initial=False, **data):
@@ -16,6 +15,7 @@ class NodeEditAction(ActionProxy):
             revision_data['tagnames'] = data['tags'].strip()
 
         return revision_data
+
 
 class AskAction(NodeEditAction):
     verb = _("asked")
@@ -34,6 +34,7 @@ class AskAction(NodeEditAction):
             'user': self.hyperlink(self.user.get_profile_url(), self.friendly_username(viewer, self.user)),
             'question': self.hyperlink(self.node.get_absolute_url(), self.node.title)
         }
+
 
 class AnswerAction(NodeEditAction):
     verb = _("answered")
@@ -55,6 +56,7 @@ class AnswerAction(NodeEditAction):
             'question': self.hyperlink(self.node.get_absolute_url(), question.title)
         }
 
+
 class CommentAction(ActionProxy):
     verb = _("commented")
 
@@ -65,9 +67,11 @@ class CommentAction(ActionProxy):
 
     def describe(self, viewer=None):
         return _("%(user)s commented on %(post_desc)s") % {
-            'user': self.hyperlink(self.node.author.get_profile_url(), self.friendly_username(viewer, self.node.author)),
+            'user': self.hyperlink(self.node.author.get_profile_url(),
+                                   self.friendly_username(viewer, self.node.author)),
             'post_desc': self.describe_node(viewer, self.node.parent)
         }
+
 
 class ReviseAction(NodeEditAction):
     verb = _("edited")
@@ -90,12 +94,14 @@ class ReviseAction(NodeEditAction):
     def get_absolute_url(self):
         return self.node.get_revisions_url()
 
+
 class RetagAction(ActionProxy):
     verb = _("retagged")
 
     def process_data(self, tagnames=''):
         active = self.node.active_revision
-        revision_data = dict(summary=_('Retag'), title=active.title, tagnames=strip_tags(tagnames.strip()), body=active.body)
+        revision_data = dict(summary=_('Retag'), title=active.title, tagnames=strip_tags(tagnames.strip()),
+                             body=active.body)
         revision = self.node.create_revision(self.user, **revision_data)
         self.extra = revision.revision
 
@@ -112,6 +118,7 @@ class RetagAction(ActionProxy):
     def get_absolute_url(self):
         return self.node.get_revisions_url()
 
+
 class RollbackAction(ActionProxy):
     verb = _("reverted")
 
@@ -127,15 +134,17 @@ class RollbackAction(ActionProxy):
     def describe(self, viewer=None):
         revisions = [NodeRevision.objects.get(node=self.node, revision=int(n)) for n in self.extra.split(':')]
 
-        return _("%(user)s reverted %(post_desc)s from revision %(initial)d (%(initial_sum)s) to revision %(final)d (%(final_sum)s)") % {
-            'user': self.hyperlink(self.user.get_profile_url(), self.friendly_username(viewer, self.user)),
-            'post_desc': self.describe_node(viewer, self.node),
-            'initial': revisions[0].revision, 'initial_sum': revisions[0].summary,
-            'final': revisions[1].revision, 'final_sum': revisions[1].summary,
-        }
+        return _(
+            "%(user)s reverted %(post_desc)s from revision %(initial)d (%(initial_sum)s) to revision %(final)d (%(final_sum)s)") % {
+                   'user': self.hyperlink(self.user.get_profile_url(), self.friendly_username(viewer, self.user)),
+                   'post_desc': self.describe_node(viewer, self.node),
+                   'initial': revisions[0].revision, 'initial_sum': revisions[0].summary,
+                   'final': revisions[1].revision, 'final_sum': revisions[1].summary,
+               }
 
     def get_absolute_url(self):
         return self.node.get_revisions_url()
+
 
 class CloseAction(ActionProxy):
     verb = _("closed")
@@ -157,6 +166,7 @@ class CloseAction(ActionProxy):
             'post_desc': self.describe_node(viewer, self.node),
             'reason': self.extra
         }
+
 
 class AnswerToCommentAction(ActionProxy):
     verb = _("converted")
@@ -182,6 +192,7 @@ class AnswerToCommentAction(ActionProxy):
             'question': self.describe_node(viewer, self.node.abs_parent),
         }
 
+
 class CommentToAnswerAction(ActionProxy):
     verb = _("converted")
 
@@ -198,10 +209,11 @@ class CommentToAnswerAction(ActionProxy):
             'question': self.describe_node(viewer, self.node.abs_parent),
         }
 
+
 class AnswerToQuestionAction(NodeEditAction):
     verb = _("converted to question")
 
-    def process_data(self,  **data):
+    def process_data(self, **data):
         revision_data = self.create_revision_data(**data)
         revision = self.node.create_revision(self.user, **revision_data)
 
@@ -222,12 +234,12 @@ class AnswerToQuestionAction(NodeEditAction):
         self.node.last_edited = self
         self.node.save()
 
-
     def describe(self, viewer=None):
         return _("%(user)s converted an answer to %(question)s into a separate question") % {
             'user': self.hyperlink(self.user.get_profile_url(), self.friendly_username(viewer, self.user)),
             'question': self.describe_node(viewer, self.node.abs_parent),
         }
+
 
 class WikifyAction(ActionProxy):
     verb = _("wikified")

@@ -69,6 +69,7 @@ def upload(request):#ajax upload file to a question or answer
 
     return HttpResponse(result, mimetype="application/xml")
 
+
 def ask(request):
     form = None
 
@@ -116,7 +117,6 @@ def ask(request):
 
 def ask_v2(request):
     form = None
-
     if request.POST:
         if request.session.pop('reviewing_pending_data', False):
             form = AskForm(initial=request.POST, user=request.user)
@@ -156,8 +156,8 @@ def ask_v2(request):
         form = AskForm(user=request.user)
 
     return render_to_response('v2/ask_question.html', {
-        'form' : form,
-        'tab' : 'ask'
+        'form': form,
+        'tab': 'ask'
         }, context_instance=RequestContext(request))
 
 def convert_to_question(request, id):

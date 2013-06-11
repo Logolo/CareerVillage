@@ -31,8 +31,10 @@ def disconnect(request, *args, **kwargs):
     if user and user.is_authenticated() and user.has_usable_password():
         # Remove stored Facebook information
         if kwargs.get('backend') == 'facebook':
-            user.facebook_access_token = ''
-            user.facebook_uid = ''
+            user.facebook_uid = None
+            user.facebook_email = None
+            user.facebook_access_token = None
+            user.facebook_access_token_expires_on = None
             user.save()
 
     return redirect('settings_social_networks')

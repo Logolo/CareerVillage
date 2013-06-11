@@ -13,7 +13,9 @@ from forum.modules import call_all_handlers
 
 import logging
 
+
 class TitleField(forms.CharField):
+
     def __init__(self, *args, **kwargs):
         super(TitleField, self).__init__(*args, **kwargs)
         self.required = True
@@ -29,7 +31,9 @@ class TitleField(forms.CharField):
 
         return value
 
+
 class EditorField(forms.CharField):
+
     def __init__(self, *args, **kwargs):
         super(EditorField, self).__init__(*args, **kwargs)
         self.widget = forms.Textarea(attrs={'id':'editor'})
@@ -39,6 +43,7 @@ class EditorField(forms.CharField):
 
 
 class QuestionEditorField(EditorField):
+
     def __init__(self, *args, **kwargs):
         super(QuestionEditorField, self).__init__(*args, **kwargs)
         self.required = not bool(settings.FORM_EMPTY_QUESTION_BODY)
@@ -48,6 +53,7 @@ class QuestionEditorField(EditorField):
             raise forms.ValidationError(_('question content must be at least %s characters') % settings.FORM_MIN_QUESTION_BODY)
 
         return value
+
 
 class AnswerEditorField(EditorField):
     def __init__(self, *args, **kwargs):
@@ -106,10 +112,11 @@ class TagNamesField(forms.CharField):
                 raise forms.ValidationError(_("You don't have enough reputation to create new tags. The following tags do not exist yet: %s") %
                         ', '.join(unexistent))
 
-
         return u' '.join(list_temp)
 
+
 class WikiField(forms.BooleanField):
+
     def __init__(self, disabled=False, *args, **kwargs):
         super(WikiField, self).__init__(*args, **kwargs)
         self.required = False
@@ -117,16 +124,21 @@ class WikiField(forms.BooleanField):
         self.help_text = _('if you choose community wiki option, the question and answer do not generate points and name of author will not be shown')
         if disabled:
             self.widget=forms.CheckboxInput(attrs={'disabled': "disabled"})
+
     def clean(self,value):
         return value
 
+
 class EmailNotifyField(forms.BooleanField):
+
     def __init__(self, *args, **kwargs):
         super(EmailNotifyField, self).__init__(*args, **kwargs)
         self.required = False
         self.widget.attrs['class'] = 'nomargin'
 
+
 class SummaryField(forms.CharField):
+
     def __init__(self, *args, **kwargs):
         super(SummaryField, self).__init__(*args, **kwargs)
         self.required = False
@@ -137,6 +149,7 @@ class SummaryField(forms.CharField):
 
 
 class FeedbackForm(forms.Form):
+
     message = forms.CharField(label=_('Your message:'), max_length=800,widget=forms.Textarea(attrs={'cols':60}))
     next = NextUrlField()
 
@@ -147,15 +160,15 @@ class FeedbackForm(forms.Form):
             self.fields['email'] = forms.EmailField(label=_('Email (not shared with anyone):'), required=True)
 
 
-
 class AskForm(forms.Form):
-    title  = TitleField()
-    text   = QuestionEditorField()
+
+    title = TitleField()
+    text = QuestionEditorField()
 
     def __init__(self, data=None, user=None, *args, **kwargs):
         super(AskForm, self).__init__(data, *args, **kwargs)
 
-        self.fields['tags']   = TagNamesField(user)
+        self.fields['tags'] = TagNamesField(user)
         self.fields['text'].widget.attrs.update({'placeholder': 'Why are you asking? Give us some context!'})
 
         if int(user.reputation) < settings.CAPTCHA_IF_REP_LESS_THAN and not (user.is_superuser or user.is_staff):
@@ -172,9 +185,11 @@ class AskForm(forms.Form):
         if settings.WIKI_ON:
             self.fields['wiki'] = WikiField()
 
+
 class AnswerForm(forms.Form):
-    text   = AnswerEditorField()
-    wiki   = WikiField()
+
+    text = AnswerEditorField()
+    wiki = WikiField()
 
     def __init__(self, data=None, user=None, *args, **kwargs):
         super(AnswerForm, self).__init__(data, *args, **kwargs)
@@ -193,8 +208,10 @@ class AnswerForm(forms.Form):
         if settings.WIKI_ON:
             self.fields['wiki'] = WikiField()
 
+
 class ReferFriendForm(forms.Form):
     email   = forms.EmailField()
+
 
 class RetagQuestionForm(forms.Form):
     tags   = TagNamesField()
@@ -252,7 +269,9 @@ class EditQuestionForm(forms.Form):
         if settings.WIKI_ON:
             self.fields['wiki'] = WikiField(disabled=(question.nis.wiki and not user.can_cancel_wiki(question)), initial=question.nis.wiki)
 
+
 class EditAnswerForm(forms.Form):
+
     text = AnswerEditorField()
     summary = SummaryField()
 
@@ -278,7 +297,9 @@ class EditAnswerForm(forms.Form):
         if settings.WIKI_ON:
             self.fields['wiki'] = WikiField(disabled=(answer.nis.wiki and not user.can_cancel_wiki(answer)), initial=answer.nis.wiki)
 
+
 class EditUserForm(forms.Form):
+
     email = forms.EmailField(label=u'Email', help_text=_('this email does not have to be linked to gravatar'), required=True, max_length=75, widget=forms.TextInput(attrs={'size' : 35}))
     realname = forms.CharField(label=_('Real name'), required=False, max_length=255, widget=forms.TextInput(attrs={'size' : 35}))
     website = forms.URLField(label=_('Website'), required=False, max_length=255, widget=forms.TextInput(attrs={'size' : 35}))
@@ -327,7 +348,9 @@ NOTIFICATION_CHOICES = (
     ('n', _('No notifications')),
 )
 
+
 class SubscriptionSettingsForm(forms.ModelForm):
+
     enable_notifications = forms.BooleanField(widget=forms.HiddenInput, required=False)
     member_joins = forms.ChoiceField(widget=forms.RadioSelect, choices=NOTIFICATION_CHOICES)
     new_question = forms.ChoiceField(widget=forms.RadioSelect, choices=NOTIFICATION_CHOICES)
@@ -337,7 +360,9 @@ class SubscriptionSettingsForm(forms.ModelForm):
     class Meta:
         model = SubscriptionSettings
 
+
 class UserPreferencesForm(forms.Form):
+
     sticky_sorts = forms.BooleanField(required=False, initial=False)
 
 

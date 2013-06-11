@@ -2,21 +2,31 @@
 import urllib2
 import urllib
 import json
-
+import urlparse
+import datetime
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.translation import ugettext as _
+from django.utils.timezone import now
 
 
 class Graph(object):
 
     BASE_URL = "https://graph.facebook.com/"
 
-    def get_app_access_token(self):
-        response = urllib2.urlopen("%soauth/access_token?client_id=%s&client_secret=%s&grant_type=client_credentials" % (
-                self.BASE_URL, settings.FACEBOOK_APP_ID, settings.FACEBOOK_API_SECRET)).read()
-        name, value = response.split('=')
-        return value
+    @classmethod
+    def get_app_access_token(cls):
+        response = urllib2.urlopen("%soauth/access_token?client_id=%s&client_secret=%s&grant_type=client_credentials" %
+                                   (cls.BASE_URL, settings.FACEBOOK_APP_ID, settings.FACEBOOK_API_SECRET)).read()
+        values = urlparse.parse_qs(response)
+        return values['access_token'][0]
+
+    @classmethod
+    def extend_access_token(cls, token):
+        response = urllib2.urlopen("%soauth/access_token?client_id=%s&client_secret=%s&fb_exchange_token=%s&grant_type=fb_exchange_token" % (
+            cls.BASE_URL, settings.FACEBOOK_APP_ID, settings.FACEBOOK_API_SECRET, token)).read()
+        values = urlparse.parse_qs(response)
+        return values['access_token'][0], now() + datetime.timedelta(seconds=int(values['expires'][0]))
 
 
 class GraphException(Exception):

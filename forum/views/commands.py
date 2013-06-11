@@ -11,10 +11,11 @@ from django.core.urlresolvers import reverse
 from forum import settings
 from forum.models import *
 from forum.actions import *
-from forum.actions.facebook import LikeQuestionStory
+from forum.actions.facebook import Graph, LikeQuestionStory
 from forum.utils.decorators import ajax_method, ajax_login_required
 from decorators import command, CommandException, RefreshPageCommand
 from forum.modules import decorate
+from django.utils.timezone import now
 
 
 class NotEnoughRepPointsException(CommandException):
@@ -25,6 +26,7 @@ class NotEnoughRepPointsException(CommandException):
             ) % {'action': action, 'faq_url': reverse('faq')}
         )
 
+
 class CannotDoOnOwnException(CommandException):
     def __init__(self, action):
         super(CannotDoOnOwnException, self).__init__(
@@ -32,6 +34,7 @@ class CannotDoOnOwnException(CommandException):
                 """Sorry but you cannot %(action)s your own post.<br />Please check the <a href='%(faq_url)s'>faq</a>"""
             ) % {'action': action, 'faq_url': reverse('faq')}
         )
+
 
 class AnonymousNotAllowedException(CommandException):
     def __init__(self, action):
@@ -41,6 +44,7 @@ class AnonymousNotAllowedException(CommandException):
             ) % {'action': action, 'signin_url': reverse('auth_signin')}
         )
 
+
 class NotEnoughLeftException(CommandException):
     def __init__(self, action, limit):
         super(NotEnoughLeftException, self).__init__(
@@ -49,6 +53,7 @@ class NotEnoughLeftException(CommandException):
             ) % {'action': action, 'limit': limit, 'faq_url': reverse('faq')}
         )
 
+
 class CannotDoubleActionException(CommandException):
     def __init__(self, action):
         super(CannotDoubleActionException, self).__init__(
@@ -56,6 +61,7 @@ class CannotDoubleActionException(CommandException):
                 """Sorry, but you cannot %(action)s twice the same post.<br />Please check the <a href='%(faq_url)s'>faq</a>"""
             ) % {'action': action, 'faq_url': reverse('faq')}
         )
+
 
 @ajax_login_required
 @ajax_method
@@ -655,3 +661,15 @@ def award_points(request, user_id, answer_id):
         BonusRepAction(user=request.user, extra=extra).save(data=dict(value=points, affected=awarded_user))
 
         return { 'message' : _("You have awarded %s with %d points") % (awarded_user, points) }
+
+
+@decorate.withfn(command)
+def facebook(request):
+    user = request.user
+    setting = request.GET.get('setting', None)
+    setattr(user.prop, setting, True)
+    #TODO: check fbid
+    user.facebook_access_token, user.facebook_access_token_expires_on = \
+        Graph.extend_access_token(request.GET.get('access_token'))
+    user.save()
+    return {}

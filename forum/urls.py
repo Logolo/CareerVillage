@@ -88,6 +88,7 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/' % _('convert/'), app.commands.convert_to_comment, name='convert_to_comment'),
     url(r'^%s(?P<id>\d+)/' % _('convert_to_question/'), app.writers.convert_to_question,name='convert_to_question'),
     url(r'^%s(?P<id>\d+)/' % _('wikify/'), app.commands.wikify, name='wikify'),
+    url(r'^%s' % _('facebook/'), app.commands.facebook, name='facebook'),
 
     url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]*)$' % _('question/'), 'django.views.generic.simple.redirect_to', {'url': '/questions/%(id)s/%(slug)s'}),
     url(r'^%s(?P<id>\d+)/?$' % _('questions/'), app.readers.question, name='question'),

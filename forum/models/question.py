@@ -3,11 +3,11 @@ from base import *
 from django.utils.translation import ugettext as _
 
 
-
 class QuestionManager(NodeManager):
     def search(self, keywords):
         return False, self.filter(models.Q(title__icontains=keywords) | models.Q(body__icontains=keywords) |
                                   models.Q(tagnames__icontains=keywords))
+
 
 class Question(Node):
     class Meta(Node.Meta):
