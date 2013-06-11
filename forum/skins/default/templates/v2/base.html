@@ -87,5 +87,25 @@
 <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 <script src="{% media "/media/js/v2.js" %}"></script>
 {% block scripts %}{% endblock %}
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '{{ settings.FACEBOOK_APP_ID }}',
+            channelUrl : '{{ settings.APP_URL }}/channel.html',
+            status     : true,
+            xfbml      : true,
+            cookie     : true,
+            oauth      : true
+        });
+    };
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 </body>
 </html>
