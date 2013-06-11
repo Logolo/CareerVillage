@@ -11,6 +11,7 @@ def complete(request, *args, **kwargs):
         socialauth_complete(request, *args, **kwargs)
     except AuthAlreadyAssociated:
         # The social account is already associated to another user
+        # TODO: Notify the user
         return redirect('homepage')
 
     return redirect('settings_social_networks')
@@ -23,6 +24,7 @@ def disconnect(request, *args, **kwargs):
         socialauth_disconnect(request, *args, **kwargs)
     except NotAllowedToDisconnect:
         # The currently associated social account is the only way the user can sign in
+        # TODO: Notify the user
         return redirect('homepage')
 
     user = request.user

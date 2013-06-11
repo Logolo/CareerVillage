@@ -104,8 +104,17 @@
                     </div>
                     <div class="clear"></div>
                     {% endif %}
-                    
-                    {% if not request.user.is_authenticated %}                                                                        
+
+                    <!-- Facebook actions -->
+                    <div class="pull-right" id="fb-actions" style="margin-bottom: 10px;">
+                        <label>
+                            <input type="checkbox" name="auto-share-checkbox" id="auto-share-checkbox"
+                                   style="margin-right: 4px;" value="" checked />
+                            Post automatically on Facebook
+                        </label>
+                    </div>
+
+                    {% if not request.user.is_authenticated %}
                     <input name="ask" type="submit" value="{% trans "Login to submit this question" %}" class="btn btn-success" />
                     {% else %}
                     <input name="ask" type="submit" value="{% trans "Submit this question" %}" class="btn btn-success"/>

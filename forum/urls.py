@@ -66,8 +66,6 @@ core_urls = (
 
     url(r'^%s(?P<id>\d+)/(?P<vote_type>[a-z]+)/' % _('vote/'), app.commands.vote_post, name='vote_post'),
     url(r'^%s%s(?P<id>\d+)/' % (_('publish/'), _('like/'),), app.commands.publish_like, name='publish_like'),
-    url(r'^%s%s%s(?P<id>\d+)/' % (_('publish/'), _('question/'), _('story/'),), app.commands.publish_question_story, name='publish_question_story'),
-    url(r'^%s%s%s(?P<id>\d+)/' % (_('publish/'), _('answer/'), _('story/'),), app.commands.publish_answer_story, name='publish_answer_story'),
     url(r'^%s%s(?P<id>\d+)/' % (_('follow/'), _('topics/'),), app.commands.follow_topics, name='follow_topics'),
     url(r'^%s(?P<id>\d+)/$' % _('like_comment/'), app.commands.like_comment, name='like_comment'),
     url(r'^%s(?P<id>\d+)/' % _('comment/'), app.commands.comment, name='comment'),

@@ -361,7 +361,7 @@ $(function(){
      */
 
     // Obtain cookie by its name
-    function get_cookie(name) {
+    function getCookie(name) {
         var name_eq = name + "=";
         var ca = document.cookie.split(';');
         for(var i=0; i < ca.length; i++) {
@@ -373,8 +373,8 @@ $(function(){
     }
 
     // Add CSRF token
-    function add_csrf(params) {
-        params['csrfmiddlewaretoken'] = get_cookie('csrftoken');
+    function addCsrf(params) {
+        params['csrfmiddlewaretoken'] = getCookie('csrftoken');
         return params;
     }
 
@@ -389,7 +389,7 @@ $(function(){
      * button -- a button
      * loading -- true if loading
      */
-    function set_loading(button, loading) {
+    function setLoading(button, loading) {
         if (loading) {
             // Toggle status
             button.addClass('disabled');
@@ -414,7 +414,7 @@ $(function(){
      * params -- http post parameters
      * finish -- function called when the action finishes
      */
-    function handle_command(button, params, finish) {
+    function handleCommand(button, params, finish) {
         if (button.hasClass('disabled')) {
             return;
         }
@@ -425,13 +425,13 @@ $(function(){
         if (button.hasClass(LOADING_CLASS)) {
             return;
         } else {
-            set_loading(button, true);
+            setLoading(button, true);
         }
 
         // Make AJAX request
-        $.post(href, add_csrf(params), function(data) {
+        $.post(href, addCsrf(params), function(data) {
             // Update status
-            set_loading(button, false);
+            setLoading(button, false);
 
             // Handle result
             if (data.success) {
@@ -444,50 +444,6 @@ $(function(){
 
             // Finish
             finish(data);
-        });
-    }
-
-    /*
-     * answer-success (modal actions)
-     * template: "_question_top.html"
-     */
-
-    var answer_success = $('#answer-success');
-
-    if (answer_success) {
-        /*
-         * ACTION: Share answer on Facebook
-         */
-
-        // 1. Find inputs
-        var share_answer_message = answer_success.find('#share-answer-message').first();
-        var share_answer_checkbox = answer_success.find('#share-answer-checkbox').first();
-
-        // 2. Show form
-        var option_share_answer = answer_success.find('#option-share-answer');
-        var div_share_answer = answer_success.find('#div-share-answer');
-        div_share_answer.hide();
-        option_share_answer.click(function() {
-            option_share_answer.fadeOut(function() {
-                div_share_answer.fadeIn();
-                share_answer_message.focus();
-            });
-        });
-
-        // 3. Call command
-        var command_share_answer = answer_success.find('#command-share-answer').first();
-        command_share_answer.click(function(e) {
-            e.preventDefault();
-            handle_command($(this), {
-                'message': share_answer_message.val(),
-                'auto_share': share_answer_checkbox.is(":checked")
-            }, function(data) {
-                if (data.success) {
-                    setTimeout(function() {
-                        div_share_answer.slideUp();
-                    }, 800);
-                }
-            });
         });
     }
 
@@ -505,46 +461,10 @@ $(function(){
         var command_follow_topics = ask_success.find('#command-follow-topics').first();
         command_follow_topics.click(function(e) {
             e.preventDefault();
-            handle_command($(this), {
+            handleCommand($(this), {
                 // parameters here
             }, function(data) {
                 // finish here
-            });
-        });
-
-
-        /*
-         * ACTION: Share question on facebook
-         */
-
-        // 1. Find inputs
-        var share_question_message = ask_success.find('#share-question-message').first();
-        var share_question_checkbox = ask_success.find('#share-question-checkbox').first();
-
-        // 2. Show form
-        var option_share_question = ask_success.find('#option-share-question');
-        var div_share_question = ask_success.find('#div-share-question');
-        div_share_question.hide();
-        option_share_question.click(function() {
-            option_share_question.fadeOut(function() {
-                div_share_question.fadeIn();
-                share_question_message.focus();
-            });
-        });
-
-        // 3. Call command
-        var command_share_question = ask_success.find('#command-share-question').first();
-        command_share_question.click(function(e) {
-            e.preventDefault();
-            handle_command($(this), {
-                'message': share_question_message.val(),
-                'auto_share': share_question_checkbox.is(":checked")
-            }, function(data) {
-                if (data.success) {
-                    setTimeout(function() {
-                        div_share_question.slideUp();
-                    }, 800);
-                }
             });
         });
     }
@@ -572,6 +492,16 @@ $(function(){
             }
         }, true);
     };
+
+    var askForm = $('#fmask');
+    var autoShareCheckbox = askForm.find('#auto-share-checkbox');
+
+    /*
+    askForm.submit(function(e) {
+        enviar -> return true;
+        cancelar -> return false;
+    });
+    */
 
 
 }); // end jquery enclosure
