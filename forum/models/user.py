@@ -226,13 +226,13 @@ class User(BaseModel, DjangoUser):
         return self.id == 1
 
     def is_student(self):
-        return (self.type == User.TYPE_STUDENT) or (self.student_of.count() > 0)
+        return self.type == User.TYPE_STUDENT
 
     def is_professional(self):
-        return (self.type == User.TYPE_PROFESSIONAL) or (self.student_of.count() > 0 and self.educator_of.count() > 0)
+        return self.type == User.TYPE_PROFESSIONAL
 
-    def is_professional(self):
-        return (self.type == User.TYPE_EDUCATOR) or (self.student_of.count() > 0 and self.educator_of.count() > 0)
+    def is_educator(self):
+        return self.type == User.TYPE_EDUCATOR
 
     @property
     def decorated_name(self):
