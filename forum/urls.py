@@ -160,8 +160,18 @@ core_urls = (
     url(r'^%s%s(?P<id>\d+)/%s$' % (_('account/'), _('providers/'), _('remove/')), app.auth.remove_external_provider, name='user_remove_external_provider'),
     url(r'^%s%s%s$' % (_('account/'), _('providers/'), _('add/')), app.auth.signin_page, name='user_add_external_provider'),
     url(r'^%s%s$' %(_('account/'), _('send-validation/')), app.auth.send_validation_email, name='send_validation_email'),
-    # social auth
+
+    # Social auth: Override views
+    url(r'^complete/(?P<backend>[^/]+)/$',
+        'forum.authentication.views.complete',
+        name='socialauth_complete'),
+    url(r'^disconnect/(?P<backend>[^/]+)/$',
+        'forum.authentication.views.disconnect',
+        name='socialauth_disconnect'),
+
+    # Social auth
     url('', include('social_auth.urls')),
+
 
     url(r'^%s$' % _('admin/'), app.admin.dashboard, name='admin_index'),
     url(r'^%s%s$' % (_('admin/'), _('switch_interface/')), app.admin.interface_switch, name='admin_switch_interface'),

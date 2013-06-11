@@ -149,6 +149,7 @@ class User(BaseModel, DjangoUser):
     #facebook
     facebook_access_token = models.CharField(max_length=250)
     facebook_uid = models.CharField(max_length=100, blank=True, default='')
+    facebook_email = models.CharField(max_length=255, blank=True, default='')
 
     subscriptions = models.ManyToManyField('Node', related_name='subscribers', through='QuestionSubscription')
 

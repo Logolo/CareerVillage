@@ -15,7 +15,17 @@
     <div class="row-fluid">
         <div class="span6" style="text-align:center">
             <h4 class="subtitle">Facebook</h4>
-            <a href="#" class="btn btn-large">Connect with Facebook</a>
+            {% if user.facebook_access_token %}
+                {% if user.has_usable_password %}
+                    <a href="{% url socialauth_disconnect "facebook" %}?user_type={{ user.type }}"
+                       class="btn btn-large">Disconnect from Facebook</a>
+                {% else %}
+                    <span class="btn btn-large disabled">Cannot disconnect</span>
+                {% endif %}
+            {% else %}
+                <a href="{% url social_auth.views.auth "facebook" %}?user_type={{ user.type }}"
+                   class="btn btn-large">Connect with Facebook</a>
+            {% endif %}
         </div>
         <div class="span6" style="text-align:center">
             <h4 class="subtitle">Twitter</h4>
