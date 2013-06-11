@@ -62,6 +62,7 @@ ALLOW_FILE_TYPES = ('.jpg', '.jpeg', '.gif', '.bmp', '.png', '.tiff')
 ALLOW_MAX_FILE_SIZE = 1024 * 1024
 
 FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'publish_actions']
+FACEBOOK_EXTENDED_PERMISSIONS_STRING = ','.join(FACEBOOK_EXTENDED_PERMISSIONS)
 
 #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
 BROKER_URL = 'django://'

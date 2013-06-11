@@ -549,5 +549,29 @@ $(function(){
         });
     }
 
+    var checkFacebook = function(scope, callback) {
+        FB.getLoginStatus(function(response) {
+            if (response.authResponse) {
+                callback();
+            } else {
+                FB.ui(
+                    {
+                        method: 'oauth',
+                        scope: scope,
+                        response_type: 'code'
+                    },
+                    function(response) {
+                        FB.getLoginStatus(function(response) {
+                            if (response.authResponse) {
+                                //TODO: update access_token
+                                callback();
+                            }
+                        }, true);
+                    }
+                );
+            }
+        }, true);
+    };
+
 
 }); // end jquery enclosure
