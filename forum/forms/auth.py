@@ -5,6 +5,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django import forms
+from django.db.models import Q
+from django.core.exceptions import ValidationError
 import logging
 
 
@@ -99,6 +101,14 @@ class StudentSignupForm(forms.ModelForm):
 
     def available_grades(self):
         return [str(i) + "th" for i in range(5, 13)] + ['college', 'other']
+
+    def clean_email(self):
+        """ Validate email.
+        """
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(Q(username=email) | Q(email=email)):
+            raise ValidationError('That user already exists.')
+        return email
 
     def is_valid(self):
         is_valid = super(StudentSignupForm, self).is_valid()
