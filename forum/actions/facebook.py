@@ -227,8 +227,9 @@ class AnswerQuestionNotification(Notification):
         return settings.APP_URL + reverse('question', kwargs={'id': self._question.id})
 
     def get_template(self):
+        answerer_fb_uid = self._answerer.facebook_uid
         return _("%s just answered your question. Check it out and say thanks at %s.") % (
-            self._answerer.display_name('safe'), self.get_href())
+            self._answerer.display_name('safe') if not answerer_fb_uid else u'@[%s]' % answerer_fb_uid, self.get_href())
 
 
 class TopicQuestionNotification(Notification):

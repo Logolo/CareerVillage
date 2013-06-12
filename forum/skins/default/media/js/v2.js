@@ -530,6 +530,7 @@ $(function(){
     var askCheckBox = askForm.find('input[type="checkbox"][name="auto-share-checkbox"]');
     if (askForm.length) {
         var post = false;
+        var submitted = false;
 
         // Ensure that the submit button is enabled by default
         askSubmitButton.removeClass('disabled');
@@ -537,6 +538,8 @@ $(function(){
 
         askForm.submit(function(e) {
             if (post) return true;
+            if (submitted) return false;
+            submitted = true;
 
             // Disable submit button
             askSubmitButton.addClass('disabled');
@@ -548,6 +551,8 @@ $(function(){
                     if (success) {
                         post = true;
                         askForm.submit();
+                    } else {
+                        submitted = false;
                     }
                 });
             } else {
