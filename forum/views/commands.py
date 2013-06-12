@@ -667,7 +667,8 @@ def award_points(request, user_id, answer_id):
 def facebook(request):
     user = request.user
     setting = request.GET.get('setting', None)
-    setattr(user.prop, setting, True)
+    if setting in ['new_question']:
+        setattr(user.prop, setting, True)
     #TODO: check fbid
     user.facebook_access_token, user.facebook_access_token_expires_on = \
         Graph.extend_access_token(request.GET.get('access_token'))
