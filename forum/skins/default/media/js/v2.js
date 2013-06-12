@@ -478,7 +478,7 @@ $(function(){
      */
     var checkFacebook = function(scope, setting, popoverElement, callback) {
         var save = function(authResponse) {
-            $.post('/facebook/', addCsrf({
+            $.post(FB_COMMAND_URL, addCsrf({
                 'access_token': authResponse.accessToken,
                 'setting': setting
             }), function(response) {
