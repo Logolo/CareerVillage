@@ -567,5 +567,49 @@ $(function(){
         });
     };
 
+    /*
+     * Override submit action in the "answer question" form.
+     */
+    var answerForm = $('#fmanswer');
+    var answerSubmitButton = answerForm.find('input[type="submit"]');
+    var answerCheckBox = answerForm.find('input[type="checkbox"]');
+    if (answerForm.length) {
+        var post = false;
+        var submitted = false;
+
+        // Ensure that the submit button is enabled by default
+        answerSubmitButton.removeClass('disabled');
+        answerSubmitButton.removeAttr('disabled');
+
+        answerForm.submit(function(e) {
+            if (post) return true;
+            if (submitted) return false;
+            submitted = true;
+
+            // Disable submit button
+            answerSubmitButton.addClass('disabled');
+            answerSubmitButton.attr('disabled', '');
+
+            // Get checkbox value
+            if (answerCheckBox.length && answerCheckBox.is(':checked')) {
+                checkFacebook('email, publish_actions', 'new_answer', answerSubmitButton, function(success) {
+                    if (success) {
+                        post = true;
+                        answerForm.submit();
+                    } else {
+                        submitted = false;
+                    }
+                });
+            } else {
+                post = true;
+                answerForm.submit();
+            }
+
+            // Prevent default submit
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
+        });
+    };
 
 }); // end jquery enclosure
