@@ -46,7 +46,9 @@
                             {{ answer.text.errors }}
 
                             <!-- Facebook actions -->
-                            {% if not user.prop.new_answer %}
+                            {% if user.facebook_access_token and user.prop.new_answer %}
+                            <p>We'll let your friends on Facebook know. Go to <a href="{% url settings_social_networks %}" target="_blank">Social Networks</a> to change your settings.</p>
+                            {% else %}
                             <div class="facebook-actions">
                                 <label style="display: inline;">
                                     <input type="checkbox" name="auto-share-answer-checkbox" checked style="width: auto; display: inline;" />
