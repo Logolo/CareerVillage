@@ -173,7 +173,7 @@ class AnswerQuestionStory(Story):
 
     def get_data(self):
         data = {
-            'question': 'http://samples.ogp.me/523169144391241' if settings.DEBUG else self.get_object_url(),
+            'question': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
         }
         if self._message:
             data['message'] = self._message

@@ -48,6 +48,17 @@
                     {{ answer.text }}
                     {{ answer.text.errors }}
                 </div>
+
+                <!-- Facebook actions -->
+                {% if not user.prop.new_answer %}
+                <div class="facebook-actions">
+                    <label style="display: inline;">
+                        <input type="checkbox" name="auto-share-answer-checkbox" checked style="width: auto; display: inline;" />
+                        Share my activity on CareerVillage with my Facebook friends to get more votes!
+                    </label>
+                </div>
+                {% endif %}
+
                 <input type="button"
                     value="Submit" 
                     class="btn btn-success" style="float:left" onclick="submitClicked(event, this.form)"/>

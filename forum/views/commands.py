@@ -675,7 +675,7 @@ def facebook(request):
 
     # Update setting
     setting = request.POST.get('setting', None)
-    if setting in ['new_question']:
+    if setting in ['new_question', 'new_answer']:
         setattr(user.prop, setting, True)
 
     # Extend access token
