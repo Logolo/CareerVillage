@@ -42,15 +42,15 @@
                 {% csrf_token %}
 
                 <h5>Stories</h5>
-
                 {% include "v2/_checkbox_field.html" with field=form.likes %}
                 {% include "v2/_checkbox_field.html" with field=form.new_question %}
                 {% include "v2/_checkbox_field.html" with field=form.new_answer %}
                 {% include "v2/_checkbox_field.html" with field=form.new_badge_or_points %}
+                {% include "v2/_checkbox_field.html" with field=form.new_topic %}
 
 
                 <h5>Notifications</h5>
-                {% include "v2/_checkbox_field.html" with field=form.new_answers_notification %}
+                {% include "v2/_checkbox_field.html" with field=form.new_answer_notification %}
                 {% include "v2/_checkbox_field.html" with field=form.new_badge_notification %}
 
                 <input type="submit" class="btn" value="{% trans "Save" %}">

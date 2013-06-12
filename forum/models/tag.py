@@ -55,8 +55,7 @@ class MarkedTag(models.Model):
 
 def publish_interest_topic(sender, instance, created, **kwargs):
     from forum.tasks import interest_topic_story
-    # TODO: Verify that the user has authorized the application to post interesting topics
-    if created and instance.reason == 'good':
+    if created and instance.reason == 'good' and instance.user.can_publish_new_topic:
         interest_topic_story.apply_async(countdown=10, args=(instance.user.id, instance.tag.id))
 
 post_save.connect(publish_interest_topic, sender=MarkedTag)

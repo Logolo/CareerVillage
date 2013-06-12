@@ -19,8 +19,9 @@ class SocialSettingsForm(forms.Form):
     new_question = forms.BooleanField(initial=False, required=False)
     new_answer = forms.BooleanField(initial=False, required=False)
     new_badge_or_points = forms.BooleanField(initial=False, required=False)
+    new_topic = forms.BooleanField(initial=False, required=False)
 
-    new_answers_notification = forms.BooleanField(initial=False, required=False)
+    new_answer_notification = forms.BooleanField(initial=False, required=False)
     new_badge_notification = forms.BooleanField(initial=False, required=False)
 
 # class SettingsPasswordForm(forms.Form):

@@ -7,10 +7,10 @@ from django.contrib.auth.models import User as DjangoUser, AnonymousUser as Djan
 from hashlib import md5
 from random import Random
 from django.utils.translation import ugettext as _
+from forum.utils.time import one_day_from_now
 
 
 class AnonymousUser(DjangoAnonymousUser):
-
     reputation = 0
 
     @property
@@ -28,7 +28,7 @@ class AnonymousUser(DjangoAnonymousUser):
 
     def can_vote_down(self):
         return False
-    
+
     def can_vote_count_today(self):
         return 0
 
@@ -52,10 +52,10 @@ class AnonymousUser(DjangoAnonymousUser):
 
     def can_convert_to_comment(self, answer):
         return False
-    
+
     def can_convert_to_question(self, answer):
         return False
-    
+
     def can_convert_comment_to_answer(self, comment):
         return False
 
@@ -129,7 +129,7 @@ class User(BaseModel, DjangoUser):
     is_approved = models.BooleanField(default=False)
     email_isvalid = models.BooleanField(default=False)
 
-    reputation = models.PositiveIntegerField(default=0)    
+    reputation = models.PositiveIntegerField(default=0)
     gold = models.PositiveIntegerField(default=0)
     silver = models.PositiveIntegerField(default=0)
     bronze = models.PositiveIntegerField(default=0)
@@ -201,6 +201,10 @@ class User(BaseModel, DjangoUser):
         return self.facebook_access_token and self.prop.new_badge_or_points
 
     @property
+    def can_publish_new_topic(self):
+        return self.facebook_access_token and self.prop.new_topic
+
+    @property
     def grade(self):
         if self.is_student():
             return self.prop.grade
@@ -257,7 +261,7 @@ class User(BaseModel, DjangoUser):
     @property
     def gravatar(self):
         return md5(self.email.lower()).hexdigest()
-    
+
     def save(self, *args, **kwargs):
         if self.reputation < 0:
             self.reputation = 0
@@ -370,7 +374,7 @@ class User(BaseModel, DjangoUser):
     def get_logged_in_within(self, days=7):
         now = datetime.datetime.now()
         return self.last_seen > (now - datetime.timedelta(days=days))
-        
+
     #calculates reputation based on ActionRepute events within days
     def get_reputation_by_actions(self, days=7):
         today = datetime.datetime.now()
@@ -390,15 +394,15 @@ class User(BaseModel, DjangoUser):
         today = datetime.date.today()
         return self.actions.filter(canceled=False, action_type="flag",
                                    action_date__gte=(today - datetime.timedelta(days=1))).count()
-    
+
     def can_vote_count_today(self):
         votes_today = settings.MAX_VOTES_PER_DAY
-        
+
         if settings.USER_REPUTATION_TO_MAX_VOTES:
             votes_today = votes_today + int(self.reputation)
-        
+
         return votes_today
-    
+
     @true_if_is_super_or_staff
     def can_view_deleted_post(self, post):
         return post.author == self
@@ -449,7 +453,7 @@ class User(BaseModel, DjangoUser):
     def can_convert_to_comment(self, answer):
         return (not answer.marked) and (self.is_superuser or self.is_staff or answer.author == self or self.reputation >= int
                 (settings.REP_TO_CONVERT_TO_COMMENT))
-    
+
     def can_convert_to_question(self, answer):
         return (not answer.marked) and (self.is_superuser or self.is_staff or answer.author == self or self.reputation >= int
                 (settings.REP_TO_CONVERT_TO_QUESTION))
@@ -646,7 +650,6 @@ class SubscriptionSettings(models.Model):
     class Meta:
         app_label = 'forum'
 
-from forum.utils.time import one_day_from_now
 
 class ValidationHashManager(models.Manager):
     def _generate_md5_hash(self, user, type, hash_data, seed):
@@ -692,6 +695,7 @@ class ValidationHashManager(models.Manager):
 
         return False
 
+
 class ValidationHash(models.Model):
     hash_code = models.CharField(max_length=255, unique=True)
     seed = models.CharField(max_length=12)
@@ -708,6 +712,7 @@ class ValidationHash(models.Model):
     def __str__(self):
         return self.hash_code
 
+
 class AuthKeyUserAssociation(models.Model):
     key = models.CharField(max_length=255, null=False, unique=True)
     provider = models.CharField(max_length=64)
@@ -716,3 +721,13 @@ class AuthKeyUserAssociation(models.Model):
 
     class Meta:
         app_label = 'forum'
+
+
+def default_settings(sender, instance, created, **kwargs):
+    if created:
+        instance.prop.new_badge_or_points = True
+        instance.prop.new_topic = True
+        instance.prop.new_answer_notification = True
+        instance.prop.new_badge_notification = True
+
+post_save.connect(default_settings, sender=User)

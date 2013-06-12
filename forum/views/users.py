@@ -578,7 +578,8 @@ def settings_social_networks(request):
             user.prop.new_question = form.cleaned_data['new_question']
             user.prop.new_answer = form.cleaned_data['new_answer']
             user.prop.new_badge_or_points = form.cleaned_data['new_badge_or_points']
-            user.prop.new_answers_notification = form.cleaned_data['new_answers_notification']
+            user.prop.new_topic = form.cleaned_data['new_topic']
+            user.prop.new_answer_notification = form.cleaned_data['new_answer_notification']
             user.prop.new_badge_notification = form.cleaned_data['new_badge_notification']
             user.save()
 
@@ -592,7 +593,8 @@ def settings_social_networks(request):
             'new_question': user.prop.new_question,
             'new_answer': user.prop.new_answer,
             'new_badge_or_points': user.prop.new_badge_or_points,
-            'new_answers_notification': user.prop.new_answers_notification,
+            'new_topic': user.prop.new_topic,
+            'new_answer_notification': user.prop.new_answer_notification,
             'new_badge_notification': user.prop.new_badge_notification,
         })
         return render_to_response('v2/settings_social_networks.html', {
