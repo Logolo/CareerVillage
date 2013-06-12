@@ -106,17 +106,19 @@
                     {% endif %}
 
                     <!-- Facebook actions -->
+                    {% if not user.prop.new_question %}
                     <div class="facebook-actions">
                         <label style="display: inline;">
                             <input type="checkbox" name="auto-share-checkbox" checked style="width: auto; display: inline;" />
                             Share my activity on CareerVillage with my Facebook friends to get more votes!
                         </label>
                     </div>
+                    {% endif %}
 
                     {% if not request.user.is_authenticated %}
                     <input name="ask" type="submit" value="{% trans "Login to submit this question" %}" class="btn btn-success" />
                     {% else %}
-                    <input name="ask" type="submit" value="{% trans "Submit this question" %}" class="btn btn-success"/>
+                    <input name="ask" type="submit" value="{% trans "Submit this question" %}" class="btn btn-success" />
                     {% endif %}
                 </form>
                 <div>

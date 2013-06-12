@@ -469,13 +469,35 @@ $(function(){
         });
     }
 
-    var checkFacebook = function(scope, setting, callback) {
+    /*
+     * Check that there is an active Facebook account and is valid on the server.
+     * scope -- Facebook scope.
+     * setting -- Setting that enables the action (the name of an attribute of User.prop. ex. 'new_question').
+     * popoverElement -- Element to which attach a popover in case something goes wrong.
+     * callback -- Function called when the response is received (takes a parameter indicating success).
+     */
+    var checkFacebook = function(scope, setting, popoverElement, callback) {
         var save = function(authResponse) {
-            $.get('/facebook/', {
+            $.post('/facebook/', addCsrf({
                 'access_token': authResponse.accessToken,
                 'setting': setting
-            }, function(response){
-                callback();
+            }), function(response) {
+                callback(response['facebook_success']);
+                if (!response['facebook_success']) {
+                    // Notify the user
+                    popoverElement.popover({
+                        'placement': 'top',
+                        'trigger': 'manual',
+                        'content': FB_FAILURE
+                    }).popover('show');
+                    setTimeout(function() {
+                        popoverElement.popover('hide');
+                    }, 3000);
+
+                    // Enable submit buton
+                    popoverElement.removeClass('disabled');
+                    popoverElement.removeAttr('disabled');
+                }
             });
         };
         FB.getLoginStatus(function(response) {
@@ -500,28 +522,45 @@ $(function(){
         }, true);
     };
 
+    /*
+     * Override submit action in the "ask question" form.
+     */
     var askForm = $('#askform > form');
+    var askSubmitButton = askForm.find('input[type="submit"][name="ask"]');
+    var askCheckBox = askForm.find('input[type="checkbox"][name="auto-share-checkbox"]');
     if (askForm.length) {
         var post = false;
-        askForm.submit(function(e){
+
+        // Ensure that the submit button is enabled by default
+        askSubmitButton.removeClass('disabled');
+        askSubmitButton.removeAttr('disabled');
+
+        askForm.submit(function(e) {
             if (post) return true;
-            //TODO: see checkbox before continue
-            checkFacebook('email, publish_actions', 'new_question', function(){
+
+            // Disable submit button
+            askSubmitButton.addClass('disabled');
+            askSubmitButton.attr('disabled', '');
+
+            // Get checkbox value
+            if (askCheckBox.length && askCheckBox.is(':checked')) {
+                checkFacebook('email, publish_actions', 'new_question', askSubmitButton, function(success) {
+                    if (success) {
+                        post = true;
+                        askForm.submit();
+                    }
+                });
+            } else {
                 post = true;
                 askForm.submit();
-            });
+            }
+
+            // Prevent default submit
             e.stopPropagation();
             e.preventDefault();
             return false;
         });
     };
-
-    /*
-    askForm.submit(function(e) {
-        enviar -> return true;
-        cancelar -> return false;
-    });
-    */
 
 
 }); // end jquery enclosure

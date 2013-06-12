@@ -666,11 +666,24 @@ def award_points(request, user_id, answer_id):
 @decorate.withfn(command)
 def facebook(request):
     user = request.user
-    setting = request.GET.get('setting', None)
+    access_token = request.POST.get('access_token')
+
+    # Check Facebook UID
+    facebook_user_id = Graph.get_user_id(access_token)
+    if User.objects.exclude(id=user.id).filter(facebook_uid=facebook_user_id):
+        return {'facebook_success': False}
+
+    # Update setting
+    setting = request.POST.get('setting', None)
     if setting in ['new_question']:
         setattr(user.prop, setting, True)
-    #TODO: check fbid
-    user.facebook_access_token, user.facebook_access_token_expires_on = \
-        Graph.extend_access_token(request.GET.get('access_token'))
+
+    # Extend access token
+    access_token, access_token_expires_on = Graph.extend_access_token(access_token)
+
+    # Update user
+    user.facebook_access_token = access_token
+    user.facebook_access_token_expires_on = access_token_expires_on
     user.save()
-    return {}
+
+    return {'facebook_success': True}

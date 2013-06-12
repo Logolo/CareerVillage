@@ -28,6 +28,12 @@ class Graph(object):
         values = urlparse.parse_qs(response)
         return values['access_token'][0], now() + datetime.timedelta(seconds=int(values['expires'][0]))
 
+    @classmethod
+    def get_user_id(cls, token):
+        response = urllib2.urlopen("%sme?access_token=%s" % (cls.BASE_URL, token)).read()
+        values = json.loads(response)
+        return values['id']
+
 
 class GraphException(Exception):
     pass
