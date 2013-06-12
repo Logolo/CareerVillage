@@ -201,8 +201,16 @@ class User(BaseModel, DjangoUser):
         return self.facebook_access_token and self.prop.new_badge_or_points
 
     @property
+    def can_publish_new_points(self):
+        return self.facebook_access_token and self.prop.new_badge_or_points
+
+    @property
     def can_publish_new_topic(self):
         return self.facebook_access_token and self.prop.new_topic
+
+    @property
+    def can_notify_new_answer(self):
+        return self.facebook_access_token and self.subscription_settings.notify_answers
 
     @property
     def grade(self):
@@ -731,3 +739,18 @@ def default_settings(sender, instance, created, **kwargs):
         instance.prop.new_badge_notification = True
 
 post_save.connect(default_settings, sender=User)
+
+
+# TODO: Check if the signal is working
+def update_user_reputation(sender, instance, *args, **kwargs):
+    if instance.can_publish_new_points:
+        old_reputation = User.objects.get(pk=instance.pk).reputation
+        new_reputation = instance.reputation
+
+        increase = new_reputation - old_reputation
+
+        if increase < settings.POST_REPUTATION_DELTA:
+            from forum.tasks import get_point_story
+            get_point_story.apply_async(countdown=10, args=(instance.id, increase))
+
+pre_save.connect(update_user_reputation, sender=User)

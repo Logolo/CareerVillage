@@ -4,7 +4,15 @@
 
 {% block title %}{{ view_user.real_name }}'s profile{% endblock %}
 {% block head %}
-	{# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
+    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
+
+    <meta property="fb:app_id" content="{{ settings.FACEBOOK_APP_ID }}" />
+    <meta property="og:type"   content="{{ settings.FACEBOOK_APP_NAMESPACE }}:points" />
+    <meta property="og:url"    content="{{ settings.APP_URL }}{{ view_user.get_profile_url }}" />
+    <meta property="og:image"  content="https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png" />
+    {% with request.GET.point_count as point_count %}
+        <meta property="og:title"  content="{{ point_count }}" />
+    {% endwith %}
 {% endblock %}
 
 {% block content %}

@@ -216,6 +216,30 @@ class InterestTopicStory(Story):
         return data
 
 
+class GetPointStory(Story):
+
+    def __init__(self, user, point_count):
+        super(GetPointStory, self).__init__(user, None)
+        self._point_count = point_count
+
+    def get_url(self):
+        return "%sme/%s:get" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE)
+
+    def get_object_url(self):
+        return settings.APP_URL + self._user.get_profile_url() + '?point_count=%s' % self._point_count
+
+    def get_data(self):
+        data = {
+            'point': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
+            'object': json.dumps({
+                'data': {
+                    'count': self._point_count,
+                }
+            })
+        }
+        return data
+
+
 class AnswerQuestionNotification(Notification):
 
     def __init__(self, answer):

@@ -179,6 +179,9 @@ SOCIAL_AUTH_PIPELINE = (
 
 )
 
+# Minimum reputation increase when posting to Facebook
+POST_REPUTATION_DELTA = 10
+
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
 LOGIN_ERROR_URL = '/login/'
