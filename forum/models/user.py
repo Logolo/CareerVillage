@@ -173,9 +173,9 @@ class User(BaseModel, DjangoUser):
     def display_name(self, context):
         if context == 'safe':
             initial = self.last_name[0].upper() if self.last_name else ''
-            return "%s %s." % (self.first_name, initial,)
+            return u"%s %s." % (self.first_name, initial,)
         elif context == 'full':
-            return "%s %s" % (self.first_name, self.last_name,)
+            return u"%s %s" % (self.first_name, self.last_name,)
 
     @property
     def real_name(self):

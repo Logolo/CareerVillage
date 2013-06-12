@@ -84,7 +84,7 @@ class Notification(Graph):
     def get_data(self):
         return {
             'href': self.get_href(),
-            'template': self.get_template(),
+            'template': self.get_template().encode('utf-8'),
             'access_token': self.get_app_access_token()
         }
 
