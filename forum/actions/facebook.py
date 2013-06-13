@@ -42,13 +42,17 @@ class Graph(object):
         object_data.update({
             'type': app_object_type,
         })
-        response = urllib2.urlopen("%sapp/objects/%s" % (cls.BASE_URL, app_object_type),
-                                   urllib.urlencode({
-                                       'access_token': cls.get_app_access_token(),
-                                       'object': json.dumps(object_data)
-                                   })).read()
-        values = json.loads(response)
-        return values['id']
+        try:
+            response = urllib2.urlopen("%sapp/objects/%s" % (cls.BASE_URL, app_object_type),
+                                       urllib.urlencode({
+                                           'access_token': cls.get_app_access_token(),
+                                           'object': json.dumps(object_data)
+                                       })).read()
+            values = json.loads(response)
+            return values['id']
+        except urllib2.HTTPError, e:
+            error = json.loads(e.read())
+            raise GraphException(error['error'])
 
 
 class GraphException(Exception):
