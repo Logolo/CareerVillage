@@ -721,13 +721,3 @@ class AuthKeyUserAssociation(models.Model):
 
     class Meta:
         app_label = 'forum'
-
-
-def default_settings(sender, instance, created, **kwargs):
-    if created:
-        instance.prop.new_badge_or_points = True
-        instance.prop.new_topic = True
-        instance.prop.new_answer_notification = True
-        instance.prop.new_badge_notification = True
-
-post_save.connect(default_settings, sender=User)
