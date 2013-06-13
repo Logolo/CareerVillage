@@ -574,7 +574,6 @@ def login_and_forward(request, user, forward=None, message=None):
             ))
         else:
             return manage_pending_data(request, _('save'), forward)
-
     return HttpResponseRedirect(forward)
 
 def forward_suspended_user(request, user, show_private_msg=True):

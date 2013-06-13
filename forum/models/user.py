@@ -143,14 +143,18 @@ class User(BaseModel, DjangoUser):
     headline = models.CharField(max_length=200, blank=True)
     industry = models.CharField(max_length=200, blank=True)
 
-    #linkedin
-    linkedin_photo_url = models.URLField(null=True, blank=True)
-
     #facebook
     facebook_uid = models.CharField(max_length=100, null=True, blank=True)
     facebook_email = models.CharField(max_length=255, null=True, blank=True)
     facebook_access_token = models.CharField(max_length=250, null=True, blank=True)
     facebook_access_token_expires_on = models.DateTimeField(null=True, blank=True)
+
+    #linkedin
+    linkedin_uid = models.CharField(max_length=100, null=True, blank=True)
+    linkedin_email = models.CharField(max_length=255, null=True, blank=True)
+    linkedin_access_token = models.CharField(max_length=250, null=True, blank=True)
+    linkedin_access_token_expires_on = models.DateTimeField(null=True, blank=True)
+    linkedin_photo_url = models.URLField(null=True, blank=True)
 
     subscriptions = models.ManyToManyField('Node', related_name='subscribers', through='QuestionSubscription')
 

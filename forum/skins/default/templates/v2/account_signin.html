@@ -144,7 +144,7 @@
                 <div class="text-center"><br />
                     <h3>Professionals</h3>
                     <h4 class="text-light">{% trans 'For first timers AND veterans...' %}</h4>
-                    <p><a href="{% url auth_provider_signin provider='linkedin' %}" class="zocial linkedin block">{% trans 'Login with Linkedin' %}</a></p>
+                    <p><a class="zocial linkedin" rel="nofollow" href="{% url socialauth_begin 'linkedin' %}?user_type=P">{% trans 'Login with Linkedin' %}</a></p>
 
                     <!-- TODO connect linkedin button and no linked in account link -->
                     <p><a class="subtle no-linkedin" href="#" target="_blank">

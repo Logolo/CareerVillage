@@ -37,6 +37,7 @@ class ConsumerTemplateContext(object):
     def readable_key(cls, key):
         return key.key
 
+
 class InvalidAuthentication(Exception):
     def __init__(self, message):
         self.message = message

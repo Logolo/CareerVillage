@@ -64,6 +64,11 @@ ALLOW_MAX_FILE_SIZE = 1024 * 1024
 FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'publish_actions']
 FACEBOOK_EXTENDED_PERMISSIONS_STRING = ','.join(FACEBOOK_EXTENDED_PERMISSIONS)
 
+LINKEDIN_SCOPE = ['r_basicprofile', 'r_emailaddress', 'r_fullprofile']
+LINKEDIN_EXTRA_FIELD_SELECTORS = ['id', 'skills', 'interests', 'first-name',
+                                  'last-name', 'email-address', 'headline', 'industry',
+                                  'picture-url', 'location']
+
 #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
 BROKER_URL = 'django://'
 
@@ -154,6 +159,7 @@ if not DEBUG:
 #allows case insensitive login
 AUTHENTICATION_BACKENDS = ('forum.authentication.backend.CaseInsensitiveModelBackend',
                            'social_auth.backends.facebook.FacebookBackend',
+                           'social_auth.backends.contrib.linkedin.LinkedinBackend',
 )
 #AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['user_type']
