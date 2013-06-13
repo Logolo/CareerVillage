@@ -52,6 +52,17 @@ $(function(){
         $(this).closest('.popover').hide();
     });
 
+//  enable affix positioning of sidebar on the about page
+    setTimeout(function () {
+      var $window = $(window);
+      $('.about-page .sidebar-widget').affix({
+        offset: {
+          top: 0
+        , bottom: 270
+        }
+      })
+    }, 200)
+
 
     /***
      * trigger ajax and animations when the like button and follow buttons are clicked

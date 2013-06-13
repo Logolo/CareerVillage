@@ -70,13 +70,64 @@
     <div><!-- center -->
         <div class="container-fluid">
             <div class="row-fluid">
-                <div style="text-align:right; line-height:32px">
-                    <a class="logo pull-left"><img style="height:32px" src="{% media "/media/img/CareerVillageLogo_1.png" %}" /></a>
-                    <a href="/about/">About</a> <span class="divider"></span> <a href="/faq/">FAQ</a> <span class="divider"></span> <a href="/privacy/">Privacy</a> <span class="divider"></span> <a href="mailto: team@careervillage.org" target="_blank">Support</a> <span class="divider"></span> <a href="mailto: team@careervillage.org">Contact</a>
-                </div>
+
+              <div style="padding:0 1% 0 5%">
+              <span class="span4">
+                <h4>How it works</h4>
+                <ul>
+                  <li><a href="{% url about %}#overview">Overview</a></li>
+                  <li><a href="{% url about %}#for-educators">For Educators</a></li>
+                  <li><a href="{% url about %}#for-professionals">For Professionals</a></li>
+                  <li><a href="{% url about %}#frequently-asked-questions">Frequently Asked Questions</a></li>
+                </ul>
+              </span>
+
+              <span class="span4">
+                <h4>Get Involved</h4>
+                <ul>
+                  <li><a href="{% url about %}#become-a-mentor">Become a Mentor</a></li>
+                  <li><a href="{% url about %}#make-a-donation">Make a Donation</a></li>
+                  <li><a href="{% url about %}#bring-us-to-your-classroom">Bring Us to Your Classroom</a></li>
+                  <li><a href="{% url about %}#follow-us-on-facebook">Follow Us on Facebook</a></li>
+                </ul>
+              </span>
+
+              <span class="span4">
+                <h4>About Our Organization</h4>
+                <ul>
+                  <li><a href="{% url about %}#our-team">Our Team</a></li>
+                  <li><a href="{% url about %}#press">Press</a></li>
+                </ul>
+              </span>
+              </div>
+
             </div>
-        </div>
-    </div>
+        </div><!--/.container-fluid -->
+    </div><!--/.center -->
+</footer>
+
+<footer id="second-footer" class="clearfix">
+    <div><!-- center -->
+        <div class="container-fluid">
+          <div class="row-fluid">
+  
+            <div class="span1">&nbsp;</div>
+
+            <div class="span10">
+              <h5 style="text-align:center">
+                Contact us! &nbsp;&nbsp;&nbsp;&nbsp;
+                <!-- converting email addresses to html entities supposedly reduces spam... who knows, why not -->
+                <a href="mailto:&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;">&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;</a>
+                &nbsp;&nbsp;&nbsp;&nbsp; 
+                <span style="font-weight:normal">48 CharlesStreet,Suite 4,Boston, MA 02114</span>
+              </h5> 
+            </div>
+
+            <span class="span1">&nbsp;</span>
+
+          </div>
+        </div><!--/.container-fluid -->
+    </div><!--/.center -->
 </footer>
 
 {% block confirmation %}{% endblock %}
