@@ -335,3 +335,23 @@ def publish_get_point(sender, instance, created, **kwargs):
             get_point_story.apply_async(countdown=10, args=(user.id, instance.value))
 
 post_save.connect(publish_get_point, sender=ActionRepute)
+
+
+def publish_reach_point(sender, instance, raw, using, **kwargs):
+    from forum.tasks import reach_point_story
+    import math
+
+    reputation_multiple = settings.djsettings.POST_REPUTATION_MULTIPLE
+    user = instance.user
+
+    if user.can_publish_new_points:
+        old_reputation = user.reputation
+        new_reputation = old_reputation + instance.value
+
+        if instance.value > 0 and new_reputation > 0:
+            next_multiple = int(math.ceil(old_reputation / float(reputation_multiple)) * reputation_multiple)
+
+            if new_reputation >= next_multiple:
+                reach_point_story.apply_async(countdown=10, args=(user.id, next_multiple))
+
+pre_save.connect(publish_reach_point, sender=ActionRepute)
