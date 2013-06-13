@@ -326,3 +326,12 @@ class ActionRepute(models.Model):
     class Meta:
         app_label = 'forum'
 
+
+def publish_get_point(sender, instance, created, **kwargs):
+    from forum.tasks import get_point_story
+    user = instance.user
+    if user.can_publish_new_points:
+        if instance.value >= settings.djsettings.POST_REPUTATION_DELTA:
+            get_point_story.apply_async(countdown=10, args=(user.id, instance.value))
+
+post_save.connect(publish_get_point, sender=ActionRepute)

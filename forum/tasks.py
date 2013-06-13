@@ -31,7 +31,7 @@ def interest_topic_story(user_id, topic_id):
 
 @task()
 def get_point_story(user_id, point_count):
-    GetPointStory(User.objects.get(id=user_id), point_count)
+    GetPointStory(User.objects.get(id=user_id), point_count).publish()
 
 
 @task()
