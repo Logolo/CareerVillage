@@ -29,6 +29,7 @@
             <div class="container-fluid">
                 <a href="/home/" class="brand">(CareerVillage Logo)</a>
                 <ul class="nav pull-right">
+                      <li><a href="{% url about %}">About</a></li>
                     {% if user.is_superuser %}
                         <li><a href="{% url admin_index %}">Admin</a></li>
                     {% endif %}
@@ -46,12 +47,11 @@
                                 <li><a href="{% url settings_notifications %}">Notifications</a></li>
                                 <li><a href="{% url settings_following_topics %}">Topics you follow</a></li>
                                 <li><a href="{% url settings_social_networks %}">Social networks</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url user_signout %}?next={{ request.get_full_path }}">Logout</a></li>
                             </ul>
-                        </li>
-                        <li><a href="{% url about %}">About</a></li>
-                        <li><a href="{% url user_signout %}?next={{ request.get_full_path }}">Logout</a></li>
+                        </li>                        
                     {% else %}
-                        <li><a href="{% url about %}">About</a></li>
                         <li><a href="{% url auth_signin %}?next={{ request.get_full_path }}">Login</a></li>
                     {% endif %}
                 </ul>
