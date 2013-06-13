@@ -36,7 +36,7 @@ post_save.connect(publish_answer_question, sender=Answer)
 def notify_answer_question(sender, instance, created, **kwargs):
     from forum.tasks import answer_question_notification
     user = instance.parent.user
-    if created and user.subscription_settings.notify_answers and user.is_student():
+    if created and user.can_notify_new_answer and user.is_student():
         answer_question_notification.apply_async(countdown=10, args=(instance.id,))
 
 post_save.connect(notify_answer_question, sender=Answer)

@@ -179,6 +179,12 @@ SOCIAL_AUTH_PIPELINE = (
 
 )
 
+# Minimum reputation increase when posting to Facebook
+POST_REPUTATION_DELTA = 10
+
+# Reputation multiple (user reached: 250, 500, 750, 1000, ... points)
+POST_REPUTATION_MULTIPLE = 250
+
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
 LOGIN_ERROR_URL = '/login/'

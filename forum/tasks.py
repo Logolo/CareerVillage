@@ -1,6 +1,7 @@
 from celery import task
 from forum.actions.facebook import AskQuestionStory, LikeQuestionStory, AwardBadgeStory,\
-    AnswerQuestionNotification, AnswerQuestionStory, LikeAnswerStory, InterestTopicStory, TopicQuestionNotification
+    AnswerQuestionNotification, AnswerQuestionStory, LikeAnswerStory, InterestTopicStory,\
+    GetPointStory, ReachPointStory, TopicQuestionNotification
 from forum.models import Question, Answer, Award, User, Tag
 
 
@@ -27,6 +28,16 @@ def award_badge_story(award_id):
 @task()
 def interest_topic_story(user_id, topic_id):
     InterestTopicStory(User.objects.get(id=user_id), Tag.objects.get(id=topic_id)).publish()
+
+
+@task()
+def get_point_story(user_id, point_count):
+    GetPointStory(User.objects.get(id=user_id), point_count).publish()
+
+
+@task()
+def reach_point_story(user_id, point_count):
+    ReachPointStory(User.objects.get(id=user_id), point_count).publish()
 
 
 @task()

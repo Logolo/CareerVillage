@@ -34,6 +34,22 @@ class Graph(object):
         values = json.loads(response)
         return values['id']
 
+    @classmethod
+    def create_object(cls, object_type, object_data):
+        """ Create an app-owned object and return its id.
+        """
+        app_object_type = '%s:%s' % (settings.FACEBOOK_APP_NAMESPACE, object_type)
+        object_data.update({
+            'type': app_object_type,
+        })
+        response = urllib2.urlopen("%sapp/objects/%s" % (cls.BASE_URL, app_object_type),
+                                   urllib.urlencode({
+                                       'access_token': cls.get_app_access_token(),
+                                       'object': json.dumps(object_data)
+                                   })).read()
+        values = json.loads(response)
+        return values['id']
+
 
 class GraphException(Exception):
     pass
@@ -212,6 +228,60 @@ class InterestTopicStory(Story):
     def get_data(self):
         data = {
             'topic': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
+        }
+        return data
+
+
+class GetPointStory(Story):
+
+    def __init__(self, user, point_count):
+        super(GetPointStory, self).__init__(user, None)
+        self._point_count = point_count
+
+    def get_url(self):
+        return "%sme/%s:get" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE)
+
+    def get_object_url(self):
+        return settings.APP_URL + self._user.get_profile_url() + '?point_count=%s' % self._point_count
+
+    def get_data(self):
+        data = {
+            'point': Graph.create_object('point', {
+                'title': '%s points' % self._point_count,
+                'image': 'https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png',
+                'url': 'http://samples.ogp.me/359065370882740' if settings.DEBUG else self.get_object_url(),
+                'description': '%s points' % self._point_count,
+                'data': {
+                    'count': self._point_count,
+                }
+            })
+        }
+        return data
+
+
+class ReachPointStory(Story):
+
+    def __init__(self, user, point_count):
+        super(ReachPointStory, self).__init__(user, None)
+        self._point_count = point_count
+
+    def get_url(self):
+        return "%sme/%s:reach" % (self.BASE_URL, settings.FACEBOOK_APP_NAMESPACE)
+
+    def get_object_url(self):
+        return settings.APP_URL + self._user.get_profile_url() + '?point_count=%s' % self._point_count
+
+    def get_data(self):
+        data = {
+            'point': Graph.create_object('point', {
+                'title': '%s points' % self._point_count,
+                'image': 'https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png',
+                'url': 'http://samples.ogp.me/359065370882740' if settings.DEBUG else self.get_object_url(),
+                'description': '%s points' % self._point_count,
+                'data': {
+                    'count': self._point_count,
+                }
+            })
         }
         return data
 
