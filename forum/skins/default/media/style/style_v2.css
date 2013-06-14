@@ -336,6 +336,13 @@ header.profile-page .avatar img {
     background-color:#ddEfFF;
     color:#666;
 }
+/* make icon within tag lighter */
+.tags .badge i {
+  opacity:0.3333333;
+}
+#tagSelector {
+  line-height:200%;
+}
 
 
 /*************
@@ -375,6 +382,10 @@ header.profile-page .avatar img {
 #askform input,
 #askform textarea {
     width:100%;
+}
+
+#askform .facebook-actions {
+  padding-bottom:12px;
 }
 
 #flag-question-form {
