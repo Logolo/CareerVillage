@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.timezone import now
+from forum.templatetags.extra_tags import media
 
 
 class Graph(object):
@@ -213,10 +214,9 @@ class AwardBadgeStory(Story):
 
     def get_data(self):
         data = {
-            # 'badge': 'http://samples.ogp.me/358124060976871' if settings.DEBUG else self.get_object_url(),
             'badge': Graph.create_object('badge', {
                 'title': self._object.name,
-                'image': 'https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png',
+                'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/358124060976871' if settings.DEBUG else self.get_object_url(),
                 'description': self._object.name,
             })
@@ -237,10 +237,9 @@ class InterestTopicStory(Story):
 
     def get_data(self):
         data = {
-            #'topic': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
             'topic': Graph.create_object('topic', {
                 'title': self._object.name,
-                'image': 'https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png',
+                'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
                 'description': self._object.name,
             })
@@ -264,7 +263,7 @@ class GetPointStory(Story):
         data = {
             'point': Graph.create_object('point', {
                 'title': '%s points' % self._point_count,
-                'image': 'https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png',
+                'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/359065370882740' if settings.DEBUG else self.get_object_url(),
                 'description': '%s points' % self._point_count,
                 'data': {
@@ -291,7 +290,7 @@ class ReachPointStory(Story):
         data = {
             'point': Graph.create_object('point', {
                 'title': '%s points' % self._point_count,
-                'image': 'https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png',
+                'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/359065370882740' if settings.DEBUG else self.get_object_url(),
                 'description': '%s points' % self._point_count,
                 'data': {

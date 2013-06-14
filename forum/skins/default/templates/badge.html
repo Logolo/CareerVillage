@@ -10,10 +10,10 @@
     {{ block.super }}
 
     <meta property="fb:app_id" content="{{ settings.FACEBOOK_APP_ID }}" />
-    <meta property="og:type"   content="{{ settings.FACEBOOK_APP_NAMESPACE }}:award" />
+    <meta property="og:type"   content="{{ settings.FACEBOOK_APP_NAMESPACE }}:badge" />
     <meta property="og:url"    content="{{ settings.APP_URL }}{{ badge.get_absolute_url }}" />
     <meta property="og:title"  content="{{ badge.name }}" />
-    <meta property="og:image"  content="https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png" />
+    <meta property="og:image"  content="{{ settings.APP_URL }}{% media "/media/img/careervillage_256x256.png" %}" />
 {% endblock %}
 
 {% block forejs %}
