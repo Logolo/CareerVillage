@@ -110,7 +110,7 @@ class Notification(Graph):
 
     def notify(self):
         try:
-            urllib2.urlopen(self.get_url(), urllib.urlencode(self.get_data()))
+            urllib2.urlopen(self.get_url(), urllib.urlencode(self.get_data()), timeout=30)
         except urllib2.HTTPError, e:
             error = json.loads(e.read())
             raise GraphException(error['error'])
