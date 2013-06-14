@@ -213,7 +213,13 @@ class AwardBadgeStory(Story):
 
     def get_data(self):
         data = {
-            'badge': 'http://samples.ogp.me/358124060976871' if settings.DEBUG else self.get_object_url(),
+            # 'badge': 'http://samples.ogp.me/358124060976871' if settings.DEBUG else self.get_object_url(),
+            'badge': Graph.create_object('badge', {
+                'title': self._object.name,
+                'image': 'https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png',
+                'url': 'http://samples.ogp.me/358124060976871' if settings.DEBUG else self.get_object_url(),
+                'description': self._object.name,
+            })
         }
         return data
 
@@ -231,7 +237,13 @@ class InterestTopicStory(Story):
 
     def get_data(self):
         data = {
-            'topic': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
+            #'topic': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
+            'topic': Graph.create_object('topic', {
+                'title': self._object.name,
+                'image': 'https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png',
+                'url': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
+                'description': self._object.name,
+            })
         }
         return data
 
