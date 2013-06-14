@@ -330,3 +330,16 @@ class TopicQuestionNotification(Notification):
     def get_template(self):
         return _("Over the last week, there have been %s questions about topics you are interested in.") \
                     % self._question_count
+
+
+class AwardBadgeNotification(Notification):
+
+    def __init__(self, award):
+        super(AwardBadgeNotification, self).__init__(award.user)
+        self._badge = award.badge
+
+    def get_href(self):
+        return settings.APP_URL + self._badge.get_absolute_url()
+
+    def get_template(self):
+        return _("You have been awarded %s on CareerVillage.") % self._badge.name

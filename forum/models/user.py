@@ -214,7 +214,11 @@ class User(BaseModel, DjangoUser):
 
     @property
     def can_notify_new_answer(self):
-        return self.facebook_access_token and self.subscription_settings.notify_answers
+        return self.facebook_access_token and self.prop.new_answer_notification
+
+    @property
+    def can_notify_new_award(self):
+        return self.facebook_access_token and self.prop.new_badge_notification
 
     @property
     def grade(self):
