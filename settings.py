@@ -182,7 +182,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.load_extra_data',
     'social_auth.backends.pipeline.user.update_user_details',
     'social_auth.backends.pipeline.misc.save_status_to_session',
-
 )
 
 # Minimum reputation increase when posting to Facebook
@@ -190,6 +189,21 @@ POST_REPUTATION_DELTA = 10
 
 # Reputation multiple (user reached: 250, 500, 750, 1000, ... points)
 POST_REPUTATION_MULTIPLE = 250
+
+# Facebook permissions allowed by default
+FACEBOOK_DEFAULT_SETTINGS = ['facebook_interest_topic_story',
+                             'facebook_get_point_story',
+                             'facebook_reach_point_story',
+                             'facebook_answer_question_notification',
+                             'facebook_topic_question_notification',
+                             'facebook_award_badge_notification']
+
+# Facebook permissions that can be updated using an AJAX call
+FACEBOOK_ALLOW_AJAX_UPDATE = ['facebook_like_question_story',
+                              'facebook_like_answer_story',
+                              'facebook_ask_question_story',
+                              'facebook_answer_question_story']
+
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'

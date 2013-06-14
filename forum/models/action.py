@@ -328,29 +328,29 @@ class ActionRepute(models.Model):
 
 
 def publish_get_point(sender, instance, created, **kwargs):
-    from forum.tasks import get_point_story
+    from forum.tasks import facebook_get_point_story
     user = instance.user
-    if user.can_publish_new_points:
+    if user.can_facebook_get_point_story:
         if instance.value >= settings.djsettings.POST_REPUTATION_DELTA:
-            get_point_story.apply_async(countdown=10, args=(user.id, instance.value))
+            facebook_get_point_story.apply_async(countdown=10, args=(user.id, instance.value))
 
 post_save.connect(publish_get_point, sender=ActionRepute)
 
 
 def publish_reach_point(sender, instance, raw, using, **kwargs):
-    from forum.tasks import reach_point_story
+    from forum.tasks import facebook_reach_point_story
     import math
 
     reputation_multiple = settings.djsettings.POST_REPUTATION_MULTIPLE
     user = instance.user
 
-    if user.can_publish_new_points:
+    if user.can_facebook_reach_point_story:
         old_reputation = user.reputation
         new_reputation = old_reputation + instance.value
 
         next_multiple = int(math.ceil(old_reputation / float(reputation_multiple)) * reputation_multiple)
 
         if new_reputation >= next_multiple > 0:
-            reach_point_story.apply_async(countdown=10, args=(user.id, next_multiple))
+            facebook_reach_point_story.apply_async(countdown=10, args=(user.id, next_multiple))
 
 pre_save.connect(publish_reach_point, sender=ActionRepute)

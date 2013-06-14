@@ -5,51 +5,62 @@ from forum.actions.facebook import AskQuestionStory, LikeQuestionStory, AwardBad
 from forum.models import Question, Answer, Award, User, Tag
 
 
+# Facebook stories
+
 @task()
-def like_question_story(question_id, message=None):
+def facebook_like_question_story(question_id, message=None):
     LikeQuestionStory(Question.objects.get(id=question_id), message).publish()
 
 
+@task
+def facebook_like_answer_story(answer_id, message=None):
+    # TODO: Implement
+    # LikeAnswerStory(Answer.objects.get(id=answer_id), message).publish()
+    pass
+
+
 @task()
-def ask_question_story(question_id, message=None):
+def facebook_ask_question_story(question_id, message=None):
     AskQuestionStory(Question.objects.get(id=question_id), message).publish()
 
 
 @task()
-def answer_question_story(answer_id, message=None):
+def facebook_answer_question_story(answer_id, message=None):
     AnswerQuestionStory(Answer.objects.get(id=answer_id), message).publish()
 
 
 @task()
-def award_badge_story(award_id):
+def facebook_award_badge_story(award_id):
     AwardBadgeStory(Award.objects.get(id=award_id)).publish()
 
 
 @task()
-def interest_topic_story(user_id, topic_id):
+def facebook_interest_topic_story(user_id, topic_id):
     InterestTopicStory(User.objects.get(id=user_id), Tag.objects.get(id=topic_id)).publish()
 
 
 @task()
-def get_point_story(user_id, point_count):
+def facebook_get_point_story(user_id, point_count):
     GetPointStory(User.objects.get(id=user_id), point_count).publish()
 
 
 @task()
-def reach_point_story(user_id, point_count):
+def facebook_reach_point_story(user_id, point_count):
     ReachPointStory(User.objects.get(id=user_id), point_count).publish()
 
 
+# Facebook notifications
+
 @task()
-def answer_question_notification(answer_id):
+def facebook_answer_question_notification(answer_id):
     AnswerQuestionNotification(Answer.objects.get(id=answer_id)).notify()
 
 
 @task()
-def topic_question_notification(user_id, question_count):
+def facebook_topic_question_notification(user_id, question_count):
     TopicQuestionNotification(User.objects.get(id=user_id), question_count).notify()
 
 
 @task()
-def award_badge_notification(award_id):
+def facebook_award_badge_notification(award_id):
     AwardBadgeNotification(Award.objects.get(id=award_id)).notify()

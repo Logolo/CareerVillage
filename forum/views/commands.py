@@ -674,13 +674,13 @@ def facebook(request):
         return {'facebook_success': False}
 
     # Update default settings
-    for dsetting in ['new_badge_or_points', 'new_topic', 'new_answer_notification', 'new_badge_notification']:
+    for dsetting in settings.djsettings.FACEBOOK_DEFAULT_SETTINGS:
         if getattr(user.prop, dsetting, None) is None:
             setattr(user.prop, dsetting, True)
 
     # Update setting
     setting = request.POST.get('setting', None)
-    if setting in ['new_question', 'new_answer']:
+    if setting in settings.djsettings.FACEBOOK_ALLOW_AJAX_UPDATE:
         setattr(user.prop, setting, True)
 
     # Extend access token
