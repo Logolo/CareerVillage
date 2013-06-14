@@ -241,9 +241,17 @@ class QuestionViewAction(DummyActionProxy):
 
 # Signals
 def publish_like(sender, instance, created, **kwargs):
-    user = instance.user
-    if created and user.can_publish_likes:
+    from forum.models import Question, Answer
+    from forum.tasks import facebook_like_question_story, facebook_like_answer_story
 
-        LikeQuestionStory(user, instance.node).publish()
+    user = instance.user
+
+    if created:
+        leaf = instance.node.leaf
+
+        if isinstance(leaf, Question) and user.can_facebook_like_question_story:
+            facebook_like_question_story.apply_async(countdown=10, args=(user.id, leaf.id))
+        elif isinstance(leaf, Answer) and user.can_facebook_like_answer_story:
+            facebook_like_answer_story.apply_async(countdown=10, args=(user.id, leaf.id))
 
 post_save.connect(publish_like, sender=VoteUpAction)

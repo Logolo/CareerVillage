@@ -127,7 +127,7 @@ class LikeQuestionStory(Story):
 
     def get_data(self):
         return {
-            'question': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
+            'object': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
         }
 
 
@@ -141,22 +141,8 @@ class LikeAnswerStory(Story):
 
     def get_data(self):
         return {
-            'answer': 'http://samples.ogp.me/358124874310123' if settings.DEBUG else self.get_object_url(),
+            'object': 'http://samples.ogp.me/358124874310123' if settings.DEBUG else self.get_object_url(),
         }
-
-
-class LikeAnswerStory(Story):
-
-    def get_url(self):
-        return "%sme/og.likes" % (self.BASE_URL,)
-
-    def get_object_url(self):
-        return settings.APP_URL + reverse('answer', kwargs={'id': self._object.id})
-
-    def get_data(self):
-        return {
-            'question': 'http://samples.ogp.me/523169144391241' if settings.DEBUG else self.get_object_url(),
-            }
 
 
 class AskQuestionStory(Story):

@@ -8,15 +8,15 @@ from forum.models import Question, Answer, Award, User, Tag
 # Facebook stories
 
 @task()
-def facebook_like_question_story(question_id, message=None):
-    LikeQuestionStory(Question.objects.get(id=question_id), message).publish()
+def facebook_like_question_story(user_id, question_id, message=None):
+    LikeQuestionStory(User.objects.get(id=user_id),
+                      Question.objects.get(id=question_id)).publish()
 
 
-@task
-def facebook_like_answer_story(answer_id, message=None):
-    # TODO: Implement
-    # LikeAnswerStory(Answer.objects.get(id=answer_id), message).publish()
-    pass
+@task()
+def facebook_like_answer_story(user_id, answer_id, message=None):
+    LikeAnswerStory(User.objects.get(id=user_id),
+                    Answer.objects.get(id=answer_id)).publish()
 
 
 @task()

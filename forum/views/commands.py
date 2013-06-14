@@ -16,6 +16,7 @@ from forum.utils.decorators import ajax_method, ajax_login_required
 from decorators import command, CommandException, RefreshPageCommand
 from forum.modules import decorate
 from django.utils.timezone import now
+from forum.tasks import facebook_like_question_story, facebook_like_answer_story
 
 
 class NotEnoughRepPointsException(CommandException):
@@ -61,24 +62,6 @@ class CannotDoubleActionException(CommandException):
                 """Sorry, but you cannot %(action)s twice the same post.<br />Please check the <a href='%(faq_url)s'>faq</a>"""
             ) % {'action': action, 'faq_url': reverse('faq')}
         )
-
-
-@ajax_login_required
-@ajax_method
-def publish_like(request, id):
-    response = {}
-    if request.method == 'POST':
-        user = request.user
-        question = get_object_or_404(Question, pk=id)
-        publish = request.POST['publish'] == 'true'
-        user.prop.likes = publish
-        user.save()
-        if publish:
-            like = LikeQuestionStory(user, question)
-            like.publish()
-
-        response = {'status': 'OK'}
-    return response
 
 
 @ajax_login_required
@@ -166,6 +149,14 @@ def vote_post(request, id, vote_type):
     if int(settings.START_WARN_VOTES_LEFT) >= votes_left:
         response['message'] = _("You have %(nvotes)s %(tvotes)s left today.") % \
                               {'nvotes': votes_left, 'tvotes': ungettext('vote', 'votes', votes_left)}
+
+    # Pass the Facebook permission name and whether to ask the user for permission or not
+    if isinstance(post, Question):
+        response['facebook-permission'] = 'facebook_like_question_story'
+        response['facebook-ask-permission'] = not user.can_facebook_like_question_story
+    elif isinstance(post, Answer):
+        response['facebook-permission'] = 'facebook_like_answer_story'
+        response['facebook-ask-permission'] = not user.can_facebook_like_answer_story
 
     return response
 
@@ -668,10 +659,15 @@ def facebook(request):
     user = request.user
     access_token = request.POST.get('access_token')
 
+    response = {}
+
     # Check Facebook UID
     facebook_user_id = Graph.get_user_id(access_token)
     if User.objects.exclude(id=user.id).filter(facebook_uid=facebook_user_id):
-        return {'facebook_success': False}
+        response['facebook_success'] = False
+        return response
+    else:
+        response['facebook_success'] = True
 
     # Update default settings
     for dsetting in settings.djsettings.FACEBOOK_DEFAULT_SETTINGS:
@@ -683,6 +679,26 @@ def facebook(request):
     if setting in settings.djsettings.FACEBOOK_ALLOW_AJAX_UPDATE:
         setattr(user.prop, setting, True)
 
+    # Like question for the first time after setting the permission
+    if setting == 'facebook_like_question_story':
+        question_id = request.POST.get('node_id')
+        if question_id:
+            facebook_like_question_story.apply_async(countdown=10, args=(user.id, question_id))
+            response['like_success'] = True
+        else:
+            response['like_success'] = False
+            return response
+
+    # Like answer for the first time after setting the permission
+    elif setting == 'facebook_like_answer_story':
+        answer_id = request.POST.get('node_id')
+        if answer_id:
+            facebook_like_answer_story.apply_async(countdown=10, args=(user.id, answer_id))
+            response['like_success'] = True
+        else:
+            response['like_success'] = False
+            return response
+
     # Extend access token
     access_token, access_token_expires_on = Graph.extend_access_token(access_token)
 
@@ -691,4 +707,4 @@ def facebook(request):
     user.facebook_access_token_expires_on = access_token_expires_on
     user.save()
 
-    return {'facebook_success': True}
+    return response

@@ -9,7 +9,7 @@
         <!-- like question -->
         <a  id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
             class="like-question-button btn {% ifequal user_vote 'up' %} disabled {% endifequal %} "
-            href="{% url vote_post id=post.id,vote_type='up' %}" data-publish-url="{% url publish_like id=post.id %}"
+            href="{% url vote_post id=post.id,vote_type='up' %}" data-node-id="{{ post.id }}"
             rel="nofollow">{% ifequal user_vote 'up' %}Liked{% else %}Like this{% endifequal %}</a>
 
         <!-- follow question -->

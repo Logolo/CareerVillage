@@ -88,7 +88,6 @@ $(function(){
 
         // like ajax request
         $.getJSON($this.attr('href'), function(data, e) {
-
             // re-enable the button
             $this.removeClass('loading');
 
@@ -118,30 +117,43 @@ $(function(){
                 $('[data-like-count]').data('like-count', like_count-1);
             }
 
-            // for first time likers, suggest they share on facebook
-            if (liking && like_count == 0) {
+            /*
+             * Facebook action
+             */
+            var facebookPermission = data['facebook-permission'];
+            var facebookAskPermission = data['facebook-ask-permission'];
+            var nodeId = $this.data('node-id');
 
+            if (facebookAskPermission) {
                 var shareBtn = $('<button>').addClass('btn-success btn').text('Yes, share on Facebook'),
-                    dontShareBtn = $('<button>').addClass('btn btn-mini').css('margin-top', '4px').text('No thanks'),
-                    message =  $('<p>')
-                        .text("We can automatically share your likes on Facebook so your friends benefit too. How about it?")
-                        .append(shareBtn)
-                        .append($('<br>'))
-                        .append(dontShareBtn);
+                dontShareBtn = $('<button>').addClass('btn btn-mini').css('margin-top', '4px').text('No thanks'),
+                message =  $('<p>')
+                    .text("We can automatically share your likes on Facebook so your friends benefit too. How about it?")
+                    .append($('<br>'))
+                    .append(shareBtn)
+                    .append($('<br>'))
+                    .append(dontShareBtn);
 
-                shareBtn.click(function(){
-                    $.post($this.data('publish-url'), {
-                        'publish': 'true'
-                    }, function(){
+                shareBtn.click(function() {
+                    if (!shareBtn.hasClass('disabled')) {
+                        shareBtn.addClass('disabled');
+                        dontShareBtn.hide();
 
-                    });
+                        checkFacebook('email, publish_actions', facebookPermission, shareBtn,
+                            function(success, response) {
+                                if (success && response['like_success']) {
+                                    shareBtn.text('Thanks!');
+                                } else {
+                                    // Node ID missing
+                                }
+                            }, {
+                                'node_id': nodeId
+                            }
+                        );
+                    }
                 });
                 dontShareBtn.click(function(){
-                    $.post($this.data('publish-url'), {
-                        'publish': 'false'
-                    }, function(){
-                        $widget.popover('hide');
-                    });
+                    $widget.popover('hide');
                 });
 
 
@@ -152,11 +164,8 @@ $(function(){
                     'html': true,
                     'content': message
                 }).popover('show');
-
-            }
-
-            // for second time likers, suggest they follow this question
-            if (liking && like_count == 1) {
+            } else {
+                // For second time likers, suggest they follow this question
                 message =  "Get an email when there's new content for this question. Just click the follow button!</p> \
                       <button style='margin-top:4px' class='btn' data-dismiss='popover'>Ok</button> \
                       ";
@@ -487,13 +496,14 @@ $(function(){
      * popoverElement -- Element to which attach a popover in case something goes wrong.
      * callback -- Function called when the response is received (takes a parameter indicating success).
      */
-    var checkFacebook = function(scope, setting, popoverElement, callback) {
+    var checkFacebook = function(scope, setting, popoverElement, callback, parameters) {
         var save = function(authResponse) {
-            $.post(FB_COMMAND_URL, addCsrf({
-                'access_token': authResponse.accessToken,
-                'setting': setting
-            }), function(response) {
-                callback(response['facebook_success']);
+            if (parameters == undefined) parameters = {};
+            parameters['access_token'] = authResponse.accessToken,
+            parameters['setting'] = setting;
+
+            $.post(FB_COMMAND_URL, addCsrf(parameters), function(response) {
+                callback(response['facebook_success'], response);
                 if (!response['facebook_success']) {
                     // Notify the user
                     popoverElement.popover({
