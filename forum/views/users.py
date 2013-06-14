@@ -574,29 +574,45 @@ def settings_social_networks(request):
     if request.method == 'POST':
         form = SocialSettingsForm(request.POST)
         if form.is_valid():
-            user.prop.likes = form.cleaned_data['likes']
-            user.prop.new_question = form.cleaned_data['new_question']
-            user.prop.new_answer = form.cleaned_data['new_answer']
-            user.prop.new_badge_or_points = form.cleaned_data['new_badge_or_points']
-            user.prop.new_topic = form.cleaned_data['new_topic']
-            user.prop.new_answer_notification = form.cleaned_data['new_answer_notification']
-            user.prop.new_badge_notification = form.cleaned_data['new_badge_notification']
+            # Stories
+            user.prop.facebook_like_question_story = form.cleaned_data['like_question_story']
+            user.prop.facebook_like_answer_story = form.cleaned_data['like_answer_story']
+            user.prop.facebook_ask_question_story = form.cleaned_data['ask_question_story']
+            user.prop.facebook_answer_question_story = form.cleaned_data['answer_question_story']
+            user.prop.facebook_award_badge_story = form.cleaned_data['award_badge_story']
+            user.prop.facebook_interest_topic_story = form.cleaned_data['interest_topic_story']
+            user.prop.facebook_get_point_story = form.cleaned_data['get_point_story']
+            user.prop.facebook_reach_point_story = form.cleaned_data['reach_point_story']
+
+            # Notifications
+            user.prop.facebook_answer_question_notification = form.cleaned_data['answer_question_notification']
+            user.prop.facebook_topic_question_notification = form.cleaned_data['topic_question_notification']
+            user.prop.facebook_award_badge_notification = form.cleaned_data['award_badge_notification']
+
             user.save()
 
         return render_to_response('v2/settings_social_networks.html', {
             'form': form,
-            }, context_instance=RequestContext(request))
+        }, context_instance=RequestContext(request))
         # return HttpResponseRedirect(reverse('settings_social_networks'))
     else:
         form = SocialSettingsForm(initial={
-            'likes': user.prop.likes,
-            'new_question': user.prop.new_question,
-            'new_answer': user.prop.new_answer,
-            'new_badge_or_points': user.prop.new_badge_or_points,
-            'new_topic': user.prop.new_topic,
-            'new_answer_notification': user.prop.new_answer_notification,
-            'new_badge_notification': user.prop.new_badge_notification,
+            # Stories
+            'like_question_story': user.prop.facebook_like_question_story,
+            'like_answer_story': user.prop.facebook_like_answer_story,
+            'ask_question_story': user.prop.facebook_ask_question_story,
+            'answer_question_story': user.prop.facebook_answer_question_story,
+            'award_badge_story': user.prop.facebook_award_badge_story,
+            'interest_topic_story': user.prop.facebook_interest_topic_story,
+            'get_point_story': user.prop.facebook_get_point_story,
+            'reach_point_story': user.prop.facebook_reach_point_story,
+
+            # Notifications
+            'answer_question_notification': user.prop.facebook_answer_question_notification,
+            'topic_question_notification': user.prop.facebook_topic_question_notification,
+            'award_badge_notification': user.prop.facebook_award_badge_notification
         })
+
         return render_to_response('v2/settings_social_networks.html', {
             'form': form,
-            }, context_instance=RequestContext(request))
+        }, context_instance=RequestContext(request))

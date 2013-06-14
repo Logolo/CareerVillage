@@ -188,6 +188,55 @@ class User(BaseModel, DjangoUser):
         else:
             return self.display_name('full')
 
+    # Facebook permissions (stories)
+
+    @property
+    def can_facebook_like_question_story(self):
+        return self.facebook_access_token and self.prop.facebook_like_question_story
+
+    @property
+    def can_facebook_like_answer_story(self):
+        return self.facebook_access_token and self.prop.facebook_like_answer_story
+
+    @property
+    def can_facebook_ask_question_story(self):
+        return self.facebook_access_token and self.prop.facebook_ask_question_story
+
+    @property
+    def can_facebook_answer_question_story(self):
+        return self.facebook_access_token and self.prop.facebook_answer_question_story
+
+    @property
+    def can_facebook_award_badge_story(self):
+        return self.facebook_access_token and self.prop.facebook_award_badge_story
+
+    @property
+    def can_facebook_interest_topic_story(self):
+        return self.facebook_access_token and self.prop.facebook_interest_topic_story
+
+    @property
+    def can_facebook_get_point_story(self):
+        return self.facebook_access_token and self.prop.facebook_get_point_story
+
+    @property
+    def can_facebook_reach_point_story(self):
+        return self.facebook_access_token and self.prop.facebook_reach_point_story
+
+    # Facebook permissions (notifications)
+
+    @property
+    def can_facebook_answer_question_notification(self):
+        return self.facebook_access_token and self.prop.facebook_answer_question_notification
+
+    @property
+    def can_facebook_topic_question_notification(self):
+        return self.facebook_access_token and self.prop.facebook_topic_question_notification
+
+    @property
+    def can_facebook_award_badge_notification(self):
+        return self.facebook_access_token and self.prop.facebook_award_badge_notification
+
+    """ OLD
     @property
     def can_publish_likes(self):
         return self.facebook_access_token and self.prop.likes
@@ -219,6 +268,7 @@ class User(BaseModel, DjangoUser):
     @property
     def can_notify_new_award(self):
         return self.facebook_access_token and self.prop.new_badge_notification
+    """
 
     @property
     def grade(self):
@@ -571,7 +621,7 @@ class User(BaseModel, DjangoUser):
 
 class UserProperty(BaseModel):
     user = models.ForeignKey(User, related_name='properties')
-    key = models.CharField(max_length=25)
+    key = models.CharField(max_length=50)
     value = PickledObjectField()
 
     class Meta:

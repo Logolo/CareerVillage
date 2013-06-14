@@ -96,8 +96,8 @@ class QuestionRevision(NodeRevision):
 
 
 def publish_new_question(sender, instance, created, **kwargs):
-    from forum.tasks import ask_question_story
-    if created and instance.user.can_publish_new_question:
-        ask_question_story.apply_async(countdown=10, args=(instance.id,))
+    from forum.tasks import facebook_ask_question_story
+    if created and instance.user.can_facebook_ask_question_story:
+        facebook_ask_question_story.apply_async(countdown=10, args=(instance.id,))
 
 post_save.connect(publish_new_question, sender=Question)

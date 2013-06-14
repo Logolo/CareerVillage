@@ -547,14 +547,16 @@ $(function(){
 
             // Get checkbox value
             if (askCheckBox.length && askCheckBox.is(':checked')) {
-                checkFacebook('email, publish_actions', 'new_question', askSubmitButton, function(success) {
-                    if (success) {
-                        post = true;
-                        askForm.submit();
-                    } else {
-                        submitted = false;
+                checkFacebook('email, publish_actions', 'facebook_ask_question_story', askSubmitButton,
+                    function(success) {
+                        if (success) {
+                            post = true;
+                            askForm.submit();
+                        } else {
+                            submitted = false;
+                        }
                     }
-                });
+                );
             } else {
                 post = true;
                 askForm.submit();
@@ -592,14 +594,16 @@ $(function(){
 
             // Get checkbox value
             if (answerCheckBox.length && answerCheckBox.is(':checked')) {
-                checkFacebook('email, publish_actions', 'new_answer', answerSubmitButton, function(success) {
-                    if (success) {
-                        post = true;
-                        answerForm.submit();
-                    } else {
-                        submitted = false;
+                checkFacebook('email, publish_actions', 'facebook_answer_question_story', answerSubmitButton,
+                    function(success) {
+                        if (success) {
+                            post = true;
+                            answerForm.submit();
+                        } else {
+                            submitted = false;
+                        }
                     }
-                });
+                );
             } else {
                 post = true;
                 answerForm.submit();

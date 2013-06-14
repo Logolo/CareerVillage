@@ -15,14 +15,21 @@ class SettingsAccountForm(forms.Form):
 
 class SocialSettingsForm(forms.Form):
 
-    likes = forms.BooleanField(initial=False, required=False)
-    new_question = forms.BooleanField(initial=False, required=False)
-    new_answer = forms.BooleanField(initial=False, required=False)
-    new_badge_or_points = forms.BooleanField(initial=False, required=False)
-    new_topic = forms.BooleanField(initial=False, required=False)
+    # Stories
+    like_question_story = forms.BooleanField(initial=False, required=False)
+    like_answer_story = forms.BooleanField(initial=False, required=False)
+    ask_question_story = forms.BooleanField(initial=False, required=False)
+    answer_question_story = forms.BooleanField(initial=False, required=False)
+    award_badge_story = forms.BooleanField(initial=False, required=False)
+    interest_topic_story = forms.BooleanField(initial=False, required=False)
+    get_point_story = forms.BooleanField(initial=False, required=False)
+    reach_point_story = forms.BooleanField(initial=False, required=False)
 
-    new_answer_notification = forms.BooleanField(initial=False, required=False)
-    new_badge_notification = forms.BooleanField(initial=False, required=False)
+    # Notifications
+    answer_question_notification = forms.BooleanField(initial=False, required=False)
+    topic_question_notification = forms.BooleanField(initial=False, required=False)
+    award_badge_notification = forms.BooleanField(initial=False, required=False)
+
 
 # class SettingsPasswordForm(forms.Form):
 #     currentpassword = forms.P

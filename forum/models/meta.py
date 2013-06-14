@@ -115,16 +115,16 @@ class Award(models.Model):
 
 
 def publish_award_badge(sender, instance, created, **kwargs):
-    from forum.tasks import award_badge_story
-    if created and instance.user.can_publish_new_award:
-        award_badge_story.apply_async(countdown=10, args=(instance.id,))
+    from forum.tasks import facebook_award_badge_story
+    if created and instance.user.can_facebook_award_badge_story:
+        facebook_award_badge_story.apply_async(countdown=10, args=(instance.id,))
 
 post_save.connect(publish_award_badge, sender=Award)
 
 
 def notify_award_badge(sender, instance, created, **kwargs):
-    from forum.tasks import award_badge_notification
-    if created and instance.user.can_notify_new_award:
-        award_badge_notification.apply_async(countdown=10, args=(instance.id,))
+    from forum.tasks import facebook_award_badge_notification
+    if created and instance.user.can_facebook_award_badge_notification:
+        facebook_award_badge_notification.apply_async(countdown=10, args=(instance.id,))
 
 post_save.connect(notify_award_badge, sender=Award)

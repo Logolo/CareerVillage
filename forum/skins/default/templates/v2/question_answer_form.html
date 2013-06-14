@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Facebook actions -->
-                {% if user.facebook_access_token and user.prop.new_answer %}
+                {% if user.can_facebook_answer_question_story %}
                 <p>We'll let your friends on Facebook know. Go to <a href="{% url settings_social_networks %}" target="_blank">Social Networks</a> to change your settings.</p>
                 {% else %}
                 <div class="facebook-actions">
