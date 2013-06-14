@@ -61,6 +61,7 @@
     .items article .span10 {
         width: 74.46808510638297%;
     }
+        
 }
 @media (max-width:790px) {
     /* hide the right column on smaller screens */
@@ -79,17 +80,18 @@
  
 #main-footer {
     margin-top:60px;
-    background-color:#ddd;
-    height:60px;
+    background-color:#f6f6f6;
+    min-height:60px;
     padding-top:20px;
+    padding-bottom:20px;
 }
-#main-footer .divider {
-    background-color:#ccc;
-    display:inline-block;
-    margin:0 3px;
-    height:12px;
-    width:1px;
+#second-footer {
+  padding-top:10px;
+  padding-bottom:10px;
+  background-color:#333;
+  color:#fff;
 }
+
 
 /*************
  * PAGINATION
@@ -105,6 +107,7 @@
     padding: 2px 4px;
 }
 
+
 /*************
  * SIDEBAR .col-sidebar
  * profile + user calls to action, misc
@@ -112,6 +115,77 @@
 
 .col-sidebar {
 
+}
+.sidebar-widget .nav-stacked .icon-chevron-right {
+  float: right;
+  margin-top: 2px;
+  margin-right: -6px;
+  opacity: .25;
+}
+.sidebar-widget .nav-stacked > li > a:hover {
+  background-color: #f5f5f5;
+}
+.sidebar-widget .nav-stacked a:hover .icon-chevron-right {
+  opacity: .5;
+}
+
+
+/*************
+ * ABOUT PAGE .about-page
+ ***/
+section.jumplink {
+  padding-top:60px;
+  margin-top:-60px;
+  margin-bottom:20px;
+}
+h5.jumplink {
+  padding-top:60px;
+  margin-top:-60px;
+}
+.about-page .col-left {
+  width:200px; 
+  float:left; 
+  min-height:200px; 
+  padding-top:20px;
+}
+.about-page .col-left h4 {
+  font-weight:normal;
+}
+.about-page .nav-stacked {
+  width:200px;  
+}
+.about-page h1.span9,
+.about-page .col-right {
+  float:right;
+  margin-left: 2.127659574468085%;
+}
+.about-page h1.span9 .inner,
+.about-page .col-right .inner {
+  max-width:700px;
+}
+.about-page h1.span9 {
+  margin-bottom:40px;
+}
+@media (max-width:840px) { 
+  .affix {
+    /* disable the affix bootstrap element */
+    position:relative;
+  }
+  .about-page .col-left {
+    display:block;
+    width:100%;
+    float:none;
+  }
+  .about-page .nav-stacked,
+  .about-page h1.span9,
+  .about-page .col-right {
+    float:none;
+    margin:0;
+    width:auto;
+  }
+  .about-page .nav-stacked {
+    margin-bottom:20px;
+  }
 }
 
 
