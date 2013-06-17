@@ -676,7 +676,7 @@ def facebook(request):
 
     # Update setting
     setting = request.POST.get('setting', None)
-    if setting in settings.djsettings.FACEBOOK_ALLOW_AJAX_UPDATE:
+    if setting in settings.djsettings.FACEBOOK_ALLOW_SETTINGS_UPDATE:
         setattr(user.prop, setting, True)
 
     # Like question for the first time after setting the permission
@@ -703,6 +703,7 @@ def facebook(request):
     access_token, access_token_expires_on = Graph.extend_access_token(access_token)
 
     # Update user
+    user.facebook_uid = facebook_user_id
     user.facebook_access_token = access_token
     user.facebook_access_token_expires_on = access_token_expires_on
     user.save()

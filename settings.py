@@ -199,10 +199,10 @@ FACEBOOK_DEFAULT_SETTINGS = ['facebook_interest_topic_story',
                              'facebook_award_badge_notification']
 
 # Facebook permissions that can be updated using an AJAX call
-FACEBOOK_ALLOW_AJAX_UPDATE = ['facebook_like_question_story',
-                              'facebook_like_answer_story',
-                              'facebook_ask_question_story',
-                              'facebook_answer_question_story']
+FACEBOOK_ALLOW_SETTINGS_UPDATE = ['facebook_like_question_story',
+                                  'facebook_like_answer_story',
+                                  'facebook_ask_question_story',
+                                  'facebook_answer_question_story']
 
 
 LOGIN_URL = '/login/'
