@@ -11,8 +11,9 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
 
-        for user in User.objects.filter(properties__key='facebook_topic_question_notification',
-                                        properties__value=True).exclude(facebook_access_token__isnull=True):
+        for user in User.objects.filter(
+                properties__key='facebook_topic_question_notification', properties__value=True).exclude(
+                        Q(facebook_access_token__isnull=True) | Q(facebook_uid__isnull=True)):
 
             # Obtain interesting tags query set
             marked = MarkedTag.objects.filter(user=user, reason='good')
