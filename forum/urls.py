@@ -50,6 +50,9 @@ core_urls = (
     
     url(r'^%s%s$' % (_('questions/'), _('unanswered/')), app.readers.unanswered, name='unanswered'),
     url(r'^%s(?P<mode>[\w\-]+)/(?P<user>\d+)/(?P<slug>.*)/$' % _('questions/'), app.readers.user_questions, name='user_questions'),
+
+    ## FOR NCVS CONFERENCE
+    url(r'^%s$' % _('advice/'), direct_to_template, {'template': 'advice_recruiting.html'}),
     
     
     url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'), _('edit/')), app.writers.edit_question, name='edit_question'),
