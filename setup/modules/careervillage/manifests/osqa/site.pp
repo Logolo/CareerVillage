@@ -1,4 +1,4 @@
-class careervillage::forum::site {
+class careervillage::osqa::site {
 
     include careervillage::venv
     include nginx

@@ -3,14 +3,17 @@ Bootstrap
 
 Ruby and Gems
 -------------
+
+Install Ruby: https://rvm.io/
+
 ::
 
     gem install vagrant
     gem install vagrant-vbguest
     vagrant up
 
-PyCharm
--------
+PyCharm Configuration
+---------------------
 
 Create PyCharm remote directory
 ::
@@ -38,8 +41,8 @@ Edit your /etc/hosts
     127.0.0.1       development.careervillage.org
     127.0.0.1       logging.development.careervillage.org
 
-Run CareerVillage
-============
+Run Site
+========
 ::
 
     vagrant ssh
@@ -47,17 +50,27 @@ Run CareerVillage
     ./manage.py runserver
 
 
+Run Celery
+==========
+::
+
+    python manage.py celery worker --loglevel=info --autoreload
+
+
 Browse
 ::
 
     http://development.careervillage.org:8000/
+    http://logging.development.careervillage.org:9000/
 
 Forwarded ports
 ---------------
+::
 
-80 => 8000 (http)
-
-5432 => 5433 (postgres)
+    80    => 8000  (http)
+    9001  => 9000  (sentry)
+    5432  => 5433  (postgres)
+    55672 => 55673 (rabbitmq)
 
 
 Before deploying
@@ -67,8 +80,8 @@ Add the following to your ~/.ssh/config
 ::
 
 	Host careervillage_pro
-	       	Hostname careervillage.org
-        	User ubuntu
+	       	Hostname careervillage.webfactional.com
+        	User careervillage
 	        Port 22
         	IdentityFile /home/%u/.ssh/careervillage_pro
 

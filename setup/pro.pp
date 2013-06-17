@@ -1,8 +1,8 @@
 class pro {
 
-    $target = $::careervillage_target
-    $root_dir = "/opt/careervillage"
-    $user = "yoda"
+    $target = "pro"
+    $root_dir = "/home/careervillage/careervillage"
+    $user = "careervillage"
     $group = "careervillage"
 
     host {
@@ -25,9 +25,7 @@ class pro {
 
     class { "careervillage::osqa::db": }
 
-    class { "careervillage::osqa::deploy":
-        all => true;
-    }
+    class { "careervillage::osqa::deploy" }
 
     class { "careervillage::logging::site": }
 

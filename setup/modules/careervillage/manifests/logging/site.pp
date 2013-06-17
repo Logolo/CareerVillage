@@ -7,9 +7,9 @@ class careervillage::logging::site {
     include nginx
     include supervisor
 
-    nginx::vhost { "careervillage::osqa::site":
-        name    => "careervillage_osqa",
-        content => template("${module_name}/osqa/nginx.conf"),
+    nginx::vhost { "careervillage::logging::site":
+        name    => "careervillage_logging",
+        content => template("${module_name}/logging/nginx.conf"),
         require => [Class["careervillage"], Class["nginx"]];
     }
 

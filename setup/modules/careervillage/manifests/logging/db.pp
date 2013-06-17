@@ -2,23 +2,23 @@ class careervillage::logging::db {
 
     include careervillage::db
 
-    postgresql::database { "zlogging":
+    postgresql::database { "cvlogging":
       charset => "utf8",
       require => Class["careervillage::db"];
     }
 
-    postgresql::database_grant { "zlogging-all":
+    postgresql::database_grant { "cvlogging-all":
         privilege => "ALL",
-        db        => "zlogging",
+        db        => "cvlogging",
         role      => "careervillage",
-        require   => Postgresql::Database["zlogging"];
+        require   => Postgresql::Database["cvlogging"];
     }
 
-    postgresql::database_grant { "zlogging-connect":
+    postgresql::database_grant { "cvlogging-connect":
         privilege => "CONNECT",
-        db        => "zlogging",
+        db        => "cvlogging",
         role      => "careervillage",
-        require   => Postgresql::Database["zlogging"];
+        require   => Postgresql::Database["cvlogging"];
     }
 
 }

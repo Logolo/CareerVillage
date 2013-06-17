@@ -1,7 +1,7 @@
 class dev {
 
     $target = "dev"
-    $root_dir = "/opt/careervillage"
+    $root_dir = "/home/vagrant/careervillage"
     $user = "vagrant"
     $group = "vagrant"
 
@@ -28,6 +28,8 @@ class dev {
     class { "careervillage::logging::site": }
 
     class { "careervillage::logging::db": }
+
+    class { "careervillage::cache": }
 
 }
 

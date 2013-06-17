@@ -1,8 +1,12 @@
 .idea
 .rvmrc
+.vagrant
 *.pyc
 app/temp/*
 app/cache/*
 app/log/*
 app/forum/upfiles/*
 app/settings_local.py
+docs/_build
+docs/_static
+docs/_templates

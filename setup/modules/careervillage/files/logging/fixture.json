@@ -3,7 +3,7 @@
         "pk": 1,
         "model": "auth.user",
         "fields": {
-            "username": "yoda",
+            "username": "careervillage",
             "first_name": "",
             "last_name": "",
             "is_active": true,
@@ -13,7 +13,7 @@
             "groups": [],
             "user_permissions": [],
             "password": "pbkdf2_sha256$10000$XW7Uh1flMXm7$wqjk38SPioYcNLC44pTDluDnJAsA6RAOpe8Yo6NybJ8=",
-            "email": "yoda@careervillage.org",
+            "email": "team@careervillage.org",
             "date_joined": "2013-01-29T11:32:51.354Z"
         }
     },
@@ -55,24 +55,11 @@
         "model": "sentry.project",
         "fields": {
             "status": 0,
-            "name": "searcher",
+            "name": "osqa",
             "slug": "careervillage",
             "team": 1,
             "owner": 1,
             "date_added": "2013-01-29T11:33:31.032Z",
-            "public": false
-        }
-    },
-    {
-        "pk": 3,
-        "model": "sentry.project",
-        "fields": {
-            "status": 0,
-            "name": "scraping",
-            "slug": "scraping",
-            "team": 1,
-            "owner": 1,
-            "date_added": "2013-01-29T11:38:25.885Z",
             "public": false
         }
     },
@@ -98,18 +85,6 @@
             "user_added": null,
             "date_added": "2013-01-29T11:33:31.246Z",
             "secret_key": "ba4a23edde9d4455b03b856f80cfb986"
-        }
-    },
-    {
-        "pk": 4,
-        "model": "sentry.projectkey",
-        "fields": {
-            "public_key": "5781cb698b05405fa62b186ef646ab9e",
-            "project": 3,
-            "user": 1,
-            "user_added": null,
-            "date_added": "2013-01-29T11:38:25.921Z",
-            "secret_key": "7bccd282a18248f4ad817e544ea54aba"
         }
     }
 ]
