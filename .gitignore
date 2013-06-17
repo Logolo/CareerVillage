@@ -1,13 +1,6 @@
 *.pyc
 settings_local.py
-settings_local.pyc
-.pydevproject
 *.log
-*/*.log
-cache/*
-careerville_osqa
-!.gitignore
-.settings/
-forum/upfiles/*
+app/cache/*
+app/forum/upfiles/*
 .idea
-*.db
