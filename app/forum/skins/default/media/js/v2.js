@@ -502,8 +502,10 @@ $(function(){
             parameters['access_token'] = authResponse.accessToken,
             parameters['setting'] = setting;
 
+            popoverElement.addClass('btn-loading');
             $.post(FB_COMMAND_URL, addCsrf(parameters), function(response) {
                 callback(response['facebook_success'], response);
+                popoverElement.removeClass('btn-loading');
                 if (!response['facebook_success']) {
                     // Notify the user
                     popoverElement.popover({
@@ -521,6 +523,7 @@ $(function(){
                 }
             });
         };
+        popoverElement.addClass('btn-loading');
         FB.getLoginStatus(function(response) {
             if (response.authResponse) {
                 save(response.authResponse);
@@ -532,6 +535,7 @@ $(function(){
                         //response_type: 'code'
                     },
                     function(response) {
+                        popoverElement.removeClass('btn-loading');
                         FB.getLoginStatus(function(response) {
                             if (response.authResponse) {
                                 save(response.authResponse);

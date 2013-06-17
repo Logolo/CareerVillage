@@ -140,9 +140,16 @@ class LikeAnswerStory(Story):
         return settings.APP_URL + reverse('answer', kwargs={'id': self._object.id})
 
     def get_data(self):
-        return {
-            'object': 'http://samples.ogp.me/358124874310123' if settings.DEBUG else self.get_object_url(),
+        title = 'Answer to %s' % self._object.parent.title
+        data = {
+            'object': Graph.create_object('answer', {
+                'title': title,
+                'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
+                'url': 'http://samples.ogp.me/358124874310123' if settings.DEBUG else self.get_object_url(),
+                'description': title,
+            })
         }
+        return data
 
 
 class AskQuestionStory(Story):
