@@ -1,6 +1,8 @@
-*.pyc
-settings_local.py
-*.log
-app/cache/*
-app/forum/upfiles/*
 .idea
+.rvmrc
+*.pyc
+app/temp/*
+app/cache/*
+app/log/*
+app/forum/upfiles/*
+app/settings_local.py

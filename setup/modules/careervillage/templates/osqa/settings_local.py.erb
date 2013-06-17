@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+
+
+DEBUG = <% if scope.lookupvar('careervillage::target') == 'dev' %>True<% else %>False<% end %>
+TEMPLATE_DEBUG = <% if scope.lookupvar('careervillage::target') == 'dev' %>True<% else %>False<% end %>
+
+
+
+
+BASE_DOMAIN = <%= scope.function_get_py_value("::careervillage_base_domain") %>
+BASE_URL = <%= scope.function_get_py_value('::careervillage_base_url') %>
+PROXY_URL = <%= scope.function_get_py_value('::careervillage_proxy_url') %>
+PATTERN_URL = 'http://%s%s'
+
+AWS_SECRET_ACCESS_KEY = <%= scope.function_get_py_value('::careervillage_aws_secret_access_key') %>
+
+DEFAULT_FILE_STORAGE = 'careervillage.searcher.core.storage.MediaStorage'
+MEDIA_BUCKET = <%= scope.function_get_py_value('::careervillage_media_bucket') %>
+MEDIA_URL = <%= scope.function_get_py_value('::careervillage_media_url') %>
+MEDIA_DOMAIN = <%= scope.function_get_py_value('::careervillage_media_domain') %>
+
+STATICFILES_STORAGE = 'careervillage.searcher.core.storage.StaticStorage'
+STATIC_BUCKET = <%= scope.function_get_py_value('::careervillage_static_bucket') %>
+STATIC_URL = <%= scope.function_get_py_value('::careervillage_static_url') %>
+STATIC_DOMAIN = <%= scope.function_get_py_value('::careervillage_static_domain') %>
+
+PICTURE_STORAGE  = 'careervillage.searcher.property.storage.S3PictureStorage'
+PICTURE_BUCKET = <%= scope.function_get_py_value('::careervillage_picture_bucket') %>
+PICTURE_URL = <%= scope.function_get_py_value('::careervillage_picture_url') %>
+PICTURE_DOMAIN = <%= scope.function_get_py_value('::careervillage_picture_domain') %>
+
+FACEBOOK_APP_ID = <%= scope.function_get_py_value('::careervillage_facebook_app_id') %>
+FACEBOOK_APP_SECRET = <%= scope.function_get_py_value('::careervillage_facebook_app_secret') %>
+
+GOOGLE_API_KEY = <%= scope.function_get_py_value('::careervillage_google_api_key') %>
+GOOGLE_CLIENT_ID = <%= scope.function_get_py_value('::careervillage_google_client_id') %>
+GOOGLE_CLIENT_SECRET = <%= scope.function_get_py_value('::careervillage_google_client_secret') %>
