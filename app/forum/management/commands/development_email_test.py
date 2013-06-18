@@ -9,12 +9,8 @@ from forum.utils.mail import send_template_email
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
-        make_option('--recipient',
-            action='store',
-            dest='recipient',
-            help='Specify a recipient user ID.',
-            type='string',),
-        )
+        make_option('--recipient', action='store', dest='recipient', help='Specify a recipient.', type='string'),
+    )
 
     def handle(self, *args, **options):
         try:
@@ -24,15 +20,15 @@ class Command(BaseCommand):
             print '    manage.py development_email_test [app_label].[model] [id] --recipient=[recipient]'
             print
             print 'Recipient can be a user id, user email, or one of the following:'
-            print '    all, students, educators, professionals'
+            print '    students, educators, professionals, all'
             print
             print 'Example:'
             print '    manage.py development_email_test forum.question 1 --recipient=1'
             print '    manage.py development_email_test forum.question 1 --recipient=user@domain.com'
-            print '    manage.py development_email_test forum.question 1 --recipient=all'
+            print '    manage.py development_email_test forum.answer 1 --recipient=all'
             print '    manage.py development_email_test forum.answer 1 --recipient=students'
             print '    manage.py development_email_test forum.question 1 --recipient=educators'
-            print '    manage.py development_email_test forum.badge 1 --recipient=professionals'
+            print '    manage.py development_email_test forum.question 1 --recipient=professionals'
             return
 
         # Get content type
@@ -78,11 +74,22 @@ class Command(BaseCommand):
             print 'No recipients found.'
             return
 
-        # TODO: Send mails
-        # obj = Specified object
-        # recipients = List/queryset of recipient users
+        # Show number of recipients
+        print '%d recipients.' % len(recipients) if type(recipients) == list else recipients.count()
+        print
+
+        # Send "new question" message
         if isinstance(obj, Question):
-            pass
+            print 'Sending new question...'
+            send_template_email(recipients, 'notifications/newquestion.html', {'question': obj})
+
+        # Send "new answer" message
         elif isinstance(obj, Answer):
-            pass
-        print 'RECIPIENTS', recipients
+            print 'Sending new answer...'
+            send_template_email(recipients, 'notifications/newanswer.html', {'answer': obj})
+
+        # Nothing to do
+        else:
+            print 'Nothing to do.'
+
+        print 'Finished.'
