@@ -75,8 +75,7 @@ class Command(BaseCommand):
             return
 
         # Show number of recipients
-        print '%d recipients.' % len(recipients) if type(recipients) == list else recipients.count()
-        print
+        print '%d recipients.' % (len(recipients) if type(recipients) == list else recipients.count(),)
 
         # Send "new question" message
         if isinstance(obj, Question):
