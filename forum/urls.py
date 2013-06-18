@@ -53,6 +53,7 @@ core_urls = (
 
     ## FOR NCVS CONFERENCE
     url(r'^%s$' % _('advice/'), direct_to_template, {'template': 'advice_recruiting.html'}),
+    url(r'^%s%s$' % (_('advice/'), _('success/')), direct_to_template, {'template': 'advice_recruiting_success.html'}),
     
     
     url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'), _('edit/')), app.writers.edit_question, name='edit_question'),
