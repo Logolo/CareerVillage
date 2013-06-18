@@ -104,32 +104,40 @@ def search_results(request):
         return homepage(request)
 
 
-def search_results_base(request, user_type_check=False, keywords=None, loggedout=False, tag=None, relevant=False):
+def search_results_base(request, user_type_check=False, keywords=None, loggedout=False, tag=None,
+                        relevant=False, unanswered=False):
     if loggedout or (request.user.is_authenticated() and user_type_check):
         paginator_context = QuestionListPaginatorContext()
         paginator_context.base_path = reverse('homepage')
 
         if keywords is None:
+            if unanswered:
+                query_set = Question.objects.filter(children__isnull=True)
+            else:
+                query_set = Question.objects.all()
+
             if tag is None:
                 if not relevant:
                     return question_list(request,
-                                         Question.objects.all(),
+                                         query_set,
                                          base_path=reverse('homepage'),
                                          feed_url=reverse('latest_questions_feed'),
                                          paginator_context=paginator_context,
                                          v2=True,
-                                         relevant=relevant)
+                                         relevant=relevant,
+                                         unanswered=unanswered)
                 else:
                     return question_list(request,
-                                         Question.objects.filter(tags__in=request.user.tag_selections.filter(reason='good').values_list('tag_id', flat=True)),
+                                         query_set.filter(tags__in=request.user.tag_selections.filter(reason='good').values_list('tag_id', flat=True)),
                                          base_path=reverse('homepage'),
                                          feed_url=reverse('latest_questions_feed'),
                                          paginator_context=paginator_context,
                                          v2=True,
-                                         relevant=relevant)
+                                         relevant=relevant,
+                                         unanswered=unanswered)
             else:
                 return question_list(request,
-                                     Question.objects.filter(tags=tag),
+                                     query_set.filter(tags=tag),
                                      list_description=mark_safe(_('questions tagged <span class="tag">%(tag)s</span>') % {'tag': tag}),
                                      base_path=reverse('homepage'),
                                      page_title=mark_safe(_('Questions Tagged With %(tag)s') % {'tag': tag}),
@@ -137,7 +145,8 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
                                      paginator_context=paginator_context,
                                      tag=tag,
                                      v2=True,
-                                     relevant=relevant)
+                                     relevant=relevant,
+                                     unanswered=unanswered)
         else:
             return get_question_search_results(request, keywords=keywords, v2=True, tag=tag)
 
@@ -145,16 +154,19 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
         return HttpResponseRedirect(reverse(homepage))
 
 @decorators.render('v2/homepage_professional.html')
-def homepage_professional(request, keywords, tag, relevant):
-    return search_results_base(request, request.user.is_professional(), keywords, tag=tag, relevant=relevant)
+def homepage_professional(request, keywords, tag, relevant, unanswered):
+    return search_results_base(request, request.user.is_professional(), keywords, tag=tag,
+                               relevant=relevant, unanswered=unanswered)
 
 @decorators.render('v2/homepage_student.html')
-def homepage_student(request, keywords, tag, relevant):
-    return search_results_base(request, request.user.is_student(), keywords, tag=tag, relevant=relevant)
+def homepage_student(request, keywords, tag, relevant, unanswered):
+    return search_results_base(request, request.user.is_student(), keywords, tag=tag,
+                               relevant=relevant, unanswered=unanswered)
 
 @decorators.render('v2/homepage_educator.html')
-def homepage_educator(request, keywords, tag, relevant):
-    return search_results_base(request, request.user.is_educator(), keywords, tag=tag, relevant=relevant)
+def homepage_educator(request, keywords, tag, relevant, unanswered):
+    return search_results_base(request, request.user.is_educator(), keywords, tag=tag,
+                               relevant=relevant, unanswered=unanswered)
 
 @decorators.render('v2/homepage_loggedout.html')
 def homepage_loggedout(request, keywords=None, tag=None):
@@ -175,6 +187,13 @@ def relevant(request, keywords=None):
         return HttpResponseRedirect(reverse(splash))
 
 
+def unanswered_v2(request, keywords=None):
+    if request.user.is_authenticated():
+        return homepage_questions(request, keywords, unanswered=True)
+    else:
+        return HttpResponseRedirect(reverse(splash))
+
+
 def tag_v2(request, tag):
     try:
         tag = Tag.active.get(name=unquote(tag))
@@ -184,17 +203,17 @@ def tag_v2(request, tag):
     return homepage_questions(request, None, tag)
 
 
-def homepage_questions(request, keywords, tag=None, relevant=False):
+def homepage_questions(request, keywords, tag=None, relevant=False, unanswered=False):
     if request.user.is_anonymous():
         return homepage_loggedout(request, keywords, tag)
     elif request.user.is_student():
-        return homepage_student(request, keywords, tag, relevant)
+        return homepage_student(request, keywords, tag, relevant, unanswered)
     elif request.user.is_professional():
-        return homepage_professional(request, keywords, tag, relevant)
+        return homepage_professional(request, keywords, tag, relevant, unanswered)
     elif request.user.is_educator():
-        return homepage_educator(request, keywords, tag, relevant)
+        return homepage_educator(request, keywords, tag, relevant, unanswered)
     else: # If the user's status is unknown, we default to professional
-        return homepage_professional(request, keywords, tag, relevant)
+        return homepage_professional(request, keywords, tag, relevant, unanswered)
 
 
 def splash(request):
@@ -265,7 +284,8 @@ def question_list(request, initial,
                   paginator_context=None,
                   tag=None,
                   v2=False,
-                  relevant=False):
+                  relevant=False,
+                  unanswered=False):
 
     questions = initial.filter_state(deleted=False)
 
@@ -304,6 +324,7 @@ def question_list(request, initial,
         "tab" : "questions",
         'feed_url': feed_url,
         'relevant': relevant,
+        'unanswered': unanswered,
         'user_tags_count': request.user.tag_selections.count() if request.user.is_authenticated() else 0
         }
     if v2:

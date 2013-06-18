@@ -68,9 +68,10 @@
 
 
         <ul class="nav nav-tabs bold">
-            <li{% if not relevant and not keywords and not tag %} class="active"{% endif %}><a href="/home">Latest questions</a></li>
+            <li{% if not relevant and not keywords and not tag and not unanswered %} class="active"{% endif %}><a href="/home">Latest questions</a></li>
             {% if user.is_authenticated %}
                 <li{% if relevant %} class="active"{% endif %}><a href="/relevant">Relevant for you</a></li>
+                <li{% if unanswered %} class="active"{% endif %}><a href="/unanswered">Unanswered</a></li>
             {% endif %}
             {% if keywords %}
                 <li class="active"><a href="/home">Search results</a></li>
@@ -91,7 +92,7 @@
         <!-- search results -->
         <div class="items">
             {% for question in questions.paginator.page %}
-                {% question_list_item question %}
+            {% question_list_item question %}
             {% endfor %}
         </div>
         {% if questions %}
