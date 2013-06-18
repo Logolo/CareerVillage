@@ -190,6 +190,61 @@ h5.jumplink {
 
 
 /*************
+ * SPLASH PAGE .splash-page
+ ***/
+
+.splash-page .jumbotron {
+  background-color:#8ec4c6;
+  width:100%;
+  margin:-30px -20px 0 -20px;
+  padding:30px 20px 0 20px;
+  overflow:hidden;
+  border-bottom:2px solid #64878A;
+}
+.splash-page .jumbotron .inner {
+  max-width: 580px;
+  margin: auto;  
+}
+.splash-page .jumbotron h1 {
+  padding-top:36px;
+  padding-bottom:24px;
+  font-size: 48px;
+  line-height: 110%;
+  color: #fff;
+  text-shadow: -1px 1px #777;
+}
+.splash-page .jumbotron #splash_img {
+  max-height:360px;
+}
+.splash-page .jumbotron #splash_img img {
+  max-width:300px;
+}
+.splash-page section {
+  margin:18px 0;
+}
+.splash-page section h3,
+.splash-page section.tag-cloud .tags {
+  text-align:center;
+}
+.splash-page section.tag-cloud .tags .badge {
+  font-size:20px;
+  padding:8px;
+  margin:4px;
+}
+.splash-page section.get-involved .center {
+  margin-top:18px;
+  padding-top:12px;
+  border-top:1px solid #eee;
+  background-image:url('/m/default/media/img/500professionals.png');
+  background-repeat:no-repeat;
+  background-position:right bottom;
+}
+.splash-page section.get-involved p {
+  width:175px; float:right; font-size:12px; line-height:14px; font-style:italic; clear:right; margin:12px 0;
+}
+
+
+/*************
  * PROFILE PAGE .profile-page
  ***/
 
@@ -336,6 +391,13 @@ header.profile-page .avatar img {
     background-color:#ddEfFF;
     color:#666;
 }
+/* make icon within tag lighter */
+.tags .badge i {
+  opacity:0.3333333;
+}
+#tagSelector {
+  line-height:200%;
+}
 
 
 /*************
@@ -375,6 +437,10 @@ header.profile-page .avatar img {
 #askform input,
 #askform textarea {
     width:100%;
+}
+
+#askform .facebook-actions {
+  padding-bottom:12px;
 }
 
 #flag-question-form {

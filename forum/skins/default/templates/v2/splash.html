@@ -1,0 +1,66 @@
+{% extends "v2/base.html" %}
+<!-- template v2/about.html -->
+{% load i18n extra_tags extra_filters %}
+{% block title %}{% spaceless %}{% trans "For professionals - CareerVillage" %}{% endspaceless %}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% media "/media/style/zocial.css" %}">
+{% endblock %}
+{% block content %}
+
+<div id="block-content" class="row-fluid splash-page clearfix">
+        
+  <header class="jumbotron clearfix">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span7">
+          <div class="inner">
+            <h1>Career advice students can trust, from real-life professionals</h1>
+            <form  id="topsearch" action="{% url search_questions %}" method="get" class="form-search">
+                <div class="input-append input-prepend" style="width:100%">
+                  <span class="add-on" style="height:34px; line-height:34px;"><span class="icon-search"></span></span>    
+                  <input style="width:70%; height:34px; line-height:34px; font-size:18px" class="input-xlarge" id="keywords" name="q" value="{{ keywords }}" placeholder="Search for a career topic..." type="text">
+                  <input type="submit" class="btn-large btn bold" name="Submit" value="Search" />
+                </div>
+                <p class="text-light" style="font-style:italic; margin-top:6px; padding-left:34px">ex: Computer Engineer, Crime Scene Investigator, Doctor</p>
+            </form>
+          </div>
+        </div>
+        <div class="span4" id="splash_img">
+          <img src="/m/default/media/img/bob-v2.png" />
+        </div>
+    </div>
+  </header>
+  
+  <section class="tag-cloud clearfix">    
+    <div class="span2">&nbsp;</div>
+    <div class="span8">
+      <h3>Explore recent questions and answers...</h3>
+      <div class="tags">
+        {% for topic in topics %}
+          <a href="{% url home_tag_questions topic|urlencode %}" class="post-tag tag-link-sports" rel="tag"><span class="badge">{{topic}}</span></a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="span2">&nbsp;</div>
+  </section>
+
+  <section class="get-involved clearfix">    
+    <div class="span1">&nbsp;</div>
+    <div class="span10 center">
+      <h3>...or join our community of professionals &amp; donors!</h3>
+      <h4 class="text-light" style="text-align:center">Over 500 professionals are already involved!</h4>
+      <div class="clearfix" style="height:200px; padding-top:20px">
+        <p><a href="/account/linkedin/signin/" class="zocial linkedin block" style="margin-bottom:4px">Login with Linkedin</a><br />
+          Logging in with LinkedIn helps student know that your advice is trustworthy. <a href="{% url auth_signin %}?next={{ request.get_full_path }}">Learn More</a>
+        </p><p>
+          <a href="#"><img src="http://www.skeptic.com/eskeptic/2011/images/11-12-21/make-a-donation-button.jpg" /></a>
+        </p>
+      </div>
+    </div>
+    <div class="span1">&nbsp;</div>
+  </section>
+
+
+</div><!--/#block-content.row-fluid -->
+{% endblock %}
+<!-- end template v2/about.html -->
