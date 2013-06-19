@@ -188,6 +188,28 @@ class User(BaseModel, DjangoUser):
         else:
             return self.display_name('full')
 
+    # Social networks
+
+    @property
+    def can_connect_facebook(self):
+        # All users can connect with Facebook
+        return True
+
+    @property
+    def can_disconnect_facebook(self):
+        # The user can disconnect from Facebook only if there is an alternative way to log in
+        return self.has_usable_password() or self.linkedin_access_token
+
+    @property
+    def can_connect_linkedin(self):
+        # Non-students are the only ones who can connect with LinkedIn
+        return not self.is_student()
+
+    @property
+    def can_disconnect_linkedin(self):
+        # The user can disconnect from LinkedIn only if there is an alternative way to log in
+        return self.has_usable_password() or self.facebook_access_token
+
     # Facebook permissions (stories)
 
     @property
