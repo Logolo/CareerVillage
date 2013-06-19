@@ -26,13 +26,23 @@ def disconnect(request, *args, **kwargs):
         return redirect('homepage')
 
     user = request.user
-    if user and user.is_authenticated() and user.has_usable_password():
+    if user and user.is_authenticated():
+        backend = kwargs.get('backend')
+
         # Remove stored Facebook information
-        if kwargs.get('backend') == 'facebook':
+        if backend == 'facebook' and user.can_disconnect_facebook:
             user.facebook_uid = None
             user.facebook_email = None
             user.facebook_access_token = None
             user.facebook_access_token_expires_on = None
+            user.save()
+
+        # Remove stored LinkedIn information
+        elif backend == 'linkedin' and user.can_disconnect_linkedin:
+            user.linkedin_uid = None
+            user.linkedin_email = None
+            user.linkedin_access_token = None
+            user.linkedin_access_token_expires_on = None
             user.save()
 
     return redirect('settings_social_networks')

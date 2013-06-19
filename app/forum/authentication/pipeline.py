@@ -61,7 +61,7 @@ def create_user(request, *args, **kwargs):
         if created:
             next_url = request.POST.get('next', reverse('revise_profile'))
         else:
-            next_url = request.POST.get('next', reverse('home'))
+            next_url = request.POST.get('next', reverse('homepage'))
 
     elif backend == 'facebook':
         facebook_uid = kwargs.get('uid')
