@@ -1,0 +1,668 @@
+from django.db import connections
+from django.core.management.base import BaseCommand
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
+from django.contrib.auth import models as auth_models
+
+from forum import models as forum_models
+from forum_modules.openidauth import models as openidauth_models
+
+
+DEFAULT_DATABASE = 'default'
+
+
+CONSTRAINTS = {
+    'forum_node': {
+        'DROP': """
+            ALTER TABLE forum_node DROP CONSTRAINT parent_id_refs_id_1d7ae97d;
+            ALTER TABLE forum_node DROP CONSTRAINT abs_parent_id_refs_id_1d7ae97d;
+            ALTER TABLE forum_node DROP CONSTRAINT active_revision_id_refs_id_5a9f972a;
+            ALTER TABLE forum_node DROP CONSTRAINT extra_ref_id_refs_id_1d7ae97d;
+            ALTER TABLE forum_node DROP CONSTRAINT forum_node_author_id_fkey;
+            ALTER TABLE forum_node DROP CONSTRAINT forum_node_last_activity_by_id_fkey;
+            ALTER TABLE forum_node DROP CONSTRAINT last_edited_id_refs_id_2d978e9f;
+            """,
+        'ADD': """
+            ALTER TABLE forum_node
+                ADD CONSTRAINT parent_id_refs_id_1d7ae97d FOREIGN KEY (parent_id)
+                    REFERENCES forum_node (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
+            ALTER TABLE forum_node
+                ADD CONSTRAINT abs_parent_id_refs_id_1d7ae97d FOREIGN KEY (abs_parent_id)
+                    REFERENCES forum_node (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
+            ALTER TABLE forum_node
+                ADD CONSTRAINT active_revision_id_refs_id_5a9f972a FOREIGN KEY (active_revision_id)
+                    REFERENCES forum_noderevision (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
+            ALTER TABLE forum_node
+                ADD CONSTRAINT extra_ref_id_refs_id_1d7ae97d FOREIGN KEY (extra_ref_id)
+                    REFERENCES forum_node (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
+            ALTER TABLE forum_node
+                ADD CONSTRAINT forum_node_author_id_fkey FOREIGN KEY (author_id)
+                    REFERENCES forum_user (user_ptr_id) MATCH SIMPLE
+                    ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
+            ALTER TABLE forum_node
+                ADD CONSTRAINT forum_node_last_activity_by_id_fkey FOREIGN KEY (last_activity_by_id)
+                    REFERENCES forum_user (user_ptr_id) MATCH SIMPLE
+                    ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
+            ALTER TABLE forum_node
+                ADD CONSTRAINT last_edited_id_refs_id_2d978e9f FOREIGN KEY (last_edited_id)
+                    REFERENCES forum_action (id) MATCH SIMPLE
+                    ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
+            """
+    }
+}
+
+
+class Column(object):
+    def __init__(self, index):
+        self.index = index
+
+
+class Copy(object):
+    def __init__(self, field, model=None):
+        self.field = field
+        self.model = model
+
+
+class Value(object):
+    def __init__(self, value):
+        self.value = value
+
+
+def disable_constraints(table_name):
+    cursor = connections[DEFAULT_DATABASE].cursor()
+    cursor.execute(CONSTRAINTS[table_name]['DROP'])
+    cursor.close()
+
+
+def enable_constraints(table_name):
+    cursor = connections[DEFAULT_DATABASE].cursor()
+    cursor.execute(CONSTRAINTS[table_name]['ADD'])
+    cursor.close()
+
+
+def perform_import(connection, table, model, pairing, processors=None, from_parent=None):
+    """ Import data from a table.
+    :param connection: Database connection
+    :param table: Name of the table from which to fetch rows
+    :param model: Destination model
+    :param pairing: Dictionary containing source and field name in the model
+    :param processors: Processors
+    """
+    print 'Importing %s.%s objects.' % (model._meta.app_label, model.__name__)
+
+    # Delete existing objects
+    model.objects.all().delete()
+
+    # Perform import
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM %s' % table)
+
+    while True:
+        # Fetch row
+        row = cursor.fetchone()
+        if row is None:
+            break
+
+        # New object
+        obj_id = row[0]
+        if from_parent:
+            obj = from_parent.objects.get(id=obj_id)
+            obj.__class__ = model
+        else:
+            obj = model()
+            obj.id = obj_id
+
+        # Set rest of fields
+        for field, source in pairing:
+            # Get value
+            if source is None:
+                continue
+            elif isinstance(source, Column):
+                value = row[source.index]
+            elif isinstance(source, Copy):
+                if source.model:
+                    try:
+                        value = getattr(source.model.objects.get(id=obj_id), source.field)
+                    except source.model.DoesNotExist:
+                        continue
+                else:
+                    value = getattr(obj, source.field)
+            elif isinstance(source, Value):
+                value = source.value
+            else:
+                value = source(connection, obj_id)
+
+            # Call processor
+            if processors:
+                processor = processors.get(field)
+                if processor:
+                    value = processor(value)
+
+            # Set value
+            setattr(obj, field, value)
+
+        # Save
+        if forum_models.BaseModel in model.__bases__:
+            obj.save(full_save=True)
+        else:
+            obj.save()
+
+    # Close cursor
+    cursor.close()
+
+
+def perform_raw_import(connection, table, pairing,
+                       destination_table=None, destination_connection=connections[DEFAULT_DATABASE],
+                       processors=None):
+    """ Perform RAW import from a table in the source database to a table in the default database.
+    :param connection: Source database connection
+    :param table: Source table
+    :param pairing: Pairing
+    :param destination_table: Destination table
+    :param destination_connection: Destination database connection
+    :param processors: Processors
+    """
+    if not destination_table:
+        destination_table = table
+
+    print 'Importing from table \'%s\' to table \'%s\' (RAW).' % (table, destination_table)
+
+    # Source
+    source_cursor = connection.cursor()
+    source_cursor.execute('SELECT * FROM %s' % table)
+
+    # Destination
+    destination_cursor = destination_connection.cursor()
+    destination_cursor.execute('DELETE FROM %s' % destination_table)
+
+    while True:
+        # Fetch row
+        row = source_cursor.fetchone()
+        if row is None:
+            break
+
+        # Get ID
+        obj_id = row[0]
+
+        # Get values
+        values = []
+        columns = []
+        for destination, source in pairing:
+            if source is None:
+                continue
+            elif isinstance(source, Column):
+                value = row[source.index]
+            elif isinstance(source, Value):
+                value = source.value
+            else:
+                value = source(connection, obj_id)
+
+            # Call processor
+            if processors:
+                processor = processors.get(destination)
+                if processor:
+                    value = processor(value)
+
+            values.append(value)
+            columns.append(destination)
+
+        # Execute insertion
+        query = 'INSERT INTO %s (%s) VALUES (%s)' % (destination_table,
+                                                     ', '.join(columns),
+                                                     ', '.join(['%s'] * len(values)))
+        destination_cursor.execute(query, values)
+
+    source_cursor.close()
+    destination_cursor.close()
+
+
+def perform_m2m_import(connection, table,
+                       parent_model, m2m_field, child_model,
+                       parent_column, child_column):
+    """ Import data from a many to many relationship table.
+    :param connection: Database connection
+    :param table: Name of the table from which to fetch rows
+    :param parent_model: Model that contains the ManyToManyField
+    :param m2m_field: Name of the ManyToManyField
+    :param child_model: Model to which the ManyToManyField references
+    :param parent_column: Column corresponding to the IDs of parent_model
+    :param child_column: Column corresponding to the IDs of child_model
+    """
+    print 'Importing relationship of %s.%s and %s.%s objects.' % (parent_model._meta.app_label, parent_model.__name__,
+                                                                  child_model._meta.app_label, child_model.__name__)
+
+    if not isinstance(parent_column, Column) and not isinstance(child_column, Column):
+        return
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM %s' % table)
+
+    while True:
+        # Fetch row
+        row = cursor.fetchone()
+        if row is None:
+            break
+
+        # Save relationship
+        parent = parent_model.objects.get(pk=row[parent_column.index])
+        getattr(parent, m2m_field).add(child_model.objects.get(pk=row[child_column.index]))
+
+    # Close cursor
+    cursor.close()
+
+
+def import_django_content_type(connection):
+    perform_import(connection, 'django_content_type', ContentType, [
+        ('name', Column(1)),
+        ('app_label', Column(2)),
+        ('model', Column(3)),
+    ])
+
+
+def import_django_site(connection):
+    perform_import(connection, 'django_site', Site, [
+        ('domain', Column(1)),
+        ('name', Column(2)),
+    ])
+
+
+def import_auth_permission(connection):
+    perform_import(connection, 'auth_permission', auth_models.Permission, [
+        ('name', Column(1)),
+        ('content_type_id', Column(2)),
+        ('codename', Column(3)),
+    ])
+
+
+def import_auth_group(connection):
+    perform_import(connection, 'auth_group', auth_models.Group, [
+        ('name', Column(1)),
+    ])
+
+
+def import_auth_group_permissions(connection):
+    perform_m2m_import(connection, 'auth_group_permissions',
+                       auth_models.Group, 'permissions', auth_models.Permission,
+                       Column(1), Column(2))
+
+
+def import_auth_user(connection):
+    perform_import(connection, 'auth_user', auth_models.User, [
+        ('first_name', Column(2)),
+        ('last_name', Column(3)),
+        ('email', Column(4)),
+        ('password', Column(5)),
+        ('is_staff', Column(6)),
+        ('is_active', Column(7)),
+        ('is_superuser', Column(8)),
+        ('last_login', Column(9)),
+        ('date_joined', Column(10)),
+
+        ('username', Copy('email')),
+    ])
+
+
+def import_auth_user_groups(connection):
+    perform_m2m_import(connection, 'auth_user_groups',
+                       auth_models.User, 'groups', auth_models.Group,
+                       Column(1), Column(2))
+
+
+def import_auth_user_user_permissions(connection):
+    perform_m2m_import(connection, 'auth_user_user_permissions',
+                       auth_models.User, 'user_permissions', auth_models.Permission,
+                       Column(1), Column(2))
+
+
+def infer_user_type(connection, obj_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM forum_cohort_educators WHERE user_id=%s LIMIT 1' % obj_id)
+    if cursor.fetchone():
+        cursor.close()
+        return forum_models.User.TYPE_EDUCATOR
+    else:
+        cursor.execute('SELECT * FROM forum_cohort_students WHERE user_id=%s LIMIT 1' % obj_id)
+        if cursor.fetchone():
+            cursor.close()
+            return forum_models.User.TYPE_STUDENT
+        else:
+            node_query = 'SELECT * FROM forum_node WHERE author_id=%s AND node_type=\'%s\' LIMIT 1'
+
+            cursor.execute(node_query % (obj_id, 'question'))
+            asked = cursor.fetchone() is None
+
+            cursor.execute(node_query % (obj_id, 'answer'))
+            answered = cursor.fetchone() is None
+
+            if asked and not answered:
+                cursor.close()
+                return forum_models.User.TYPE_STUDENT
+            else:
+                cursor.close()
+                return forum_models.User.TYPE_PROFESSIONAL
+
+
+def import_forum_user(connection):
+    perform_raw_import(connection, 'forum_user', [
+        ('user_ptr_id', Column(0)),
+
+        ('type', infer_user_type),
+
+        ('is_approved', Column(1)),
+        ('email_isvalid', Column(2)),
+
+        ('reputation', Column(3)),
+        ('gold', Column(4)),
+        ('silver', Column(5)),
+        ('bronze', Column(6)),
+        ('referral_count', Value(0)),
+
+        ('last_seen', Column(7)),
+        ('website', Column(9)),
+        ('location', Column(10)),
+        ('date_of_birth', Column(11)),
+        ('about', Column(12)),
+        ('headline', Value('')),
+        ('industry', Value('')),
+
+        ('facebook_uid', None),
+        ('facebook_email', None),
+        ('facebook_access_token', None),
+        ('facebook_access_token_expires_on', None),
+
+        ('linkedin_uid', None),
+        ('linkedin_email', None),
+        ('linkedin_access_token', None),
+        ('linkedin_access_token_expires_on', None),
+        ('linkedin_photo_url', None),
+    ])
+
+
+def import_forum_userproperty(connection):
+    perform_import(connection, 'forum_userproperty', forum_models.user.UserProperty, [
+        ('user_id', Column(1)),
+        ('key', Column(2)),
+        ('value', Column(3)),
+    ])
+
+
+def import_forum_badge(connection):
+    perform_import(connection, 'forum_badge', forum_models.Badge, [
+        ('type', Column(1)),
+        ('cls', Column(2)),
+        ('awarded_count', Column(3)),
+    ])
+
+
+def import_forum_tag(connection):
+    perform_import(connection, 'forum_tag', forum_models.Tag, [
+        ('name', Column(1)),
+        ('created_by_id', Column(2)),
+        ('created_at', Column(3)),
+        ('used_count', Column(4)),
+    ])
+
+
+def import_forum_markedtag(connection):
+    perform_import(connection, 'forum_markedtag', forum_models.MarkedTag, [
+        ('tag_id', Column(1)),
+        ('user_id', Column(2)),
+        ('reason', Column(3)),
+    ])
+
+
+def import_forum_node(connection):
+    disable_constraints('forum_node')
+
+    perform_import(connection, 'forum_node', forum_models.Node, [
+        # NodeContent
+        ('title', Column(1)),
+        ('tagnames', Column(2)),
+        ('author_id', Column(3)),
+        ('body', Column(4)),
+
+        # Node
+        ('node_type', Column(5)),
+        ('parent_id', Column(6)),
+        ('abs_parent_id', Column(7)),
+
+        ('added_at', Column(8)),
+        ('score', Column(9)),
+
+        ('state_string', Column(10)),
+        ('last_edited_id', Column(11)),
+
+        ('last_activity_by_id', Column(12)),
+        ('last_activity_at', Column(13)),
+
+        ('active_revision_id', Column(14)),
+
+        ('extra', Column(15)),
+        ('extra_ref', Column(16)),
+        ('extra_count', Column(17)),
+
+        ('marked', Column(18)),
+    ])
+
+
+def import_forum_noderevision(connection):
+    perform_import(connection, 'forum_noderevision', forum_models.NodeRevision, [
+        # NodeContent
+        ('title', Column(1)),
+        ('tagnames', Column(2)),
+        ('author_id', Column(3)),
+        ('body', Column(4)),
+
+        # NodeRevision
+        ('node_id', Column(5)),
+        ('summary', Column(6)),
+        ('revision', Column(7)),
+        ('revised_at', Column(8)),
+    ])
+
+
+def import_forum_action(connection):
+    perform_import(connection, 'forum_action', forum_models.Action, [
+        ('user_id', Column(1)),
+        ('real_user_id', Column(2)),
+        ('ip', Column(3)),
+        ('node_id', Column(4)),
+        ('action_type', Column(5)),
+        ('action_date', Column(6)),
+        ('extra', Column(7)),
+        ('canceled', Column(8)),
+        ('canceled_by_id', Column(9)),
+        ('canceled_at', Column(10)),
+        ('canceled_ip', Column(11)),
+    ])
+
+    enable_constraints('forum_node')
+
+
+def import_forum_node_tags(connection):
+    perform_m2m_import(connection, 'forum_node_tags',
+                       forum_models.Node, 'tags', forum_models.Tag,
+                       Column(1), Column(2))
+
+
+def import_forum_actionrepute(connection):
+    perform_import(connection, 'forum_actionrepute', forum_models.ActionRepute, [
+        ('action_id', Column(1)),
+        ('date', Column(2)),
+        ('user_id', Column(3)),
+        ('value', Column(4)),
+        ('by_canceled', Column(5)),
+    ])
+
+
+def import_forum_award(connection):
+    perform_import(connection, 'forum_award', forum_models.Award, [
+        ('user_id', Column(1)),
+        ('badge_id', Column(2)),
+        ('node_id', Column(3)),
+
+        ('awarded_at', Column(4)),
+
+        ('trigger_id', Column(5)),
+        ('action_id', Column(6)),
+    ])
+
+
+def import_forum_flag(connection):
+    perform_import(connection, 'forum_flag', forum_models.Flag, [
+        ('user_id', Column(1)),
+        ('node_id', Column(2)),
+        ('reason', Column(3)),
+        ('action_id', Column(4)),
+        ('flagged_at', Column(5)),
+    ])
+
+
+def import_forum_keyvalue(connection):
+    perform_import(connection, 'forum_keyvalue', forum_models.KeyValue, [
+        ('key', Column(1)),
+        ('value', Column(2)),
+    ])
+
+
+def import_forum_nodestate(connection):
+    perform_import(connection, 'forum_nodestate', forum_models.NodeState, [
+        ('node_id', Column(1)),
+        ('state_type', Column(2)),
+        ('action_id', Column(3)),
+    ])
+
+
+def import_forum_vote(connection):
+    perform_import(connection, 'forum_vote', forum_models.Vote, [
+        ('user_id', Column(1)),
+        ('node_id', Column(2)),
+        ('value', Column(3)),
+        ('action_id', Column(4)),
+        ('voted_at', Column(5))
+    ])
+
+
+def import_forum_questionsubscription(connection):
+    perform_import(connection, 'forum_questionsubscription', forum_models.QuestionSubscription, [
+        ('user_id', Column(1)),
+        ('question_id', Column(2)),
+        ('auto_subscription', Column(3)),
+        ('last_view', Column(4))
+    ])
+
+
+def import_forum_subscriptionsettings(connection):
+    perform_import(connection, 'forum_subscriptionsettings', forum_models.SubscriptionSettings, [
+        ('user_id', Column(1)),
+
+        ('enable_notifications', Column(2)),
+
+        ('member_joins', Column(3)),
+        ('new_question', Column(4)),
+        ('new_question_watched_tags', Column(5)),
+        ('subscribed_questions', Column(6)),
+
+        ('all_questions', Column(7)),
+        ('all_questions_watched_tags', Column(8)),
+        ('questions_viewed', Column(9)),
+
+        ('notify_answers', Column(10)),
+        ('notify_reply_to_comments', Column(11)),
+        ('notify_comments_own_post', Column(12)),
+        ('notify_comments', Column(13)),
+        ('notify_accepted', Column(14)),
+
+        ('send_digest', Column(15)),
+    ])
+
+
+def import_forum_validationhash(connection):
+    perform_import(connection, 'forum_validationhash', forum_models.ValidationHash, [
+        ('hash_code', Column(1)),
+        ('seed', Column(2)),
+        ('expiration', Column(3)),
+        ('type', Column(4)),
+        ('user_id', Column(5)),
+    ])
+
+
+def import_forum_authkeyuserassociation(connection):
+    perform_import(connection, 'forum_authkeyuserassociation', forum_models.AuthKeyUserAssociation, [
+        ('key', Column(1)),
+        ('provider', Column(2)),
+        ('user_id', Column(3)),
+        ('added_at', Column(4)),
+    ])
+
+
+def import_forum_openidassociation(connection):
+    perform_import(connection, 'forum_openidassociation', openidauth_models.OpenIdAssociation, [
+        ('server_url', Column(1)),
+        ('handle', Column(2)),
+        ('secret', Column(3)),
+        ('issued', Column(4)),
+        ('lifetime', Column(5)),
+        ('assoc_type', Column(6)),
+    ])
+
+
+def import_forum_openidnonce(connection):
+    perform_import(connection, 'forum_openidnonce', openidauth_models.OpenIdNonce, [
+        ('server_url', Column(1)),
+        ('timestamp', Column(2)),
+        ('salt', Column(3)),
+    ])
+
+
+class Command(BaseCommand):
+    def handle(self, *args, **options):
+        # Get source database alias
+        try:
+            alias = args[0]
+        except IndexError:
+            print 'Migrate to a v2 database.'
+            print 'Usage: manage.py migrate_v2 [source database alias]'
+            return
+
+        # Get source database connection
+        connection = connections[alias]
+
+        # Django/Auth
+        import_django_content_type(connection)
+        import_django_site(connection)
+        import_auth_permission(connection)
+        import_auth_group(connection)
+        import_auth_group_permissions(connection)
+        import_auth_user(connection)
+        import_auth_user_groups(connection)
+        import_auth_user_user_permissions(connection)
+
+        # Forum
+        import_forum_user(connection)
+        import_forum_userproperty(connection)
+        import_forum_badge(connection)
+        import_forum_tag(connection)
+        import_forum_markedtag(connection)
+        import_forum_node(connection)
+        import_forum_noderevision(connection)
+        import_forum_action(connection)
+        import_forum_node_tags(connection)
+        import_forum_actionrepute(connection)
+        import_forum_award(connection)
+        import_forum_flag(connection)
+        import_forum_keyvalue(connection)
+        import_forum_nodestate(connection)
+        import_forum_vote(connection)
+        import_forum_questionsubscription(connection)
+        import_forum_subscriptionsettings(connection)
+        import_forum_validationhash(connection)
+        import_forum_authkeyuserassociation(connection)
+
+        # OpenID Auth (forum_modules.openid_auth)
+        import_forum_openidassociation(connection)
+        import_forum_openidnonce(connection)
