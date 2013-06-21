@@ -1,4 +1,4 @@
-from django.db import connections
+from django.db import connections, connection as default_connection
 from django.core.management.base import BaseCommand
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
@@ -6,9 +6,6 @@ from django.contrib.auth import models as auth_models
 
 from forum import models as forum_models
 from forum_modules.openidauth import models as openidauth_models
-
-
-DEFAULT_DATABASE = 'default'
 
 
 CONSTRAINTS = {
@@ -72,19 +69,50 @@ class Value(object):
         self.value = value
 
 
-def disable_constraints(table_name):
-    cursor = connections[DEFAULT_DATABASE].cursor()
+def drop_constraints(table_name):
+    """ Drop the constraints associated to the specified table.
+    """
+    print 'Dropping constraints in \'%s\'.' % table_name
+    cursor = default_connection.cursor()
     cursor.execute(CONSTRAINTS[table_name]['DROP'])
     cursor.close()
 
 
-def enable_constraints(table_name):
-    cursor = connections[DEFAULT_DATABASE].cursor()
+def add_constraints(table_name):
+    """ Restore the constraints associated to the specified table.
+    """
+    print 'Restoring constraints in \'%s\'.' % table_name
+    cursor = default_connection.cursor()
     cursor.execute(CONSTRAINTS[table_name]['ADD'])
     cursor.close()
 
 
-def perform_import(connection, table, model, pairing, processors=None, from_parent=None):
+def perform_sync_sequence(table, sequence_name=None, primary_key='id'):
+    """ Synchronize the next ID of a sequence.
+    :param table: Name of the table from which to fetch the next ID
+    :param sequence_name: Name of the sequence to sync
+    :param primary_key: Primary key of the table
+    """
+    cursor = default_connection.cursor()
+
+    # Get sequence name
+    if not sequence_name:
+        sequence_name = '%s_%s_seq' % (table, primary_key)
+
+    # Get next ID
+    cursor.execute('SELECT MAX(%s) FROM %s' % (primary_key, table))
+    (max_id,) = cursor.fetchone()
+    if not max_id:
+        cursor.close()
+        return
+    next_id = max_id + 1
+
+    # Update sequence
+    cursor.execute('SELECT setval(\'%s\', %d)' % (sequence_name, next_id))
+    cursor.close()
+
+
+def perform_import(connection, table, model, pairing, processors=None, from_parent=None, sync_sequence=True):
     """ Import data from a table.
     :param connection: Database connection
     :param table: Name of the table from which to fetch rows
@@ -154,10 +182,14 @@ def perform_import(connection, table, model, pairing, processors=None, from_pare
     # Close cursor
     cursor.close()
 
+    # Sync sequence
+    if sync_sequence:
+        perform_sync_sequence(table)
+
 
 def perform_raw_import(connection, table, pairing,
-                       destination_table=None, destination_connection=connections[DEFAULT_DATABASE],
-                       processors=None):
+                       destination_table=None, destination_connection=default_connection,
+                       processors=None, sync_sequence=True):
     """ Perform RAW import from a table in the source database to a table in the default database.
     :param connection: Source database connection
     :param table: Source table
@@ -169,7 +201,7 @@ def perform_raw_import(connection, table, pairing,
     if not destination_table:
         destination_table = table
 
-    print 'Importing from table \'%s\' to table \'%s\' (RAW).' % (table, destination_table)
+    print '[RAW] Importing from table \'%s\' to table \'%s\'.' % (table, destination_table)
 
     # Source
     source_cursor = connection.cursor()
@@ -216,8 +248,13 @@ def perform_raw_import(connection, table, pairing,
                                                      ', '.join(['%s'] * len(values)))
         destination_cursor.execute(query, values)
 
+    # Close cursor
     source_cursor.close()
     destination_cursor.close()
+
+    # Sync sequence
+    if sync_sequence:
+        perform_sync_sequence(table)
 
 
 def perform_m2m_import(connection, table,
@@ -253,6 +290,9 @@ def perform_m2m_import(connection, table,
 
     # Close cursor
     cursor.close()
+
+    # Sync sequence
+    perform_sync_sequence(table)
 
 
 def import_django_content_type(connection):
@@ -379,7 +419,7 @@ def import_forum_user(connection):
         ('linkedin_access_token', None),
         ('linkedin_access_token_expires_on', None),
         ('linkedin_photo_url', None),
-    ])
+    ], sync_sequence=False)
 
 
 def import_forum_userproperty(connection):
@@ -416,7 +456,7 @@ def import_forum_markedtag(connection):
 
 
 def import_forum_node(connection):
-    disable_constraints('forum_node')
+    drop_constraints('forum_node')
 
     perform_import(connection, 'forum_node', forum_models.Node, [
         # NodeContent
@@ -480,7 +520,7 @@ def import_forum_action(connection):
         ('canceled_ip', Column(11)),
     ])
 
-    enable_constraints('forum_node')
+    add_constraints('forum_node')
 
 
 def import_forum_node_tags(connection):
@@ -633,14 +673,14 @@ class Command(BaseCommand):
         connection = connections[alias]
 
         # Django/Auth
-        import_django_content_type(connection)
-        import_django_site(connection)
-        import_auth_permission(connection)
-        import_auth_group(connection)
-        import_auth_group_permissions(connection)
+        # import_django_content_type(connection)
+        # import_django_site(connection)
+        # import_auth_permission(connection)
+        # import_auth_group(connection)
+        # import_auth_group_permissions(connection)
         import_auth_user(connection)
-        import_auth_user_groups(connection)
-        import_auth_user_user_permissions(connection)
+        # import_auth_user_groups(connection)
+        # import_auth_user_user_permissions(connection)
 
         # Forum
         import_forum_user(connection)

@@ -1,6 +1,23 @@
 Commands
 ========
 
+v2 Database Migration
+---------------------
+
+Use this command to migrate from a previous database to a new v2 database.
+
+Reset the database
+::
+
+    ./manage.py reset_db
+
+
+Run the migration
+::
+
+    ./manage.py migrate_v2 [source database alias]
+
+
 Development Email Test
 ----------------------
 
@@ -19,3 +36,4 @@ Development Email Test
         manage.py development_email_test forum.answer 1 --recipient=students
         manage.py development_email_test forum.question 1 --recipient=educators
         manage.py development_email_test forum.question 1 --recipient=professionals
+
