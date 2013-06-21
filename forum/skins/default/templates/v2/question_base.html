@@ -6,6 +6,7 @@
 {% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
 {% block metadescription %}{{ question.meta_description }}{% endblock %}
 {% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
+{% block page_class %}question-page{% endblock %}
 
 {% block head %}
     <meta property="fb:app_id" content="{{ settings.FACEBOOK_APP_ID }}" />

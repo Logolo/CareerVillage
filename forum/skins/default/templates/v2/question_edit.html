@@ -4,53 +4,55 @@
 {% block title %}{% spaceless %}{% trans "Edit question" %}{% endspaceless %}{% endblock %}
 {% block head %}
 {% endblock %}
-
+{% block page_class %}home-page{% endblock %}
 {% block scripts %}
     <script>
     </script>
 {% endblock %}
 
 {% block content %}
-    <div id="block-content" class="row-fluid">
+    <div id="block-content" class="full-height">
 
-        <!-- left column -->
-        <div class="col-left col-sidebar span3">
+      {% block left-column %}
+      <!-- left column -->
+      <div class="col-left col-sidebar span3">
 
-            <!-- profile picture and summary info -->
-            <div class="media profile">
-                <!--<div class="update-link"><a href="{# TODO update profile link #}">update</a></div>-->
-                <a class="pull-left" href="{{ user.get_profile_url }}">
-                    {% avatar user 128 %}
-                </a>
-                <div class="media-body">
-                    <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
-                    <p>
-                        {% ifequal request.user.type "S" %}{% else %}<span>{{ request.user.headline}}</span><br />{% endifequal %}
-                        <span class="text-light">{# TODO user.location #} Houston, TX</span><br />
-                        <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #} Healthcare</span>
-                    </p>
-                </div>
+        <div id="home-upper-user">
+          <div class="avatar">{% avatar user 125 %}</div>
+        </div>
 
-                <!-- user stats -->
-                <div class="profile-stats">
-                    <div class="row-fluid">
-                        <div class="box span6">
-                            <h3>{{ user.reputation }}</h3>
-                            <p>Karma</p>
-                        </div>
-                        <div class="box span6">
-                            <h3>{{ request.user.get_question_count_total }}</h3>
-                            <p>Questions</p>
-                        </div>
-                    </div>
-                </div>
+        <div id="home-lower-user">
+          <span class="arrow-down"></span>
 
-            </div>
+          <h4 class="text-light"><a class="text-light" href="{{ user.get_profile_url }}">{{ user.real_name|default:"You" }}</a>
+            <span class="text-light">{{ user.location }}</span></h4>
+          <p>
 
-            <!-- sidebar -->
+              {% if user.headline %}
+                  <span class="text-light">{{ user.headline }}</span>
+              {% else %}
+                  <span><a href="{{ user.get_profile_url }}" class="profile-link text-light">View your profile page</a></span>
+              {% endif %}
+          </p>
 
+          <!-- user stats -->
+          <div class="profile-stats">
+              <div class="row-fluid">    
+                  <div class="box span6 stats-border">
+                      <h3>{{ user.reputation }}</h3>
+                      <p class="text-light">Karma</p>
+                  </div>
+                  <div class="box span6 stats-border-last">
+                      <h3>{{ request.user.get_question_count_total }}</h3>
+                      <p class="text-light">Questions</p>
+                  </div>
+              </div>
+          </div>
 
-        </div><!--/.col-left -->
+        </div>
+
+      </div><!--/.col-left -->
+      {% endblock %}
 
 
         <!-- right column -->

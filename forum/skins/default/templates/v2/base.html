@@ -11,6 +11,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
 <meta http-equiv="content-style-type" content="text/css">
+<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,600,700' rel='stylesheet' type='text/css'>
 <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="{% media "/media/bootstrap_2.3.1/css/bootstrap.css" %}" rel="stylesheet" type="text/css" />
 <link href="{% media "/media/style/animate/animate.css" %}" rel="stylesheet" type="text/css" />
@@ -21,13 +22,15 @@
 <![endif]-->
 
 </head>
-<body>
+<body class="{% block page_class %}{% endblock %}">
+
+<div id="wrapper">
 
 <nav id="main-nav" class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-inner">
         <div><!-- center -->
             <div class="container-fluid">
-                <a href="{% if user.is_authenticated %}/home/{% else %}/{% endif %}" class="brand">(CareerVillage Logo)</a>
+                <a href="{% if user.is_authenticated %}/home/{% else %}/{% endif %}" class="brand" style="font-weight:bold">Career<span style="font-weight:normal">Village</span></a>
                 <ul class="nav pull-right">
                       <li><a href="{% url about %}">About</a></li>
                     {% if user.is_superuser %}
@@ -38,7 +41,7 @@
                     {% endif %}
                     {% if user.is_authenticated %}
                         <li class="dropdown">
-                            <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}">{{ user.real_name }} <b class="caret"></b></a>
+                            <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}"><img class="avatar" src="/m/default/media/img/example_avatars/pixel_geek_m_red.png">{{ user.real_name }} <b class="caret"></b></a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                 <li><a href="{{ user.get_profile_url }}">Your profile</a></li>
                                 <li class="divider"></li>
@@ -66,69 +69,76 @@
     </div><!--/.container-fluid -->
 </div><!--/#main -->
 
-<footer id="main-footer" class="clearfix">
-    <div><!-- center -->
-        <div class="container-fluid">
+<!-- FOOTER -->
+<footer id="footer">
+
+  <div id="main-footer" class="clearfix">
+      <div><!-- center -->
+          <div class="container-fluid">
+              <div class="row-fluid">
+
+                <div style="padding:0 1% 0 5%">
+                <span class="span4">
+                  <h4>How it works</h4>
+                  <ul>
+                    <li><a href="{% url about %}#overview">Overview</a></li>
+                    <li><a href="{% url about %}#for-educators">For Educators</a></li>
+                    <li><a href="{% url about %}#for-professionals">For Professionals</a></li>
+                    <li><a href="{% url about %}#frequently-asked-questions">Frequently Asked Questions</a></li>
+                  </ul>
+                </span>
+
+                <span class="span4">
+                  <h4>Get Involved</h4>
+                  <ul>
+                    <li><a href="{% url about %}#become-a-mentor">Become a Mentor</a></li>
+                    <li><a href="{% url about %}#make-a-donation">Make a Donation</a></li>
+                    <li><a href="{% url about %}#bring-us-to-your-classroom">Bring Us to Your Classroom</a></li>
+                    <li><a href="{% url about %}#follow-us-on-facebook">Follow Us on Facebook</a></li>
+                  </ul>
+                </span>
+
+                <span class="span4">
+                  <h4>About Our Organization</h4>
+                  <ul>
+                    <li><a href="{% url about %}#our-team">Our Team</a></li>
+                    <li><a href="{% url about %}#press">Press</a></li>
+                  </ul>
+                </span>
+                </div>
+
+              </div>
+          </div><!--/.container-fluid -->
+      </div><!--/.center -->
+  </div>
+
+  <div id="second-footer" class="clearfix">
+      <div><!-- center -->
+          <div class="container-fluid">
             <div class="row-fluid">
+  
+              <div class="span1">&nbsp;</div>
 
-              <div style="padding:0 1% 0 5%">
-              <span class="span4">
-                <h4>How it works</h4>
-                <ul>
-                  <li><a href="{% url about %}#overview">Overview</a></li>
-                  <li><a href="{% url about %}#for-educators">For Educators</a></li>
-                  <li><a href="{% url about %}#for-professionals">For Professionals</a></li>
-                  <li><a href="{% url about %}#frequently-asked-questions">Frequently Asked Questions</a></li>
-                </ul>
-              </span>
-
-              <span class="span4">
-                <h4>Get Involved</h4>
-                <ul>
-                  <li><a href="{% url about %}#become-a-mentor">Become a Mentor</a></li>
-                  <li><a href="{% url about %}#make-a-donation">Make a Donation</a></li>
-                  <li><a href="{% url about %}#bring-us-to-your-classroom">Bring Us to Your Classroom</a></li>
-                  <li><a href="{% url about %}#follow-us-on-facebook">Follow Us on Facebook</a></li>
-                </ul>
-              </span>
-
-              <span class="span4">
-                <h4>About Our Organization</h4>
-                <ul>
-                  <li><a href="{% url about %}#our-team">Our Team</a></li>
-                  <li><a href="{% url about %}#press">Press</a></li>
-                </ul>
-              </span>
+              <div class="span10">
+                <h5 style="text-align:center">
+                  Contact us! &nbsp;&nbsp;&nbsp;&nbsp;
+                  <!-- converting email addresses to html entities supposedly reduces spam... who knows, why not -->
+                  <a href="mailto:&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;">&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;</a>
+                  &nbsp;&nbsp;&nbsp;&nbsp; 
+                  <span style="font-weight:normal">48 CharlesStreet,Suite 4,Boston, MA 02114</span>
+                </h5> 
               </div>
 
+              <span class="span1">&nbsp;</span>
+
             </div>
-        </div><!--/.container-fluid -->
-    </div><!--/.center -->
+          </div><!--/.container-fluid -->
+      </div><!--/.center -->
+  </div>
+
 </footer>
 
-<footer id="second-footer" class="clearfix">
-    <div><!-- center -->
-        <div class="container-fluid">
-          <div class="row-fluid">
-  
-            <div class="span1">&nbsp;</div>
-
-            <div class="span10">
-              <h5 style="text-align:center">
-                Contact us! &nbsp;&nbsp;&nbsp;&nbsp;
-                <!-- converting email addresses to html entities supposedly reduces spam... who knows, why not -->
-                <a href="mailto:&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;">&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;</a>
-                &nbsp;&nbsp;&nbsp;&nbsp; 
-                <span style="font-weight:normal">48 CharlesStreet,Suite 4,Boston, MA 02114</span>
-              </h5> 
-            </div>
-
-            <span class="span1">&nbsp;</span>
-
-          </div>
-        </div><!--/.container-fluid -->
-    </div><!--/.center -->
-</footer>
+</div><!--// #wrapper -->
 
 {% block confirmation %}{% endblock %}
 
@@ -136,6 +146,7 @@
 <script src="{% media "/media/bootstrap_2.3.1/js/bootstrap.js" %}"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="{% media "/media/js/jquery.ba-resize.min.js" %}"></script>
 
 <!-- Facebook settings -->
 <script type="text/javascript">
@@ -145,7 +156,7 @@
 
 <script src="{% media "/media/js/v2.js" %}"></script>
 
-{% block scripts %}{% endblock %}
+
 <div id="fb-root"></div>
 <script>
     window.fbAsyncInit = function() {
