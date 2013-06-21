@@ -119,6 +119,8 @@ def perform_import(connection, table, model, pairing, processors=None, from_pare
     :param model: Destination model
     :param pairing: Dictionary containing source and field name in the model
     :param processors: Processors
+    :param from_parent: Used with model inheritance
+    :param sync_sequence: Whether to perform sync sequence
     """
     print 'Importing %s.%s objects.' % (model._meta.app_label, model.__name__)
 
@@ -197,6 +199,7 @@ def perform_raw_import(connection, table, pairing,
     :param destination_table: Destination table
     :param destination_connection: Destination database connection
     :param processors: Processors
+    :param sync_sequence: Whether to perform sync sequence
     """
     if not destination_table:
         destination_table = table
