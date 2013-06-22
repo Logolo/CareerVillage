@@ -695,16 +695,71 @@ header.profile-page .avatar img {
     border-bottom:7px solid #55b973;
 }
 #question {
+    display:table;
+    border-spacing:0;
     position:relative;
-    border:1px solid #eee;
-    background-color:#fafafa;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
+    border:1px solid #ccc;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px #eee; 
     z-index:2;
+    padding:0;
+    margin:0;
+    width:100%;
 }
-#question .profile {
-    background-color:transparent;
+#question > div {
+    border:0;
+    border-spacing:0;
+    display:table-cell;
+    float:none;
+    vertical-align:top;
+    margin:0;
+    padding:10px;
+    background-color:#fff;
+}
+#question > .center {
+    width:auto;
+    padding-right:20px;
+    background-image:url('/m/default/media/img/left-arrow-blue.png');
+    background-repeat:no-repeat;
+    background-position:right 20px;
+}
+#question > .right {
+    background-color:#d3e7f5;
+    text-align:center;
+}
+#question > .right .avatar {
+    display:block;
+    margin:10px auto 0 auto;
+}
+#question > .right .avatar,
+#question > .right .avatar img {
+    width:125px;
+    height:125px;
+}
+#question > .right .avatar {
+    border:2px solid #eee;
+    -webkit-border-radius: 125px;
+    -moz-border-radius: 125px;
+    border-radius: 125px;
+    overflow:hidden;
+    background-color:#fff;
+}
+#question > .right h4 {
+    font-weight:600;
+}
+#question > .right h4 span {
+    position:relative;
+    display:block;
+    font-size:13px;
+    font-weight:400;
+}
+#question > .right h4 a {
+    color:#333;
+}
+#question > .left {
+  padding:10px 0; 
 }
 #question .tags {
     padding-bottom:10px;
@@ -1035,7 +1090,7 @@ h1.text-medium {
     line-height:130%;
 }
 h2.text-medium {
-    font-size:16px;
+    font-size:17px;
     line-height:140%; 
     font-weight:normal; 
     color:#666;  

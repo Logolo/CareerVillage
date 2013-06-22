@@ -110,7 +110,7 @@
         {{ question.headline }}
     </h1>
 
-    <h2 class="text-medium question-body">{{ question.html|safe }}{# TODO remove placeholder content #}I am a senior in high school, and I want to double major in English and buisness. I want to know what the best colleges are, and the requirements to get into the schools.</h2>
+    <h2 class="text-medium question-body">{{ question.html|safe }}</h2>
     <div class="tags">
         <h6 class="text-light">Question Topics</h6>
         {% for tag in question.tagname_list %}
@@ -119,35 +119,35 @@
     </div>
     <p style="font-size:11px"><a class="flag-for-review" href="#">flag this question for review</a></p>
 
-</div><div class="span2 right">
+  </div><div class="span3 right">
 
     <!-- profile picture and summary info -->
-    <div class="media profile">
-        <p class="text-light clear">Posted {% diff_date question.added_at %} by...</p>
-        <a class="pull-left" href="{{ question.user.get_profile_url }}">
-            <span class="avatar">{% avatar question.user 128 %}></span>
-        </a>
-        <div class="media-body">
-            <h5><a href="{{ question.user.get_profile_url }}">{{ question.author.real_name }}</a></h5>
-            <p>
-                <span class="text-light">{{ question.author.location }}</span><br />
-            </p>
-        </div>
-        <div class="profile-stats">
-            <div class="row-fluid">
-                <div class="box span6">
-                    <h3>{{ question.author.reputation }}</h3>
-                    <p>Karma</p>
-                </div>
-                <div class="box span6">
-                    <h3>{{ question.author.get_question_count_total }}</h3>
-                    <p>Questions</p>
-                </div>
-            </div>
-        </div>
-    </div><!--/.profile -->
+    <div class="profile-upper">
+      <div class="avatar">{% avatar user 125 %}</div>
+    </div>
+    
+    <div class="profile-lower">
 
-</div>
+      <h4 class="text-light"><a class="text-light" href="{{ question.user.get_profile_url }}">{{ question.author.real_name }}</a>
+        <span class="text-light">{{ question.author.location }}</span></h4>
+
+      <!-- user stats -->
+      <div class="profile-stats">
+          <div class="row-fluid">
+              <div class="box span6 stats-border">
+                  <h3>{{ question.author.reputation }}</h3>
+                  <p>Karma</p>
+              </div>
+              <div class="box span6 stats-border-last">
+                  <h3>{{ question.author.get_question_count_total }}</h3>
+                  <p>Questions</p>
+              </div>
+          </div>
+      </div>
+
+    </div>
+
+  </div>
 
 </div><!--/#question -->
 
