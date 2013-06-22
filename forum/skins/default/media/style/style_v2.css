@@ -477,9 +477,13 @@ h5.jumplink {
   margin-top:18px;
   padding-top:12px;
   border-top:1px solid #eee;
-  background-image:url('/m/default/media/img/500professionals.png');
-  background-repeat:no-repeat;
-  background-position:right bottom;
+}
+.splash-page section.get-involved .center > div {
+    background-image:url('/m/default/media/img/500professionals.png');
+    background-repeat:no-repeat;
+    background-position:right bottom;    
+    max-width:860px;
+    margin:0 auto;
 }
 .splash-page section.get-involved p {
   width:175px; float:right; font-size:12px; line-height:14px; font-style:italic; clear:right; margin:12px 0;
