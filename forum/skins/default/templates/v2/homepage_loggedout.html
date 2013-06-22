@@ -3,10 +3,25 @@
 {% load i18n %}
 
 {% block left-column %}
-<!-- Empty -->
-    {% endblock %}
+<!-- left column -->
+<div class="col-left col-sidebar span3">
+
+  <div id="home-upper-user">
+    <div class="avatar"><img src="/m/default/media/img/anon-user-thumb.png" /></div>
+  </div>
+   
+  <div id="home-lower-user">
+    <span class="arrow-down"></span>    
+    
+    <h4 class="text-light" style="padding:12px">Message about joining CareerVillage community (login or register)</h4>
+    
+  </div>
+
+</div><!--/.col-left -->
+{% endblock %}
 
 {% block search_prompt %}
+  What do you have questions about?
     {% endblock %}
 
 {% block skipsearch %}
