@@ -54,8 +54,8 @@ CONSTRAINTS = {
 
 
 class Column(object):
-    def __init__(self, index):
-        self.index = index
+    def __init__(self, column):
+        self.column = column
 
 
 class Copy(object):
@@ -112,6 +112,38 @@ def perform_sync_sequence(table, sequence_name=None, primary_key='id'):
     cursor.close()
 
 
+def get_columns(connection, table):
+    """ Get a dictionary containing the names of the columns in the table as keys and their positions as values.
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT column_name, ordinal_position FROM information_schema.columns \
+                    WHERE table_name = \'%s\'' % table)
+
+    columns = {}
+    for column_name, ordinal_position in cursor.fetchall():
+        columns[column_name] = ordinal_position - 1
+
+    return columns
+
+
+def prepare_pairing(connection, table, pairing):
+    """ Prepare pairing for its use.
+    """
+    columns = get_columns(connection, table)
+
+    new_pairing = []
+
+    for field, source in pairing:
+        # Get column position from column name
+        if isinstance(source, Column):
+            if type(source.column) == str:
+                source.column = columns[source.column]
+
+        new_pairing.append((field, source))
+
+    return new_pairing
+
+
 def perform_import(connection, table, model, pairing, processors=None, from_parent=None, sync_sequence=True):
     """ Import data from a table.
     :param connection: Database connection
@@ -123,6 +155,9 @@ def perform_import(connection, table, model, pairing, processors=None, from_pare
     :param sync_sequence: Whether to perform sync sequence
     """
     print 'Importing %s.%s objects.' % (model._meta.app_label, model.__name__)
+
+    # Prepare pairing
+    pairing = prepare_pairing(connection, table, pairing)
 
     # Delete existing objects
     model.objects.all().delete()
@@ -152,7 +187,7 @@ def perform_import(connection, table, model, pairing, processors=None, from_pare
             if source is None:
                 continue
             elif isinstance(source, Column):
-                value = row[source.index]
+                value = row[source.column]
             elif isinstance(source, Copy):
                 if source.model:
                     try:
@@ -206,6 +241,9 @@ def perform_raw_import(connection, table, pairing,
 
     print '[RAW] Importing from table \'%s\' to table \'%s\'.' % (table, destination_table)
 
+    # Prepare pairing
+    pairing = prepare_pairing(connection, table, pairing)
+
     # Source
     source_cursor = connection.cursor()
     source_cursor.execute('SELECT * FROM %s' % table)
@@ -230,7 +268,7 @@ def perform_raw_import(connection, table, pairing,
             if source is None:
                 continue
             elif isinstance(source, Column):
-                value = row[source.index]
+                value = row[source.column]
             elif isinstance(source, Value):
                 value = source.value
             else:
@@ -262,7 +300,7 @@ def perform_raw_import(connection, table, pairing,
 
 def perform_m2m_import(connection, table,
                        parent_model, m2m_field, child_model,
-                       parent_column, child_column):
+                       parent_column=Column(1), child_column=Column(2)):
     """ Import data from a many to many relationship table.
     :param connection: Database connection
     :param table: Name of the table from which to fetch rows
@@ -278,6 +316,14 @@ def perform_m2m_import(connection, table,
     if not isinstance(parent_column, Column) and not isinstance(child_column, Column):
         return
 
+    # Get columns positions by their names
+    columns = get_columns(connection, table)
+    if type(parent_column.column) == str:
+        parent_column.column = columns[parent_column.column]
+    if type(child_column) == str:
+        child_column.column = columns[child_column]
+
+    # Get cursor
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM %s' % table)
 
@@ -288,8 +334,8 @@ def perform_m2m_import(connection, table,
             break
 
         # Save relationship
-        parent = parent_model.objects.get(pk=row[parent_column.index])
-        getattr(parent, m2m_field).add(child_model.objects.get(pk=row[child_column.index]))
+        parent = parent_model.objects.get(pk=row[parent_column.column])
+        getattr(parent, m2m_field).add(child_model.objects.get(pk=row[child_column.column]))
 
     # Close cursor
     cursor.close()
@@ -329,16 +375,15 @@ def import_auth_group(connection):
 
 def import_auth_group_permissions(connection):
     perform_m2m_import(connection, 'auth_group_permissions',
-                       auth_models.Group, 'permissions', auth_models.Permission,
-                       Column(1), Column(2))
+                       auth_models.Group, 'permissions', auth_models.Permission)
 
 
 def import_auth_user(connection):
     perform_import(connection, 'auth_user', auth_models.User, [
-        ('first_name', Column(2)),
-        ('last_name', Column(3)),
-        ('email', Column(4)),
-        ('password', Column(5)),
+        ('first_name', Column('first_name')),
+        ('last_name', Column('last_name')),
+        ('email', Column('email')),
+        ('password', Column('password')),
         ('is_staff', Column(6)),
         ('is_active', Column(7)),
         ('is_superuser', Column(8)),
@@ -351,14 +396,12 @@ def import_auth_user(connection):
 
 def import_auth_user_groups(connection):
     perform_m2m_import(connection, 'auth_user_groups',
-                       auth_models.User, 'groups', auth_models.Group,
-                       Column(1), Column(2))
+                       auth_models.User, 'groups', auth_models.Group)
 
 
 def import_auth_user_user_permissions(connection):
     perform_m2m_import(connection, 'auth_user_user_permissions',
-                       auth_models.User, 'user_permissions', auth_models.Permission,
-                       Column(1), Column(2))
+                       auth_models.User, 'user_permissions', auth_models.Permission)
 
 
 def infer_user_type(connection, obj_id):
@@ -528,8 +571,7 @@ def import_forum_action(connection):
 
 def import_forum_node_tags(connection):
     perform_m2m_import(connection, 'forum_node_tags',
-                       forum_models.Node, 'tags', forum_models.Tag,
-                       Column(1), Column(2))
+                       forum_models.Node, 'tags', forum_models.Tag)
 
 
 def import_forum_actionrepute(connection):
