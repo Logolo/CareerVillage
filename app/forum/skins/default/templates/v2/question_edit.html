@@ -26,8 +26,8 @@
                     <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
                     <p>
                         {% ifequal request.user.type "S" %}{% else %}<span>{{ request.user.headline}}</span><br />{% endifequal %}
-                        <span class="text-light">{# TODO user.location #} Houston, TX</span><br />
-                        <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #} Healthcare</span>
+                        <span class="text-light">{{ user.location }}</span><br />
+                        <span class="text-light">{{ user.industry }} Healthcare</span>
                     </p>
                 </div>
 
@@ -99,7 +99,7 @@
                         <input name="ask" type="submit" value="{% trans "Save changes" %}" class="btn btn-success"/>
                     </form>
                     <div>
-                        <a onclick="history.back(); return false;" href="">I changed my mind. Take me back.</a>
+                        <a onclick="history.back(); return false;" href="">Nah, I've changed my mind. Take me back.</a>
                     </div>
                 </div>
             </div>
