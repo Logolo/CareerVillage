@@ -3,8 +3,8 @@
 
     <!-- like widget -->
     <div class="like-widget {% ifequal user_vote 'up' %}on{% endifequal %}" data-like-count="{{ user_vote_count_total }}">
-        <h3>{{ post.score }}</h3>
-        <span class="heart"></span> Likes
+        <h2>{{ post.score }}</h2>
+        <span class="count"><span class="heart"></span> Likes</span>
 
         <!-- like question -->
         <a  id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"

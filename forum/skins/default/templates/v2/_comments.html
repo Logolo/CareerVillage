@@ -5,7 +5,7 @@
 
             <div id="comments-container-{{ post.id }}">
 
-                <h4>{{ comments|length|apnumber|capfirst }} comment{{ comments|length|pluralize }}</h4>
+                <h4 class="count">{{ comments|length|apnumber|capfirst }} comment{{ comments|length|pluralize }}</h4>
                 {% for comment in comments %}
                     <div id="comment-{{comment.id}}" class="comment-body">
                         <a class="pull-left" href="{{ user.get_profile_url }}">
