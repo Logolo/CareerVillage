@@ -378,10 +378,37 @@ def import_auth_group_permissions(connection):
                        auth_models.Group, 'permissions', auth_models.Permission)
 
 
+def get_real_name(connection, obj_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT real_name FROM forum_user WHERE user_ptr_id=%s LIMIT 1' % obj_id)
+    (real_name,) = cursor.fetchone()
+    cursor.close()
+    return real_name
+
+
+def infer_first_name(connection, obj_id):
+    real_name = get_real_name(connection, obj_id)
+    split = real_name.split()
+    if len(split) >= 2:
+        return ' '.join(split[:-1])
+    else:
+        return ''
+
+
+def infer_last_name(connection, obj_id):
+    real_name = get_real_name(connection, obj_id)
+    split = real_name.split()
+    if split:
+        return split[-1]
+    else:
+        return ''
+
+
 def import_auth_user(connection):
     perform_import(connection, 'auth_user', auth_models.User, [
-        ('first_name', Column('first_name')),
-        ('last_name', Column('last_name')),
+        ('first_name', infer_first_name),
+        ('last_name', infer_last_name),
+
         ('email', Column('email')),
         ('password', Column('password')),
         ('is_staff', Column(6)),
