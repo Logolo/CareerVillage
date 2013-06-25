@@ -509,13 +509,26 @@ def user_preferences(request, user):
 
 
 def settings_account(request):
-    if request.user.is_authenticated():
+    user = request.user
+
+    if user.is_authenticated():
         if request.method == 'POST':
             form = SettingsAccountForm(request.POST)
+            form.set_current_user(user)
+            if form.is_valid():
+                user.first_name = form.cleaned_data['first_name']
+                user.last_name = form.cleaned_data['last_name']
+                user.email = form.cleaned_data['email']
+                user.save()
         else:
-            form = SettingsAccountForm()
+            form = SettingsAccountForm(initial={
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+            })
+            form.set_current_user(user)
         return render_to_response('v2/settings_account.html', {
-            'user': request.user,
+            'user': user,
             'form' : form,
             'gravatar_faq_url' : reverse('faq') + '#gravatar',
             }, context_instance=RequestContext(request))

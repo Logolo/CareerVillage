@@ -13,12 +13,21 @@ active
     
     <form class="form-horizontal" name="" action="{% url settings_account %}" method="post">
         <div class="control-group{% if form.realname.errors %} error{% endif %}">
-            <label class="control-label" for="">Name</label>
+
+            <label class="control-label" for="">First name</label>
             <div class="controls">
-                {{ form.realname }}
+                {{ form.first_name }}
                 <span class="form-error help-block">
-                    {{ form.realname.errors }}
+                    {{ form.first_name.errors }}
                 </span> 
+            </div>
+
+            <label class="control-label" for="">Last name</label>
+            <div class="controls">
+                {{ form.last_name }}
+                <span class="form-error help-block">
+                    {{ form.last_name.errors }}
+                </span>
             </div>
         </div>
         <div class="control-group{% if form.email.errors %} error{% endif %}">
