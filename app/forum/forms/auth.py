@@ -82,7 +82,7 @@ class ChangePasswordForm(SetPasswordForm):
         return self.cleaned_data['oldpw']
 
 
-class StudentSignupForm(forms.ModelForm):
+class SignupForm(forms.ModelForm):
 
     email = forms.EmailField(label=_("Your email address"))
     password = forms.CharField(max_length=128, widget=forms.PasswordInput(), label=_("Create a password"))
@@ -111,7 +111,7 @@ class StudentSignupForm(forms.ModelForm):
         return email
 
     def is_valid(self):
-        is_valid = super(StudentSignupForm, self).is_valid()
+        is_valid = super(SignupForm, self).is_valid()
         if is_valid:
             valid_grade = True
             valid_avatar = True
@@ -129,5 +129,4 @@ class StudentSignupForm(forms.ModelForm):
             return valid_grade and valid_avatar and valid_password
         else:
             return False
-
 

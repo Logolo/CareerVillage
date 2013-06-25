@@ -19,10 +19,12 @@
                     <img class="img-polaroid" src="{% media "/media/img/example_avatars/"|add:form.available_avatars.0 %}">
                     <a role="button" data-toggle="modal" href="#avatar-select-modal" class="btn">{% trans 'Change' %}</a>
                 </div>
+
                 {% include 'v2/_form_field.html' with field=form.first_name %}
                 {% include 'v2/_form_field.html' with field=form.last_name %}
                 {% include 'v2/_form_field.html' with field=form.location label="Your City" %}
 
+                {% if form.show_grades %}
                 <div class="control-group{% if form.grade.errors %} error{% endif %}">
                     <div class="control-group" style="margin:0">
                         <p class="control-label">{% trans 'What grade are you in?' %}</p>
@@ -40,6 +42,9 @@
                         <span class="help-block">{{ error }}</span>
                     {% endfor %}
                 </div>
+                {% else %}
+                <div style="height: 50px;"></div>
+                {% endif %}
 
                 <input class="btn btn-success btn-wide" type="submit" value="{% trans "Save my profile. I am ready to start my career research!" %}">
             </form>

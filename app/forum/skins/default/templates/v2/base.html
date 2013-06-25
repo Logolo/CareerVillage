@@ -27,7 +27,7 @@
     <div class="navbar-inner">
         <div><!-- center -->
             <div class="container-fluid">
-                <a href="{% if user.is_authenticated %}/home/{% else %}/{% endif %}" class="brand">(CareerVillage Logo)</a>
+                <a href="{% if user.is_authenticated %}/home/{% else %}/{% endif %}" class="brand"><img src="{% media "/media/img/CareerVillageLogo_Sky_Wide_154.png" %}" alt="CareerVillag Logo"></a>
                 <ul class="nav pull-right">
                       <li><a href="{% url about %}">About</a></li>
                     {% if user.is_superuser %}
@@ -38,7 +38,9 @@
                     {% endif %}
                     {% if user.is_authenticated %}
                         <li class="dropdown">
-                            <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}">{{ user.real_name }} <b class="caret"></b></a>
+                            <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}">
+                                {% if user.first_name %}{{ user.real_name }}{% else %}{% trans "User" %}{% endif %} <b class="caret"></b>
+                            </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                 <li><a href="{{ user.get_profile_url }}">Your profile</a></li>
                                 <li class="divider"></li>

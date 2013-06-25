@@ -22,7 +22,7 @@
                 <p>
                     {% ifequal request.user.type "S" %}{% else %}<span>{{ request.user.headline}}</span><br />{% endifequal %}
                     <span class="text-light">{{ user.location }}</span><br />
-                    <span class="text-light">{# TODO user.industry (for professionals, wrap in if statement) #}</span>
+                    <span class="text-light">{{ user.industry }}</span>
                 </p>
             </div>
 

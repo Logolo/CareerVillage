@@ -169,11 +169,11 @@ def homepage_educator(request, keywords, tag, relevant, unanswered):
                                relevant=relevant, unanswered=unanswered)
 
 @decorators.render('v2/homepage_loggedout.html')
-def homepage_loggedout(request, keywords=None, tag=None):
+def homepage_loggedout(request, keywords=None, tag=None, unanswered=False):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse(homepage))
     else:
-        return search_results_base(request, True, keywords, loggedout=True, tag=tag)
+        return search_results_base(request, True, keywords, loggedout=True, tag=tag, unanswered=unanswered)
 
 
 def homepage(request, keywords=None):
@@ -188,10 +188,7 @@ def relevant(request, keywords=None):
 
 
 def unanswered_v2(request, keywords=None):
-    if request.user.is_authenticated():
-        return homepage_questions(request, keywords, unanswered=True)
-    else:
-        return HttpResponseRedirect(reverse(splash))
+    return homepage_questions(request, keywords, unanswered=True)
 
 
 def tag_v2(request, tag):
@@ -205,7 +202,7 @@ def tag_v2(request, tag):
 
 def homepage_questions(request, keywords, tag=None, relevant=False, unanswered=False):
     if request.user.is_anonymous():
-        return homepage_loggedout(request, keywords, tag)
+        return homepage_loggedout(request, keywords, tag, unanswered)
     elif request.user.is_student():
         return homepage_student(request, keywords, tag, relevant, unanswered)
     elif request.user.is_professional():
