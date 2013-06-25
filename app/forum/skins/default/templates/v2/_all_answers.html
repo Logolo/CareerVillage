@@ -38,13 +38,13 @@
                             </span>
                         {% endif %}
                         <div class="media-body">
-                            <h5>
+                            <h4>
                                 <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
                                 <span class="text-light">{{ answer.user.about }}</em></span><br />
                                 <span class="text-subtext">{{ answer.user.location }}</span>
                                 <span class="text-subtext">{{  answer.user.industry  }}</span>
                                 <span class="text-subtext">Last updated {% diff_date answer.last_activity_at %}</span>
-                            </h5>
+                            </h4>
                         </div>
                     </div>
 
@@ -60,7 +60,7 @@
             
                 </div><!--/.answer -->
 
-            </div><div class="span3 right">
+            </div><div class="span2 right">
             
                 &nbsp;
                 <!-- Right side (differs for each user type) -->
