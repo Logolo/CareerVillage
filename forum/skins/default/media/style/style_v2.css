@@ -694,6 +694,12 @@ header.profile-page .avatar img {
 .question-page #main-nav {
     border-bottom:7px solid #55b973;
 }
+#question-wrapper {
+    margin: -10px -20px 0 -20px;
+    padding:20px 20px 10px 20px;
+    background-color:#fafafa;
+    border-bottom:1px solid #eee;
+}
 #question {
     display:table;
     border-spacing:0;
@@ -737,14 +743,6 @@ header.profile-page .avatar img {
 #question > .right .avatar img {
     width:125px;
     height:125px;
-}
-#question > .right .avatar {
-    border:2px solid #eee;
-    -webkit-border-radius: 125px;
-    -moz-border-radius: 125px;
-    border-radius: 125px;
-    overflow:hidden;
-    background-color:#fff;
 }
 #question > .right h4 {
     font-weight:600;
@@ -807,6 +805,27 @@ header.profile-page .avatar img {
 }
 #flag-question-form h5.confirmation {
     margin-top:32px;
+}
+.answer-actions {
+    text-align:center;
+    margin:20px 0 10px 0;
+}
+.answer-actions > a {
+    background-repeat:no-repeat;
+    background-position:left center;
+    font-weight:bold;
+    font-size:21px;
+    line-height:28px;    
+}
+.answer-actions .answer-action-answer {
+    background-image:url(/m/default/media/img/icon-checkmark-blue.png);
+    color:#71a6c6;
+    padding-left:28px;
+}
+.answer-actions .answer-action-refer {
+    background-image:url(/m/default/media/img/icon-refer-green.png);
+    color:#55bc76;
+    padding-left:36px;
 }
 
 

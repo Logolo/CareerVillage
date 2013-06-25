@@ -18,13 +18,101 @@
 
 {% block content %}
     
-    <!-- The question -->
-    {% include "v2/_question_top.html" %}
+    <div id="question-wrapper">
+      <div id="question" class="row-fluid">
 
-    <!-- Answers header (results count, etc.) -->
-    <div class="answer-actions">
-        {% block answeractions %}{% endblock %}
+        <div class="span1 left">
+
+            <!-- Like section -->
+            {% vote_buttons_v2 question request.user %}
+            <!--/.like-section -->
+
+        </div>
+
+        <div class="span8 center">
+
+          <!-- Question description section -->
+          {% if user.is_staff or user == question.user %}
+              <span class="pull-right" style="margin-top:10px">
+                  <a href="{% url edit_question_v2 question.pk question.title|slugify %}" class="btn">Edit</a>
+                  {% if question.nis.deleted %}
+                      <a href="{% url delete_post question.pk %}" class="btn btn-success">Undelete</a>
+                  {% else %}
+                      <a href="#" class="has-popover btn btn-danger"
+                         data-placement="bottom"
+                         data-html="true"
+                         data-content="<p>Are you 100% sure?</p>
+                                        <div class='text-center'><button class='btn' data-dismiss='popover'>Cancel</button>
+                                        <a href='{% url delete_post question.pk %}' class='btn btn-inverse'>Yes, I'm sure</a></div>"
+                              >Delete</a>
+                  {% endif %}
+              </span>
+          {% endif %}
+
+          <h1 class="text-primary question-title">
+              {{ question.headline }}
+          </h1>
+
+          <h2 class="text-medium question-body">{{ question.html|safe }}</h2>
+          <div class="tags">
+              <h6 class="text-light">Question Topics</h6>
+              {% for tag in question.tagname_list %}
+                  <a href="{% url home_tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
+              {% endfor %}
+          </div>
+          <p style="font-size:11px"><a class="flag-for-review" href="#">flag this question for review</a></p>
+
+        </div>
+
+        <div class="span3 right">
+
+          <!-- profile picture and summary info -->
+          <div class="profile-upper">
+            <div class="avatar">{% avatar question.author 125 %}</div>
+          </div>
+
+          <div class="profile-lower">
+
+            <h4 class="text-light"><a class="text-light" href="{{ question.user.get_profile_url }}">{{ question.author.real_name }}</a>
+              <span class="text-light">{{ question.author.location }}</span></h4>
+
+            <!-- user stats -->
+            <div class="profile-stats">
+                <div class="row-fluid">
+                    <div class="box span6 stats-border">
+                        <h3>{{ question.author.reputation }}</h3>
+                        <p>Karma</p>
+                    </div>
+                    <div class="box span6 stats-border-last">
+                        <h3>{{ question.author.get_question_count_total }}</h3>
+                        <p>Questions</p>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div><!--/#question -->
+
+      <!-- Answers header (results count, etc.) -->
+      <div class="answer-actions">
+          {% block answeractions %}{% endblock %}
+      </div>
+
+    </div><!--/#question-wrapper -->
+
+    <!-- hidden flag question form -->
+    <div id="flag-question-form" class="reveal row-fluid" style="display:none">
+        <form action="" method="post" class="offset2 span9">
+            <h5>See something which is inappropriate on CareerVillage? <span style="font-weight:normal">An administrator will review the post and remove it from the site if they agree. Please leave a note for the administrator to help them understand what's wrong:</span></h5>
+            <textarea placeholder="Explain what's wrong" name="flag_for_review"></textarea>
+            <button class="submit pull-right btn btn-inverse" style="padding-left:32px; padding-right:32px">Submit</button>
+            <a class="flag-for-review pull-right btn btn-default" style="margin-right:8px">Cancel</a>
+        </form>
+        <h5 class="confirmation" style="display:none"><div class="offset2 span9 ">Thanks for your help keeping CareerVillage safe!</div></h5>
     </div>
+    
     
     <!-- hidden refer a friend form -->
     <div id="refer-friend-form" class="reveal row-fluid clearfix" style="display:none">
