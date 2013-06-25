@@ -38,7 +38,9 @@
                     {% endif %}
                     {% if user.is_authenticated %}
                         <li class="dropdown">
-                            <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}">{{ user.real_name }} <b class="caret"></b></a>
+                            <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}">
+                                {% if user.first_name %}{{ user.real_name }}{% else %}{% trans "User" %}{% endif %} <b class="caret"></b>
+                            </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                 <li><a href="{{ user.get_profile_url }}">Your profile</a></li>
                                 <li class="divider"></li>
