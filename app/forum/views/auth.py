@@ -21,7 +21,7 @@ import datetime
 import logging
 
 from forum.forms import SimpleRegistrationForm, ReviseProfileForm, TemporaryLoginRequestForm, \
-        ChangePasswordForm, SetPasswordForm, StudentSignupForm
+        ChangePasswordForm, SetPasswordForm, SignupForm
 from forum.utils.mail import send_template_email
 
 from forum.authentication.base import InvalidAuthentication
@@ -90,9 +90,18 @@ def login_page(request):
     return render_to_response('v2/account_signin.html', {'msg': msg}, RequestContext(request))
 
 
-def signup_student(request):
+def signup(request, type):
+    if type == 'student':
+        user_type = User.TYPE_STUDENT
+        show_grades = True
+    elif type == 'educator':
+        user_type = User.TYPE_EDUCATOR
+        show_grades = False
+
     if request.method == 'POST':
-        form = StudentSignupForm(request.POST)
+        form = SignupForm(request.POST)
+        form.show_grades = show_grades
+
         if form.is_valid():
             user_ = User(username=form.cleaned_data['email'], email=form.cleaned_data['email'])
             user_.set_password(form.cleaned_data['password'])
@@ -105,7 +114,7 @@ def signup_student(request):
             if form.cleaned_data.get('grade'):
                 user_.grade = form.cleaned_data['grade']
             user_.avatar_image = form.cleaned_data['avatar_image']
-            user_.type = User.TYPE_STUDENT
+            user_.type = user_type
 
             if User.objects.all().count() == 0:
                 user_.is_superuser = True
@@ -122,10 +131,11 @@ def signup_student(request):
                               _("A confirmation email has been sent to your inbox."))
 
         else:
-            return render_to_response('v2/account_signup_student.html', {'form': form, 'data':form.is_valid()}, RequestContext(request))
+            return render_to_response('v2/account_signup.html', {'form': form, 'data':form.is_valid()}, RequestContext(request))
     else:
-        form = StudentSignupForm()
-        return render_to_response('v2/account_signup_student.html', {'form': form}, RequestContext(request))
+        form = SignupForm()
+        form.show_grades = show_grades
+        return render_to_response('v2/account_signup.html', {'form': form}, RequestContext(request))
 
 
 def prepare_provider_signin(request, provider):

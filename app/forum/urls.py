@@ -143,7 +143,7 @@ core_urls = (
     (r'^i18n/', include('django.conf.urls.i18n')),
 
     url(r'^%s$' % (_('login/'),), app.auth.login_page, name='auth_signin'),
-    url(r'^%s%s$' % (_('signup/'), _('student')), app.auth.signup_student, name='auth_signup_student'),
+    url(r'^%s(?P<type>\w+)$' % _('signup/'), app.auth.signup, name='auth_signup'),
     url(r'^%s$' % (_('password-reset/'),), app.auth.request_temp_login_v2, name='auth_request_tempsignin_v2'),
 
     #    url(r'^%s%s$' % (_('account/'), _('signin/')), app.auth.signin_page, name='auth_signin'),

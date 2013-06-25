@@ -63,7 +63,7 @@
                     <label class="control-label">&nbsp;</label>
                     <div class="controls">
                         <h3>Students</h3>
-                        <h2 class="text-medium">Log in below or <a href="{% url auth_signup_student %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
+                        <h2 class="text-medium">Log in below or <a href="{% url auth_signup 'student' %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
                     </div>
                 </div>
                     
@@ -109,7 +109,7 @@
                     <label class="control-label">&nbsp;</label>
                     <div class="controls">
                         <h3>Educators</h3>
-                        <h2 class="text-medium">Log in below or <a href="{# TODO educator signup page #}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
+                        <h2 class="text-medium">Log in below or <a href="{% url auth_signup 'educator' %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
                     </div>
                 </div>
                     
