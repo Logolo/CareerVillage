@@ -11,29 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<<<<<<< HEAD:app/forum/skins/default/templates/v2/question_edit.html
-    <div id="block-content" class="row-fluid">
-
-        <!-- left column -->
-        <div class="col-left col-sidebar span3">
-
-            <!-- profile picture and summary info -->
-            <div class="media profile">
-                <!--<div class="update-link"><a href="{# TODO update profile link #}">update</a></div>-->
-                <a class="pull-left" href="{{ user.get_profile_url }}">
-                    {% avatar user 128 %}
-                </a>
-                <div class="media-body">
-                    <h5><a href="{{ user.get_profile_url }}">{{ user.real_name }}</a></h5>
-                    <p>
-                        {% ifequal request.user.type "S" %}{% else %}<span>{{ request.user.headline}}</span><br />{% endifequal %}
-                        <span class="text-light">{{ user.location }}</span><br />
-                        <span class="text-light">{{ user.industry }} Healthcare</span>
-                    </p>
-                </div>
-=======
     <div id="block-content" class="full-height">
->>>>>>> blaise-v2UI-facebook:forum/skins/default/templates/v2/question_edit.html
 
       {% block left-column %}
       <!-- left column -->

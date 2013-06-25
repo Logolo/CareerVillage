@@ -24,11 +24,11 @@
       <div class="profile-stats">
           <div class="row-fluid">    
               <div class="box span6 stats-border">
-                  <h3>{{ user.reputation }}</h3>
+                  <h3>{{ view_user.reputation }}</h3>
                   <p class="text-light">Karma</p>
               </div>
               <div class="box span6 stats-border-last">
-                  <h3>{{ request.user.get_question_count_total }}</h3>
+                  <h3>{{ view_user.get_question_count_total }}</h3>
                   <p class="text-light">Questions</p>
               </div>
           </div>
@@ -37,7 +37,7 @@
 
     <div class="center">
       <div>
-        <div class="avatar">{% avatar user 125 %}</div>
+        <div class="avatar">{% avatar view_user 125 %}</div>
         <h1 class="text-medium">{{ view_user.real_name }}</h1>
         <h5 class="text-light">{{ view_user.location }}
           {% if view_user.is_student %}&bull; Student{% endif %}
