@@ -306,13 +306,18 @@ $(function(){
     $("#flag-question-form").submit(function(e){
         e.preventDefault();
         $form = $(this);
+        var htmlForm = $form.find('form');
 
         // post the form
-        $.post($form.attr('action'), $form.serialize());
-
-        // animate the confirmation
-        $form.find('form').slideUp();
-        $form.find('.confirmation').show();
+        $.post(htmlForm.attr('action'), htmlForm.serialize(), function(data) {
+            if (data.success) {
+                // animate the confirmation
+                htmlForm.slideUp();
+                $form.find('.confirmation').show();
+            } else {
+                htmlForm.find('.flag-message').text(data.error_message);
+            }
+        });
     });
 
     /* refer a friend toggle */
