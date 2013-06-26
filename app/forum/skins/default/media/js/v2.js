@@ -144,7 +144,15 @@ $(function(){
                                 if (success && response['like_success']) {
                                     shareBtn.text('Thanks!');
                                 } else {
-                                    // Node ID missing
+                                    // Facebook share disabled
+                                    shareBtn.popover({
+                                        'placement': 'right',
+                                        'trigger': 'manual',
+                                        'content': FB_DISABLED
+                                    }).popover('show');
+                                    setTimeout(function() {
+                                        shareBtn.popover('hide');
+                                    }, 3000);
                                 }
                             }, {
                                 'node_id': nodeId
@@ -539,6 +547,12 @@ $(function(){
                         FB.getLoginStatus(function(response) {
                             if (response.authResponse) {
                                 save(response.authResponse);
+                            } else {
+                                callback(false);
+
+                                // Enable submit buton
+                                popoverElement.removeClass('disabled');
+                                popoverElement.removeAttr('disabled');
                             }
                         }, true);
                     }
@@ -579,6 +593,17 @@ $(function(){
                             askForm.submit();
                         } else {
                             submitted = false;
+                            askCheckBox.removeAttr('checked');
+
+                            // Facebook share disabled
+                            askCheckBox.popover({
+                                'placement': 'left',
+                                'trigger': 'manual',
+                                'content': FB_DISABLED
+                            }).popover('show');
+                            setTimeout(function() {
+                                askCheckBox.popover('hide');
+                            }, 3000);
                         }
                     }
                 );
@@ -626,6 +651,17 @@ $(function(){
                             answerForm.submit();
                         } else {
                             submitted = false;
+                            answerCheckBox.removeAttr('checked');
+
+                            // Facebook share disabled
+                            answerCheckBox.popover({
+                                'placement': 'left',
+                                'trigger': 'manual',
+                                'content': FB_DISABLED
+                            }).popover('show');
+                            setTimeout(function() {
+                                answerCheckBox.popover('hide');
+                            }, 3000);
                         }
                     }
                 );
