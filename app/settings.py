@@ -8,7 +8,6 @@ djcelery.setup_loader()
 SITE_ID = 1
 
 ADMIN_MEDIA_PREFIX = '/admin_media/'
-SECRET_KEY = '$oo^&_m&qwbib=(_4m_n*zn-d=g#s0he5fx9xonnym#8p6yigm'
 
 TEMPLATE_LOADERS = [
     #'django.template.loaders.filesystem.load_template_source',
@@ -74,6 +73,8 @@ BROKER_URL = 'django://'
 
 # User settings
 from settings_local import *
+
+SECRET_KEY = SECRET_KEY
 
 try:
     if len(FORUM_SCRIPT_ALIAS) > 0:
