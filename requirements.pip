@@ -18,3 +18,4 @@ longerusername==0.4
 Sphinx==1.1.3
 Fabric==1.6.1
 python-memcached==1.48
+raven==3.3.12
