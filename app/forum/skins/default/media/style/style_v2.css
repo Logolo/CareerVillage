@@ -485,7 +485,17 @@ h5.jumplink {
     margin:0 auto;
 }
 .splash-page section.get-involved p {
-  width:175px; float:right; font-size:12px; line-height:14px; font-style:italic; clear:right; margin:12px 0;
+  width:175px; 
+  float:right; 
+  clear:right; 
+  margin:12px 0;
+}
+.splash-page section.more-info {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+.splash-page section.more-info .center {
+  text-align: center;
 }
 
 
