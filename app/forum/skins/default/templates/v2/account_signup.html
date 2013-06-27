@@ -27,15 +27,19 @@
                 {% if form.show_grades %}
                 <div class="control-group{% if form.grade.errors %} error{% endif %}">
                     <div class="control-group" style="margin:0">
-                        <p class="control-label">{% trans 'What grade are you in?' %}</p>
-                        <div class="controls">
-                            <select>
-                                <option id="123" name="grade" value="">
-                            {% for grade in form.available_grades %}
-                                <option id="id_grade_{{ grade }}" name="grade" value="{{ grade }}">
-                                {{ grade }}
-                            {% endfor %}
-                            </select>
+                        <div class="span5">
+                            <p class="control-label">{% trans 'What grade are you in?' %}</p>
+                        </div>
+                        <div class="span5">
+                            <div class="controls controls-left">
+                                <select>
+                                    <option id="123" name="grade" value="">
+                                {% for grade in form.available_grades %}
+                                    <option id="id_grade_{{ grade }}" name="grade" value="{{ grade }}">
+                                    {{ grade }}
+                                {% endfor %}
+                                </select>
+                            </div>
                         </div>
                     </div>
                     {% for error in form.grade.errors %}

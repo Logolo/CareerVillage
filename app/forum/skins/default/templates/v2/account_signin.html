@@ -143,11 +143,11 @@
 
                 <div class="text-center"><br />
                     <h3>Professionals</h3>
-                    <h4 class="text-light">{% trans 'For first timers AND veterans...' %}</h4>
+                    <h4 class="text-light">{% trans 'We use your experience, skills, and interests from LinkedIn to help us identify which questions are relevant to you.' %}</h4>
                     <p><a class="zocial linkedin" rel="nofollow" href="{% url socialauth_begin 'linkedin' %}?user_type=P">{% trans 'Login with Linkedin' %}</a></p>
 
                     <!-- TODO connect linkedin button and no linked in account link -->
-                    <p><a class="subtle no-linkedin" href="#" target="_blank">
+                    <p><a class="subtle no-linkedin" href="#LinkedInModal" data-toggle="modal">
                         {% trans "Don't have a linkedin account?" %}
                     </a></p>
                     
@@ -155,14 +155,8 @@
 
             {% blocktrans %}
                 <p>
-                    <span class="bold">Logging in with LinkedIn helps student know that your advice is trustworthy.</span>
-                    We use your publicly available LinkedIn profile to show the students who is answering their questions.
-                    We only display four things: your name, photo, city and industry.
-                </p>
-                <p>
-                    <span class="bold">What stays private.</span>
-                    We never show anyone your email address. We only use that to inform you when there are questions
-                    relevant to your expertise.
+                    <span class="bold">Privacy: </span>
+                    We only display things about you on CareerVillage that you have already made public on LinkedIn. 
                 </p>
 
             {% endblocktrans %}
@@ -171,4 +165,15 @@
 
     </div><!--/.tab-content -->
 
+<div id="LinkedInModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="LinkedInModalLabel" aria-hidden-"true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="LinkedInModalLabel">No LinkedIn? No problem!</h3>
+    </div>
+    <div class="modal-body">
+        <p>Let us know and we'll have a member of your team verify your industry and create an account for you! <a href="mailto:team@careervillage.org?subject=I%20want%20to%20create%20an%20account%20but%20I%20do%20not%20have%20LinkedIn" target="_blank">Send us an email with your name and industry.</a></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Done</button>
+    </div>
 {% endblock %}
