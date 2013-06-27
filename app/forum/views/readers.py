@@ -218,7 +218,7 @@ def splash(request):
         return HttpResponseRedirect(reverse(homepage))
     else:
         # topics to x
-        topics = ['sports', 'engineer', 'nurse', 'web-design', 'plumber', 'chemistry', 'engineer', 'nurse', 'web-design', 'sports', 'plumber', 'chemistry', 'sports', 'engineer', 'nurse', 'web-design', 'plumber', 'chemistry']
+        topics = ['college', 'engineer', 'nurse', 'technology', 'finance', 'accounting', 'chemistry', 'law', 'education', 'hospitality', 'entrepreneurship', 'business', 'sports', 'psychology', 'doctor', 'acting', 'money', 'cooking', 'college-selection']
         return render_to_response("v2/splash.html", {"topics":topics}, context_instance=RequestContext(request))
 
 @decorators.render('questions.html', 'unanswered', _('unanswered'), weight=400, tabbed=False)
