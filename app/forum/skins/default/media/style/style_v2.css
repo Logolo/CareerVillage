@@ -1413,8 +1413,18 @@ ul.user-type-selection li.user-type.active a:hover {
  * STUDENT SIGNUP
  */
 
+#signup-student {
+    text-align: center;
+}
 #signup-student form {
     position: relative;
+}
+#signup-student form .control-label {
+  float: right;
+}
+#signup-student form .controls-left {
+  text-align: left;
+  margin-left: 0;
 }
 #signup-student .avatar-selector {
     position: absolute;
