@@ -43,7 +43,7 @@ def decorated_int(number, cls="thousand"):
 def or_preview(setting, request):
     if request.user.is_superuser:
         previewing = request.session.get('previewing_settings', {})
-        if setting.name in previewing:
+        if setting and setting.name in previewing:
             return previewing[setting.name]
     return setting and setting.value
 

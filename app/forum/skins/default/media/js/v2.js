@@ -144,15 +144,6 @@ $(function(){
                                 if (success && response['like_success']) {
                                     shareBtn.text('Thanks!');
                                 } else {
-                                    // Facebook share disabled
-                                    shareBtn.popover({
-                                        'placement': 'right',
-                                        'trigger': 'manual',
-                                        'content': FB_DISABLED
-                                    }).popover('show');
-                                    setTimeout(function() {
-                                        shareBtn.popover('hide');
-                                    }, 3000);
                                 }
                             }, {
                                 'node_id': nodeId
@@ -315,7 +306,7 @@ $(function(){
                 htmlForm.slideUp();
                 $form.find('.confirmation').show();
             } else {
-                htmlForm.find('.flag-message').text(data.error_message);
+                htmlForm.find('.flag-message').html(data.error_message);
             }
         });
     });
