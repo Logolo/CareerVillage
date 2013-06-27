@@ -1,7 +1,10 @@
+import re
 import datetime
+import unicodedata
 from base import *
 
 from django.utils.translation import ugettext as _
+from django.template.defaultfilters import slugify
 
 from forum import modules
 
@@ -15,6 +18,8 @@ class ActiveTagManager(models.Manager):
 class Tag(BaseModel):
 
     name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)
+
     created_by = models.ForeignKey(User, related_name='created_tags')
     created_at = models.DateTimeField(default=datetime.datetime.now, blank=True, null=True)
     marked_by = models.ManyToManyField(User, related_name="marked_tags", through="MarkedTag")
@@ -23,6 +28,14 @@ class Tag(BaseModel):
     used_count = models.PositiveIntegerField(default=0)
 
     active = ActiveTagManager()
+
+    def save(self, *args, **kwargs):
+        self.name = re.sub('[-\s]+', '-', self.name.lower())
+        if not self.slug:
+            nkfd_form = unicodedata.normalize('NFKD', unicode(self.name))
+            u_str = u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
+            self.slug = slugify(u_str)
+        super(Tag, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('-used_count', 'name')

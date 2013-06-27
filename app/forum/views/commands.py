@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render_to_response
 from django.utils.translation import ungettext, ugettext as _
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 from forum import settings
 from forum.models import *
@@ -73,16 +74,9 @@ def follow_topics(request, id):
         user = request.user
         question = get_object_or_404(Question, pk=id)
 
-        # Get topics to follow
-        tag_names = question.tagname_list()
-        to_follow = Tag.objects.filter(name__in=tag_names)
-
-        # Exclude already marked
-        marked = MarkedTag.objects.filter(user=user, tag__name__in=tag_names)
-        to_follow = to_follow.exclude(id__in=marked.values_list('tag__id', flat=True).query)
-
         # Follow topics
-        for tag in to_follow:
+        for tag in question.tags.exclude(
+                id__in=MarkedTag.objects.filter(user=user).values_list('tag__id', flat=True).query):
             mt = MarkedTag(user=user, reason='good', tag=tag)
             mt.save()
 
@@ -538,21 +532,22 @@ def subscribe(request, id, user=None):
 @ajax_login_required
 def mark_tag(request, tag=None, **kwargs):#tagging system
     action = kwargs['action']
-    ts = MarkedTag.objects.filter(user=request.user, tag__name=tag)
+    ts = MarkedTag.objects.filter(user=request.user, tag__slug__iexact=tag)
     if action == 'remove':
         logging.debug('deleting tag %s' % tag)
         ts.delete()
     else:
         reason = kwargs['reason']
         if len(ts) == 0:
-            try:
-                t = Tag.objects.get(name=tag)
-            except ObjectDoesNotExist:
+            tag_obj = Tag.objects.filter(slug__iexact=tag)
+            if tag_obj:
+                tag_obj = tag_obj[0]
+            else:
                 # Continue if user has create tag privileges
                 if not settings.LIMIT_TAG_CREATION or request.user.can_create_tags():
-                    t = Tag.objects.create(name=tag, created_by=request.user)
-            if t is not None:
-                mt = MarkedTag(user=request.user, reason=reason, tag=t)
+                    tag_obj = Tag.objects.create(name=tag, created_by=request.user)
+            if tag_obj is not None:
+                mt = MarkedTag(user=request.user, reason=reason, tag=tag_obj)
                 mt.save()
         else:
             ts.update(reason=reason)

@@ -9,6 +9,15 @@ from forum_modules.openidauth import models as openidauth_models
 
 
 CONSTRAINTS = {
+    'forum_tag': {
+        'DROP': """
+            ALTER TABLE forum_tag DROP CONSTRAINT forum_tag_slug_key;
+        """,
+        'ADD': """
+            ALTER TABLE forum_tag
+                ADD CONSTRAINT forum_tag_slug_key UNIQUE(slug);
+        """,
+    },
     'forum_node': {
         'DROP': """
             ALTER TABLE forum_node DROP CONSTRAINT parent_id_refs_id_1d7ae97d;
@@ -300,7 +309,8 @@ def perform_raw_import(connection, table, pairing,
 
 def perform_m2m_import(connection, table,
                        parent_model, m2m_field, child_model,
-                       parent_column=Column(1), child_column=Column(2)):
+                       parent_column=Column(1), child_column=Column(2),
+                       parent_processor=None, child_processor=None):
     """ Import data from a many to many relationship table.
     :param connection: Database connection
     :param table: Name of the table from which to fetch rows
@@ -309,6 +319,8 @@ def perform_m2m_import(connection, table,
     :param child_model: Model to which the ManyToManyField references
     :param parent_column: Column corresponding to the IDs of parent_model
     :param child_column: Column corresponding to the IDs of child_model
+    :param parent_processor: Processor for the field in the parent model
+    :param child_processor: Processor for the field in the child model
     """
     print 'Importing relationship of %s.%s and %s.%s objects.' % (parent_model._meta.app_label, parent_model.__name__,
                                                                   child_model._meta.app_label, child_model.__name__)
@@ -333,9 +345,17 @@ def perform_m2m_import(connection, table,
         if row is None:
             break
 
-        # Save relationship
-        parent = parent_model.objects.get(pk=row[parent_column.column])
-        getattr(parent, m2m_field).add(child_model.objects.get(pk=row[child_column.column]))
+        # Get parent
+        parent_value = row[parent_column.column]
+        if parent_processor:
+            parent_value = parent_processor(parent_value)
+        parent = parent_model.objects.get(pk=parent_value)
+
+        # Save child
+        child_value = row[child_column.column]
+        if child_processor:
+            child_value = child_processor(child_value)
+        getattr(parent, m2m_field).add(child_model.objects.get(pk=child_value))
 
     # Close cursor
     cursor.close()
@@ -512,6 +532,8 @@ def import_forum_badge(connection):
 
 
 def import_forum_tag(connection):
+    drop_constraints('forum_tag')
+
     perform_import(connection, 'forum_tag', forum_models.Tag, [
         ('name', Column(1)),
         ('created_by_id', Column(2)),
@@ -520,12 +542,27 @@ def import_forum_tag(connection):
     ])
 
 
+def duplicate_tag_processor(tag_id):
+    # Get original tag
+    tag = forum_models.Tag.objects.get(id=tag_id)
+
+    # Find existing tag
+    existing = forum_models.Tag.objects.filter(slug__iexact=tag.slug)
+    if existing:
+        tag = existing[0]
+
+    # Return tag
+    return tag.id
+
+
 def import_forum_markedtag(connection):
     perform_import(connection, 'forum_markedtag', forum_models.MarkedTag, [
         ('tag_id', Column(1)),
         ('user_id', Column(2)),
         ('reason', Column(3)),
-    ])
+    ], processors={
+        'tag_id': duplicate_tag_processor,
+    })
 
 
 def import_forum_node(connection):
@@ -598,7 +635,8 @@ def import_forum_action(connection):
 
 def import_forum_node_tags(connection):
     perform_m2m_import(connection, 'forum_node_tags',
-                       forum_models.Node, 'tags', forum_models.Tag)
+                       forum_models.Node, 'tags', forum_models.Tag,
+                       child_processor=duplicate_tag_processor)
 
 
 def import_forum_actionrepute(connection):
@@ -731,6 +769,30 @@ def import_forum_openidnonce(connection):
     ])
 
 
+def clean_orphaned_tags():
+    """ Delete the tags which were replaced by their normalized counterparts.
+    """
+    print 'Cleaning orphaned tags.'
+
+    deleted = []
+
+    for tag in forum_models.Tag.objects.all():
+        if tag in deleted:
+            continue
+
+        for duplicate in forum_models.Tag.objects.exclude(id=tag.id).filter(slug=tag.slug):
+            # At this point all duplicate tags should not have associated nodes
+            if not duplicate.nodes.all():
+                # Display tag name
+                print ' - %s' % duplicate.name
+
+                # Delete tag
+                duplicate.delete()
+                deleted.append(duplicate)
+
+    add_constraints('forum_tag')
+
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # Get source database alias
@@ -778,3 +840,6 @@ class Command(BaseCommand):
         # OpenID Auth (forum_modules.openid_auth)
         import_forum_openidassociation(connection)
         import_forum_openidnonce(connection)
+
+        # Clean orphaned tags
+        clean_orphaned_tags()
