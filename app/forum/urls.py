@@ -59,8 +59,8 @@ core_urls = (
     url(r'^%s(?P<mode>[\w\-]+)/(?P<user>\d+)/(?P<slug>.*)/$' % _('questions/'), app.readers.user_questions, name='user_questions'),
 
     ## PROFESSIONAL RECRUITING LANDING PAGES
-    url(r'^%s$' % _('advice/'), direct_to_template, {'template': 'advice_recruiting.html'}),
-    url(r'^%s%s$' % (_('advice/'), _('success/')), direct_to_template, {'template': 'advice_recruiting_success.html'}),
+    url(r'^%s$' % _('advice/'), direct_to_template, {'template': 'v2/advice_recruiting.html'}),
+    url(r'^%s%s$' % (_('advice/'), _('success/')), direct_to_template, {'template': 'v2/advice_recruiting_success.html'}),
     
     url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'), _('edit/')), app.writers.edit_question, name='edit_question'),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('questions/'), _('edit/')), app.writers.edit_question_v2, name='edit_question_v2'),
