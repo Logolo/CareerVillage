@@ -74,8 +74,6 @@ BROKER_URL = 'django://'
 # User settings
 from settings_local import *
 
-SECRET_KEY = SECRET_KEY
-
 try:
     if len(FORUM_SCRIPT_ALIAS) > 0:
         APP_URL = '%s/%s' % (APP_URL, FORUM_SCRIPT_ALIAS[:-1])
