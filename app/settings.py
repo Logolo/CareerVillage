@@ -129,7 +129,53 @@ INSTALLED_APPS = [
     'social_auth',
     'djcelery',
     'forum',
+    'raven.contrib.django.raven_compat',
 ]
+
+LOGGING_LEVEL = 'DEBUG' if DEBUG else 'INFO'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        # TODO: An error message shows up when logging to Sentry from Celery tasks (even tough the entry is logged).
+        # ERROR Unable to reach Sentry log server: timed out (url: ...)
+        'sentry': {
+            'level': LOGGING_LEVEL,
+            'class': 'raven.handlers.logging.SentryHandler',
+            'dsn': SENTRY_DSN
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console', 'sentry'],
+            'level': LOGGING_LEVEL,
+            'propagate': False
+        },
+        'sentry.errors': {
+            'handlers': ['console'],
+            'level': LOGGING_LEVEL,
+            'propagate': False
+        },
+        'forum.actions.facebook': {
+            'handlers': ['console', 'sentry'],
+            'level': LOGGING_LEVEL,
+            'propagate': False
+        }
+    }
+}
 
 #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
 if DEBUG:

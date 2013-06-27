@@ -4,11 +4,18 @@ import urllib
 import json
 import urlparse
 import datetime
+import logging
+
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.timezone import now
+
 from forum.templatetags.extra_tags import media
+
+
+# Obtain logger
+logger = logging.getLogger('forum.actions.facebook')
 
 
 class Graph(object):
@@ -53,6 +60,7 @@ class Graph(object):
             return values['id']
         except urllib2.HTTPError, e:
             error = json.loads(e.read())
+            logger.exception(error)
             raise GraphException(error['error'])
 
 
@@ -85,7 +93,12 @@ class Story(Graph):
             urllib2.urlopen(url, urllib.urlencode(data), timeout=30)
         except urllib2.HTTPError, e:
             error = json.loads(e.read())
+            logger.exception(error)
             raise GraphException(error['error'])
+        else:
+            logger.info('User %s (fbid=%s) posted %s with object="%s".' % (
+                self._user.username, self._user.facebook_uid, self.__class__.__name__, unicode(self._object)))
+
 
 
 class Notification(Graph):
@@ -110,11 +123,16 @@ class Notification(Graph):
         }
 
     def notify(self):
+        data = self.get_data()
         try:
-            urllib2.urlopen(self.get_url(), urllib.urlencode(self.get_data()), timeout=30)
+            urllib2.urlopen(self.get_url(), urllib.urlencode(data), timeout=30)
         except urllib2.HTTPError, e:
             error = json.loads(e.read())
+            logger.exception(error)
             raise GraphException(error['error'])
+        else:
+            logger.info('User %s (fbid=%s) has been notified "%s" (href="%s").' % (
+                self._user.username, self._user.facebook_uid, data.get('template', ''), data.get('href', '')))
 
 
 class LikeQuestionStory(Story):
