@@ -2,7 +2,7 @@ from django import template
 from django.utils.safestring import mark_safe
 import logging
 import markdown
-from forum.models import Node
+from forum.models import Node, Tag
 
 register = template.Library()
 
@@ -64,3 +64,9 @@ def static_content(content, render_mode):
         return mark_safe(unicode(content))
     else:
         return unicode(content)
+
+
+@register.filter
+def tag_slug(tag_name):
+    return Tag.make_slug(tag_name)
+

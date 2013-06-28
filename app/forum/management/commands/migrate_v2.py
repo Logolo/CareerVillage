@@ -544,7 +544,7 @@ def import_forum_tag(connection):
         # Unpack row
         obj_id, name, created_by_id, created_at, used_count = row
         try:
-            slug = forum_models.Tag.slugify(name)
+            slug = forum_models.Tag.make_slug(name)
             tag = forum_models.Tag.objects.get(slug=slug)
         except forum_models.Tag.DoesNotExist:
             tag = None
@@ -788,12 +788,12 @@ def import_forum_openidnonce(connection):
 def update_tagnames():
     """ Update the value of the tagnames field in the Node objects.
     """
-    print 'Updating tagnames field in Node objects.'
+    print 'Updating tagnames field in forum.Node objects.'
 
     for node in forum_models.Node.objects.all():
         tags = node.tags.all()
         if tags:
-            node.tagnames = u' '.join([tag.slug for tag in tags])
+            node.tagnames = u' '.join([tag.name for tag in tags])
             node.save()
 
 

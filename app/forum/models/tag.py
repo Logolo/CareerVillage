@@ -30,13 +30,17 @@ class Tag(BaseModel):
     active = ActiveTagManager()
 
     def save(self, *args, **kwargs):
-        self.name = re.sub('[-\s]+', '-', self.name.lower())
+        self.name = self.make_name(self.name)
         if not self.slug:
-            self.slug = self.slugify(self.name)
+            self.slug = self.make_slug(self.name)
         super(Tag, self).save(*args, **kwargs)
 
     @classmethod
-    def slugify(cls, tag_name):
+    def make_name(cls, tag_name):
+        return re.sub('[-\s]+', '-', tag_name.lower())
+
+    @classmethod
+    def make_slug(cls, tag_name):
         nkfd_form = unicodedata.normalize('NFKD', unicode(tag_name))
         u_str = u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
         return slugify(u_str)

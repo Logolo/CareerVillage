@@ -57,7 +57,7 @@
           <div class="tags">
               <h6 class="text-light">Question Topics</h6>
               {% for tag in question.tagname_list %}
-                  <a href="{% url home_tag_questions tag|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
+                  <a href="{% url home_tag_questions tag|tag_slug|urlencode %}" class="post-tag tag-link-{{ tag }}" rel="tag"><span class="badge">{{ tag }}</span></a>
               {% endfor %}
           </div>
           <p style="font-size:11px"><a class="flag-for-review" href="#">flag this question for review</a></p>

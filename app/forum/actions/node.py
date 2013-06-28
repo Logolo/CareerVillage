@@ -12,7 +12,7 @@ class NodeEditAction(ActionProxy):
             revision_data['title'] = strip_tags(data['title'].strip())
 
         if data.get('tags', None):
-            revision_data['tagnames'] = u' '.join([Tag.slugify(tag) for tag in data['tags'].strip().split()])
+            revision_data['tagnames'] = u' '.join([Tag.make_name(tag) for tag in data['tags'].strip().split()])
 
         return revision_data
 
