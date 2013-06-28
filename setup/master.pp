@@ -21,7 +21,7 @@ class master {
 
     class { "careervillage::osqa::db": }
 
-    class { "careervillage::osqa::deploy" }
+    class { "careervillage::osqa::deploy": }
 
     class { "careervillage::cache": }
 
@@ -30,6 +30,7 @@ class master {
         class { "careervillage::newrelic": }
 
     }
+
 }
 
 class { "master": }

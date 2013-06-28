@@ -12,3 +12,4 @@ tools/cvt/cvt/conf/settings_user.py
 docs/_build
 docs/_static
 docs/_templates
+keys/*

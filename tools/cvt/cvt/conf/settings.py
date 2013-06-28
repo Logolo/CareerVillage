@@ -11,7 +11,7 @@ def rel(*x):
     return os.path.abspath(os.path.join(PROJECT_ROOT, *x))
 
 SETUP_DIR = rel('../../../setup')
-KEY_DIR = '~/.ssh'
+KEY_DIR = rel('../../../keys')
 
 #LOCAL
 LOCAL_PUPPET_GIT_BRANCH = 'dev'

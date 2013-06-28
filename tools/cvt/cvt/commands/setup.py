@@ -46,7 +46,7 @@ class Command(BaseCommand):
         instances = get_instances(role=args.role, target=args.target)
         if args.host:
             instances = [i for i in instances if args.host in i.host]
-        env.use_ssh_config = True
+        env.key_filename = [i.key for i in instances]
         setup_name = 'setup-{target}-{role}'.format(target=target, role=role)
 
         def get_instance(host):
