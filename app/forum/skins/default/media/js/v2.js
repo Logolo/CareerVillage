@@ -95,7 +95,7 @@ $(function(){
             if (!data.success && data['error_message'] != undefined) {
                 $widget.popover({
                     'placement': 'right',
-                    'trigger': 'hover',
+                    'trigger': 'click',
                     'title': '',
                     'html': true,
                     'content': data.error_message
