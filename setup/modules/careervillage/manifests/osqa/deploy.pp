@@ -9,7 +9,7 @@ class careervillage::osqa::deploy {
             owner   => $careervillage::user,
             group   => $careervillage::group,
             ensure  => present,
-            content => template("${module_name}/app/settings_local.py.erb"),
+            content => template("${module_name}/osqa/settings_local.py.erb"),
             require => Vcsrepo['source'];
         }
 

@@ -14,5 +14,10 @@ First steps
 :doc:`topics/bootstrap`
     Ready to develop
 
+
+:doc:`topics/environments`
+    Enviroments and deploy
+
+
 :doc:`topics/commands`
     Commands documentation
