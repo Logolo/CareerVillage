@@ -131,6 +131,10 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
 ]
 
+RAVEN_CONFIG = {
+    'timeout': 30
+}
+
 LOGGING_LEVEL = 'DEBUG' if DEBUG else 'INFO'
 LOGGING = {
     'version': 1,
@@ -149,8 +153,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
-        # TODO: An error message shows up when logging to Sentry from Celery tasks (even tough the entry is logged).
-        # ERROR Unable to reach Sentry log server: timed out (url: ...)
         'sentry': {
             'level': LOGGING_LEVEL,
             'class': 'raven.handlers.logging.SentryHandler',
