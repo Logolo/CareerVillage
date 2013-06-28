@@ -9,15 +9,6 @@ from forum_modules.openidauth import models as openidauth_models
 
 
 CONSTRAINTS = {
-    'forum_tag': {
-        'DROP': """
-            ALTER TABLE forum_tag DROP CONSTRAINT forum_tag_slug_key;
-        """,
-        'ADD': """
-            ALTER TABLE forum_tag
-                ADD CONSTRAINT forum_tag_slug_key UNIQUE(slug);
-        """,
-    },
     'forum_node': {
         'DROP': """
             ALTER TABLE forum_node DROP CONSTRAINT parent_id_refs_id_1d7ae97d;
@@ -531,28 +522,53 @@ def import_forum_badge(connection):
     ])
 
 
+tag_replacements = {}
+
+
 def import_forum_tag(connection):
-    drop_constraints('forum_tag')
+    print 'Importing forum.Tag objects and registering duplicates.'
 
-    perform_import(connection, 'forum_tag', forum_models.Tag, [
-        ('name', Column(1)),
-        ('created_by_id', Column(2)),
-        ('created_at', Column(3)),
-        ('used_count', Column(4)),
-    ])
+    # Get cursor
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM forum_tag')
+
+    # Delete current tags
+    forum_models.Tag.objects.all().delete()
+
+    while True:
+        # Fetch row
+        row = cursor.fetchone()
+        if row is None:
+            break
+
+        # Unpack row
+        obj_id, name, created_by_id, created_at, used_count = row
+        try:
+            slug = forum_models.Tag.slugify(name)
+            tag = forum_models.Tag.objects.get(slug=slug)
+        except forum_models.Tag.DoesNotExist:
+            tag = None
+
+        # Save tag
+        if tag:
+            tag_replacements[obj_id] = tag.id
+        else:
+            tag = forum_models.Tag(id=obj_id, name=name,
+                                   created_by_id=created_by_id, created_at=created_at,
+                                   used_count=used_count)
+            tag.save(full_save=True)
+
+    cursor.close()
+
+    # Sync sequence
+    perform_sync_sequence('forum_tag')
 
 
-def duplicate_tag_processor(tag_id):
-    # Get original tag
-    tag = forum_models.Tag.objects.get(id=tag_id)
-
-    # Find existing tag
-    existing = forum_models.Tag.objects.filter(slug__iexact=tag.slug)
-    if existing:
-        tag = existing[0]
-
-    # Return tag
-    return tag.id
+def tag_id_processor(tag_id):
+    if tag_id in tag_replacements.keys():
+        return tag_replacements[tag_id]
+    else:
+        return tag_id
 
 
 def import_forum_markedtag(connection):
@@ -561,7 +577,7 @@ def import_forum_markedtag(connection):
         ('user_id', Column(2)),
         ('reason', Column(3)),
     ], processors={
-        'tag_id': duplicate_tag_processor,
+        'tag_id': tag_id_processor,
     })
 
 
@@ -636,7 +652,7 @@ def import_forum_action(connection):
 def import_forum_node_tags(connection):
     perform_m2m_import(connection, 'forum_node_tags',
                        forum_models.Node, 'tags', forum_models.Tag,
-                       child_processor=duplicate_tag_processor)
+                       child_processor=tag_id_processor)
 
 
 def import_forum_actionrepute(connection):
@@ -769,28 +785,16 @@ def import_forum_openidnonce(connection):
     ])
 
 
-def clean_orphaned_tags():
-    """ Delete the tags which were replaced by their normalized counterparts.
+def update_tagnames():
+    """ Update the value of the tagnames field in the Node objects.
     """
-    print 'Cleaning orphaned tags.'
+    print 'Updating tagnames field in Node objects.'
 
-    deleted = []
-
-    for tag in forum_models.Tag.objects.all():
-        if tag in deleted:
-            continue
-
-        for duplicate in forum_models.Tag.objects.exclude(id=tag.id).filter(slug=tag.slug):
-            # At this point all duplicate tags should not have associated nodes
-            if not duplicate.nodes.all():
-                # Display tag name
-                print ' - %s' % duplicate.name
-
-                # Delete tag
-                duplicate.delete()
-                deleted.append(duplicate)
-
-    add_constraints('forum_tag')
+    for node in forum_models.Node.objects.all():
+        tags = node.tags.all()
+        if tags:
+            node.tagnames = u' '.join([tag.slug for tag in tags])
+            node.save()
 
 
 class Command(BaseCommand):
@@ -822,9 +826,9 @@ class Command(BaseCommand):
         import_forum_badge(connection)
         import_forum_tag(connection)
         import_forum_markedtag(connection)
-        import_forum_node(connection)
+        import_forum_node(connection)  # drops forum_node constraints
         import_forum_noderevision(connection)
-        import_forum_action(connection)
+        import_forum_action(connection)  # restores forum_node constraints
         import_forum_node_tags(connection)
         import_forum_actionrepute(connection)
         import_forum_award(connection)
@@ -841,5 +845,5 @@ class Command(BaseCommand):
         import_forum_openidassociation(connection)
         import_forum_openidnonce(connection)
 
-        # Clean orphaned tags
-        clean_orphaned_tags()
+        # Tag-related tasks
+        update_tagnames()

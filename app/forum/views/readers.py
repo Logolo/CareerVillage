@@ -193,7 +193,7 @@ def unanswered_v2(request, keywords=None):
 
 def tag_v2(request, tag):
     try:
-        tag = Tag.active.get(name=unquote(tag))
+        tag = Tag.active.get(slug=unquote(tag))
     except Tag.DoesNotExist:
         raise Http404
 
@@ -236,7 +236,7 @@ def questions(request):
 @decorators.render('questions.html')
 def tag(request, tag):
     try:
-        tag = Tag.active.get(name=unquote(tag))
+        tag = Tag.active.get(slug=unquote(tag))
     except Tag.DoesNotExist:
         raise Http404
 

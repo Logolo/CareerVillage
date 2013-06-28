@@ -1,7 +1,7 @@
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext as _
 from forum.models.action import ActionProxy
-from forum.models import Comment, Question, Answer, NodeRevision
+from forum.models import Comment, Question, Answer, NodeRevision, Tag
 
 
 class NodeEditAction(ActionProxy):
@@ -12,7 +12,7 @@ class NodeEditAction(ActionProxy):
             revision_data['title'] = strip_tags(data['title'].strip())
 
         if data.get('tags', None):
-            revision_data['tagnames'] = data['tags'].strip()
+            revision_data['tagnames'] = u' '.join([Tag.slugify(tag) for tag in data['tags'].strip().split()])
 
         return revision_data
 

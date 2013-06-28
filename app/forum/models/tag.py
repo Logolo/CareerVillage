@@ -32,10 +32,14 @@ class Tag(BaseModel):
     def save(self, *args, **kwargs):
         self.name = re.sub('[-\s]+', '-', self.name.lower())
         if not self.slug:
-            nkfd_form = unicodedata.normalize('NFKD', unicode(self.name))
-            u_str = u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
-            self.slug = slugify(u_str)
+            self.slug = self.slugify(self.name)
         super(Tag, self).save(*args, **kwargs)
+
+    @classmethod
+    def slugify(cls, tag_name):
+        nkfd_form = unicodedata.normalize('NFKD', unicode(tag_name))
+        u_str = u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
+        return slugify(u_str)
 
     class Meta:
         ordering = ('-used_count', 'name')
