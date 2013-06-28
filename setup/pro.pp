@@ -6,10 +6,6 @@ class pro {
     $group = "careervillage"
 
     host {
-        "careervillage.logging.db":
-            ip => $::careervillage_logging_db_address;
-        "careervillage.logging.sentry":
-            ip => $::careervillage_logging_sentry_address;
         "careervillage.osqa.db":
             ip => $::careervillage_osqa_db_address;
         "careervillage.osqa.cache":
@@ -27,11 +23,9 @@ class pro {
 
     class { "careervillage::osqa::deploy" }
 
-    class { "careervillage::logging::site": }
-
-    class { "careervillage::logging::db": }
-
     class { "careervillage::cache": }
+
+    class { "careervillage::newrelic": }
 
 }
 
