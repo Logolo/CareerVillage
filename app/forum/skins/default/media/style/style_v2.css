@@ -42,7 +42,7 @@ body {
 #main-body {
     position:relative;
     padding-top:70px;
-    padding-bottom:230px;
+    padding-bottom:260px;
 }
 .home-page #main-body {
     padding-top:50px;
@@ -69,7 +69,7 @@ body {
 /* additional layout adjustments for smaller screens 
    medium breakpoint  */
 @media (max-width:840px) { 
-    
+
     /* clear floated images in narrow columns */
     .profile .media-body {
         clear:both;
@@ -92,6 +92,12 @@ body {
         width:82.97872340425532%;
     }    
 }
+@media (max-width:640px) {
+  #main-body {
+    padding-bottom:340px;
+  }
+}
+
 
 /*************
  * HEADER #main-nav
