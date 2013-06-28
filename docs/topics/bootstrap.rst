@@ -10,7 +10,7 @@ Install Ruby: https://rvm.io/
 
     gem install vagrant
     gem install vagrant-vbguest
-    vagrant up
+    vagrant up dev
 
 PyCharm Configuration
 ---------------------
@@ -18,7 +18,7 @@ PyCharm Configuration
 Create PyCharm remote directory
 ::
 
-    vagrant ssh
+    vagrant ssh dev
     sudo mkdir /opt/pycharm
     sudo chown vagrant:vagrant /opt/pycharm
 
@@ -45,7 +45,7 @@ Run Site
 ========
 ::
 
-    vagrant ssh
+    vagrant ssh dev
     ./manage.py reset_db
     ./manage.py runserver
 

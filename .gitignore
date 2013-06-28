@@ -7,6 +7,8 @@ app/cache/*
 app/log/*
 app/forum/upfiles/*
 app/settings_local.py
+tools/cvt/cvt/conf/settings_local.py
+tools/cvt/cvt/conf/settings_user.py
 docs/_build
 docs/_static
 docs/_templates

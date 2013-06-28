@@ -3,7 +3,7 @@ class careervillage::osqa::deploy {
     include supervisor
     include careervillage::venv
 
-    if $careervillage::target == 'pro' or $careervillage::target == 'sta' {
+    if $careervillage::target != 'dev' {
 
         file { "${careervillage::app_dir}/settings_local.py":
             owner   => $careervillage::user,

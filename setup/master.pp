@@ -1,6 +1,6 @@
-class sta {
+class master {
 
-    $target = "sta"
+    $target = $::careervillage_target
     $root_dir = "/home/careervillage/careervillage"
     $user = "careervillage"
     $group = "careervillage"
@@ -25,8 +25,11 @@ class sta {
 
     class { "careervillage::cache": }
 
-    class { "careervillage::newrelic": }
+    if $target != 'local' {
 
+        class { "careervillage::newrelic": }
+
+    }
 }
 
-class { "sta": }
+class { "master": }
