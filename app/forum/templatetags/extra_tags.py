@@ -22,7 +22,7 @@ from django.core.urlresolvers import reverse
 register = template.Library()
 
 GRAVATAR_TEMPLATE = ('<img class="gravatar" width="%(size)s" height="%(size)s" '
-'src="http://www.gravatar.com/avatar/%(gravatar_hash)s'
+'src="https://www.gravatar.com/avatar/%(gravatar_hash)s'
 '?s=%(size)s&amp;d=%(default)s&amp;r=%(rating)s" '
 'alt="My avatar image" />')
 
