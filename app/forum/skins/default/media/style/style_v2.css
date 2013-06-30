@@ -1139,7 +1139,12 @@ h5.jumplink {
     min-height:40px;
     
 }
-
+#notifications .attributions{
+  color:#ccc; font-size: .8em;
+}
+#notifications .attributions a{
+  color:#ccc;
+}
 
 /*************
  * IMAGES
