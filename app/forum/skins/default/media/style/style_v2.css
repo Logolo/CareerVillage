@@ -267,6 +267,10 @@ body {
 .home-page #home-lower-user a.profile-link:hover {
     text-decoration:none;    
 }
+
+.home-page #home-lower-user .home_welcome_loggedout {
+  margin:00px 10px;
+}
 .home-page #home-top-search {
     background-image:url('/m/default/media/img/bg-blue.png');
     margin-top:-10px;

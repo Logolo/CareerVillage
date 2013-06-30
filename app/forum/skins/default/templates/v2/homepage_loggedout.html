@@ -7,14 +7,15 @@
 <div class="col-left col-sidebar span3">
 
   <div id="home-upper-user">
-    <div class="avatar"><img src="/m/default/media/img/anon-user-thumb.png" /></div>
+    <div class="avatar"><img src="/m/default/media/img/anon-user-thumb.jpg" /></div>
   </div>
    
   <div id="home-lower-user">
     <span class="arrow-down"></span>    
     
-    <h4 class="text-light" style="padding:12px">Message about joining CareerVillage community (login or register)</h4>
-    
+    <div class="home_welcome_loggedout">
+        <h4 class="text-light" style="padding:12px">Welcome to CareerVillage!</h4>If you're a student try searching for college or career advice that will help you make better decisions. If you're a working professional try finding a question that you could answer. You can create an account <a href="{% url auth_signin %}">here</a>.
+    </div>
   </div>
 
 </div><!--/.col-left -->
