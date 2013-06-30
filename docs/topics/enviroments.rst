@@ -15,6 +15,12 @@ LOCAL
 
 Deploy local:
 
+Edit your /etc/hosts and add:
+-----------------------------
+::
+
+    10.1.0.10       local.careervillage.org
+
 ::
 
     vagrant up master
@@ -45,3 +51,4 @@ Deploy production:
 ::
 
     ./cvt setup -r master -t pro
+

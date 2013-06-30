@@ -1,13 +1,55 @@
 # encoding:utf-8
 import os.path
-import sys
 import djcelery
 
-djcelery.setup_loader()
+
+APP_ROOT = os.path.dirname(__file__)
+
+
+def rel(*x):
+    return os.path.join(APP_ROOT, *x)
+
+DEBUG = False
+TEMPLATE_DEBUG = False
+
+ADMINS = (
+    ('Team', 'team@gathereducation.com'),
+)
+MANAGERS = ADMINS
 
 SITE_ID = 1
 
+TIME_ZONE = 'America/New_York'
+LANGUAGE_CODE = 'en'
+USE_I18N = True
+USE_L10N = False
+
+OSQA_DEFAULT_SKIN = 'default'
+
+DATABASES = None
+
+SECRET_KEY = None
+
 ADMIN_MEDIA_PREFIX = '/admin_media/'
+
+INSTALLED_APPS = [
+    'longerusername',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.admin',
+    'django.contrib.humanize',
+    'django.contrib.sitemaps',
+    'django.contrib.markup',
+
+    'social_auth',
+    'djcelery',
+    'forum',
+    'raven.contrib.django.raven_compat',
+    'south',
+]
+
 
 TEMPLATE_LOADERS = [
     #'django.template.loaders.filesystem.load_template_source',
@@ -48,39 +90,106 @@ ROOT_URLCONF = 'urls'
 APPEND_SLASH = True
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__),'forum','skins').replace('\\','/'),
+    os.path.join(os.path.dirname(__file__), 'forum', 'skins').replace('\\','/'),
 )
 
-
-FILE_UPLOAD_TEMP_DIR = os.path.join(os.path.dirname(__file__), 'tmp').replace('\\','/')
-FILE_UPLOAD_HANDLERS = ("django.core.files.uploadhandler.MemoryFileUploadHandler",
- "django.core.files.uploadhandler.TemporaryFileUploadHandler",)
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-
+FILE_UPLOAD_TEMP_DIR = os.path.join(os.path.dirname(__file__), 'tmp').replace('\\','/')
+FILE_UPLOAD_HANDLERS = ('django.core.files.uploadhandler.MemoryFileUploadHandler',
+                        'django.core.files.uploadhandler.TemporaryFileUploadHandler',)
 ALLOW_FILE_TYPES = ('.jpg', '.jpeg', '.gif', '.bmp', '.png', '.tiff')
 ALLOW_MAX_FILE_SIZE = 1024 * 1024
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/home/'
+LOGIN_ERROR_URL = '/login/'
+
+AUTHENTICATION_BACKENDS = ('forum.authentication.backend.CaseInsensitiveModelBackend',
+                           'social_auth.backends.facebook.FacebookBackend',
+                           'social_auth.backends.contrib.linkedin.LinkedinBackend',
+)
+
+SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['user_type']
+SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'forum.authentication.pipeline.create_user',
+    # 'social_auth.backends.pipeline.misc.save_status_to_session',
+    'social_auth.backends.pipeline.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    'social_auth.backends.pipeline.user.update_user_details',
+    'social_auth.backends.pipeline.misc.save_status_to_session',
+)
+
+FACEBOOK_APP_ID = None
+FACEBOOK_APP_NAMESPACE = None
+FACEBOOK_API_SECRET = None
 FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'publish_actions']
 FACEBOOK_EXTENDED_PERMISSIONS_STRING = ','.join(FACEBOOK_EXTENDED_PERMISSIONS)
+# Minimum reputation increase when posting to Facebook
+FACEBOOK_POST_REPUTATION_DELTA = 10
+# Reputation multiple (user reached: 250, 500, 750, 1000, ... points)
+FACEBOOK_POST_REPUTATION_MULTIPLE = 250
+# Facebook permissions allowed by default
+FACEBOOK_DEFAULT_SETTINGS = ['facebook_interest_topic_story',
+                             'facebook_get_point_story',
+                             'facebook_reach_point_story',
+                             'facebook_answer_question_notification',
+                             'facebook_topic_question_notification',
+                             'facebook_award_badge_notification']
+# Facebook permissions that can be updated using an AJAX call
+FACEBOOK_ALLOW_SETTINGS_UPDATE = ['facebook_like_question_story',
+                                  'facebook_like_answer_story',
+                                  'facebook_ask_question_story',
+                                  'facebook_answer_question_story']
 
+LINKEDIN_CONSUMER_KEY = None
+LINKEDIN_CONSUMER_SECRET = None
 LINKEDIN_SCOPE = ['r_basicprofile', 'r_emailaddress', 'r_fullprofile']
 LINKEDIN_EXTRA_FIELD_SELECTORS = ['id', 'skills', 'interests', 'first-name',
                                   'last-name', 'email-address', 'headline', 'industry',
                                   'picture-url', 'location']
 
-#http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
-BROKER_URL = 'django://'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# User settings
-from settings_local import *
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+#SENTRY-RAVEN
+SENTRY_DSN = None
+RAVEN_CONFIG = {
+    'timeout': 30
+}
+
+#CELERY-RABBIT
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+djcelery.setup_loader()
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+DISABLED_MODULES = ['books', 'recaptcha', 'project_badges']
+BLOCK_TEST = None
+
 
 try:
-    if len(FORUM_SCRIPT_ALIAS) > 0:
-        APP_URL = '%s/%s' % (APP_URL, FORUM_SCRIPT_ALIAS[:-1])
-except NameError:
+    from settings_local import *
+except ImportError:
     pass
 
-app_url_split = APP_URL.split("://")
+
+try:
+    from settings_user import *
+except ImportError:
+    pass
+
+app_url_split = APP_URL.split('://')
 
 APP_PROTOCOL = app_url_split[0]
 APP_DOMAIN = app_url_split[1].split('/')[0]
@@ -96,44 +205,22 @@ if FORCE_SCRIPT_NAME.endswith('/'):
 
 #Module system initialization
 MODULES_PACKAGE = 'forum_modules'
-MODULES_FOLDER = os.path.join(SITE_SRC_ROOT, MODULES_PACKAGE)
+MODULES_FOLDER = os.path.join(APP_ROOT, MODULES_PACKAGE)
 
 MODULE_LIST = filter(lambda m: getattr(m, 'CAN_USE', True), [
-        __import__('forum_modules.%s' % f, globals(), locals(), ['forum_modules'])
-        for f in os.listdir(MODULES_FOLDER)
-        if os.path.isdir(os.path.join(MODULES_FOLDER, f)) and
-           os.path.exists(os.path.join(MODULES_FOLDER, "%s/__init__.py" % f)) and
-           not f in DISABLED_MODULES
+    __import__('forum_modules.%s' % f, globals(), locals(), ['forum_modules'])
+    for f in os.listdir(MODULES_FOLDER)
+    if os.path.isdir(os.path.join(MODULES_FOLDER, f)) and
+       os.path.exists(os.path.join(MODULES_FOLDER, '%s/__init__.py' % f)) and
+       not f in DISABLED_MODULES
 ])
 
 [MIDDLEWARE_CLASSES.extend(
-        ["%s.%s" % (m.__name__, mc) for mc in getattr(m, 'MIDDLEWARE_CLASSES', [])]
-                          ) for m in MODULE_LIST]
+        ['%s.%s' % (m.__name__, mc) for mc in getattr(m, 'MIDDLEWARE_CLASSES', [])]) for m in MODULE_LIST]
 
 [TEMPLATE_LOADERS.extend(
-        ["%s.%s" % (m.__name__, tl) for tl in getattr(m, 'TEMPLATE_LOADERS', [])]
-                          ) for m in MODULE_LIST]
+        ['%s.%s' % (m.__name__, tl) for tl in getattr(m, 'TEMPLATE_LOADERS', [])]) for m in MODULE_LIST]
 
-
-INSTALLED_APPS = [
-    'longerusername',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.admin',
-    'django.contrib.humanize',
-    'django.contrib.sitemaps',
-    'django.contrib.markup',
-    'social_auth',
-    'djcelery',
-    'forum',
-    'raven.contrib.django.raven_compat',
-]
-
-RAVEN_CONFIG = {
-    'timeout': 30
-}
 
 LOGGING_LEVEL = 'DEBUG' if DEBUG else 'INFO'
 LOGGING = {
@@ -178,80 +265,22 @@ LOGGING = {
     }
 }
 
-#http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
-if DEBUG:
-    INSTALLED_APPS.append('kombu.transport.django')
-
 if DEBUG:
     try:
         import debug_toolbar
         MIDDLEWARE_CLASSES.append('debug_toolbar.middleware.DebugToolbarMiddleware')
         INSTALLED_APPS.append('debug_toolbar')
-    except:
+        DEBUG_TOOLBAR_CONFIG = {
+            'INTERCEPT_REDIRECTS': False
+        }
+        INTERNAL_IPS = ('127.0.0.1',)
+    except ImportError:
         pass
 
-try:
-    import south
-    INSTALLED_APPS.append('south')
-except:
-    pass
 
 if not DEBUG:
     try:
         import rosetta
         INSTALLED_APPS.append('rosetta')
-    except:
+    except ImportError:
         pass
-
-#allows case insensitive login
-AUTHENTICATION_BACKENDS = ('forum.authentication.backend.CaseInsensitiveModelBackend',
-                           'social_auth.backends.facebook.FacebookBackend',
-                           'social_auth.backends.contrib.linkedin.LinkedinBackend',
-)
-#AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
-SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['user_type']
-
-SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
-SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
-
-# SOCIAL_AUTH_USER_MODEL = 'forum.models.user.User'
-
-SOCIAL_AUTH_PIPELINE = (
-
-    'social_auth.backends.pipeline.social.social_auth_user',
-    'social_auth.backends.pipeline.social.associate_user',
-    'forum.authentication.pipeline.create_user',
-
-    # 'social_auth.backends.pipeline.misc.save_status_to_session',
-
-    'social_auth.backends.pipeline.user.create_user',
-    'social_auth.backends.pipeline.social.associate_user',
-    'social_auth.backends.pipeline.social.load_extra_data',
-    'social_auth.backends.pipeline.user.update_user_details',
-    'social_auth.backends.pipeline.misc.save_status_to_session',
-)
-
-# Minimum reputation increase when posting to Facebook
-POST_REPUTATION_DELTA = 10
-
-# Reputation multiple (user reached: 250, 500, 750, 1000, ... points)
-POST_REPUTATION_MULTIPLE = 250
-
-# Facebook permissions allowed by default
-FACEBOOK_DEFAULT_SETTINGS = ['facebook_interest_topic_story',
-                             'facebook_get_point_story',
-                             'facebook_reach_point_story',
-                             'facebook_answer_question_notification',
-                             'facebook_topic_question_notification',
-                             'facebook_award_badge_notification']
-
-# Facebook permissions that can be updated using an AJAX call
-FACEBOOK_ALLOW_SETTINGS_UPDATE = ['facebook_like_question_story',
-                                  'facebook_like_answer_story',
-                                  'facebook_ask_question_story',
-                                  'facebook_answer_question_story']
-
-
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/home/'
-LOGIN_ERROR_URL = '/login/'

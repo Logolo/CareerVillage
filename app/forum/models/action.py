@@ -331,7 +331,7 @@ def publish_get_point(sender, instance, created, **kwargs):
     from forum.tasks import facebook_get_point_story
     user = instance.user
     if user.can_facebook_get_point_story:
-        if instance.value >= settings.djsettings.POST_REPUTATION_DELTA:
+        if instance.value >= settings.djsettings.FACEBOOK_POST_REPUTATION_DELTA:
             facebook_get_point_story.apply_async(countdown=10, args=(user.id, instance.value))
 
 post_save.connect(publish_get_point, sender=ActionRepute)
@@ -341,7 +341,7 @@ def publish_reach_point(sender, instance, raw, using, **kwargs):
     from forum.tasks import facebook_reach_point_story
     import math
 
-    reputation_multiple = settings.djsettings.POST_REPUTATION_MULTIPLE
+    reputation_multiple = settings.djsettings.FACEBOOK_POST_REPUTATION_MULTIPLE
     user = instance.user
 
     if user.can_facebook_reach_point_story:

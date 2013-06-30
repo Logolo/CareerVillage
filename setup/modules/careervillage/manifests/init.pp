@@ -25,7 +25,8 @@ class careervillage ($target, $root_dir, $user, $group) {
         ensure     => present,
         managehome => true,
         shell      => '/bin/bash',
-        groups     => $group,
+        gid        => $user,
+        groups     => [$group],
         require    => Group[$group];
     }
 

@@ -39,7 +39,7 @@ class careervillage::osqa::deploy {
             }
         }
 
-        supervisor::osqa { "cvosqa_celery":
+        supervisor::app { "cvosqa_celery":
             command     => "python manage.py celery worker --loglevel=info",
             directory   => $careervillage::app_dir,
             environment => "PATH=\"${careervillage::venv_dir}/bin\"",
