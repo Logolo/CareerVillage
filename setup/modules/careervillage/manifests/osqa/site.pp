@@ -46,7 +46,7 @@ class careervillage::osqa::site {
 
                                         --pp ${careervillage::app_dir}
 
-                                        --module django.core.handlers.wsgi:WSGIHandler()",
+                                        --module wsgi:application",
 
                 environment => "DJANGO_SETTINGS_MODULE='settings'",
                 user        => $careervillage::user,
@@ -81,7 +81,7 @@ class careervillage::osqa::site {
 
                                         --pp ${careervillage::app_dir}
 
-                                        --module django.core.handlers.wsgi:WSGIHandler()",
+                                        --module wsgi:application",
 
                 environment => "DJANGO_SETTINGS_MODULE='settings',NEW_RELIC_CONFIG_FILE='${careervillage::data_dir}/newrelic.ini'",
                 user        => $careervillage::user,
