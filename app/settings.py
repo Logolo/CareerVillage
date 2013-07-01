@@ -273,10 +273,21 @@ LOGGING = {
     }
 }
 
+# Debug toolbar
 if DEBUG:
     try:
         import debug_toolbar
+
+        STATIC_URL = '/debug_toolbar/'
         INTERNAL_IPS = ('127.0.0.1',)
+
+        def callback(request):
+            return DEBUG and request.META['REMOTE_ADDR'] in INTERNAL_IPS
+
+        DEBUG_TOOLBAR_CONFIG = {
+            'INTERCEPT_REDIRECTS': False,
+            'SHOW_TOOLBAR_CALLBACK': callback,
+        }
         MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware']
         INSTALLED_APPS += ['debug_toolbar']
         DEBUG_TOOLBAR_PANELS = (
@@ -292,9 +303,7 @@ if DEBUG:
             'debug_toolbar.panels.signals.SignalDebugPanel',
             'debug_toolbar.panels.logger.LoggingPanel',
         )
-        DEBUG_TOOLBAR_CONFIG = {
-            'INTERCEPT_REDIRECTS': False,
-        }
+
     except ImportError:
         pass
 
