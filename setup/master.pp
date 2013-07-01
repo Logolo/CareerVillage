@@ -32,7 +32,7 @@ class master {
     if $target != 'local' {
 
         class { "newrelic":
-            license => "{$::careervillage_newrelic_license}"
+            license => "${::careervillage_newrelic_license}"
         }
 
     }
