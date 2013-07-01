@@ -143,8 +143,14 @@ class LikeQuestionStory(Story):
         return settings.APP_URL + reverse('question', kwargs={'id': self._object.id})
 
     def get_data(self):
+        title = self._object.title
         return {
-            'object': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
+            'object': Graph.create_object('question', {
+                'title': title,
+                'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
+                'url': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
+                'description': title,
+            })
         }
 
 
@@ -208,7 +214,11 @@ class AnswerQuestionStory(Story):
 
     def get_data(self):
         data = {
-            'question': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
+            'question': Graph.create_object('question', {
+                'title': self._object.title,
+                'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
+                'url': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
+            })
         }
         if self._message:
             data['message'] = self._message

@@ -128,7 +128,7 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
                                          unanswered=unanswered)
                 else:
                     return question_list(request,
-                                         query_set.filter(tags__name__in=request.user.tag_selections.filter(reason='good').values_list('tag_id', flat=True)),
+                                         query_set.filter(tags__id__in=request.user.tag_selections.filter(reason='good').values_list('tag_id', flat=True).query),
                                          base_path=reverse('homepage'),
                                          feed_url=reverse('latest_questions_feed'),
                                          paginator_context=paginator_context,
