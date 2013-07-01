@@ -231,3 +231,15 @@ def urlname(name):
     return name
 
 urlpatterns += patterns('', *core_defined)
+
+
+# Serve files required by the debug toolbar
+if settings.djsettings.DEBUG:
+    try:
+        import debug_toolbar
+        import os
+        from django.conf.urls.static import static
+        urlpatterns += static(settings.djsettings.STATIC_URL,
+                              document_root=os.path.join(os.path.dirname(debug_toolbar.__file__), 'static'))
+    except ImportError:
+        pass
