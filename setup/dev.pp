@@ -31,6 +31,8 @@ class dev {
 
     class { "careervillage::cache": }
 
+    class { "careervillage::rabbitmq": }
+
 }
 
 class { "dev": }
