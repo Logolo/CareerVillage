@@ -261,6 +261,11 @@ LOGGING = {
             'handlers': ['console', 'sentry'],
             'level': LOGGING_LEVEL,
             'propagate': False
+        },
+        'forum.management.commands.database_dump': {
+            'handlers': ['console', 'sentry'],
+            'level': LOGGING_LEVEL,
+            'propagate': False
         }
     }
 }
