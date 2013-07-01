@@ -23,7 +23,7 @@ Edit your /etc/hosts and add:
 
 ::
 
-    vagrant up master
+    vagrant up local
     ./cvt setup -r master
 
 

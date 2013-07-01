@@ -23,10 +23,10 @@ Vagrant::Config.run do |config|
 
       end
 
-      config.vm.define :master do |master_config|
+    config.vm.define :local do |master_config|
 
         master_config.vm.network :hostonly, "10.0.1.10"
 
-      end
+    end
 
 end

@@ -21,13 +21,26 @@ class careervillage ($target, $root_dir, $user, $group) {
         ensure => present;
     }
 
-    user { $user:
-        ensure     => present,
-        managehome => true,
-        shell      => '/bin/bash',
-        gid        => $user,
-        groups     => [$group],
-        require    => Group[$group];
+    if $user != $group {
+
+        user { $user:
+            ensure     => present,
+            managehome => true,
+            shell      => '/bin/bash',
+            groups     => [$group],
+            require    => Group[$group];
+        }
+
+    } else {
+
+        user { $user:
+            ensure     => present,
+            managehome => true,
+            shell      => '/bin/bash',
+            gid        => $user,
+            require    => Group[$group];
+        }
+
     }
 
 
@@ -81,14 +94,12 @@ class careervillage ($target, $root_dir, $user, $group) {
         }
     }
 
-    if $target == 'pro' or $target == 'local' {
-
+    if $target != 'dev' {
         class { 'careervillage::code':
             user       => $user,
             group      => $group,
             source_dir => $source_dir;
         }
-
     }
 
     package { 'libjpeg8-dev':

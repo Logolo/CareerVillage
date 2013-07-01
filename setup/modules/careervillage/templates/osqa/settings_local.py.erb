@@ -1,69 +1,37 @@
-# -*- coding: utf-8 -*-
-import os.path
+# encoding:utf-8
 
-DEBUG = <% if scope.lookupvar('careervillage::target') == 'dev' %>True<% else %>False<% end %>
-TEMPLATE_DEBUG = <% if scope.lookupvar('careervillage::target') == 'dev' %>True<% else %>False<% end %>
+DEBUG = True
+TEMPLATE_DEBUG = True
 
-SITE_SRC_ROOT = os.path.dirname(__file__)
-LOG_FILENAME = 'django.osqa.log'
+SECRET_KEY = <%= scope.function_get_py_value('::careervillage_secret_key') %>
 
-#for logging
-import logging
-logging.basicConfig(
-    filename=os.path.join(SITE_SRC_ROOT, 'log', LOG_FILENAME),
-    level=logging.ERROR,
-    format='%(pathname)s TIME: %(asctime)s MSG: %(filename)s:%(funcName)s:%(lineno)d %(message)s',
-)
-
-#ADMINS and MANAGERS
-ADMINS = ()
-MANAGERS = ADMINS
-
-#TODO: hide on sta or pro
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False
-}
-INTERNAL_IPS = ('127.0.0.1',)
+<% if scope.lookupvar('careervillage::target') == 'local' %>
+APP_URL = 'https://local.careervillage.org'
+<% end %>
+<% if scope.lookupvar('careervillage::target') == 'sta' %>
+APP_URL = 'https://staging.careervillage.org'
+<% end %>
+<% if scope.lookupvar('careervillage::target') == 'pro' %>
+APP_URL = 'https://careervillage.org'
+<% end %>
 
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2,
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'cvosqa',
         'USER': 'careervillage',
         'PASSWORD': 'careervillage',
         'HOST': 'localhost',
-        'PORT': 5432
+        'PORT': '5432'
     }
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
-
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-
-#TODO: use target
-APP_URL = 'http://development.careervillage.org'
-TIME_ZONE = 'America/New_York'
-
-USE_I18N = True
-LANGUAGE_CODE = 'en'
-
-OSQA_DEFAULT_SKIN = 'default'
-
-DISABLED_MODULES = ['books', 'recaptcha', 'project_badges']
-
-BLOCK_TEST = None
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SENTRY_DSN = <%= scope.function_get_py_value('::careervillage_sentry_dsn') %>
 
 FACEBOOK_APP_ID = <%= scope.function_get_py_value('::careervillage_facebook_app_id') %>
 FACEBOOK_APP_NAMESPACE = 'careervillage-<%= scope.lookupvar('careervillage::target') %>'
 FACEBOOK_API_SECRET = <%= scope.function_get_py_value('::careervillage_facebook_app_secret') %>
 
-LINKEDIN_CONSUMER_KEY  = <%= scope.function_get_py_value('::careervillage_linkedin_consumer_key') %>
+LINKEDIN_CONSUMER_KEY = <%= scope.function_get_py_value('::careervillage_linkedin_consumer_key') %>
 LINKEDIN_CONSUMER_SECRET = <%= scope.function_get_py_value('::careervillage_linkedin_consumer_secret') %>

@@ -59,10 +59,14 @@ class Command(BaseCommand):
             local('tar cf {setup_name}.tar  --exclude=.git -C {setup_dir} .'.format(
                 setup_name=setup_name,
                 setup_dir=get_setting('SETUP_DIR')))
-            local('tar rf {setup_name}.tar -C {path} careervillage_{target}_git careervillage_{target}_git.pub'.format(
-                path=get_setting('KEY_DIR'),
-                setup_name=setup_name,
-                target=target))
+            local('tar rf {setup_name}.tar -C {path}'
+                  ' careervillage_{target}_git_key'
+                  ' careervillage_{target}_git_pub'
+                  ' careervillage_{target}_ssl_key'
+                  ' careervillage_{target}_ssl_crt'.format(
+                  path=get_setting('KEY_DIR'),
+                  setup_name=setup_name,
+                  target=target))
             local('gzip {setup_name}.tar'.format(setup_name=setup_name))
 
             def apply():
@@ -74,8 +78,10 @@ class Command(BaseCommand):
 
                 put('{setup_name}.tar.gz'.format(setup_name=setup_name), '{setup_name}.tar.gz'.format(setup_name=setup_name))
                 run('tar xzf {setup_name}.tar.gz'.format(setup_name=setup_name))
-                sudo('mv careervillage_{target}_git /tmp/careervillage_git'.format(target=target))
-                sudo('mv careervillage_{target}_git.pub /tmp/careervillage_git.pub'.format(target=target))
+                sudo('mv careervillage_{target}_git_key /tmp/careervillage_git_key'.format(target=target))
+                sudo('mv careervillage_{target}_git_pub /tmp/careervillage_git_pub'.format(target=target))
+                sudo('mv careervillage_{target}_ssl_key /tmp/careervillage_ssl_key'.format(target=target))
+                sudo('mv careervillage_{target}_ssl_crt /tmp/careervillage_ssl_crt'.format(target=target))
 
                 #run this before installing puppet and git
                 sudo('apt-get update')

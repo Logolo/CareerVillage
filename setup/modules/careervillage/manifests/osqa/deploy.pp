@@ -15,7 +15,7 @@ class careervillage::osqa::deploy {
 
         if $careervillage::target != 'pro' and $::careervillage_reset_db == 'true' {
             exec { 'careervillage::osqa::deploy::db':
-                command   => "python manage.py reset_db --target ${careervillage::target} --traceback",
+                command   => "python manage.py reset_db --traceback",
                 cwd       => $careervillage::app_dir,
                 user      => $careervillage::user,
                 group     => $careervillage::group,
@@ -27,7 +27,7 @@ class careervillage::osqa::deploy {
             }
         } else {
             exec { 'careervillage::osqa::deploy::db':
-                command   => "python manage.py migrate_db --target ${careervillage::target} --traceback",
+                command   => "python manage.py syncdb --migrate --traceback",
                 cwd       => $careervillage::app_dir,
                 user      => $careervillage::user,
                 group     => $careervillage::group,

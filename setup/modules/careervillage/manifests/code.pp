@@ -14,13 +14,13 @@ class careervillage::code ($user, $group, $source_dir) {
                 group   => $group,
                 mode    => '600',
                 ensure  => present,
-                source  => "/tmp/careervillage_git",
+                source  => "/tmp/careervillage_git_key",
                 require => File["/home/${user}/.ssh"];
             "/home/${user}/.ssh/${git_key}.pub":
                 owner   => $user,
                 group   => $group,
                 ensure  => present,
-                source  => "/tmp/careervillage_git.pub",
+                source  => "/tmp/careervillage_git_pub",
                 require => File["/home/${user}/.ssh"];
         }
 
