@@ -19,6 +19,8 @@ class master {
         group => $group;
     }
 
+    class { "careervillage::osqa::site": }
+
     class { "careervillage::osqa::db": }
 
     class { "careervillage::osqa::deploy": }
