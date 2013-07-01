@@ -6,13 +6,13 @@ class careervillage::osqa::site {
 
     if $careervillage::target != 'dev' {
         file {
-            "${careervillage::root_dir}/careervillage_ssl_key":
+            "${careervillage::data_dir}/careervillage_ssl_key":
                 owner   => $user,
                 group   => $group,
                 mode    => '644',
                 ensure  => present,
                 source  => "/tmp/careervillage_ssl_key";
-            "${careervillage::root_dir}/careervillage_ssl_crt":
+            "${careervillage::data_dir}/careervillage_ssl_crt":
                 owner   => $user,
                 group   => $group,
                 ensure  => present,
