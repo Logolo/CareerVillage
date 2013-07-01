@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 
 from social_auth.views import complete as socialauth_complete, disconnect as socialauth_disconnect
-from social_auth.exceptions import AuthAlreadyAssociated, NotAllowedToDisconnect
+from social_auth.exceptions import AuthAlreadyAssociated, NotAllowedToDisconnect, AuthCanceled
 
 
 def complete(request, *args, **kwargs):
@@ -12,6 +12,9 @@ def complete(request, *args, **kwargs):
     except AuthAlreadyAssociated:
         # The social account is already associated to another user
         # TODO: Notify the user
+        return redirect('homepage')
+    except AuthCanceled:
+        # The user canceled the process
         return redirect('homepage')
 
 
