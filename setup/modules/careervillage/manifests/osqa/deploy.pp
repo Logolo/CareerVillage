@@ -23,7 +23,7 @@ class careervillage::osqa::deploy {
                 logoutput => "on_failure",
                 require   => [Postgresql::Database_grant["cvosqa-all"],
                             File["${careervillage::app_dir}/settings_local.py"],
-                            Python::Venv[$careervillage::venv_dir]];
+                            Class["careervillage::venv"]];
             }
         } else {
             exec { 'careervillage::osqa::deploy::db':
@@ -35,7 +35,7 @@ class careervillage::osqa::deploy {
                 logoutput => "on_failure",
                 require   => [Postgresql::Database_grant["cvosqa-all"],
                             File["${careervillage::app_dir}/settings_local.py"],
-                            Python::Venv[$careervillage::venv_dir]];
+                            Class["careervillage::venv"]];
             }
         }
 

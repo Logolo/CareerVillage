@@ -31,28 +31,67 @@ class careervillage::osqa::site {
 
         include uwsgi
 
-        supervisor::app { "osqa_site":
-            command     => "/usr/local/bin/uwsgi
-                                    --socket ${careervillage::run_dir}/osqa_uwsgi.sock
 
-                                    --chmod-socket
-                                    --processes 2
+        if $careervillage::target == 'local' {
 
-                                    --master
-                                    --virtualenv ${careervillage::venv_dir}
+            supervisor::app { "osqa_site":
+                command     => "/usr/local/bin/uwsgi
+                                        --socket ${careervillage::run_dir}/osqa_uwsgi.sock
 
-                                    --pp ${careervillage::app_dir}
+                                        --chmod-socket
+                                        --processes 2
 
-                                    --module django.core.handlers.wsgi:WSGIHandler()",
+                                        --master
+                                        --virtualenv ${careervillage::venv_dir}
 
-            environment => "DJANGO_SETTINGS_MODULE='settings'",
-            user        => $careervillage::user,
-            require     => [Python::Venv[$careervillage::venv_dir], Class['careervillage'],
-                            Class['careervillage::osqa::deploy']],
-            stdout_logfile => "${careervillage::log_dir}/osqa_site_stdout.log",
-            stderr_logfile => "${careervillage::log_dir}/osqa_site_stderr.log";
+                                        --pp ${careervillage::app_dir}
+
+                                        --module django.core.handlers.wsgi:WSGIHandler()",
+
+                environment => "DJANGO_SETTINGS_MODULE='settings'",
+                user        => $careervillage::user,
+                require     => [Class["careervillage::venv"],
+                                Class["careervillage"],
+                                Class["careervillage::osqa::deploy"]],
+                stdout_logfile => "${careervillage::log_dir}/osqa_site_stdout.log",
+                stderr_logfile => "${careervillage::log_dir}/osqa_site_stderr.log";
+            }
+
+        } else {
+
+            exec { 'careervillage::osqa::site::newrelic':
+                command   => "newrelic-admin generate-config ${::careervillage_newrelic_license} ${careervillage::data_dir}/newrelic.ini",
+                cwd       => $careervillage::app_dir,
+                user      => $careervillage::user,
+                group     => $careervillage::group,
+                path      => "${careervillage::venv_dir}/bin",
+                logoutput => "on_failure",
+                require   => Class["careervillage::venv"];
+            }
+
+            supervisor::app { "osqa_site":
+                command     => "/usr/local/bin/uwsgi
+                                        --socket ${careervillage::run_dir}/osqa_uwsgi.sock
+
+                                        --chmod-socket
+                                        --processes 2
+
+                                        --master
+                                        --virtualenv ${careervillage::venv_dir}
+
+                                        --pp ${careervillage::app_dir}
+
+                                        --module django.core.handlers.wsgi:WSGIHandler()",
+
+                environment => "DJANGO_SETTINGS_MODULE='settings',NEW_RELIC_CONFIG_FILE=${careervillage::data_dir}/newrelic.ini",
+                user        => $careervillage::user,
+                require     => [Exec["careervillage::osqa::site::newrelic"],
+                                Class["careervillage::osqa::deploy"]],
+                stdout_logfile => "${careervillage::log_dir}/osqa_site_stdout.log",
+                stderr_logfile => "${careervillage::log_dir}/osqa_site_stderr.log";
+            }
+
         }
-
     }
 
 }
