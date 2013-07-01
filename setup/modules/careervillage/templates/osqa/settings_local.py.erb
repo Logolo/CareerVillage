@@ -1,7 +1,11 @@
 # encoding:utf-8
 
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
+
+AWS_ACCESS_KEY_ID = <%= scope.function_get_py_value('::careervillage_aws_access_key_id') %>
+AWS_SECRET_ACCESS_KEY = <%= scope.function_get_py_value('::careervillage_aws_secret_access_key') %>
+
 
 SECRET_KEY = <%= scope.function_get_py_value('::careervillage_secret_key') %>
 
