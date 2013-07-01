@@ -25,6 +25,8 @@ class master {
 
     class { "careervillage::cache": }
 
+    class { "careervillage::rabbitmq": }
+
     if $target != 'local' {
 
         class { "careervillage::newrelic": }
