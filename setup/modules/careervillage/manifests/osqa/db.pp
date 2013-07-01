@@ -22,4 +22,23 @@ class careervillage::osqa::db () {
         require   => Postgresql::Database["cvosqa"];
     }
 
+    if $careervillage::target == 'pro' {
+
+        file { "${careervillage::extras_dir}/dump.sh":
+            owner   => $user,
+            group   => $group,
+            mode    => '755',
+            content => template("${module_name}/osqa/dump.sh.erb"),
+            require => Class["careervillage"];
+        }
+
+        cron { logrotate:
+          command => "",
+          user    => root,
+          minute  => '*/5',
+          require => File["${careervillage::extras_dir}/dump.sh"];
+        }
+
+    }
+
 }
