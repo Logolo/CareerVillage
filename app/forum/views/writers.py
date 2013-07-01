@@ -284,7 +284,7 @@ def edit_answer(request, id):
     else:
         revision_form = RevisionForm(answer)
         form = EditAnswerForm(answer, request.user)
-    return render_to_response('answer_edit.html', {
+    return render_to_response('v2/answer_edit.html', {
                               'answer': answer,
                               'revision_form': revision_form,
                               'form': form,

@@ -109,9 +109,10 @@
                   <h4>How it works</h4>
                   <ul>
                     <li><a href="{% url about %}#overview">Overview</a></li>
-                    <li><a href="{% url about %}#for-educators">For Educators</a></li>
                     <li><a href="{% url about %}#for-professionals">For Professionals</a></li>
-                    <li><a href="{% url about %}#frequently-asked-questions">Frequently Asked Questions</a></li>
+                    <li><a href="{% url about %}#for-educators">For Educators</a></li>
+                    <li><a href="{% url about %}#for-students">For Students</a></li>
+                    <li><a href="{% url about %}#community-basics">Community Basics</a></li>
                   </ul>
                 </span>
 
@@ -121,7 +122,7 @@
                     <li><a href="{% url about %}#become-a-mentor">Become a Mentor</a></li>
                     <li><a href="{% url about %}#make-a-donation">Make a Donation</a></li>
                     <li><a href="{% url about %}#bring-us-to-your-classroom">Bring Us to Your Classroom</a></li>
-                    <li><a href="{% url about %}#follow-us-on-facebook">Follow Us on Facebook</a></li>
+                    <li><a href="{% url about %}#follow-us-on-facebook">Follow Us on Facebook and Twiter</a></li>
                   </ul>
                 </span>
 
@@ -129,7 +130,7 @@
                   <h4>About Our Organization</h4>
                   <ul>
                     <li><a href="{% url about %}#our-team">Our Team</a></li>
-                    <li><a href="{% url about %}#press">Press</a></li>
+                    <li><a href="{% url about %}#our-board">Our Board</a></li>
                   </ul>
                 </span>
                 </div>
@@ -152,7 +153,7 @@
                   <!-- converting email addresses to html entities supposedly reduces spam... who knows, why not -->
                   <a href="mailto:&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;">&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;</a>
                   &nbsp;&nbsp;&nbsp;&nbsp; 
-                  <span style="font-weight:normal">48 CharlesStreet,Suite 4,Boston, MA 02114</span>
+                  <span style="font-weight:normal">48 CharlesStreet, Suite 4, Boston, MA 02114</span>
                 </h5> 
               </div>
 
@@ -213,6 +214,27 @@
      var s = document.createElement("script"); s.type = "text/javascript"; s.async = true; s.src = '//api.usersnap.com/usersnap.js'; var x = document.getElementsByTagName('head')[0]; x.appendChild(s);
     })();
 </script>
+
+
+<!-- Using Google Analytics to log client-side errors -->
+{% if settings.GOOGLE_ANALYTICS_KEY %}
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+        window.onerror = function(message, file, line) {
+           var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+           _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+        }
+    </script>
+{% endif %}
 
 </body>
 </html>
