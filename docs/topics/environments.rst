@@ -13,14 +13,12 @@ See :topcis/bootstrap: page.
 LOCAL
 -----
 
-Deploy local:
-
 Edit your /etc/hosts and add:
------------------------------
 ::
 
     10.1.0.10       local.careervillage.org
 
+Run
 ::
 
     vagrant up local
