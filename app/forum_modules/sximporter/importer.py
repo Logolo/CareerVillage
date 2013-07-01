@@ -27,7 +27,7 @@ def create_orm():
 
     get_migration_number_re = re.compile(r'^((\d+)_.*)\.py$')
 
-    migrations_folder = os.path.join(settings.SITE_SRC_ROOT, 'forum/migrations')
+    migrations_folder = os.path.join(settings.APP_ROOT, 'forum/migrations')
 
     highest_number = 0
     highest_file = None
