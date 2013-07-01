@@ -1,4 +1,5 @@
-
+import os
+from cvt.conf import settings
 
 class VagrantInstance:
 
@@ -43,11 +44,11 @@ class EC2Instance:
 
     @property
     def host(self):
-        return 'ubuntu@{ip}:22'.format(ip=self.instance.private_ip_address, target=self.target)
+        return 'ubuntu@{ip}:22'.format(ip=self.instance.public_dns_name, target=self.target)
 
     @property
     def key(self):
-        raise NotImplementedError
+        return os.path.join(settings.KEY_DIR, self.instance.key_name)
 
     @property
     def manifest(self):

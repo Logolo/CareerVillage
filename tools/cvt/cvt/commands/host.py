@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
     def do_list(self, args):
         def line(**kwargs):
-            print '{host:<30}{name:<30}{role:<20}{target:<5}'.format(**kwargs)
+            print '{host:<70}{name:<30}{role:<20}{target:<5}'.format(**kwargs)
         line(host='HOST', name='NAME', role='ROLE', target='TARGET')
         for i in get_instances(role=args.role, target=args.target):
             line(host=i.host, name=i.name or '---', role=i.role or '---', target=i.target or '---')
