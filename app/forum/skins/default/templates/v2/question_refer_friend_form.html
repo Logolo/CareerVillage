@@ -1,0 +1,66 @@
+{% extends "v2/base.html" %}
+{% load node_tags %}
+{% load extra_tags %}
+{% load extra_filters %}
+
+{% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
+
+{% block metadescription %}{{ question.meta_description }}{% endblock %}
+
+{% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
+
+{% block head %}{% endblock %}
+
+{% block content %}
+
+{% include "v2/_question_top.html" %}
+
+{% if not question.closed %}
+
+    <article class="row-fluid answer resp">
+        
+        <div class="span2 left">
+        
+        </div><div class="span7 center">
+            
+            <h4 style="margin-bottom:36px">Inspire your friends to help this student!<br />
+            Refer them to this question…</h4>
+            
+            <form id="fmanswer" action="." method="post">
+                <div class="form-inline clearfix {% if refer_friend_form.email.errors %}error{% endif %}">
+                    <label for="id_email" style="font-weight:bold">Just enter your friend's email address:</label><br />
+                    <input type="text" name="email" id="id_email" value="{{ refer_friend_form.data.email }}" placeholder="example@example.com">
+                    <input type="submit"
+                        value="Send" 
+                        class="submit btn btn-success"/>        
+                        <span>+25 Karma</span>
+                    <div class="help-inline">{{ refer_friend_form.email.errors|join:", " }}</div>
+                </div>
+                    
+                <hr />
+                <h5>Preview of your referral email:</h5>
+                <div class="referral-email-preview">
+                    <p>
+                        From: You<br/>
+                        To: Friend<br/>
+                        Subject: Career question for you
+                    </p>
+                    <p>
+                        {{ message|linebreaks }}
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        </div><div class="span3 right">
+
+            &nbsp;
+            <!-- Right side (differs for each user type) -->
+
+        </div>
+
+    </article><!--/.answer -->
+
+            
+{% endif %}
+{% endblock %}

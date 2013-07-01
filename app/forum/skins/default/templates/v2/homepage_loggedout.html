@@ -1,0 +1,50 @@
+{% extends "v2/homepage_base.html" %}
+
+{% load i18n %}
+
+{% block left-column %}
+<!-- left column -->
+<div class="col-left col-sidebar span3">
+
+  <div id="home-upper-user">
+    <div class="avatar"><img src="/m/default/media/img/anon-user-thumb.jpg" /></div>
+  </div>
+   
+  <div id="home-lower-user">
+    <span class="arrow-down"></span>    
+    
+    <div class="home_welcome_loggedout">
+        <h4 class="text-light" style="padding:12px">Welcome to CareerVillage!</h4>If you're a student try searching for college or career advice that will help you make better decisions. If you're a working professional try finding a question that you could answer. You can create an account <a href="{% url auth_signin %}">here</a>.
+    </div>
+  </div>
+
+</div><!--/.col-left -->
+{% endblock %}
+
+{% block search_prompt %}
+  What do you have questions about?
+    {% endblock %}
+
+{% block skipsearch %}
+    <div>
+        <a href="{% url auth_signin %}">
+            Login to ask a question
+        </a>
+    </div>
+    {% endblock %}
+
+{% block unanswered_only %}
+    {# Empty for Students #}
+    {% endblock %}
+
+{% block right-column-style %}span12{% endblock %}
+
+{% block append_results %}
+    {# appears just below search results #}
+    {% if questions %}
+    {% else %}
+        <h4>
+            Looks like we don't have a question about that yet. <a href="{% url auth_signin %}">Login to ask a question!</a>
+        </h4>
+    {% endif %}
+    {% endblock %}

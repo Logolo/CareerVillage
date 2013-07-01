@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# {{ settings.FACEBOOK_APP_NAMESPACE }}: http://ogp.me/ns/fb/{{ settings.FACEBOOK_APP_NAMESPACE }}#">
+{% load i18n extra_tags extra_filters markup ui_registry %}
+<title>CareerVillage - {% block title %}{% endblock %}</title>
+<meta name="author" content="">
+<meta name="date" content="">
+<meta name="copyright" content="">
+<meta name="keywords" content="{% block metakeywords %}{{ settings.APP_KEYWORDS }}{% endblock %}">
+<meta name="description" content="{% block metadescription %}{{ settings.APP_DESCRIPTION }}{% endblock %}">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+<meta http-equiv="content-style-type" content="text/css">
+<link href='//fonts.googleapis.com/css?family=Titillium+Web:400,600,700' rel='stylesheet' type='text/css'>
+<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="{% media "/media/bootstrap_2.3.1/css/bootstrap.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% media "/media/style/animate/animate.css" %}" rel="stylesheet" type="text/css" />
+<link href="{% media "/media/style/style_v2.css" %}" rel="stylesheet" type="text/css" />
+{% block head %}{% endblock %}
+<!--[if lt IE 9]>
+<script src="{% media "/media/js/html5shiv.js" %}">
+<style>
+  #searchbox .input-xlarge {width:640px}
+</style>
+<![endif]-->
+
+    <!-- KISS METRICS -->
+        <script type="text/javascript">
+            var _kmq = _kmq || [];
+            var _kmk = _kmk || '003104a34952eb9790724877220006d57992765c';
+            function _kms(u){
+                setTimeout(function(){
+                    var d = document, f = d.getElementsByTagName('script')[0],
+                    s = d.createElement('script');
+                    s.type = 'text/javascript'; s.async = true; s.src = u;
+                    f.parentNode.insertBefore(s, f);
+                    }, 1);
+                }
+            _kms('//i.kissmetrics.com/i.js');
+            _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+        </script>
+
+    <!-- Pingdom RUM -->
+        <script type="application/javascript">var _prum={id:"516706dee6e53d3016000000"};var PRUM_EPISODES=PRUM_EPISODES||{};PRUM_EPISODES.q=[];PRUM_EPISODES.mark=function(b,a){PRUM_EPISODES.q.push(["mark",b,a||new Date().getTime()])};PRUM_EPISODES.measure=function(b,a,b){PRUM_EPISODES.q.push(["measure",b,a,b||new Date().getTime()])};PRUM_EPISODES.done=function(a){PRUM_EPISODES.q.push(["done",a])};PRUM_EPISODES.mark("firstbyte");(function(){var b=document.getElementsByTagName("script")[0];var a=document.createElement("script");a.type="text/javascript";a.async=true;a.charset="UTF-8";a.src="//rum-static.pingdom.net/prum.min.js";b.parentNode.insertBefore(a,b)})();</script>
+
+    <!-- GOOGLE SITE VERIFICATION -->
+        {% if settings.GOOGLE_SITEMAP_CODE %}
+            <meta name="google-site-verification" content="{{ settings.GOOGLE_SITEMAP_CODE }}" />
+        {% endif %}
+
+</head>
+<body class="{% block page_class %}{% endblock %}">
+
+<div id="wrapper">
+
+<nav id="main-nav" class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+        <div><!-- center -->
+            <div class="container-fluid">
+                <a href="{% if user.is_authenticated %}/home/{% else %}/{% endif %}" class="brand"><img src="{% media "/media/img/CareerVillageLogo_Sky_Wide_154.png" %}" alt="CareerVillag Logo"></a>
+                <ul class="nav pull-right">
+                      <li><a href="{% url about %}">About</a></li>
+                    {% if user.is_superuser %}
+                        <li><a href="{% url admin_index %}">Admin</a></li>
+                    {% endif %}
+                    {% if user.type == "E" %}
+                        <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="{{ user.get_profile_url }}"><span class="avatar">{% avatar user 125 %}</span>{% if user.first_name %}{{ user.real_name }}{% else %}{% trans "User" %}{% endif %} <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li><a href="{{ user.get_profile_url }}">Your profile</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url settings_account %}">Account</a></li>
+                                <li><a href="{% url settings_password %}">Password</a></li>
+                                <li><a href="{% url settings_notifications %}">Notifications</a></li>
+                                <li><a href="{% url settings_following_topics %}">Topics you follow</a></li>
+                                <li><a href="{% url settings_social_networks %}">Social networks</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url user_signout %}?next={{ request.get_full_path }}">Logout</a></li>
+                            </ul>
+                        </li>                        
+                    {% else %}
+                        <li><a href="{% url auth_signin %}?next={{ request.get_full_path }}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div id="main-body" class="clearfix">
+    <div class="container-fluid">
+        {% block content %}{% endblock %}
+    </div><!--/.container-fluid -->
+</div><!--/#main -->
+
+<!-- FOOTER -->
+<footer id="footer" class="clearfix">
+
+  <div id="main-footer" class="clearfix">
+      <div><!-- center -->
+          <div class="container-fluid">
+              <div class="row-fluid">
+
+                <div style="padding:0 1% 0 5%">
+                <span class="span4">
+                  <h4>How it works</h4>
+                  <ul>
+                    <li><a href="{% url about %}#overview">Overview</a></li>
+                    <li><a href="{% url about %}#for-professionals">For Professionals</a></li>
+                    <li><a href="{% url about %}#for-educators">For Educators</a></li>
+                    <li><a href="{% url about %}#for-students">For Students</a></li>
+                    <li><a href="{% url about %}#community-basics">Community Basics</a></li>
+                  </ul>
+                </span>
+
+                <span class="span4">
+                  <h4>Get Involved</h4>
+                  <ul>
+                    <li><a href="{% url about %}#become-a-mentor">Become a Mentor</a></li>
+                    <li><a href="{% url about %}#make-a-donation">Make a Donation</a></li>
+                    <li><a href="{% url about %}#bring-us-to-your-classroom">Bring Us to Your Classroom</a></li>
+                    <li><a href="{% url about %}#follow-us-on-facebook">Follow Us on Facebook and Twiter</a></li>
+                  </ul>
+                </span>
+
+                <span class="span4">
+                  <h4>About Our Organization</h4>
+                  <ul>
+                    <li><a href="{% url about %}#our-team">Our Team</a></li>
+                    <li><a href="{% url about %}#our-board">Our Board</a></li>
+                  </ul>
+                </span>
+                </div>
+
+              </div>
+          </div><!--/.container-fluid -->
+      </div><!--/.center -->
+  </div>
+
+  <div id="second-footer" class="clearfix">
+      <div><!-- center -->
+          <div class="container-fluid">
+            <div class="row-fluid">
+  
+              <div class="span1">&nbsp;</div>
+
+              <div class="span10">
+                <h5 style="text-align:center">
+                  Contact us! &nbsp;&nbsp;&nbsp;&nbsp;
+                  <!-- converting email addresses to html entities supposedly reduces spam... who knows, why not -->
+                  <a href="mailto:&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;">&#104;&#101;&#108;&#108;&#111;&#064;&#099;&#097;&#114;&#101;&#101;&#114;&#118;&#105;&#108;&#108;&#097;&#103;&#101;&#046;&#111;&#114;&#103;</a>
+                  &nbsp;&nbsp;&nbsp;&nbsp; 
+                  <span style="font-weight:normal">48 CharlesStreet, Suite 4, Boston, MA 02114</span>
+                </h5> 
+              </div>
+
+              <span class="span1">&nbsp;</span>
+
+            </div>
+          </div><!--/.container-fluid -->
+      </div><!--/.center -->
+  </div>
+
+</footer>
+
+</div><!--// #wrapper -->
+
+{% block confirmation %}{% endblock %}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{% media "/media/bootstrap_2.3.1/js/bootstrap.js" %}"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+<!-- Facebook settings -->
+<script type="text/javascript">
+    var FB_COMMAND_URL = "{% url facebook %}";
+    var FB_FAILURE = "Cannot use the current Facebook account.";
+    var FB_DISABLED = "Facebook share disabled.";
+</script>
+
+<script src="{% media "/media/js/v2.js" %}"></script>
+
+{% block scripts %}{% endblock %}
+
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '{{ settings.FACEBOOK_APP_ID }}',
+            channelUrl : '{{ settings.APP_URL }}/channel.html',
+            status     : true,
+            xfbml      : true,
+            cookie     : true,
+            oauth      : true
+        });
+    };
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Usersnap feedback tool -->
+<script type="text/javascript">
+ var _usersnapconfig = {emailBox: true, commentBox: true, apiKey: "14f70369-207f-4058-8941-4787c59ff84e"}; 
+ (function() {
+     var s = document.createElement("script"); s.type = "text/javascript"; s.async = true; s.src = '//api.usersnap.com/usersnap.js'; var x = document.getElementsByTagName('head')[0]; x.appendChild(s);
+    })();
+</script>
+
+
+<!-- Using Google Analytics to log client-side errors -->
+{% if settings.GOOGLE_ANALYTICS_KEY %}
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+        window.onerror = function(message, file, line) {
+           var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+           _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+        }
+    </script>
+{% endif %}
+
+</body>
+</html>

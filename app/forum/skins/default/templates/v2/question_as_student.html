@@ -1,0 +1,36 @@
+{% extends "v2/question_base.html" %}
+
+{% block answeractions %}
+{% endblock %}
+
+{% block answersbottom %}
+
+    <!-- #your-response -->
+    {% if answers %}
+    <article id="your-response" class="row-fluid responsive">
+        
+        <div class="span2 left">
+            &nbsp;
+        </div><div class="span7 center">
+
+            <h4>Now it's time for you to put this advice into action. How will you change your schoolwork? What will you start doing after school and during summers?</h4>
+            <p>Your ball.</p>
+            <p>What are you going to do differently now that you have seen the above advice?</p>
+            {# TODO implement this form #}
+            <form action="" method="post">
+                <textarea name="student_intention" style="width:100%"></textarea>
+                <input type="submit" class="btn btn-success" value="Save"/>
+            </form>
+
+        </div><div class="span3 right">
+            &nbsp;
+        </div>
+        
+    </article>
+    <!--/#your-response -->
+    {% else %}    
+        <h4 style="margin-top:0px; color:red">Want to get notified when someone answers this question?</h4>
+        <p>Just click the like button above and then click the follow button.</p>
+    {% endif %}
+    
+{% endblock %}

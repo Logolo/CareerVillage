@@ -1,0 +1,25 @@
+{% load i18n %}
+{% load extra_filters %}
+
+    <!-- like widget -->
+    <div class="like-widget {% ifequal user_vote 'up' %}on{% endifequal %}" data-like-count="{{ user_vote_count_total }}">
+        <h2>{{ post.score }}</h2>
+        <span class="count"><span class="heart"></span> Likes</span>
+
+        <!-- like question -->
+        <a  id="post-{{ post.id }}-upvote" title="I like this post (click again to cancel)"
+            class="like-question-button btn {% ifequal user_vote 'up' %} disabled {% endifequal %} "
+            href="{% url vote_post id=post.id,vote_type='up' %}" data-node-id="{{ post.id }}"
+            rel="nofollow">{% ifequal user_vote 'up' %}Liked{% else %}Like this{% endifequal %}</a>
+
+        <!-- follow question -->
+        <div class="follow-question {% ifequal user_favorite 'favorited' %} on {% endifequal %}" {% ifequal user_vote 'up' %}{% else %} style="opacity:0" {% endifequal %} >
+            <hr style="margin:5px 0 3px 0"/>
+            {% if user|follows:post %}
+                <a class="follow-question-button btn disabled" href="{% url subscribe_simple id=post.id %}"><span class="icon-star" style="display:none"></span> <span class="text">following</span></a>
+            {% else %}
+                <a href="{% url subscribe_simple id=post.id %}" class="follow-question-button btn {% if not user.is_authenticated %}disabled{% endif %}"><span class="icon-star"></span> <span class="text">follow</span></a>
+            {% endif %}
+        </div>
+
+    </div><!--/.like-widget -->

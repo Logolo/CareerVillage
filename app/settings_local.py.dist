@@ -1,0 +1,28 @@
+# encoding:utf-8
+
+DEBUG = True
+TEMPLATE_DEBUG = True
+
+SECRET_KEY = '<fill>'
+
+APP_URL = '<fill>'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '<fill>',
+        'USER': '<fill>',
+        'PASSWORD': '<fill>',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+}
+
+SENTRY_DSN = '<fill>'
+
+FACEBOOK_APP_ID = '<fill>'
+FACEBOOK_APP_NAMESPACE = '<fill>'
+FACEBOOK_API_SECRET = '<fill>'
+
+LINKEDIN_CONSUMER_KEY = '<fill>'
+LINKEDIN_CONSUMER_SECRET = '<fill>'

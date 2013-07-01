@@ -1,0 +1,78 @@
+{% extends "v2/base.html" %}
+{% load node_tags %}
+{% load extra_tags %}
+{% load extra_filters %}
+
+{% block title %}{% spaceless %}{{ question.headline }}{% endspaceless %}{% endblock %}
+
+{% block metadescription %}{{ question.meta_description }}{% endblock %}
+
+{% block metakeywords %}{{question.tagname_meta_generator}}{% endblock %}
+
+{% block head %}
+    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEADER #}
+    <script type="text/javascript">
+        function submitClicked(e, f) {
+            window.removeEventListener('beforeunload', beforeUnload, true);
+            if (f) {
+                f.submit();
+            }
+        }
+
+        function beforeUnload(e) {
+            if($("textarea#editor")[0].value != "") {
+                return yourWorkWillBeLost(e);
+            }
+            var commentBoxes = $("textarea.commentBox");
+            for(var index = 0; index < commentBoxes.length; index++) {
+                if(commentBoxes[index].value != "") {
+                    return yourWorkWillBeLost(e);
+                }
+            }
+        }
+        window.addEventListener('beforeunload', beforeUnload, true);
+
+    </script>
+{% endblock %}
+
+{% block content %}
+
+{% include "v2/_question_top.html" %}
+
+<div>
+    <div>Your answer to this question:</div>
+    <div>
+        <form id="fmanswer" action="{% url answer question.id %}" method="post">
+            {% if not question.closed %}
+                <div>
+                    {{ answer.text }}
+                    {{ answer.text.errors }}
+                </div>
+
+                <!-- Facebook actions -->
+                {% if user.can_facebook_answer_question_story %}
+                <p>We'll let your friends on Facebook know. Go to <a href="{% url settings_social_networks %}" target="_blank">Social Networks</a> to change your settings.</p>
+                {% else %}
+                <div class="facebook-actions">
+                    <label style="display: inline;">
+                        <input type="checkbox" name="auto-share-answer-checkbox" checked style="width: auto; display: inline;" />
+                        Share my activity on CareerVillage with my Facebook friends to get more votes!
+                    </label>
+                </div>
+                {% endif %}
+
+                <input type="button"
+                    value="Submit" 
+                    class="btn btn-success" style="float:left" onclick="submitClicked(event, this.form)"/>
+                <p><span class="form-error"></span></p>
+            {% endif %}
+        </form>
+    </div>
+    <div>
+        <div>Tips!</div>
+        <div>- Be encouraging</div>
+        <div>- Have fun with it</div>
+        <div>- Show your sources</div>
+    </div>
+</div>
+{% endblock %}

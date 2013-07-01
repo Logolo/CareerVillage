@@ -1,0 +1,29 @@
+{% extends "v2/settings_base.html" %}
+{% load extra_tags %}
+{% load humanize %}
+{% load i18n %}
+{% load question_list_tags %}
+
+{% block followingtopicsactive %}
+    active
+{% endblock %}
+
+{% block head %}
+    <link href="{% media "/media/style/jquery.autocomplete.css" %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block scripts %}
+    {% include 'js_defaults.html' %}
+    <script src="{% media "/media/js/jquery.i18n.js" %}"></script>
+    <script src="{% media "/media/js/v2.osqa.i18n.js" %}"></script>
+    <script src="{% media "/media/js/jquery.autocomplete.js" %}"></script>
+    <script src="{% media "/media/js/v2.osqa.tags.js" %}"></script>
+{% endblock %}
+
+{% block settings_content %}
+
+    <h4 class="subtitle">Topics you follow</h4>
+
+    {% tag_selector_v2 %}
+    {# change to tag_selector_v2 to use the template in v2 folder #}
+
+{% endblock %}

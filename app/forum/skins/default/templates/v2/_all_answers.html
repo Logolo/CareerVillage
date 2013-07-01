@@ -1,0 +1,79 @@
+<!-- _all_answers.html -->
+{% load node_tags %}
+{% load extra_tags %}
+{% load extra_filters %}
+
+{% if answers %}<!-- There are answers -->
+
+    <section class="row-fluid">        
+
+    {% for answer in answers.paginator.page %}
+        <article class="row-fluid answer responsive">
+            
+            <div class="span1 left">
+
+                <!-- Like section -->
+                {% vote_buttons_v2 answer request.user %}
+                <!--/.like-section -->
+            
+            </div><div class="span8 center">
+        
+                <!-- Answer user and body content section -->
+                <div class="answer-body">
+
+                    <div class="answer-user">
+                        <a class="pull-left" href="{{ answer.user.get_profile_url }}">
+                            <span class="avatar avatar-medium">{% avatar answer.user 128 %}</span>
+                        </a>
+                        {% if user.is_staff or user == answer.user %}
+                            <span class="pull-right">
+                                <a href="{% url edit_answer answer.pk %}" class="btn">Edit</a>
+                                <a href="#" class="has-popover btn btn-danger"
+                                    data-placement="top"
+                                    data-html="true"
+                                    data-content="<p>Are you 100% sure? Deleting an answer cannot be undone. It's appropriate to delete an answer if it contains content inappropriate for young people, is spam, or if you are the author and no longer want your post displayed publicly.</p>
+                                                  <div class='text-center'><button class='btn' data-dismiss='popover'>Cancel</button>
+                                                  <a href='{% url delete_post answer.pk %}' class='btn btn-inverse'>Yes, I'm sure</a></div>"
+                                    >Delete</a>
+                            </span>
+                        {% endif %}
+                        <div class="media-body">
+                            <h4>
+                                <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
+                                <span class="text-light">{{ answer.user.about }}</em></span><br />
+                                <span class="text-subtext">{{ answer.user.location }}</span>
+                                <span class="text-subtext">{{  answer.user.industry  }}</span>
+                                <span class="text-subtext">Last updated {% diff_date answer.last_activity_at %}</span>
+                            </h4>
+                        </div>
+                    </div>
+
+                    <!-- Answer body -->
+                    <div class="answer-content">
+                        {{ answer.html|safe }}
+                    </div>
+
+                    <!-- Answer comments -->
+                    <div class="answer-comments">
+                        {% v2comments answer request.user %}
+                    </div>
+            
+                </div><!--/.answer -->
+
+            </div><div class="span2 right">
+            
+                &nbsp;
+                <!-- Right side (differs for each user type) -->
+            
+            </div>
+            
+        </article><!--/.answer -->
+
+    {% endfor %}
+    </section><!--/.items -->
+    
+{% else %}<!-- No answers yet -->
+
+
+
+{% endif %}

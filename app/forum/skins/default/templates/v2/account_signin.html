@@ -1,0 +1,179 @@
+{% extends 'v2/base.html' %}
+{% load i18n node_tags extra_tags %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% media "/media/style/zocial.css" %}">
+{% endblock %}
+{% block title %}{% spaceless %}{% trans "Login or Signup" %}{% endspaceless %}{% endblock %}
+{% block content %}
+ 
+    <div id="signup-signin-new" class="row-fluid">
+
+        <h1 class="text-center">Register / Sign In</h1>
+        <h1 class="text-medium text-center">What kind of user are you?</h1>
+
+        {% if msg %}
+            <div class="alert alert-error">{{ msg }}</div>
+        {% endif %}
+
+        <ul class="user-type-selection clearfix row-fluid">
+
+            <!-- I'm a student --> 
+            <li class="user-type span4 text-center">
+                <a data-toggle="tab" href="#signup-signin-student">
+                    <div class="avatar avatar-large"><img src="{% media "/media/img/example_avatars/pixel_geek_f_africa_carib.png" %}"></div><br />
+                    <div class="btn btn-info">{% trans "I'm a student" %}</div>
+                </a>
+            </li>
+
+            <!-- I'm an educator -->
+            <li class="user-type span4 text-center">
+                <a data-toggle="tab" href="#signup-signin-educator">
+                    <div class="avatar avatar-large"><img src="{% media "/media/img/example_avatars/pixel_geek_m_asian.png" %}"></div><br />
+                    <div class="btn btn-info">{% trans "I'm an educator" %}</div>
+                </a>
+            </li>
+
+            <!-- I'm a professional -->
+            <li class="user-type span4 text-center">
+                <a data-toggle="tab" href="#signup-signin-professional">
+                    <div class="avatar avatar-large"><img src="{% media "/media/img/example_avatars/pixel_geek_f_blond.png" %}"></div><br />
+                    <div class="btn btn-info">{% trans "I'm a professional" %}</div>
+                </a>
+            </li>
+
+        </ul><!--/.custom-radio-elements -->
+
+    </div>
+
+    <div class="tab-content row-fluid">
+
+        <!-- default empty pane -->
+        <div class="tab-pane active">            
+            <br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br />
+        </div>
+        
+        <!-- register/signup for Students -->
+        <div id="signup-signin-student" class="tab-pane signin-tab-pane clearfix">        
+
+            <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
+                <input type="hidden" class="validate_email" name="validate_email" value="yes" />
+                <div class="control-group" style="margin:0">
+                    <label class="control-label">&nbsp;</label>
+                    <div class="controls">
+                        <h3>Students</h3>
+                        <h2 class="text-medium">Log in below or <a href="{% url auth_signup 'student' %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
+                    </div>
+                </div>
+                    
+                <div class="control-group">
+                    <label class="control-label" for="emailInput">{% trans 'Email' %}</label>
+                    <div class="controls">
+                        <input name="username" type="text" id="emailInput">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="passwordInput">{% trans 'Password' %}</label>
+                    <div class="controls">
+                        <input style="margin-bottom:4px" name="password" type="password" id="passwordInput"><br />
+                        <a href="{% url auth_request_tempsignin_v2 %}">{% trans 'Forgot your password?' %}</a>
+                    </div>
+
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-large">{% trans 'Login' %}</button>
+                    </div>
+                </div>
+
+                <div class="social-signin">
+                    <h4>Or use</h4>
+                    <ul class="social-providers">
+                    {% for name in social_auth.backends.oauth2 %}
+                        <li><a class="zocial {{ name }}" rel="nofollow" href="{% url socialauth_begin name %}?user_type=S">{{ name|title }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </form>
+            
+        </div><!--/#signup-signin-student -->
+            
+        <!-- register/signup for Educators -->
+        <div id="signup-signin-educator" class="tab-pane signin-tab-pane clearfix" style="margin-right:auto; margin-left:auto">        
+            <br />
+
+            <form class="form-horizontal signin-form" action="{% url auth_provider_signin provider='local' %}" method="POST">
+                <input type="hidden" class="validate_email" name="validate_email" value="yes" />
+                <div class="control-group" style="margin:0">
+                    <label class="control-label">&nbsp;</label>
+                    <div class="controls">
+                        <h3>Educators</h3>
+                        <h2 class="text-medium">Log in below or <a href="{% url auth_signup 'educator' %}?next={{ request.GET.next }}">REGISTER HERE</a></h2>
+                    </div>
+                </div>
+                    
+                <div class="control-group">
+                    <label class="control-label" for="emailInput">{% trans 'Email' %}</label>
+                    <div class="controls">
+                        <input name="username" type="text" id="emailInput">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="passwordInput">{% trans 'Password' %}</label>
+                    <div class="controls">
+                        <input style="margin-bottom:4px" name="password" type="password" id="passwordInput"><br />
+                        <a href="{% url auth_request_tempsignin_v2 %}">{% trans 'Forgot your password?' %}</a>
+                    </div>
+
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-large">{% trans 'Login' %}</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div><!--/#signup-signin-educator -->
+
+        <!-- register/signup for Professionals -->
+        <div id="signup-signin-professional" class="tab-pane signin-tab-pane clearfix" style="float:right">
+
+            <div class="span8 offset2">
+
+                <div class="text-center"><br />
+                    <h3>Professionals</h3>
+                    <h4 class="text-light">{% trans 'We use your experience, skills, and interests from LinkedIn to help us identify which questions are relevant to you.' %}</h4>
+                    <p><a class="zocial linkedin" rel="nofollow" href="{% url socialauth_begin 'linkedin' %}?user_type=P">{% trans 'Login with Linkedin' %}</a></p>
+
+                    <!-- TODO connect linkedin button and no linked in account link -->
+                    <p><a class="subtle no-linkedin" href="#LinkedInModal" data-toggle="modal">
+                        {% trans "Don't have a linkedin account?" %}
+                    </a></p>
+                    
+                </div>
+
+            {% blocktrans %}
+                <p>
+                    <span class="bold">Privacy: </span>
+                    We only display things about you on CareerVillage that you have already made public on LinkedIn. 
+                </p>
+
+            {% endblocktrans %}
+            
+        </div><!--/#signup-signin-professional -->
+
+    </div><!--/.tab-content -->
+
+<div id="LinkedInModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="LinkedInModalLabel" aria-hidden-"true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="LinkedInModalLabel">No LinkedIn? No problem!</h3>
+    </div>
+    <div class="modal-body">
+        <p>Let us know and we'll have a member of your team verify your industry and create an account for you! <a href="mailto:team@careervillage.org?subject=I%20want%20to%20create%20an%20account%20but%20I%20do%20not%20have%20LinkedIn" target="_blank">Send us an email with your name and industry.</a></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Done</button>
+    </div>
+{% endblock %}

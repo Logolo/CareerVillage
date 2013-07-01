@@ -1,0 +1,29 @@
+import os.path
+from sentry.conf.server import *
+
+ROOT = os.path.dirname(__file__)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cvlogging',
+        'USER': 'careervillage',
+        'PASSWORD': 'careervillage',
+        'HOST': 'careervillage.logging.db',
+        'PORT': '',
+    }
+}
+
+SENTRY_KEY = 'my69eAMYjzqtmfaRJ107MeXCYDTaxQdNZPr8YOe/zOV5pIUoZa5biA=='
+
+<% if scope.lookupvar('careervillage::target') == 'dev' %>
+SENTRY_URL_PREFIX = 'http://logging.development.careervillage.org:9001'
+<% elsif scope.lookupvar('careervillage::target') == 'sta' %>
+SENTRY_URL_PREFIX = 'http://logging.staging.careervillage.org'
+<% else %>
+SENTRY_URL_PREFIX = 'http://logging.careervillage.org'
+<% end %>
+
+SENTRY_PUBLIC = False
+SENTRY_WEB_HOST = '0.0.0.0'
+SENTRY_WEB_PORT = 9000

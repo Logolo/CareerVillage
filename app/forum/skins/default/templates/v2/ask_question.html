@@ -1,0 +1,140 @@
+{% extends "v2/base.html" %}
+
+<!-- template v2/ask.html -->
+{% load i18n extra_tags extra_filters %}
+{% block title %}{% spaceless %}{% trans "Ask a question" %}{% endspaceless %}{% endblock %}
+{% block head %}
+{% endblock %}
+{% block page_class %}home-page{% endblock %}
+
+{% block content %}
+<div id="block-content" class="full-height">
+
+  {% block left-column %}
+  <!-- left column -->
+  <div class="col-left col-sidebar span3">
+
+    <div id="home-upper-user">
+      <div class="avatar">{% avatar user 125 %}</div>
+    </div>
+    
+    <div id="home-lower-user">
+      <span class="arrow-down"></span>
+      
+      <h4 class="text-light"><a class="text-light" href="{{ user.get_profile_url }}">{{ user.real_name|default:"You" }}</a>
+        <span class="text-light">{{ user.location }}</span></h4>
+      <p>
+          
+          {% if user.headline %}
+              <span class="text-light">{{ user.headline }}</span>
+          {% else %}
+              <span><a href="{{ user.get_profile_url }}" class="profile-link text-light">View your profile page</a></span>
+          {% endif %}
+      </p>
+
+      <!-- user stats -->
+      <div class="profile-stats">
+          <div class="row-fluid">    
+              <div class="box span6 stats-border">
+                  <h3>{{ user.reputation }}</h3>
+                  <p class="text-light">Karma</p>
+              </div>
+              <div class="box span6 stats-border-last">
+                  <h3>{{ request.user.get_question_count_total }}</h3>
+                  <p class="text-light">Questions</p>
+              </div>
+          </div>
+      </div>
+    
+    </div>
+
+  </div><!--/.col-left -->
+  {% endblock %}
+
+
+    <!-- right column -->
+    <div class="col-right col-main list-questions span9">
+        {% if not user.is_student %}
+        <div class="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Are you a student?</strong> In CareerVillage students ask career questions and professionals answer them.
+        </div>
+        {% endif %}
+        <div class="row-fluid">
+            <br />
+            <h2>Go ahead... Ask us any career question :)</h2>
+
+            <div id="askform">
+                <form id="fmask" action="" method="post" accept-charset="utf-8">
+
+                    {% if not request.user.is_authenticated %}
+                            {% if "ask"|contained_in:settings.REQUIRE_EMAIL_VALIDATION_TO %}
+                            {% trans "and validate your email." %}{% else %}{% endif %}
+                    {% else %}
+                        {% if not request.user.email_valid_and_can_ask %}
+                            <div class="message">
+                                {% blocktrans %}Your question will be published after you validate your email.{% endblocktrans %}
+                                <a href="{% url send_validation_email %}">{% trans "Send me a validation link." %}</a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    <!-- Question Title -->
+                    <label>Question Title</label>
+                    <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" placeholder="What's your career question?"  value="{{ form.title.value }}">
+                    {{ form.title.errors }}
+
+                    <!-- Question Description -->
+                    <label>Description</label>
+                    <div id="wmd-button-bar" class="wmd-panel"></div>
+                    {{ form.text }} {{ form.text.errors }}
+                    <div id="previewer" class="wmd-preview"></div>
+
+                    <!-- Question Topics/Tags -->
+                    <label>Topics</label>
+                    <input autocomplete="off" class="has-popover" id="id_tags" type="text" name="tags" size="100" placeholder="What are some topics this question is about?" value="{{ form.tags.value }}"
+                        data-placement="top"
+                        data-trigger="focus"
+                        data-content="Add as many topics as you want, just include a space between each word" 
+                    />
+                    
+
+                    {{ form.tags.errors }}
+
+                    {% if form.recaptcha %}
+                    <!-- ReCaptcha -->
+                    <div class="question-captcha" style="float: left">
+                        {{ form.recaptcha.errors }}
+                        {{ form.recaptcha }}
+                    </div>
+                    <div class="clear"></div>
+                    {% endif %}
+
+                    <!-- Facebook actions -->
+                    {% if user.can_facebook_ask_question_story %}
+                    <p>We'll let your friends on Facebook know. Go to <a href="{% url settings_social_networks %}" target="_blank">Social Networks</a> to change your settings.</p>
+                    {% else %}
+                    <div class="facebook-actions">
+                        <label style="display: inline;">
+                            <input type="checkbox" name="auto-share-checkbox" checked style="width: auto; display: inline;" />
+                            Share my activity on CareerVillage with my Facebook friends to get more votes!
+                        </label>
+                    </div>
+                    {% endif %}
+
+                    {% if not request.user.is_authenticated %}
+                    <input name="ask" type="submit" value="{% trans "Login to submit this question" %}" class="btn btn-success" />
+                    {% else %}
+                    <input name="ask" type="submit" value="{% trans "Submit this question" %}" class="btn btn-success" />
+                    {% endif %}
+                </form>
+                <div>
+                    <a onclick="history.back(); return false;" href="">I changed my mind. Take me back.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/#block-content.row-fluid -->
+
+{% endblock %}
+<!-- end template v2/ask.html -->

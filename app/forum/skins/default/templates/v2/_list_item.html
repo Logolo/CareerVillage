@@ -1,0 +1,50 @@
+<!--NOT SURE IF WE NEED THIS: {% load i18n humanize extra_filters extra_tags user_tags %}!-->
+<!-- Next question entry -->
+<article class="row-fluid">
+    
+    <!-- number of likes and answers -->
+    <div class="question-stats span2">
+        <div class="row-fluid">    
+            <!-- number of likes -->
+            <div class="box span6">
+                <h3>{{question.score|intcomma}}</h3>
+                <p>
+                    {% ifequal question.score 1 %}Like
+                    {% else %}Likes
+                    {% endifequal %}
+                </p>
+            </div>
+            <!-- number of answers -->
+            <div class="box span6">
+                <h3>{{question.answer_count|intcomma}}</h3>
+                <p>
+                    {% ifequal question.answer_count 1 %}
+                    Answer
+                    {% else %}
+                    Answers
+                    {% endifequal %}
+                </p>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <!-- last activity (comment, new answer, etc.) datetime -->
+            <span class="timestamp">active {% diff_date question.last_activity_at %}</span>
+        </div>
+    </div>
+
+    <div class="span10">
+
+        <!-- the question -->
+        <h2 class="text-primary"><a href="{{ question.get_absolute_url }}">{{question.headline}}</a></h2>
+        <p>{{ question.summary }}</p>
+
+        <!-- question tags -->
+        <div class="tags">
+            {% for tag in question.tagname_list %}
+                <a class="badge tag-link-{{ tag }}" href="{% url home_tag_questions tag|tag_slug|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</article>

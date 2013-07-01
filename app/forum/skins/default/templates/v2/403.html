@@ -1,0 +1,30 @@
+{% extends "v2/base.html" %}
+{% load i18n extra_tags extra_filters markup ui_registry %}
+
+{% block head %}
+	{# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
+{% endblock %}
+
+{% block content %}
+<div id="block-content" class="row-fluid">
+        
+    <div class="offset1 span10">
+
+        <div class="row-fluid" style="padding:48px 0">
+            <div class="span6">
+                <img style="margin-top:40px;" src="http://www.reactiongifs.com/wp-content/uploads/2013/03/computer-facepalm.gif" />
+            </div>
+            <div class="span6">
+                <h2 style="margin-top:64px">Strange...</h2>
+                <h4>403 Error. Our team has been notified. </h4>
+                <p>Our server doesn't think you should be at this page. We'll check this out to see whether it's an error. We're really sorry! </p>
+                <h4 style="margin-top:32px; font-weight:normal"><a href="mailto: team@careervillage.org" target="_blank">Email us</a> if you are pretty sure something's broken.</h4>
+                <h4 style="font-weight:normal">You could also <a href="{% url about %}">learn more</a> about CareerVillage.org</h4>
+                <h4 style="font-weight:normal">Or head back to the <a href="{% url homepage %}">homepage</a></h4>
+            </div>
+        </div>
+
+    </div>
+
+</div><!--/#block-content.row-fluid -->
+{% endblock %}

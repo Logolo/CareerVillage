@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+{% load i18n extra_tags extra_filters markup ui_registry %}
+<html class="google" itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      CareerVillage.org
+    </title>
+    <script>
+(function(H){H.className=H.className.replace(/\bgoogle\b/,'google-js')})(document.documentElement)
+    </script>
+    <meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
+    <meta content=
+    "CareerVillage.org helps students get career advice so they can make better informed decisions about their future."
+    name="description">
+    <script>
+WebFontConfig={google:{families:["Karla:400,400italic,700,700italic"]},custom:{families:["SteelfishLtRegular"],urls:["//www.google.com/loon/css/fonts.css"]}};(function(){var wf=document.createElement("script");wf.src=("https:"==document.location.protocol?"https":"http")+"://ajax.googleapis.com/ajax/libs/webfont/1.4.2/webfont.js";wf.type="text/javascript";wf.async="true";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(wf,s)})();
+    </script>
+    <link href="//www.google.com/loon/css/default.css" rel="stylesheet">
+    <meta content="CareerVillage.org" itemprop="name">
+    <meta content="Help students get career advice" itemprop="description">
+    <script src="//www.google.com/js/google.js">
+</script>
+        <script type="text/javascript">
+          var _kmq = _kmq || [];
+          var _kmk = _kmk || '003104a34952eb9790724877220006d57992765c';
+          function _kms(u){
+            setTimeout(function(){
+              var d = document, f = d.getElementsByTagName('script')[0],
+              s = d.createElement('script');
+              s.type = 'text/javascript'; s.async = true; s.src = u;
+              f.parentNode.insertBefore(s, f);
+              }, 1);
+            }
+          _kms('//i.kissmetrics.com/i.js');
+          _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+        </script>
+        <!-- GOOGLE ANALYTICS -->
+        {% if settings.GOOGLE_ANALYTICS_KEY %}
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+                
+                //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+                window.onerror = function(message, file, line) {
+                   var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+                   _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+                }
+            </script>
+        {% endif %}
+  </head>
+  <body class="what">
+    <div id="stars" role="presentation">
+      <div id="stars-1"></div>
+      <div id="stars-2"></div>
+    </div>
+    <div class="header" role="banner">
+      <div class="nav" role="navigation">
+        <ul class="sitemap">
+          <li class="active" data-g-action="navigate" data-g-event="Global Nav" data-g-label=
+          "What is CareerVillage.org?">
+            <em>About CareerVillage.org</em>
+          </li>
+          <li data-g-action="navigate" data-g-event="Global Nav" data-g-label="How it works">
+            <a href="#">How it works</a>
+          </li>
+          <li data-g-action="navigate" data-g-event="Global Nav" data-g-label=
+          "Sign up now">
+            <a href="#">Sign up now</a>
+          </li>
+        </ul>
+        <ul class="about">
+          <li>
+            <a data-g-action="navigate" data-g-event="Global Nav" data-g-label="About CareerVillage" href=
+            "">CareerVillage is a 501c3 non-profit.</a>
+          </li>
+        </ul>
+<!--         <ul class="langs">
+          <li class="active">English
+          </li>
+          <li>
+            <a data-g-action="language" data-g-event="Global Nav" data-g-label="es-419" href=
+            "" hreflang="es-419">Español: Muy pronto</a>
+          </li>
+        </ul>
+ -->
+       </div>
+    </div>
+    <div class="main" role="main">
+      <div class="overview" id="overview">
+        <h1>
+          <img alt="CareerVillage" src="/m/default/media/images/CVskyLogo201306-356.png">
+        </h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h2>
+          It takes just 1 minute to give life changing advice online
+        </h2>
+        <p style="font-size: 2em;">
+            <img src="/m/default/media/images/icon-computer.png" style="margin-right: 20px;">Volunteer online
+        </p>
+        <p style="font-size: 2em;">
+          <img src="/m/default/media/images/icon-comment.png" style="margin-right: 20px;">Give advice to kids
+        </p>
+        <p style="font-size: 2em;">
+          <img src="/m/default/media/images/icon-time.png" style="margin-right: 20px;">Takes just a minute
+        </p>
+        <p>
+          CareerVillage allows you to join an online community of students, educators and professionals committed to breaking the cycle of poverty by equipping students with the information they need to build a better future. With CareerVillage you can make a difference by donating just a few minutes of your time, when you can, from the comfort of your home or office.
+        </p>
+      </div>
+      <div class="section" id="mailchimpform">
+        <h2>
+          Sign up to become a mentor
+        </h2>
+        <!-- Begin MailChimp Signup Form -->
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+          #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+          /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+             We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+        </style>
+        <div id="mc_embed_signup">
+        <form action="http://careervillage.us4.list-manage2.com/subscribe/post?u=61f79e65294087acf3220dc80&amp;id=ebeb30390d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+          <label for="mce-EMAIL"><p>Let me know when students ask questions I can answer online. I am ready to volunteer from my home or office.</p></label>
+          <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+          <div class="clear"><input type="submit" value="Yes, I'll give advice" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </form>
+        </div>
+        <!--End mc_embed_signup-->
+      </div>
+      <div class="section" id="intro">
+        <h2>
+          What is CareerVillage?
+        </h2>
+        <p>
+          CareerVillage is an online Q&A platform that allows busy professionals, like you, to easily answer questions about their career and help hundred of students.
+        </p>
+        <p>
+          What we recognized at CareerVillage was that many students were graduating without feeling prepared for any career. We work with schools to help their students get ready for careers, and we need your help.
+        </p>
+        <p>
+          When you sign up today you’ll be joining a community of over 500 professionals dedicated to this cause, breaking the cycle of poverty for low-income students.
+        </p>
+        <p>
+          Make a difference. Become a mentor. Give advice.
+        </p>
+      </div>
+      <div class="section" id="mailchimpform2">
+        <h2>
+          Please give it a try 
+        </h2>
+        <!-- Begin MailChimp Signup Form -->
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+          #mc_embed_signup{
+            background:none; clear:left; font:17px Karla,Arial,sans-serif;
+          }
+          #mc_embed_signup label {
+            font-weight: normal;
+            font-size: 17px;
+          }
+          #mc_embed_signup input.email {
+            width: 100%;
+            font-size: 32px;
+            padding: none;
+            text-align: center;
+          }
+          #mc_embed_signup input.button {
+            width:100%;
+            font-weight: bold;
+            font-size: 18px;
+            height: 72px;
+            line-height: 1em;
+            padding: 1em 2em;
+            background: #65c31f;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            border-color: #57af17;
+            background-color: #65c31f;
+            background-image: -moz-linear-gradient(#94d52d, #65c31f);
+            background-image: -o-linear-gradient(#94d52d, #65c31f);
+            background-image: -ms-linear-gradient(#94d52d, #65c31f);
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #94d52d), color-stop(1, #65c31f));
+            background-image: -webkit-linear-gradient(#94d52d, #65c31f); 
+          }
+          #mc_embed_signup form {
+            text-align: center;
+          }
+          /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+             We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+        </style>
+        <div id="mc_embed_signup">
+        <form action="http://careervillage.us4.list-manage2.com/subscribe/post?u=61f79e65294087acf3220dc80&amp;id=ebeb30390d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+          <label for="mce-EMAIL"><p>Let me know when students ask questions I can answer online. I am ready to volunteer from my home or office.</p></label>
+          <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+          <div class="clear"><input type="submit" value="Yes, I'll give advice" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </form>
+        </div>
+        <!--End mc_embed_signup-->
+      </div>
+    </div>
+    <div class="footer" role="contentinfo">
+      <ul class="about">
+        <li>
+          <span>CareerVillage is a 501c3 non-profit.</span>
+        </li>
+        <li>
+          <span>48 Charles Street, Suite 4, Boston, MA 02114</span>
+        </li>
+        <li>
+          <span>(917)267-9715</span>
+        </li>
+      </ul>
+      <ul class="social">
+        <li>
+          <!-- EMPTY -->
+        </li>
+      </ul>
+    </div><script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
+</script> <script src="/m/default/media/js/advicelandingpage.min.js">
+</script>
+  </body>
+</html>

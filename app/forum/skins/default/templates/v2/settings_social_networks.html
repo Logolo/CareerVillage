@@ -1,0 +1,78 @@
+{% extends "v2/settings_base.html" %}
+{% load extra_tags %}
+{% load humanize %}
+{% load i18n %}
+{% load question_list_tags %}
+
+{% block socialnetworksactive %}
+    active
+{% endblock %}
+
+{% block settings_content %}
+
+    <h4 class="subtitle">Connect your social networks</h4>
+
+    <div class="row-fluid">
+        <div class="span6" style="text-align:center">
+            <h4 class="subtitle">Facebook</h4>
+            {% if user.can_connect_facebook %}
+                {% if user.facebook_access_token %}
+                    {% if user.can_disconnect_facebook %}
+                        <a href="{% url socialauth_disconnect "facebook" %}?user_type={{ user.type }}"
+                           class="btn btn-large">Disconnect from Facebook</a>
+                    {% else %}
+                        <span class="btn btn-large disabled">Cannot disconnect</span>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url social_auth.views.auth "facebook" %}?user_type={{ user.type }}"
+                       class="btn btn-large">Connect with Facebook</a>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="span6" style="text-align:center">
+            {% if user.can_connect_linkedin %}
+                <h4 class="subtitle">LinkedIn</h4>
+                {% if user.linkedin_access_token %}
+                    {% if user.can_disconnect_linkedin %}
+                        <a href="{% url socialauth_disconnect "linkedin" %}?user_type={{ user.type }}"
+                           class="btn btn-large">Disconnect from LinkedIn</a>
+                    {% else %}
+                        <span class="btn btn-large disabled">Cannot disconnect</span>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url social_auth.views.auth "linkedin" %}?user_type={{ user.type }}"
+                       class="btn btn-large">Connect with LinkedIn</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+
+    <h4 class="subtitle">Publishing &amp; Notifications</h4>
+    <div class="row-fluid">
+        <div class="span6 offset3">
+            <form class="form-horizontal" method="post">
+                {% csrf_token %}
+
+                <h5>Stories</h5>
+                {% include "v2/_checkbox_field.html" with field=form.like_question_story %}
+                {% include "v2/_checkbox_field.html" with field=form.like_answer_story %}
+                {% include "v2/_checkbox_field.html" with field=form.ask_question_story %}
+                {% include "v2/_checkbox_field.html" with field=form.answer_question_story %}
+                {% include "v2/_checkbox_field.html" with field=form.award_badge_story %}
+                {% include "v2/_checkbox_field.html" with field=form.interest_topic_story %}
+                {% include "v2/_checkbox_field.html" with field=form.get_point_story %}
+                {% include "v2/_checkbox_field.html" with field=form.reach_point_story %}
+
+                <h5>Notifications</h5>
+                {% include "v2/_checkbox_field.html" with field=form.answer_question_notification %}
+                {% include "v2/_checkbox_field.html" with field=form.topic_question_notification %}
+                {% include "v2/_checkbox_field.html" with field=form.award_badge_notification %}
+
+                <input type="submit" class="btn" value="{% trans "Save" %}">
+            </form>
+        </div>
+    </div>
+    
+{% endblock %}

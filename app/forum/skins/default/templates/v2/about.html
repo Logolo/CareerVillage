@@ -1,0 +1,203 @@
+{% extends "v2/base.html" %}
+<!-- template v2/about.html -->
+{% load i18n extra_tags extra_filters %}
+{% block title %}{% spaceless %}{% trans "For professionals - CareerVillage" %}{% endspaceless %}{% endblock %}
+{% block content %}
+
+<div id="block-content" class="row-fluid about-page clearfix">
+        
+    <h1 class="span9">
+      <div class="inner">
+        About the CareerVillage Community
+      </div>
+    </h1>
+    
+    <!-- left column -->
+    <div class="col-left col-sidebar">
+
+        <div class="sidebar-widget" style="border:0;">
+
+          <h4 class="text-light" style="margin-top:0">How It Works</h4>
+          <ul class="nav nav-tabs nav-stacked">
+              <li><a href="#overview"><i class="icon-chevron-right"></i> Overview</a></li>
+              <li><a href="#for-professionals"><i class="icon-chevron-right"></i> For Professionals</a></li>
+              <li><a href="#for-educators"><i class="icon-chevron-right"></i> For Educators</a></li>
+              <li><a href="#for-students"><i class="icon-chevron-right"></i> For Students</a></li>
+              <li><a href="#community-basics"><i class="icon-chevron-right"></i> Community Basics</a></li>
+          </ul>
+
+          <h4 class="text-light">Get Involved</h4>
+          <ul class="nav nav-tabs nav-stacked">
+              <li><a href="#become-a-mentor"><i class="icon-chevron-right"></i> Become a Mentor</a></li>
+              <li><a href="#make-a-donation"><i class="icon-chevron-right"></i> Make a Donation</a></li>
+              <li><a href="#bring-us-to-your-classroom"><i class="icon-chevron-right"></i> Bring Us to Your Classroom</a></li>
+              <li><a href="#follow-us-on-facebook"><i class="icon-chevron-right"></i> Follow Us on Facebook and Twitter</a></li>
+          </ul>
+
+          <h4 class="text-light">About Our Organization</h4>
+          <ul class="nav nav-tabs nav-stacked">
+              <li><a href="#our-team"><i class="icon-chevron-right"></i> Our Team</a></li>
+              <li><a href="#our-board"><i class="icon-chevron-right"></i> Our Board</a></li>
+          </ul>
+
+
+        </div>
+
+    </div><!--/.col-left -->
+
+    <!-- right column -->
+    <div class="col-right col-main span9">
+
+      <div class="inner">
+        
+        <section class="jumplink" id="overview">
+          <h3><span class="text-light">How It Works:</span> <span class="gray">Overview</span></h3>
+          <p><strong>What:</strong> CareerVillage is an online platform where students ask career questions that are answered by real people sharing their experiences.</p>
+          <p><strong>How:</strong> It starts in the classroom where we partner with educators who integrate CareerVillage into their curriculum to get students started asking questions. Students can continue asking questions anywhere, anytime, and questions are directed to professionals with relevant experience. All of the advice is indexed and searchable, so students not only get answers to their own questions but learn from their peers. </p>
+          <p><strong>Why:</strong> Research shows that by empowering students with career information, students can make better-informed decisions about their future, through high school and college. We achieve impact by bringing personalized information, advice, and guidance to students.</p>
+        </section>
+
+
+        <section class="jumplink" id="for-professionals">
+          <h3><span class="text-light">How It Works:</span> <span class="gray">For Professionals</span></h3>
+          <p><strong>In one minute, you could change a student's life.</strong></p>
+          <p>Professionals (you) share your real experiences directly with students on CareerVillage when your schedule permits—whether you're at home or on the road, whether it's day or evening, whether it's a weekday or the weekend.</p>
+          <p>All you need is a LinkedIn account. You sign up via LinkedIn, and when students ask questions related to your area of expertise, you are notified by email. You control what types of questions you want to answer, and how often you receive notifications of student questions. Whether your answer is one sentence or many paragraphs, information you share is helping students become better informed. Your answers are made available for all students to see, so more people can learn from your experiences.</p>
+          <p><img src="{% media "/media/images/500professionals.png" %}"></p>
+          <p class="text-left">
+          <button class="btn btn-success" type="button">Sign up to start answering questions!</button>
+          </p>
+        </section>
+
+
+        <section class="jumplink" id="for-educators">
+          <h3><span class="text-light">How It Works:</span> <span class="gray">For Educators</span></h3>
+          <p><strong>Bring personalized career information and guidance to your students for free!</strong></p>
+          <p>CareerVillage is available to all high schools and colleges in North America.</p>
+          <p>We train teachers and guidance counselors (you) on how to use the site, and we provide you with sample lesson plans and related materials that you are free to tailor for your needs and curriculum. You introduce CareerVillage to students in class—if you have laptops in your classroom or access to a computer lab, that's great, but computer access is not required for the first lesson. After the first lesson, students can use the site anytime, anywhere, on computers or mobile, and you can easily track your students’ activity.</p>
+          <p>It's incredibly easy to start using CareerVillage with your students. We start with a 30min introductory call. We send you sample lesson plans and materials. You send us a list of students you want to register. You pick a launch date. And we're ready to go! We're happy to spend more time with you—reviewing lesson materials, brainstorming ways to integrate CareerVillage into your curriculum, helping you become familiar with the site, etc.—whatever you need to become comfortable using CareerVillage in class.</p>
+          <p class="text-left">
+              <button class="btn btn-success" type="button">Email us to bring CareerVillage to your students!</button>
+          </p>
+        </section>
+
+
+
+        <section class="jumplink" id="for-students">
+          <h3><span class="text-light">How It Works:</span> <span class="gray">For Students</span></h3>
+          <p><strong>Get answers to your questions and see what other students are asking!</strong></p>
+          <p>Students (you) can ask any question related to college and career that you’re interested in. You’ll get answers from people who have been in your shoes. You can also see and search questions everyone has asked and all the answers they have received. And everything is free!</p>
+          <p>If your school or teacher are not using the site, tell them about it! But you don’t have to wait for them to start using CareerVillage, all you need is an email address, and you can start asking questions today.</p>
+          <p class="text-left">
+            <button class="btn btn-success" type="button">Sign up to start asking questions!</button>
+          </p>
+        </section>
+
+
+        <section class="jumplink" id="community-basics">
+          <h3><span class="text-light">How It Works:</span> <span class="gray">Community Basics</span></h3>
+          <h5 class="jumplink" id="question-id-here">High school and college students ask questions related to careers</h5>
+          <p>Any student can ask a question, as long as the question is related to their professional future, including college, job training, graduate school, internships, apprenticeships, and full time employment. Each student can ask as many questions as they want, for as long as they want. </p>
+          <h5 class="jumplink" id="question-id-here">Professionals answer student questions by sharing their own experiences</h5>
+          <p>Anyone with information or experiences relevant to students' questions can answer. Good answers are voted up and rise to the top. The student who asked the question can mark one answer as "accepted" (this doesn't mean it's the best answer, just the one that worked best for the student asking the question).</p>
+          <h5 class="jumplink" id="question-id-here">Tags make it easy to find relevant questions and answers</h5>
+          <p>All questions must be tagged with their subject areas so they are directed to professionals with relevant experience, and each question can have multiple tags since they may be related to different things. Click on tags to see all questions with that tag. Follow tags to get notification of new questions and answers related to that tag.</p>
+          <h5 class="jumplink" id="question-id-here">Earn Karma points when people vote on your questions and answers</h5>
+          <p>Everyone starts with 1 karma point. You earn more points when other people like your questions or answers. As you earn more Karma points, you gain access to new privileges like voting, commenting, and editing. At the highest levels of karma, you have access to special community management tools and work alongside community moderators to help keep CareerVillage happy and healthy.</p>
+          <h5 class="jumplink" id="question-id-here">Improve questions and answers by commenting and editing</h5>
+          <p>Add comments to questions or answers to ask for more information or to clarify. If you realize your questions or answers can be improved, you can go back and edit them. </p>
+          <h5 class="jumplink" id="question-id-here">Earn badges for special achievements</h5>
+          <p>Badges are awarded when you reach special achievement for participating on CareerVillage. Badges come in three levels: bronze, silver, and gold. We don't tell you how many badge there are, but you'll discover them as you use the site. </p>
+        </section>
+
+        <br /><br />
+
+        <section class="jumplink" id="become-a-mentor">
+          <h3><span class="text-light">Get Involved:</span> <span class="gray">Become a Mentor</span></h3>        
+          <p>Share your experiences directly with students on CareerVillage when your schedule permits—whether you're at home or on the road, whether it's day or evening, whether it's a weekday or the weekend. You control what types of questions you want to answer, and how often you are notified of student questions. Your answers can be one sentence or many paragraphs. All you need is a LinkedIn account to start helping students become better informed about the decision they are facing.</p>
+          <p class="text-left">
+            <button class="btn btn-success" type="button">Sign up to become a mentor</button>
+          </p>        </section>
+
+        <section class="jumplink" id="make-a-donation">
+          <h3><span class="text-light">Get Involved:</span> <span class="gray">Make a Donation</span></h3>        
+          <p>Help us bring personalized career information, guidance, and advice to more students and classrooms across America. Research shows that by empowering students with career information, students can make better-informed decisions about their future, through high school and college. Help us empower more students to think about their future and to obtain the information they need to achieve their aspirations.</p>
+          <p class="text-left">
+          <button class="btn btn-success" type="button">Support us by giving today</button>
+          </p>
+        </section>
+
+        <section class="jumplink" id="bring-us-to-your-classroom">
+          <h3><span class="text-light">Get Involved:</span> <span class="gray">Bring Us to Your Classroom</span></h3>        
+          <p>Bring personalized career information and guidance to your classroom for free. We train you on how to use the site and provide you with sample lesson plans and materials, making it incredibly easy to for your students to get answers related to college and career, and for you to follow their activity.</p>
+          <p class="text-left">
+            <button class="btn btn-success" type="button">Email us to set up your classroom</button>
+          </p>
+        </section>
+        
+        <section class="jumplink" id="follow-us-on-facebook">
+          <h3><span class="text-light">Get Involved:</span> <span class="gray">Follow Us on Facebook and Twitter</span></h3>
+          <p>We want to hear about your experiences, to get your ideas, and to engage with you. Follow us on Facebook and Twitter to stay up to date on what we're up to, and so we can get to know each other better.</p>
+          <p class="text-left">
+            <button class="btn btn-success" type="button">Facebook button</button>
+            <button class="btn btn-success" type="button">Twitter button</button>
+          </p>
+        </section>
+
+
+        <br /><br />
+
+
+        <section class="jumplink" id="our-team">
+          <h3><span class="text-light">About Our Organization:</span> <span class="gray">Our Team</span></h3>        
+          <div class="row-fluid">
+              <div class="span2"><img src="{% media "/media/images/team/jared-landscape2.jpg" %}" width="100"></div>
+              <div class="span10">Jared Chung (founder) is an entrepreneur, self-taught developer, and advisor to non-profits. Jared is the Executive Producer of TEDxCambridge and was an Engagement Manager at McKinsey &amp Co. He holds a B.S. in Finance from NYU Stern, where he first began working with education organizations on a pro-bono basis.</div>
+          </div>
+          <br>
+          <div class="row-fluid">
+              <div class="span2"><img src="{% media "/media/images/team/jen-landscape.jpg" %}" width="100"></div>
+              <div class="span10">Jennifer Pan (founder) is PhD candidate at Harvard University. Her research focuses on social policy, and she was an Engagement Manager at McKinsey &amp Co. She holds a B.A. from Princeton University, where she got her first experience running a non-profit organization.</div>
+          </div>
+          <br>
+          <div class="row-fluid">
+              <div class="span2"><img src="{% media "/media/images/team/akshat.jpg" %}" width="100"></div>
+              <div class="span10">Askshat is a startup founder and serial CTO. Akshat is a developer at ActBlue and the leader of the Boston Security Meetup. He was previously the CTO at Greenbean Recycle, and has held a variety of engineering, security, and analyst roles.</div>
+          </div>
+          <br>
+          <div class="row-fluid">
+              <div class="span2"><img src="{% media "/media/images/team/mikia-landscape.jpg" %}" width="100"></div>
+              <div class="span10">Mikia Manley is a senior at Harvard College, studying Human Evolutionary Biology. She is also currently Co-President of Harvard Students for Education Reform, as well as a Director for the Undergraduate Teacher Education Program. Mikia is passionate about education reform.</div>
+          </div>
+          <br>
+          <div class="row-fluid">
+              <div class="span2"><img src="{% media "/media/images/team/britney.jpg" %}" width="100"></div>
+              <div class="span10">Britney Herman is a Boston University student.</div>
+          </div>
+
+        </section>
+
+        <section class="jumplink" id="our-board">
+          <h3><span class="text-light">About Our Organization:</span> <span class="gray">Our Board of Directors</span></h3>        
+          <div class="row-fluid">
+              <div class="span2"><img src="{% media "/media/images/team/michael2.jpg" %}" width="100"></div>
+              <div class="span10">Michael Park is a Principal at McKinsey &amp Company, and a 2011-2012 David Rockefeller Fellow - Partnership for New York City program. He also serves on the board of Achievement First Endeavor School. Michael holds an A.B. in Economics from Harvard College.</div>
+          </div>
+          <br>
+          <div class="row-fluid">
+              <div class="span2"><img src="{% media "/media/images/team/jessica2.jpg" %}" width="100"></div>
+              <div class="span10">Jessica is the Founder and Executive Director of the Opportunity Network. She has worked with a number of community organizations focused on economic development including One to World, the "I Have a Dream" Foundation and Prep for Prep. Jessica holds a B.A. in Political Science from Yale.</div>
+          </div>
+        </section>
+
+
+
+        <br /><br /><br /><br />
+
+
+        </div>
+    </div><!--/.col-right -->
+
+</div><!--/#block-content.row-fluid -->
+{% endblock %}
+<!-- end template v2/about.html -->

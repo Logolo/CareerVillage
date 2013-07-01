@@ -1,0 +1,111 @@
+{% extends 'v2/base.html' %}
+
+{% load i18n extra_tags extra_filters %}
+{% block title %}{% spaceless %}{% trans "Edit question" %}{% endspaceless %}{% endblock %}
+{% block head %}
+{% endblock %}
+{% block page_class %}home-page{% endblock %}
+{% block scripts %}
+    <script>
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div id="block-content" class="full-height">
+
+      {% block left-column %}
+      <!-- left column -->
+      <div class="col-left col-sidebar span3">
+
+        <div id="home-upper-user">
+          <div class="avatar">{% avatar user 125 %}</div>
+        </div>
+
+        <div id="home-lower-user">
+          <span class="arrow-down"></span>
+
+          <h4 class="text-light"><a class="text-light" href="{{ user.get_profile_url }}">{{ user.real_name|default:"You" }}</a>
+            <span class="text-light">{{ user.location }}</span></h4>
+          <p>
+
+              {% if user.headline %}
+                  <span class="text-light">{{ user.headline }}</span>
+              {% else %}
+                  <span><a href="{{ user.get_profile_url }}" class="profile-link text-light">View your profile page</a></span>
+              {% endif %}
+          </p>
+
+          <!-- user stats -->
+          <div class="profile-stats">
+              <div class="row-fluid">    
+                  <div class="box span6 stats-border">
+                      <h3>{{ user.reputation }}</h3>
+                      <p class="text-light">Karma</p>
+                  </div>
+                  <div class="box span6 stats-border-last">
+                      <h3>{{ request.user.get_question_count_total }}</h3>
+                      <p class="text-light">Questions</p>
+                  </div>
+              </div>
+          </div>
+
+        </div>
+
+      </div><!--/.col-left -->
+      {% endblock %}
+
+
+        <!-- right column -->
+        <div class="col-right col-main list-questions span9">
+            <div class="row-fluid">
+                <h2>Edit your question</h2>
+
+                <div id="editform">
+                    <form id="fmask" action="" method="post" accept-charset="utf-8" data-message-on-exit="{% trans 'Are you sure you want to leave?  Your work will be lost.' %}">
+
+                        <!-- Question Revision -->
+                        <label>{% trans 'Revision' %}</label>
+                        {{ revision_form.revision }}
+                        <input type="submit" style="display:none" id="select_revision" name="select_revision"
+                                                            value="{% trans "select revision"%}">
+
+                        {{ form.revision.errors }}
+
+                        <!-- Question Title -->
+                        <label>{% trans 'Question Title' %}</label>
+                        <input autocomplete="off" name="title" maxlength="255" type="text" id="id_title" size="70" placeholder="What's your career question?"  value="{{ form.title.value }}">
+                        {{ form.title.errors }}
+
+                        <!-- Question Description -->
+                        <label>{% trans 'Description' %}</label>
+                        <div id="wmd-button-bar" class="wmd-panel"></div>
+                        {{ form.text }} {{ form.text.errors }}
+                        <div id="previewer" class="wmd-preview"></div>
+
+                        <!-- Question Topics/Tags -->
+                        <label>{% trans 'Topics' %}</label>
+                        <input autocomplete="off" class="has-popover" id="id_tags" type="text" name="tags" size="100" placeholder="What are some topics this question is about?" value="{{ form.tags.value }}"
+                               data-placement="top"
+                               data-trigger="focus"
+                               data-content="Add as many topics as you want, just include a space between each word"
+                                />
+
+                        <!-- Question Summary -->
+                        <label>{% trans 'Update summary' %}</label>
+                        <input autocomplete="off" name="{{ form.summary.html_name }}" maxlength="255" type="text" id="id_summary" placeholder="{% trans 'Brief summary of your revision (e.g. fixed spelling, grammar, improved style), this field is optional' %}" size="70" value="">
+                        {{ form.summary.errors }}
+
+
+                        {{ form.tags.errors }}
+
+                        <input name="ask" type="submit" value="{% trans "Save changes" %}" class="btn btn-success"/>
+                    </form>
+                    <div>
+                        <a onclick="history.back(); return false;" href="">Nah, I've changed my mind. Take me back.</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/#block-content.row-fluid -->
+
+{% endblock %}

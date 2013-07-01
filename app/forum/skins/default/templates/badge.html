@@ -1,0 +1,59 @@
+{% extends "base_content.html" %}
+<!-- template badge.html -->
+{% load i18n %}
+{% load extra_tags %}
+{% load user_tags %}
+{% load humanize %}
+{% block title %}{% spaceless %}{{ badge.name }} - {% trans "Award" %}{% endspaceless %}{% endblock %}
+
+{% block meta %}
+    {{ block.super }}
+
+    <meta property="fb:app_id" content="{{ settings.FACEBOOK_APP_ID }}" />
+    <meta property="og:type"   content="{{ settings.FACEBOOK_APP_NAMESPACE }}:badge" />
+    <meta property="og:url"    content="{{ settings.APP_URL }}{{ badge.get_absolute_url }}" />
+    <meta property="og:title"  content="{{ badge.name }}" />
+    <meta property="og:image"  content="{{ settings.APP_URL }}{% media "/media/img/careervillage_256x256.png" %}" />
+{% endblock %}
+
+{% block forejs %}
+       <script type="text/javascript">
+        $().ready(function(){
+            $("#nav_badges").attr('className',"on");
+        });
+         
+        </script>
+{% endblock %}
+{% block content %}
+<div id="main-bar" class="headNormal">
+	{% trans "Award" %}
+</div>
+<div id="main-body" style="width:100%;margin-bottom:20px">
+    <p>
+        <a href="{{badge.get_absolute_url}}" title="{{ badge.get_type_display }} : {{ badge.description }}" class="medal"><span class="badge{{ badge.type }}">
+                {% if award.badge.type == 1 %}
+                    <img src="/m/default/media/images/badge_gold_red-16.png"/>
+                {% else %}
+                    {% if award.badge.type == 2 %}
+                    <img src="/m/default/media/images/badge_silver_blue-16.png"/>
+	                {% else %}
+  	                  <img src="/m/default/media/images/badge_bronze_green-16.png"/>
+	                {% endif %}
+                {% endif %}        
+        </span>&nbsp;{{ badge.name }}</a> {{ badge.description }}
+    </p>
+    <div>
+        {% if badge.awarded_count %}
+        <p style="float:left"><span class="count">{{ award_count|intcomma }}</span>
+        <strong>{% trans "The users have been awarded with badges:" %}</strong></p>
+        {% endif %}
+    </div>
+    <div id="award-list" style="clear:both;margin-left:20px;line-height:25px;">
+        {% for award in awards %}
+        <p style="width:220px;float:left">{% user_signature award.user "badges" %}<span class="tag-number"> &#215; {{ award.count|intcomma }}</span></p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+<!-- end template badge.html -->

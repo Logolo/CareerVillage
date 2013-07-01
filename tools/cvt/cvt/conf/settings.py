@@ -1,0 +1,69 @@
+# -*- coding: utf-8 -*-
+import os
+
+AWS_ACCESS_KEY_ID = None
+AWS_SECRET_ACCESS_KEY = None
+
+PROJECT_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
+
+
+def rel(*x):
+    return os.path.abspath(os.path.join(PROJECT_ROOT, *x))
+
+SETUP_DIR = rel('../../../setup')
+KEY_DIR = rel('../../../keys')
+
+#LOCAL
+LOCAL_PUPPET_GIT_BRANCH = 'dev'
+LOCAL_PUPPET_GIT_REPO = 'git@github.com:jchubber/CareerVillage.git'
+LOCAL_PUPPET_BASE_DOMAIN = 'local.careervillage.org'
+LOCAL_PUPPET_AWS_ACCESS_KEY_ID = None
+LOCAL_PUPPET_AWS_SECRET_ACCESS_KEY = None
+LOCAL_PUPPET_FACEBOOK_APP_ID = None
+LOCAL_PUPPET_FACEBOOK_APP_NAMESPACE = 'careervillage-local'
+LOCAL_PUPPET_FACEBOOK_APP_SECRET = None
+LOCAL_PUPPET_LINKEDIN_CONSUMER_KEY = None
+LOCAL_PUPPET_LINKEDIN_CONSUMER_SECRET = None
+LOCAL_PUPPET_SENTRY_DSN = None
+LOCAL_PUPPET_NEWRELIC_LICENSE = None
+LOCAL_PUPPET_SECRET_KEY = None
+
+#STAGING
+STA_PUPPET_GIT_BRANCH = 'sta'
+STA_PUPPET_GIT_REPO = 'git@github.com:jchubber/CareerVillage.git'
+STA_PUPPET_BASE_DOMAIN = 'staging.careervillage.org'
+STA_PUPPET_AWS_ACCESS_KEY_ID = None
+STA_PUPPET_AWS_SECRET_ACCESS_KEY = None
+STA_PUPPET_FACEBOOK_APP_ID = None
+STA_PUPPET_FACEBOOK_APP_NAMESPACE = 'careervillage-sta'
+STA_PUPPET_FACEBOOK_APP_SECRET = None
+STA_PUPPET_LINKEDIN_CONSUMER_KEY = None
+STA_PUPPET_LINKEDIN_CONSUMER_SECRET = None
+STA_PUPPET_SENTRY_DSN = None
+STA_PUPPET_NEWRELIC_LICENSE = None
+STA_PUPPET_SECRET_KEY = None
+
+#PRODUCTION
+PRO_PUPPET_GIT_BRANCH = 'master'
+PRO_PUPPET_GIT_REPO = 'git@github.com:jchubber/CareerVillage.git'
+PRO_PUPPET_BASE_DOMAIN = 'careervillage.org'
+PRO_PUPPET_AWS_ACCESS_KEY_ID = None
+PRO_PUPPET_AWS_SECRET_ACCESS_KEY = None
+PRO_PUPPET_FACEBOOK_APP_ID = None
+PRO_PUPPET_FACEBOOK_APP_NAMESPACE = 'careervillage'
+PRO_PUPPET_FACEBOOK_APP_SECRET = None
+PRO_PUPPET_LINKEDIN_CONSUMER_KEY = None
+PRO_PUPPET_LINKEDIN_CONSUMER_SECRET = None
+PRO_PUPPET_SENTRY_DSN = None
+PRO_PUPPET_NEWRELIC_LICENSE = None
+PRO_PUPPET_SECRET_KEY = None
+
+try:
+    from settings_local import *
+except ImportError:
+    pass
+
+try:
+    from settings_user import *
+except ImportError:
+    pass

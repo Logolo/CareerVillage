@@ -1,0 +1,60 @@
+{% extends "v2/homepage_base.html" %}
+
+
+{% block user_stats %}
+<div class="profile-stats">
+    <div class="row-fluid">    
+        <div class="box span4 stats-border">
+            <h3>{{ user.reputation }}</h3>
+            <p class="text-light">Karma</p>
+        </div>
+        <div class="box span4 stats-border">
+            <h3>{{ user.get_answer_count_total }}</h3>
+            <p class="text-light">Answers</p>
+        </div>
+        <div class="box span4 stats-border-last">
+            <h3>{{ user.referral_count }}</h3>
+            <p class="text-light">Referrals</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block search_prompt %}
+    What do you want to answer questions about?
+{% endblock %}
+
+
+{% block askquestion %}
+    {# Empty for Pros #}
+{% endblock %}
+
+
+{% block unanswered_only %}
+    <label class="checkbox">
+        <input type="checkbox"/> Only unanswered questions
+    </label>
+{% endblock %}
+
+
+{% block append_results %}
+    {# appears just below search results #}
+    {% if not questions %}
+        {% if user_tags_count == 0 %}
+            <h4>
+                Here we can show you questions that are about topics you care about. To do that, we need to know what topics you care about!
+            </h4>
+            <h4>
+                <a href="{% url settings_following_topics %}">Click here</a> to select topics and then come back here to see the results.
+            </h4>
+        {% else %}
+            <h4>
+                Looks like nobody has asked any questions recently about the topics you follow.
+            </h4>
+            <h4>
+                <a href="{% url homepage %}">Check out</a> the latest questions instead to see what's active!
+            </h4>
+        {% endif %}
+    {% endif %}
+{% endblock %}

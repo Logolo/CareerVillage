@@ -1,0 +1,39 @@
+{% load extra_tags %}
+{% load i18n %}
+{% load i18n %}
+{% load humanize %}
+
+            <div id="comments-container-{{ post.id }}">
+
+                <h4 class="count">{{ comments|length|apnumber|capfirst }} comment{{ comments|length|pluralize }}</h4>
+                {% for comment in comments %}
+                    <div id="comment-{{comment.id}}" class="comment-body">
+                        <a class="pull-left" href="{{ user.get_profile_url }}">
+                            <span class="avatar avatar-small">{% avatar comment.user 64 %}</span>
+                        </a>
+                        <div class="media-body">
+                            <h5 class="comment-author"><a href="{{ user.get_profile_url }}">{{ comment.user.real_name }}</a></h5>
+                            <span class="comment-date">{% diff_date comment.added_at %}</span>
+                            <div class="comment-text">{{comment.comment}}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                {% if user.is_anonymous %}
+                    <div class="comment-login"><a class="btn" href="{% url auth_signin %}">Login to comment</a></div>
+                {% else %}
+                    <div class="new-comment">
+                        <a class="comment-author-pic avatar avatar-small" href="{{ user.get_profile_url }}">{% avatar user 64 %}</a>
+                        <a class="comment-author" href="{{ user.get_profile_url }}">{{ user.real_name }}</a>
+
+                        <!-- new comment form -->
+                        <form id="comment-{{ post.id }}-form" data-message-on-exit="Warning: your comment will be lost if you leave this page!" data-message-on-exit-field="comment"  
+                            method="post" action="{% url comment id=post.id %}" accept-charset="utf-8">
+                            <input name="comment" type="text" class="text" placeholder="comment..." />
+                            <input type="submit" style="display:none;" value="comment" />
+                        </form>
+
+                    </div>
+                {% endif%}
+
+            </div>

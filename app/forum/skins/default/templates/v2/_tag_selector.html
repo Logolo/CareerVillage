@@ -1,0 +1,38 @@
+{% load i18n %}
+{% load extra_tags %}
+
+<div id="tagSelector">
+
+    <!-- tags user already follows -->
+    <div class="tags interesting marked-tags">
+    {% for tag_name in interesting_tag_names %}
+        {% spaceless %}
+        <span class="deletable-tag tag-link-{{ tag }}" id="interesting-tag-{{tag_name}}">
+            <a rel="tag" 
+                title="{% blocktrans with tag as tagname %}see questions tagged '{{ tag_name }}'{% endblocktrans %}"
+                href="{% url home_tag_questions tag_name|urlencode %}"><span class="badge">{{tag_name}}
+                  <i class="icon-remove" title="{% blocktrans %}remove '{{tag_name}}' from the list of topics you follow{% endblocktrans %}"></i></span>
+            </a>
+        </span>
+        {% endspaceless %}
+    {% endfor %}
+    </div>
+
+    <!-- add a topic -->
+    {# TODO make this form actually do something #}
+    <form class="form-horizontal" name="" action="{% url settings_account %}" method="post">
+        <div class="control-group">
+            <label class="control-label" for="">Enter a tag</label>
+            <div class="controls">
+                <input id="interestingTagInput" autocomplete="off" type="text"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input id="interestingTagAdd" class="submit btn btn-success" type="submit" value="{% trans "Add" %}"/>
+            </div>
+        </div>
+    </form>
+
+
+</div><!--/#tagSelector -->

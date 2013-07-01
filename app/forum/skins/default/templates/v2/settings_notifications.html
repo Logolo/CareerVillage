@@ -1,0 +1,71 @@
+{% extends "v2/settings_base.html" %}
+{% load extra_tags %}
+{% load humanize %}
+{% load i18n %}
+
+{% block notificationsactive %}
+active
+{% endblock %}
+
+{% block settings_content %}
+
+<div id="notifications">
+    <div class="alert alert-block">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Work in progress!</h4>
+        We're working on building the ability for you to pick the frequency of your email alerts from the below options. For now, this form just shows you what the options will be. We think you're really going to like it. Hang with us and <a href="mailto:team@careervillage.org">let us know</a> if you have any questions or concerns. 
+    </div>
+    <h4 class="subtitle">
+        When a student asks a question you can answer, 
+        or a professional answers one of your questions, 
+        how do you want us to let you know?
+    </h4>
+
+    <form class="form-horizontal" name="" action="{% url settings_account %}" method="post">
+
+        <!-- this hidden input field is what is actually submitted to the server -->
+        <input id="notifications-input" type="hidden" name="notifications" value="{# TODO set default value #}">
+
+        <!-- these toggles use some simple js in the v2.js file that updates the hidden input field on click -->
+        <section class="custom-radio-elements clearfix">
+            <article class="span3 radio-el" rel="notifications-input" data-value="1 {# TODO #}">
+                <img src="{% media "/media/img/noun_project_12709_superman.png" %}"/>
+                <h5>Super hero</h5>
+                <p>
+                    Let me know once the student asks the question. I'm an awesome possum!    
+                </p>
+            </article>
+            <article class="span3 active radio-el" rel="notifications-input" data-value="2 {# TODO #}">
+                <img src="{% media "/media/img/noun_project_6450_sunrise.png" %}" />
+                <h5>Daily Mail</h5>
+                <p>
+                    Send me a note at the end of each day with questions I can answer. 
+                </p>
+            </article>
+            <article class="span3 radio-el" rel="notifications-input" data-value="3 {# TODO #}">
+                <img src="{% media "/media/img/noun_project_12358_warrior.png" %}" />
+                <h5>Weekend Warrior</h5>
+                <p>
+                    If you email me once a week, I'll answer my questions in a big batch.  
+                </p>
+            </article>
+            <article class="span3 radio-el" rel="notifications-input" data-value="4 {# TODO #}">
+                <img src="{% media "/media/img/noun_project_7940_castle.png" %}" />
+                <h5>Don't call me. I'll call you.</h5>
+                <p>
+                     Email isn't a good way to reach me. Plus, my inbox is a temple. 
+                </p>
+            </article>
+        </section>
+
+<!--         <div style="text-align:center; margin:20px">
+            <input type="submit" value="{% trans "Not enabled yet -- we are working on this feature!" %}" class="submit btn btn-danger disabled">
+        </div>
+ -->    
+    </form>        
+<div class="attributions">
+    Icons from The Noun Project: <a href="http://thenounproject.com/noun/superhero/#icon-No12709" target="_blank">Superhero</a> by <a href="http://thenounproject.com/2moriah" target="_blank">Moriah Rich</a>. <a href="http://thenounproject.com/noun/sunrise/#icon-No6450" target="_blank">Sunrise</a> by <a href="http://thenounproject.com/car.lancaster" target="_blank">Caroline Lancaster</a>. <a href="http://thenounproject.com/noun/warrior/#icon-No12358" target="_blank">Warrior</a> by <a href="http://thenounproject.com/namirus" target="_blank">NAMIRUS</a>. <a href="http://thenounproject.com/noun/castle/#icon-No7940" target="_blank">Castle</a> by <a href="http://thenounproject.com/jchrisa" target="_blank">James Christopher</a>.  
+<div>
+</div>
+
+{% endblock %}

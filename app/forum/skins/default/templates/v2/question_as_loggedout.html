@@ -1,0 +1,10 @@
+{% extends "v2/question_base.html" %}
+
+{% block answeractions %}
+    <a class="btn btn-success" href="{% url auth_signin %}" class="btn btn-success">Join our community now to add a comment or answer to this question!</a>        
+{% endblock %}
+
+{% block answersbottom %}
+        <h2>This is where you come in. If you're a student, you can start asking career questions that will help you prepare for your future. If you're a professional, you can start giving career advice to students who deeply need your advice.</h2>
+        <a class="btn btn-success" href="{% url auth_signin %}">Log in now to comment on or answer this question!</a>
+{% endblock %}

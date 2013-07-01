@@ -1,0 +1,80 @@
+{% extends "v2/question_base.html" %}
+{% load extra_tags %}
+
+{% block answeractions %}
+    <a class="answer-action-answer" href="#your-answer">I can <u>answer</u> this question!</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a class="answer-action-refer refer-friend" href="{% url refer_friend question.id %}">I know <u>someone else</u> who can!</a>
+{% endblock %}
+
+{% block answersbottom %}
+    <!-- Your Answer -->
+    <article id="your-answer" class="answer row-fluid responsive">
+
+
+        <div class="span1 left">
+            &nbsp;
+        </div><div class="span8 center"><div>
+
+            {% if answers %}
+                <h4 style="margin-top:0px">Your answer to this question:</h4>
+            {% else %}    
+                <h4 style="margin-top:0px; color:red">Be the first to answer this question!</h4>
+            {% endif %}
+
+            <!-- Answer user and body content section -->
+            <div class="answer-body">
+
+                <div class="answer-user">
+                    <a class="pull-left" href="{{ user.get_profile_url }}">
+                        <span class="avatar avatar-medium">{% avatar user 128 %}</span>
+                    </a>
+                    <div class="media-body">
+                        <h4>
+                            <a href="{{ user.get_profile_url }}">{{ user.real_name }}</a>
+                            <span class="text-light">{{ user.about }}</em></span><br />
+                            <span class="text-subtext">{{ user.location }}</span>
+                            <span class="text-subtext">{{ user.industry  }}</span>
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Answer body -->
+                <div class="answer-content">
+                    <form id="fmanswer" data-message-on-exit="Warning: your answer will be lost if you leave this page!" data-message-on-exit-field="text" action="{% url answer question.id %}" method="post">
+                        {% if not question.closed %}
+                            {{ answer.text }}
+                            {{ answer.text.errors }}
+
+                            <!-- Facebook actions -->
+                            {% if user.can_facebook_answer_question_story %}
+                            <p>We'll let your friends on Facebook know. Go to <a href="{% url settings_social_networks %}" target="_blank">Social Networks</a> to change your settings.</p>
+                            {% else %}
+                            <div class="facebook-actions">
+                                <label style="display: inline;">
+                                    <input type="checkbox" name="auto-share-answer-checkbox" checked style="width: auto; display: inline;" />
+                                    Share my activity on CareerVillage with my Facebook friends to get more votes!
+                                </label>
+                            </div>
+                            {% endif %}
+
+                            <input type="submit"
+                                value="Submit advice" 
+                                class="btn btn-success pull-right" /><br /><br />
+                            <p><span class="form-error"></span></p>
+                        {% endif %}
+                    </form>
+
+                </div>
+
+            </div><!--/.answer-body -->
+            
+        </div></div><div class="span2 right">
+            
+            &nbsp;
+            <!-- Right side (differs for each user type) -->
+            
+        </div></article>
+
+    </article><!--/#your-answer -->
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "v2/base.html" %}
+{% load question_list_tags %}
+{% load extra_tags %}
+
+{% block title %}{{ view_user.real_name }}'s profile{% endblock %}
+{% block head %}
+    {# ANYTHING YOU PUT HERE GETS ADDED INTO THE HEAD #}
+
+    <meta property="fb:app_id" content="{{ settings.FACEBOOK_APP_ID }}" />
+    <meta property="og:type"   content="{{ settings.FACEBOOK_APP_NAMESPACE }}:points" />
+    <meta property="og:url"    content="{{ settings.APP_URL }}{{ view_user.get_profile_url }}" />
+    <meta property="og:image"  content="https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png" />
+    {% with request.GET.point_count as point_count %}
+        <meta property="og:title"  content="{{ point_count }}" />
+    {% endwith %}
+{% endblock %}
+{% block page_class %}profile-page{% endblock %}
+
+{% block content %}
+
+<header>
+
+    <div class="left">
+      <div class="profile-stats">
+          <div class="row-fluid">    
+              <div class="box span6 stats-border">
+                  <h3>{{ view_user.reputation }}</h3>
+                  <p class="text-light">Karma</p>
+              </div>
+              <div class="box span6 stats-border-last">
+                  <h3>{{ view_user.get_question_count_total }}</h3>
+                  <p class="text-light">Questions</p>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="center">
+      <div>
+        <div class="avatar">{% avatar view_user 125 %}</div>
+        <h1 class="text-medium">{{ view_user.real_name }}</h1>
+        <h5 class="text-light">{{ view_user.location }}
+          {% if view_user.is_student %}&bull; Student{% endif %}
+          {% if view_user.industry %}&bull; {{ view_user.headline }}{% endif %}
+          {% if view_user.industry %}&bull; {{ view_user.industry }}{% endif %}
+        </h5>      
+      </div>
+    </div>
+        
+    <div class="right clearfix">
+        <p>I'm one of the founders of CareerVillage. I care a lot about helping students get career advice, and I really love it when professionals enjoy volunteering. I want to bring CareerVillage to every single high school student in America. </p>                
+    </div>
+
+</header>
+
+<div id="block-content" class="row-fluid">
+    <span class="arrow-down"></span>
+
+    <section class="tag-cloud clearfix">    
+      <div class="span2">&nbsp;</div>
+      <div class="span8">
+        <h2 class="text-medium">Topics I Follow:</h2>
+        <div class="tags">
+          {% for tag in followed_tags %}
+              <a class="badge tag-link-{{ tag.tag }}" href="{% url tag_questions tag.tag|urlencode %}" title="see questions tagged '{{ tag.tag }}'" rel="tag">{{ tag.tag }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="span2">&nbsp;</div>
+    </section>
+    
+    <section class="tag-cloud clearfix">    
+      <div class="span2">&nbsp;</div>
+      <div class="span8">
+        <h2 class="text-medium">Topics I'm Active On:</h2>
+        <div class="tags">
+          {% for tag in user_tags %}
+              <a class="badge tag-link-{{ tag.name }}" href="{% url tag_questions tag|urlencode %}" title="see questions tagged '{{ tag.name }}'" rel="tag">{{ tag.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="span2">&nbsp;</div>
+    </section>
+
+    <section class="clearfix">  
+      <div class="span1">&nbsp;</div>
+      <div class="span10 list-questions">
+        
+        <h2 style="text-align:center; border-bottom:1px solid #eee; margin-bottom:0; padding-bottom:10px" class="text-medium">My activity on CareerVillage:</h2>
+        <!-- answers user has interacted with -->
+        <div class="items">
+            {% for answer in answers.paginator.page %}
+                {% question_list_item answer %}
+            {% endfor %}
+        </div>
+        <!-- questions user has interacted with -->
+        <div class="items">
+            {% for question in questions.paginator.page %}
+                {% question_list_item question %}
+            {% endfor %}
+        </div>
+        {% if no_activity %}
+            Nothing yet. Still looking for my first opportunity to contribute! 
+        {% endif %}
+
+        <!-- message below search results + not found -->
+
+        <!-- Pagination -->
+        {% block append_results %}{% endblock %}
+        <div class="pagesize">{{ questions.paginator.page_sizes }}</div>
+        <div class="pagination pagination-centered">{{ questions.paginator.page_numbers }}</div>
+      </div>
+      <div class="span1">&nbsp;</div>
+    </section>
+
+</div><!--/#block-content.row-fluid -->
+{% endblock %}
