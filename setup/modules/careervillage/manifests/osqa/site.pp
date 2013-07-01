@@ -19,7 +19,7 @@ class careervillage::osqa::site {
                 mode    => '644',
                 source  => "/tmp/careervillage_ssl_crt";
         }
-    } ->
+    }
 
     nginx::vhost { "careervillage::osqa::site":
         name    => "careervillage_osqa",
