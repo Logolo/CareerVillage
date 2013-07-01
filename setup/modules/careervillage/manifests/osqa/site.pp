@@ -83,7 +83,7 @@ class careervillage::osqa::site {
 
                                         --module django.core.handlers.wsgi:WSGIHandler()",
 
-                environment => "DJANGO_SETTINGS_MODULE='settings',NEW_RELIC_CONFIG_FILE=${careervillage::data_dir}/newrelic.ini",
+                environment => "DJANGO_SETTINGS_MODULE='settings',NEW_RELIC_CONFIG_FILE='${careervillage::data_dir}/newrelic.ini'",
                 user        => $careervillage::user,
                 require     => [Exec["careervillage::osqa::site::newrelic"],
                                 Class["careervillage::osqa::deploy"]],
