@@ -32,6 +32,9 @@ SECRET_KEY = None
 
 ADMIN_MEDIA_PREFIX = '/admin_media/'
 
+AWS_ACCESS_KEY_ID = None
+AWS_SECRET_ACCESS_KEY = None
+
 INSTALLED_APPS = [
     'longerusername',
     'django.contrib.auth',
@@ -287,7 +290,6 @@ if DEBUG:
         DEBUG_TOOLBAR_CONFIG = {
             'INTERCEPT_REDIRECTS': False,
         }
-        print 'END'
     except ImportError:
         pass
 
