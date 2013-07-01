@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+{% load i18n extra_tags extra_filters markup ui_registry %}
+<html class="google" itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      CareerVillage.org
+    </title>
+    <script>
+(function(H){H.className=H.className.replace(/\bgoogle\b/,'google-js')})(document.documentElement)
+    </script>
+    <meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
+    <meta content=
+    "CareerVillage.org helps students get career advice so they can make better informed decisions about their future."
+    name="description">
+    <script>
+WebFontConfig={google:{families:["Karla:400,400italic,700,700italic"]},custom:{families:["SteelfishLtRegular"],urls:["//www.google.com/loon/css/fonts.css"]}};(function(){var wf=document.createElement("script");wf.src=("https:"==document.location.protocol?"https":"http")+"://ajax.googleapis.com/ajax/libs/webfont/1.4.2/webfont.js";wf.type="text/javascript";wf.async="true";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(wf,s)})();
+    </script>
+    <link href="//www.google.com/loon/css/default.css" rel="stylesheet">
+    <meta content="CareerVillage.org" itemprop="name">
+    <meta content="Help students get career advice" itemprop="description">
+    <script src="//www.google.com/js/google.js">
+</script>
+        <script type="text/javascript">
+          var _kmq = _kmq || [];
+          var _kmk = _kmk || '003104a34952eb9790724877220006d57992765c';
+          function _kms(u){
+            setTimeout(function(){
+              var d = document, f = d.getElementsByTagName('script')[0],
+              s = d.createElement('script');
+              s.type = 'text/javascript'; s.async = true; s.src = u;
+              f.parentNode.insertBefore(s, f);
+              }, 1);
+            }
+          _kms('//i.kissmetrics.com/i.js');
+          _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+        </script>
+        <!-- GOOGLE ANALYTICS -->
+        {% if settings.GOOGLE_ANALYTICS_KEY %}
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+                
+                //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+                window.onerror = function(message, file, line) {
+                   var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+                   _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+                }
+            </script>
+        {% endif %}
+  </head>
+  <body class="what">
+    <div id="stars" role="presentation">
+      <div id="stars-1"></div>
+      <div id="stars-2"></div>
+    </div>
+    <div class="header" role="banner">
+    </div>
+    <div class="main" role="main">
+      <div class="overview" id="overview">
+        <p style="font-size: 2em;">
+            <img src="/m/default/media/images/icon-caution.png" style="margin-right: 20px;">Please click confirm in the email you just got
+        </p>
+      </div>
+      <div class="section" id="vote">
+        <h2>
+          AT NCVS? VOTE FOR US IN THE CHASE COMPETITION!
+        </h2>
+        <div class="cols">
+          <div class="col">
+            <img alt="Find us at booth 417!" src="/m/default/media/images/chase-map.png">
+          </div>
+          <div class="col">
+            <p>
+              Find the voting station at booth 417<br>
+              and vote for CareerVillage.org!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer" role="contentinfo">
+      <ul class="about">
+        <li>
+          <span>CareerVillage is a 501c3 non-profit.</span>
+        </li>
+        <li>
+          <span>48 Charles Street, Suite 4, Boston, MA 02114</span>
+        </li>
+        <li>
+          <span>(917)267-9715</span>
+        </li>
+        <li><a href="http://thenounproject.com/noun/caution/#icon-No7526" target="_blank">Caution</a> designed by <a href="http://thenounproject.com/misirlou" target="_blank">Benjamin Orlovski</a> from The Noun Project</li>
+      </ul>
+      <ul class="social">
+        <li>
+          <!-- EMPTY -->
+        </li>
+      </ul>
+    </div><script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
+</script> <script src="/m/default/media/js/advicelandingpage.min.js">
+</script>
+  </body>
+</html>

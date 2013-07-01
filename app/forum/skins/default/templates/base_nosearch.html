@@ -21,6 +21,7 @@
 	        _kms('//i.kissmetrics.com/i.js');
 	        _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
         </script>
+        <script type="application/javascript">var _prum={id:"516706dee6e53d3016000000"};var PRUM_EPISODES=PRUM_EPISODES||{};PRUM_EPISODES.q=[];PRUM_EPISODES.mark=function(b,a){PRUM_EPISODES.q.push(["mark",b,a||new Date().getTime()])};PRUM_EPISODES.measure=function(b,a,b){PRUM_EPISODES.q.push(["measure",b,a,b||new Date().getTime()])};PRUM_EPISODES.done=function(a){PRUM_EPISODES.q.push(["done",a])};PRUM_EPISODES.mark("firstbyte");(function(){var b=document.getElementsByTagName("script")[0];var a=document.createElement("script");a.type="text/javascript";a.async=true;a.charset="UTF-8";a.src="//rum-static.pingdom.net/prum.min.js";b.parentNode.insertBefore(a,b)})();</script>
         {% if user.email %}
         <script type="text/javascript">
         _kmq.push(['identify', '{{ user.email }}' ]); 
@@ -42,7 +43,7 @@
         {% if settings.USE_CUSTOM_CSS|or_preview:request %}
         <link href="{% url custom_css %}" rel="stylesheet" type="text/css" />
         {% endif %}
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css" />
         {% block forestyle %}{% endblock %}
         <script src="http://www.google.com/jsapi" type="text/javascript"></script>
         <script type="text/javascript">
@@ -93,6 +94,28 @@
         <script type='text/javascript' src='{% media  "/media/js/customjs.js" %}'></script>
         <link rel="search" type="application/opensearchdescription+xml" href="{% url opensearch %}" title="{{ settings.APP_SHORT_NAME }} Search" />
         {% loadregistry head_content %}{% endloadregistry %}
+
+        <!-- GOOGLE ANALYTICS -->
+        {% if settings.GOOGLE_ANALYTICS_KEY %}
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+                
+                //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+                window.onerror = function(message, file, line) {
+                   var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+                   _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+                }
+            </script>
+        {% endif %}
+
     </head>
     <body>
         <div class="notify" style="display:none;">
@@ -106,7 +129,7 @@
             <a id="close-notify" onclick="notify.close(true)">&times;</a>
         </div>
         {% if settings.USE_CUSTOM_HEADER|or_preview:request %}
-            <div id="custom_header">
+            <div id="custom_header" class="notify darkred lobster">
                 {{ settings.CUSTOM_HEADER|or_preview:request|static_content:settings.CUSTOM_HEADER_RENDER_MODE }}
             </div>
         {% endif %}
@@ -149,28 +172,21 @@
             <div id="ground">
                 {% include "footer.html" %}
             </div>
+            <div id="donatebox">
+                <div id="donatelabel"> </div>
+                <div class="donateright">
+                    <div class="donatetext">
+                        Help us bring career advice to more students across America.
+                    </div>
+                    <div><a href="http://giv.lt/14lZbRm" class="on-checkout"><img src="https://ordernow_prod.s3.amazonaws.com/img/TheGivletButton.png" alt="Give Now"/></a></div>
+                </div>
+            </div>
         {% endif %}
         {% block endjs %}
         {% endblock %}
-        {% if settings.GOOGLE_ANALYTICS_KEY %}
-            <script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
-                _gaq.push(['_trackPageview']);
 
-                (function() {
-                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-                
-                //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
-                window.onerror = function(message, file, line) {
-                   var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
-                   _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
-                }
-            </script>
-        {% endif %}
+        <!-- ORDER NOW WIDGET -->
+        <script type='text/javascript' src='https://ordernow_prod.s3.amazonaws.com/js/givlet-widget-latest.js'></script>
     </body>
 </html>
 <!-- end template base_nosearch.html -->

@@ -34,7 +34,7 @@
         <link href="{% media  "/media/bootstrap_2.1.1/css/bootstrap.min.2.1.1.css" %}" rel="stylesheet" type="text/css" />
         <link href="{% media  "/media/style/splash.css" %}" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" href="{{ settings.APP_FAVICON }}" />
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css" />
 
     <!-- JQUERY AND OTHER JS -->
         <script type='text/javascript' src='{% media  "/media/js/customjs.js" %}'></script>
@@ -71,6 +71,27 @@
 
     <!-- SEARCH -->
         <link rel="search" type="application/opensearchdescription+xml" href="{% url opensearch %}" title="{{ settings.APP_SHORT_NAME }} Search" />
+
+    <!-- GOOGLE ANALYTICS -->
+    {% if settings.GOOGLE_ANALYTICS_KEY %}
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+            
+            //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+            window.onerror = function(message, file, line) {
+               var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+               _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+            }
+        </script>
+    {% endif %}
 
     <!-- OTHER -->
         {% loadregistry head_content %}{% endloadregistry %}
@@ -218,27 +239,6 @@
                     </div>
                 </div>
             </div>
-    
-
-        {% if settings.GOOGLE_ANALYTICS_KEY %}
-            <script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
-                _gaq.push(['_trackPageview']);
-
-                (function() {
-                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-                
-                //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
-                window.onerror = function(message, file, line) {
-                   var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
-                   _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
-                }
-            </script>
-        {% endif %}
     </body>
 </html>
 <!-- end template splash.html -->
