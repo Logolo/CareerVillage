@@ -27,7 +27,7 @@ class careervillage::osqa::deploy {
             }
         } else {
             exec { 'careervillage::osqa::deploy::db':
-                command   => "python manage.py syncdb --migrate --traceback",
+                command   => "python manage.py syncdb --noinput --migrate --traceback",
                 cwd       => $careervillage::app_dir,
                 user      => $careervillage::user,
                 group     => $careervillage::group,
