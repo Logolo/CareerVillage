@@ -64,8 +64,6 @@ class Command(BaseCommand):
             logger.error(message)
             raise Exception(message)
 
-        logger.info('Database \'%s\' dumped to \'%s\'.' % (database_name, dump_filename))
-
         # Upload to S3
         if upload:
             connection = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
@@ -83,4 +81,4 @@ class Command(BaseCommand):
             print 'Uploading...'
             key.set_contents_from_filename(dump_file_path)
 
-            logger.info('Dump \'%s\' uploaded to storage.' % dump_filename)
+        logger.info('Dump \'%s\' uploaded to storage.' % dump_filename)
