@@ -25,16 +25,16 @@ class careervillage::osqa::db () {
     if $careervillage::target == 'pro' {
 
         file { "${careervillage::extras_dir}/dump.sh":
-            owner   => $user,
-            group   => $group,
-            mode    => '755',
+            owner   => $careervillage::user,
+            group   => $careervillage::group,
+            mode    => "755",
             content => template("${module_name}/osqa/dump.sh.erb"),
             require => Class["careervillage"];
         }
 
         cron { logrotate:
-          command => "",
-          user    => root,
+          command => "${careervillage::extras_dir}/dump.sh",
+          user    => $careervillage::user,
           minute  => '*/5',
           require => File["${careervillage::extras_dir}/dump.sh"];
         }
