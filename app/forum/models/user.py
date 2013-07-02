@@ -329,15 +329,23 @@ class User(BaseModel, DjangoUser):
         return self.type == User.TYPE_EDUCATOR
 
     @property
+    def public_name(self):
+        if self.first_name:
+            return self.display_name('safe')
+        else:
+            user, domain = self.email.split('@')
+            return user
+
+    @property
     def decorated_name(self):
         if settings.SHOW_STATUS_DIAMONDS:
             if self.is_superuser:
-                return u"%s \u2666\u2666" % self.username
+                return u"%s \u2666\u2666" % self.public_name
 
             if self.is_staff:
-                return u"%s \u2666" % self.username
+                return u"%s \u2666" % self.public_name
 
-        return self.username
+        return self.public_name
 
     @property
     def last_activity(self):
