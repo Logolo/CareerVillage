@@ -58,6 +58,17 @@
                 <h4>
                     <a href="{% url settings_following_topics %}">Click here</a> to select topics and then come back here to see the results.
                 </h4>
+            {% elif tag %}
+                <h4>
+                    Looks like nobody has asked any questions recently about this topic.
+                </h4>
+            {% elif unanswered %}
+                <h4>
+                    There are no unanswered questions right now.
+                </h4>
+                <h4>
+                    <a href="{% url homepage %}">Check out</a> the latest questions instead to see what's active!
+                </h4>
             {% else %}
                 <h4>
                     Looks like nobody has asked any questions recently about the topics you follow.
