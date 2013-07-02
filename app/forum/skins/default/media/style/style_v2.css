@@ -116,6 +116,9 @@ body {
     height:24px;
     margin-right:5px;
 }
+#main-nav .avatar img{
+    margin-top:-7px;
+}
 #main-nav .nav > li > a {
     font-weight:bold;
     white-space:nowrap;
