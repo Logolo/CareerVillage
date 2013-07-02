@@ -313,8 +313,9 @@ def perform_m2m_import(connection, table,
     :param parent_processor: Processor for the field in the parent model
     :param child_processor: Processor for the field in the child model
     """
-    print 'Importing relationship of %s.%s and %s.%s objects.' % (parent_model._meta.app_label, parent_model.__name__,
-                                                                  child_model._meta.app_label, child_model.__name__)
+    print 'Importing \'%s\' relationship of %s.%s and %s.%s objects.' % (
+            m2m_field, parent_model._meta.app_label, parent_model.__name__,
+            child_model._meta.app_label, child_model.__name__)
 
     if not isinstance(parent_column, Column) and not isinstance(child_column, Column):
         return
@@ -649,10 +650,23 @@ def import_forum_action(connection):
     add_constraints('forum_node')
 
 
+def update_tagnames():
+    """ Update the value of the tagnames field in the Node objects.
+    """
+    print 'Updating tagnames field in forum.Node objects.'
+
+    for node in forum_models.Node.objects.all():
+        tags = node.tags.all()
+        if tags:
+            node.tagnames = u' '.join([tag.name for tag in tags])
+            node.save()
+
+
 def import_forum_node_tags(connection):
     perform_m2m_import(connection, 'forum_node_tags',
                        forum_models.Node, 'tags', forum_models.Tag,
                        child_processor=tag_id_processor)
+    update_tagnames()
 
 
 def import_forum_actionrepute(connection):
@@ -766,6 +780,24 @@ def import_forum_authkeyuserassociation(connection):
     ])
 
 
+def import_forum_cohort(connection):
+    perform_import(connection, 'forum_cohort', forum_models.Cohort, [
+        ('name', Column(1)),
+        ('created_at', Column(2)),
+        ('kickoff_date', Column(3)),
+    ])
+
+
+def import_forum_cohort_educators(connection):
+    perform_m2m_import(connection, 'forum_cohort_educators',
+                       forum_models.Cohort, 'educators', forum_models.User)
+
+
+def import_forum_cohort_students(connection):
+    perform_m2m_import(connection, 'forum_cohort_students',
+                       forum_models.Cohort, 'students', forum_models.User)
+
+
 def import_forum_openidassociation(connection):
     perform_import(connection, 'forum_openidassociation', openidauth_models.OpenIdAssociation, [
         ('server_url', Column(1)),
@@ -783,18 +815,6 @@ def import_forum_openidnonce(connection):
         ('timestamp', Column(2)),
         ('salt', Column(3)),
     ])
-
-
-def update_tagnames():
-    """ Update the value of the tagnames field in the Node objects.
-    """
-    print 'Updating tagnames field in forum.Node objects.'
-
-    for node in forum_models.Node.objects.all():
-        tags = node.tags.all()
-        if tags:
-            node.tagnames = u' '.join([tag.name for tag in tags])
-            node.save()
 
 
 class Command(BaseCommand):
@@ -840,10 +860,10 @@ class Command(BaseCommand):
         import_forum_subscriptionsettings(connection)
         import_forum_validationhash(connection)
         import_forum_authkeyuserassociation(connection)
+        import_forum_cohort(connection)
+        import_forum_cohort_educators(connection)
+        import_forum_cohort_students(connection)
 
         # OpenID Auth (forum_modules.openid_auth)
         import_forum_openidassociation(connection)
         import_forum_openidnonce(connection)
-
-        # Tag-related tasks
-        update_tagnames()
