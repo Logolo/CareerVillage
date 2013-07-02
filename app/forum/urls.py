@@ -102,7 +102,8 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)$' % _('questions/'), app.readers.question, name='question'),
 
     url(r'^%s$' % _('tags/'), app.readers.tags, name='tags'),
-    url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag, name='tag_questions'),
+    # url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag, name='tag_questions'),
+    url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag_v2, name='tag_questions'),
     url(r'^%s%s(?P<tag>[^/]+)/$' % (_('mark-tag/'),_('interesting/')), app.commands.mark_tag, kwargs={'reason':'good','action':'add'}, name='mark_interesting_tag'),
     url(r'^%s%s(?P<tag>[^/]+)/$' % (_('mark-tag/'),_('ignored/')), app.commands.mark_tag, kwargs={'reason':'bad','action':'add'}, name='mark_ignored_tag'),
     url(r'^%s(?P<tag>[^/]+)/$' % _('unmark-tag/'), app.commands.mark_tag, kwargs={'action':'remove'}, name='mark_ignored_tag'),
