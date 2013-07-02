@@ -55,7 +55,7 @@ class TemporaryLoginRequestForm(forms.Form):
     )
 
     def clean_email(self):
-        users = list(User.objects.filter(email=self.cleaned_data['email']))
+        users = list(User.objects.filter(email__iexact=self.cleaned_data['email']))
 
         if not len(users):
             raise forms.ValidationError(_("Sorry, but this email is not on our database."))
@@ -106,7 +106,7 @@ class SignupForm(forms.ModelForm):
         """ Validate email.
         """
         email = self.cleaned_data.get('email')
-        if email and User.objects.filter(Q(username=email) | Q(email=email)):
+        if email and User.objects.filter(email__iexact=email):
             raise ValidationError('That user already exists.')
         return email
 

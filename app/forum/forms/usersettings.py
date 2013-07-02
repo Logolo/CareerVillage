@@ -25,7 +25,7 @@ class SettingsAccountForm(forms.Form):
         email = self.cleaned_data['email']
 
         current_user = getattr(self, 'current_user', None)
-        users = User.objects.filter(email=email)
+        users = User.objects.filter(email__iexact=email)
         if current_user:
             users = users.exclude(id=current_user.id)
 
