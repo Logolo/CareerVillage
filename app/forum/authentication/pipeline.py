@@ -98,8 +98,10 @@ def create_user(request, *args, **kwargs):
         user.save()
 
     for tag in tags:
+        if tag == '':
+            continue
         try:
-            tag = Tag.objects.get(name=tag)
+            tag = Tag.objects.get(name__iexact=Tag.make_name(tag))
         except Tag.DoesNotExist:
             tag = Tag.objects.create(name=tag, created_by=user)
         MarkedTag.objects.create(user=user, tag=tag, reason='good')
