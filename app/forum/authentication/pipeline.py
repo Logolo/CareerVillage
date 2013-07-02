@@ -26,7 +26,7 @@ def create_user(request, *args, **kwargs):
             user = User.objects.get(linkedin_uid=linkedin_uid)
         except User.DoesNotExist:
             try:
-                user = User.objects.get(username=linkedin_email)
+                user = User.objects.get(username__iexact=linkedin_email)
             except User.DoesNotExist:
                 if request.user.is_authenticated():
                     user = request.user
@@ -72,7 +72,7 @@ def create_user(request, *args, **kwargs):
             user = User.objects.get(facebook_uid=facebook_uid)
         except User.DoesNotExist:
             try:
-                user = User.objects.get(username=facebook_email)
+                user = User.objects.get(username__iexact=facebook_email)
             except User.DoesNotExist:
                 if request.user.is_authenticated():
                     user = request.user
