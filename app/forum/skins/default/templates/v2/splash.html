@@ -37,7 +37,7 @@
       <h3>Explore recent questions and answers</h3>
       <div class="tags">
         {% for topic in topics %}
-          <a href="{% url home_tag_questions topic|urlencode %}" class="post-tag tag-link-sports" rel="tag"><span class="badge">{{topic}}</span></a>
+          <a href="{% url tag_questions topic|urlencode %}" class="post-tag tag-link-sports" rel="tag"><span class="badge">{{topic}}</span></a>
         {% endfor %}
       </div>
     </div>

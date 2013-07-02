@@ -193,7 +193,7 @@ def unanswered_v2(request, keywords=None):
 
 def tag_v2(request, tag):
     try:
-        tag = Tag.active.get(slug=unquote(tag))
+        tag = Tag.objects.get(slug=unquote(tag))
     except Tag.DoesNotExist:
         raise Http404
 
