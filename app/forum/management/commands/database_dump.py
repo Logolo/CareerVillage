@@ -1,7 +1,7 @@
 import logging
 from optparse import make_option
 from subprocess import Popen, PIPE
-from os import remove
+import os
 from datetime import datetime
 
 from django.core.management.base import BaseCommand
@@ -10,16 +10,12 @@ from boto.s3.key import Key
 from forum.settings import djsettings as settings
 
 
-TEMP_DIR = 'tmp'
-
 # Obtain logger
 logger = logging.getLogger('forum.management.commands.database_dump')
 
-# Obtain S3 connection
-connection = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-
 
 class Command(BaseCommand):
+
     option_list = BaseCommand.option_list + (
         make_option('--db', action='store', dest='db_name', help='PostgreSQL database name.', type='string'),
         make_option('--output', action='store', dest='output', help='Dump filename.', type='string'),
@@ -51,24 +47,26 @@ class Command(BaseCommand):
         dump_filename = options.get('output')
         if not dump_filename:
             dump_filename = '%s_%s.sql' % (datetime.now().strftime('%Y-%m-%d_%H:%M'), database_name)
-        dump_file_path = '/'.join([TEMP_DIR, dump_filename])
+        dump_file_path = os.path.join('/tmp', dump_filename)
 
         # Execute pg_dump command
         print 'Dumping...'
-        command = ['sudo', 'su', '-', 'postgres', '-c', 'pg_dump %s' % database_name]
-        dump_pipe = Popen(command, stdout=open(dump_file_path, 'w'), stderr=PIPE)
+        nenv = os.environ.copy()
+        nenv['PGUSER'] = database.get('USER')
+        nenv['PGPASSWORD'] = database.get('PASSWORD')
+        dump_pipe = Popen(['pg_dump', '-h', database.get('HOST'), '-f', dump_file_path, database_name],
+                          stderr=PIPE, env=nenv)
 
         # Handle messages
         message = dump_pipe.stderr.read()
         if message:
-            remove(dump_filename)
+            os.unlink(dump_filename)
             logger.error(message)
             raise Exception(message)
 
-        logger.info('Database \'%s\' dumped to \'%s\'.' % (database_name, dump_filename))
-
         # Upload to S3
         if upload:
+            connection = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
             bucket = connection.get_bucket('careervillage-backup')
             print 'Currently stored dumps:'
             list = bucket.list()
@@ -83,4 +81,4 @@ class Command(BaseCommand):
             print 'Uploading...'
             key.set_contents_from_filename(dump_file_path)
 
-            logger.info('Dump \'%s\' uploaded to storage.' % dump_filename)
+        logger.info('Dump \'%s\' uploaded to storage.' % dump_filename)

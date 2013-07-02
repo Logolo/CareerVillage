@@ -1,6 +1,6 @@
 {% extends "v2/base.html" %}
 {% load question_list_tags %}
-{% load extra_tags %}
+{% load extra_tags markup %}
 
 {% block title %}{{ view_user.real_name }}'s profile{% endblock %}
 {% block head %}
@@ -48,7 +48,11 @@
     </div>
         
     <div class="right clearfix">
-        <p>I'm one of the founders of CareerVillage. I care a lot about helping students get career advice, and I really love it when professionals enjoy volunteering. I want to bring CareerVillage to every single high school student in America. </p>                
+        <p>
+          {% if view_user.about %}
+            {{view_user.about|markdown}}
+          {% endif %}
+        </p>                
     </div>
 
 </header>

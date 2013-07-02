@@ -32,10 +32,11 @@ class careervillage::osqa::db () {
             require => Class["careervillage"];
         }
 
-        cron { logrotate:
+        cron { "careervillage::osqa::db::dump":
           command => "${careervillage::extras_dir}/dump.sh",
           user    => $careervillage::user,
-          minute  => '*/5',
+          minute  => '0',
+          hour    => '1',
           require => File["${careervillage::extras_dir}/dump.sh"];
         }
 
