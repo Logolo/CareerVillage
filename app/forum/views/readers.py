@@ -112,7 +112,25 @@ def search_results_base(request, user_type_check=False, keywords=None, loggedout
 
         if keywords is None:
             if unanswered:
-                query_set = Question.objects.filter(children__isnull=True)
+                unanswered_by_state_sql = """
+                    SELECT question.id FROM forum_node AS question
+                    WHERE
+                        question.node_type = 'question' AND
+                        (
+                            SELECT COUNT(*) FROM forum_node AS answer
+                            WHERE answer.node_type = 'answer' AND
+                            answer.parent_id = question.id
+                        ) = (
+                            SELECT COUNT(*) FROM forum_node AS deleted_answer
+                            WHERE deleted_answer.node_type = 'answer' AND
+                            deleted_answer.parent_id = question.id AND
+                            deleted_answer.state_string ~ '^.*(deleted).*$'
+                        )
+                    """
+                query_set = Question.objects.filter(Q(children__isnull=True) |
+                                                    Q(id__in=Question.objects.extra(where=[
+                                                        'id IN (%s)' % unanswered_by_state_sql
+                                                    ]).values_list('id', flat=True).query))
             else:
                 query_set = Question.objects.all()
 
@@ -187,6 +205,13 @@ def relevant(request, keywords=None):
         return HttpResponseRedirect(reverse(splash))
 
 
+def relevant_unanswered(request, keywords=None):
+    if request.user.is_authenticated():
+        return homepage_questions(request, keywords, relevant=True, unanswered=True)
+    else:
+        return HttpResponseRedirect(reverse(splash))
+
+
 def unanswered_v2(request, keywords=None):
     return homepage_questions(request, keywords, unanswered=True)
 
@@ -195,9 +220,19 @@ def tag_v2(request, tag):
     try:
         tag = Tag.objects.get(slug=unquote(tag))
     except Tag.DoesNotExist:
-        raise Http404
+        pass
+        #raise Http404
 
     return homepage_questions(request, None, tag)
+
+
+def tag_v2_unanswered(request, tag):
+    try:
+        tag = Tag.objects.get(slug=unquote(tag))
+    except Tag.DoesNotExist:
+        raise Http404
+
+    return homepage_questions(request, None, tag, unanswered=True)
 
 
 def homepage_questions(request, keywords, tag=None, relevant=False, unanswered=False):

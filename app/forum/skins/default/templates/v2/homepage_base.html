@@ -80,14 +80,34 @@
         </form>
 
 
-          <span class="arrow-down"></span>
+        <span class="arrow-down"></span>
+
+        {% if user.is_educator or user.is_professional %}
+            {% if relevant or tag %}
+                <div class="btn-group pull-right">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        Filters <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li {% if unanswered %}class="disabled"{% endif %}>
+                            <a tabindex="-1" href="{% if relevant %}{% url relevant_unanswered %}{% elif tag %}{% url tag_questions_unanswered tag %}{% endif %}">Unanswered</a>
+                        </li>
+
+                        <li {% if not unanswered %}class="disabled"{% endif %}>
+                            <a tabindex="-1" href="{% if relevant %}{% url relevant %}{% elif tag %}{% url tag_questions tag %}{% endif %}">No filters (all questions)</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
 
         <ul class="nav nav-tabs bold">
             <li{% if not relevant and not keywords and not tag and not unanswered %} class="active"{% endif %}><a href="/home">Latest questions</a></li>
             {% if user.is_authenticated %}
                 <li{% if relevant %} class="active"{% endif %}><a href="/relevant">Relevant for you</a></li>
             {% endif %}
-            <li{% if unanswered %} class="active"{% endif %}><a href="/unanswered">Unanswered</a></li>
+            <li{% if unanswered and not relevant and not tag %} class="active"{% endif %}><a href="/unanswered">Unanswered</a></li>
             {% if keywords %}
                 <li class="active"><a href="/home">Search results</a></li>
             {% elif tag %}

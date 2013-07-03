@@ -45,6 +45,7 @@ core_urls = (
 
     url(r'^%s$' % _('home/'), app.readers.homepage, name='homepage'),
     url(r'^%s$' % _('relevant/'), app.readers.relevant, name='relevant'),
+    url(r'^%s%s$' % (_('relevant/'), _('unanswered/')), app.readers.relevant_unanswered, name='relevant_unanswered'),
     url(r'^%s$' % _('unanswered/'), app.readers.unanswered_v2, name='unanswered_v2'),
     url(r'^%s(?P<tag>.*)/$' % _('home/tags/'), app.readers.tag_v2, name='home_tag_questions'),
 
@@ -103,6 +104,7 @@ core_urls = (
 
     url(r'^%s$' % _('tags/'), app.readers.tags, name='tags'),
     # url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag, name='tag_questions'),
+    url(r'^%s(?P<tag>[-\w]+)/%s$' % (_('tags/'), _('unanswered/')), app.readers.tag_v2_unanswered, name='tag_questions_unanswered'),
     url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag_v2, name='tag_questions'),
     url(r'^%s%s(?P<tag>[^/]+)/$' % (_('mark-tag/'),_('interesting/')), app.commands.mark_tag, kwargs={'reason':'good','action':'add'}, name='mark_interesting_tag'),
     url(r'^%s%s(?P<tag>[^/]+)/$' % (_('mark-tag/'),_('ignored/')), app.commands.mark_tag, kwargs={'reason':'bad','action':'add'}, name='mark_ignored_tag'),
