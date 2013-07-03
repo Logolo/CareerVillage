@@ -960,7 +960,7 @@ def merge_users(connection, keeping_order):
         else:
             print 'Nothing to merge.'
 
-    add_constraints('forum_user')
+    add_constraints('auth_user')
 
 
 class Command(BaseCommand):
