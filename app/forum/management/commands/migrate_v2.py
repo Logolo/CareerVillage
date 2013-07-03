@@ -9,6 +9,15 @@ from forum_modules.openidauth import models as openidauth_models
 
 
 CONSTRAINTS = {
+    'auth_user': {
+        'DROP': """
+            ALTER TABLE auth_user DROP CONSTRAINT auth_user_username_key;
+            """,
+        'ADD': """
+            ALTER TABLE auth_user
+                ADD CONSTRAINT auth_user_username_key UNIQUE(username );
+            """,
+    },
     'forum_node': {
         'DROP': """
             ALTER TABLE forum_node DROP CONSTRAINT parent_id_refs_id_1d7ae97d;
@@ -50,6 +59,9 @@ CONSTRAINTS = {
                     ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
             """
     }
+}
+
+replacements = {
 }
 
 
@@ -416,7 +428,13 @@ def infer_last_name(connection, obj_id):
         return ''
 
 
+def username_processor(username):
+    return username.lower()
+
+
 def import_auth_user(connection):
+    drop_constraints('auth_user')
+
     perform_import(connection, 'auth_user', auth_models.User, [
         ('first_name', infer_first_name),
         ('last_name', infer_last_name),
@@ -430,7 +448,9 @@ def import_auth_user(connection):
         ('date_joined', Column(10)),
 
         ('username', Copy('email')),
-    ])
+    ], processors={
+        'username': username_processor,
+    })
 
 
 def import_auth_user_groups(connection):
@@ -523,9 +543,6 @@ def import_forum_badge(connection):
     ])
 
 
-tag_replacements = {}
-
-
 def import_forum_tag(connection):
     print 'Importing forum.Tag objects and registering duplicates.'
 
@@ -535,6 +552,9 @@ def import_forum_tag(connection):
 
     # Delete current tags
     forum_models.Tag.objects.all().delete()
+
+    # Create replacements dictionary
+    replacements['forum_tag'] = {}
 
     while True:
         # Fetch row
@@ -552,7 +572,7 @@ def import_forum_tag(connection):
 
         # Save tag
         if tag:
-            tag_replacements[obj_id] = tag.id
+            replacements['forum_tag'][obj_id] = tag.id
         else:
             tag = forum_models.Tag(id=obj_id, name=name,
                                    created_by_id=created_by_id, created_at=created_at,
@@ -566,8 +586,8 @@ def import_forum_tag(connection):
 
 
 def tag_id_processor(tag_id):
-    if tag_id in tag_replacements.keys():
-        return tag_replacements[tag_id]
+    if tag_id in replacements['forum_tag'].keys():
+        return replacements['forum_tag'][tag_id]
     else:
         return tag_id
 
@@ -817,6 +837,132 @@ def import_forum_openidnonce(connection):
     ])
 
 
+def merge_users(connection, keeping_order):
+    """ Merge duplicate users with the same email address.
+
+    Determine which user stays according to the keeping_order. This means that if the order is '-reputation' the user
+    with greatest reputation is the one in which duplicates are merged into. To preserve the user that joined first
+    use 'date_joined' as keeping_order.
+    """
+    # Get database cursor
+    cursor = connection.cursor()
+
+    # Find duplicate users by their emails
+    cursor.execute('SELECT lower(email) AS l_email FROM auth_user GROUP BY l_email HAVING COUNT(id) > 1;')
+
+    while True:
+        # Fetch row
+        row = cursor.fetchone()
+        if row is None:
+            break
+
+        # Get email
+        (email,) = row
+
+        # Find master user and its duplicates
+        users = list(forum_models.User.objects.filter(email__iexact=email).order_by(keeping_order))
+
+        master = users[0]
+        duplicates = users[1:]
+
+        # Merge
+        if duplicates:
+            # Display merge
+            print 'Merging %s into %s.' % (', '.join([user.email for user in duplicates]), master.email)
+
+            # Perform merge
+            for duplicate in duplicates:
+
+                # Add reputation to the master's reputation
+                master.reputation += duplicate.reputation
+                master.save()
+
+                # forum_userproperty
+                # Ignored
+
+                # forum_tag
+                for tag in duplicate.created_tags.all():
+                    tag.created_by = master
+                    tag.save()
+
+                # forum_markedtag
+                for markedtag in duplicate.tag_selections.filter(reason='good'):
+                    try:
+                        _markedtag = master.tag_selections.get(tag=markedtag.tag)
+                    except forum_models.MarkedTag.DoesNotExist:
+                        _markedtag = forum_models.MarkedTag(tag=markedtag.tag, user=master)
+
+                    _markedtag.reason = 'good'
+                    _markedtag.save()
+
+                # forum_node
+                for node in duplicate.nodes.all():
+                    node.author = master
+                    node.save()
+
+                # forum_action
+                for action in duplicate.actions.all():
+                    action.user = master
+                    action.save()
+                for action in duplicate.proxied_actions.all():
+                    action.real_user = master
+                    action.save()
+
+                # forum_actionrepute
+                for actionrepute in duplicate.reputes.all():
+                    actionrepute.user = master
+                    actionrepute.save()
+
+                # forum_award
+                for award in duplicate.award_set.exclude(
+                        badge_id__in=master.award_set.values_list('badge_id', flat=True).query):
+                    award.user = master
+                    award.save()
+
+                # forum_flag
+                for flag in duplicate.flags.exclude(node_id__in=master.flags.values_list('node_id', flat=True).query):
+                    flag.user = master
+                    flag.save()
+
+                # forum_vote
+                for vote in duplicate.votes.exclude(node_id__in=master.votes.values_list('node_id', flat=True).query):
+                    vote.user = master
+                    vote.save()
+
+                # forum_questionsubscription
+                for questionsubscription in duplicate.questionsubscription_set.exclude(
+                        question_id__in=master.questionsubscription_set.values_list('question_id', flat=True).query):
+                    questionsubscription.user = master
+                    questionsubscription.save()
+
+                # forum_subscriptionsettings
+                # Ignored
+
+                # forum_validationhash
+                # Ignored
+
+                # forum_authkeyuserassociation
+                for authkeyuserassociation in duplicate.auth_keys.all():
+                    authkeyuserassociation.user = master
+                    authkeyuserassociation.save()
+
+                # forum_cohort_educators
+                for cohort in duplicate.educator_of.all():
+                    cohort.educators.add(master)
+
+                # forum_cohort_students
+                for cohort in duplicate.student_of.all():
+                    cohort.students.add(master)
+
+                # Delete duplicate
+                print 'Deleting duplicate %s.' % duplicate.username
+                duplicate.delete()
+        else:
+            print 'Nothing to merge.'
+
+    add_constraints('forum_user')
+
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # Get source database alias
@@ -836,34 +982,40 @@ class Command(BaseCommand):
         # import_auth_permission(connection)
         # import_auth_group(connection)
         # import_auth_group_permissions(connection)
-        import_auth_user(connection)
+        import_auth_user(connection)  # (drops auth_user constraints)
         # import_auth_user_groups(connection)
         # import_auth_user_user_permissions(connection)
 
         # Forum
+        # I - Ignored when merging
+        # N - Does not have a related user
+        # Y - Has a related user
         import_forum_user(connection)
-        import_forum_userproperty(connection)
-        import_forum_badge(connection)
-        import_forum_tag(connection)
-        import_forum_markedtag(connection)
-        import_forum_node(connection)  # drops forum_node constraints
-        import_forum_noderevision(connection)
-        import_forum_action(connection)  # restores forum_node constraints
-        import_forum_node_tags(connection)
-        import_forum_actionrepute(connection)
-        import_forum_award(connection)
-        import_forum_flag(connection)
-        import_forum_keyvalue(connection)
-        import_forum_nodestate(connection)
-        import_forum_vote(connection)
-        import_forum_questionsubscription(connection)
-        import_forum_subscriptionsettings(connection)
-        import_forum_validationhash(connection)
-        import_forum_authkeyuserassociation(connection)
-        import_forum_cohort(connection)
-        import_forum_cohort_educators(connection)
-        import_forum_cohort_students(connection)
+        import_forum_userproperty(connection)  # I
+        import_forum_badge(connection)  # N
+        import_forum_tag(connection)  # Y
+        import_forum_markedtag(connection)  # Y
+        import_forum_node(connection)  # Y (drops forum_node constraints)
+        import_forum_noderevision(connection)  # N
+        import_forum_action(connection)  # Y (restores forum_node constraints)
+        import_forum_node_tags(connection)  # N
+        import_forum_actionrepute(connection)  # Y
+        import_forum_award(connection)  # Y
+        import_forum_flag(connection)  # Y
+        import_forum_keyvalue(connection)  # N
+        import_forum_nodestate(connection)  # N
+        import_forum_vote(connection)  # Y
+        import_forum_questionsubscription(connection)  # Y
+        import_forum_subscriptionsettings(connection)  # I
+        import_forum_validationhash(connection)  # I
+        import_forum_authkeyuserassociation(connection)  # Y
+        import_forum_cohort(connection)  # N
+        import_forum_cohort_educators(connection)  # Y
+        import_forum_cohort_students(connection)  # Y
 
         # OpenID Auth (forum_modules.openid_auth)
         import_forum_openidassociation(connection)
         import_forum_openidnonce(connection)
+
+        # Merge users
+        merge_users(connection, '-reputation')  # (restores auth_user constraints)
