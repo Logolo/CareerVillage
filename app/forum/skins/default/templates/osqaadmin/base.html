@@ -2,6 +2,9 @@
 
 {% load i18n extra_tags general_sidebar_tags %}
 
+{% load template_logging %}
+
+
 {% block forejs %}
     <link rel="stylesheet" type="text/css" media="screen" href="{% media "/media/style/admin.css" %}"/>
     <script type="text/javascript" src="{% media "/media/js/osqa.admin.js" %}"></script>
@@ -9,6 +12,8 @@
 {% endblock %}
 
 {% block content %}
+    {% log_old_template %}
+
     <div class="headNormal">
 	    {% trans "OSQA administration area" %} - {% block subtitle %}{% endblock %}
     </div>

@@ -269,6 +269,11 @@ LOGGING = {
             'handlers': ['console', 'sentry'],
             'level': LOGGING_LEVEL,
             'propagate': False
+        },
+        'forum.templates': {
+            'handlers': ['console', 'sentry'],
+            'level': LOGGING_LEVEL,
+            'propagate': False
         }
     }
 }
