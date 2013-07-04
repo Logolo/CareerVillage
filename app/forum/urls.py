@@ -6,6 +6,7 @@ from django.conf.urls import *
 from django.conf import settings as djsettings
 from django.contrib import admin
 from django.views.generic.simple import direct_to_template
+from forum.utils.views import RedirectView
 from forum import views as app
 from forum.sitemap import OsqaSitemap
 from django.utils.translation import ugettext as _
@@ -205,6 +206,10 @@ core_urls = (
 
     # For load testing with LoaderIO
     url(r'^%s$' % _('loaderio-fa1cac11d692bb426d7ee9a9fe6e2929/'), direct_to_template, {'template': 'loaderio.html'}),
+
+    #example
+    url(r'^aaa$', RedirectView.as_view(viewname='xxx')),
+    url(r'^xxx$', RedirectView.as_view(url='http://www.google.com/'), name='xxx'),
 )
 
 from forum.modules import get_modules_script
