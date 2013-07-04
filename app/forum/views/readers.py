@@ -220,8 +220,7 @@ def tag_v2(request, tag):
     try:
         tag = Tag.objects.get(slug=unquote(tag))
     except Tag.DoesNotExist:
-        pass
-        #raise Http404
+        raise Http404
 
     return homepage_questions(request, None, tag)
 
