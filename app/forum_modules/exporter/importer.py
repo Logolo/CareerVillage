@@ -356,18 +356,18 @@ def user_import(row, current_user, is_merge, users_map):
         user.bronze += badges.get_attr('gold').as_int()
 
     else:
-        username = row.getc('username')
+        username = row.getc('username').lower()
 
         if is_merge:
             username_count = 0
 
-            while orm.User.objects.filter(username=username).count():
+            while orm.User.objects.filter(username=username.lower()).count():
                 username_count += 1
                 username = "%s %s" % (row.getc('username'), username_count)
 
         user = orm.User(
                 id           = (not is_merge) and row.getc('id') or None,
-                username     = username,
+                username     = username.lower(),
                 password     = row.getc('password'),
                 email        = row.getc('email'),
                 email_isvalid= valid_email,

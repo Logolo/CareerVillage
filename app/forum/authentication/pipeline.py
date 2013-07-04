@@ -18,22 +18,27 @@ def create_user(request, *args, **kwargs):
     tags = []
 
     if backend == 'linkedin':
+        force_revise = False
+
         linkedin_uid = kwargs.get('uid')
         linkedin_email = details.get('email')
+        linkedin_email_lower = linkedin_email.lower()
         linkedin_access_token = response.get('access_token')
 
         try:
             user = User.objects.get(linkedin_uid=linkedin_uid)
         except User.DoesNotExist:
             try:
-                user = User.objects.get(username__iexact=linkedin_email)
+                user = User.objects.get(username=linkedin_email_lower)
+                if not user.linkedin_access_token:
+                    force_revise = True
             except User.DoesNotExist:
                 if request.user.is_authenticated():
                     user = request.user
                 else:
                     # Create user
                     changed = created = True
-                    user = User(username=linkedin_email, email=linkedin_email)
+                    user = User(username=linkedin_email_lower, email=linkedin_email)
                     user.type = request.session['user_type']
                     user.first_name = details.get('first_name')
                     user.last_name = details.get('last_name')
@@ -58,7 +63,7 @@ def create_user(request, *args, **kwargs):
             user.linkedin_access_token = linkedin_access_token
             user.linkedin_access_token_expires_on = now() + datetime.timedelta(days=58)
 
-        if created:
+        if created or force_revise:
             next_url = request.POST.get('next', reverse('revise_profile'))
         else:
             next_url = request.POST.get('next', reverse('homepage'))
@@ -66,20 +71,21 @@ def create_user(request, *args, **kwargs):
     elif backend == 'facebook':
         facebook_uid = kwargs.get('uid')
         facebook_email = details.get('email')
+        facebook_email_lower = facebook_email.lower()
         facebook_access_token = response.get('access_token')
 
         try:
             user = User.objects.get(facebook_uid=facebook_uid)
         except User.DoesNotExist:
             try:
-                user = User.objects.get(username__iexact=facebook_email)
+                user = User.objects.get(username=facebook_email_lower)
             except User.DoesNotExist:
                 if request.user.is_authenticated():
                     user = request.user
                 else:
                     # Create user
                     changed = created = True
-                    user = User(username=facebook_email, email=facebook_email)
+                    user = User(username=facebook_email_lower, email=facebook_email)
                     user.type = request.session['user_type']
                     user.first_name = details.get('first_name')
                     user.last_name = details.get('last_name')

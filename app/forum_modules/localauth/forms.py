@@ -61,12 +61,12 @@ class ClassicLoginForm(forms.Form):
 
     def clean(self):
         error_list = []
-        username = self.cleaned_data['username']
+        username = self.cleaned_data['username'].lower()
         password = self.cleaned_data['password']
 
         self.user_cache = None
         if username and password:
-            user_ = authenticate(username=username, password=password)
+            user_ = authenticate(username=username.lower(), password=password)
 
             if user_ is None:
                 del self.cleaned_data['username']

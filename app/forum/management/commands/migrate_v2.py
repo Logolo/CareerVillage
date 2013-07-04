@@ -326,8 +326,8 @@ def perform_m2m_import(connection, table,
     :param child_processor: Processor for the field in the child model
     """
     print 'Importing \'%s\' relationship of %s.%s and %s.%s objects.' % (
-            m2m_field, parent_model._meta.app_label, parent_model.__name__,
-            child_model._meta.app_label, child_model.__name__)
+        m2m_field, parent_model._meta.app_label, parent_model.__name__,
+        child_model._meta.app_label, child_model.__name__)
 
     if not isinstance(parent_column, Column) and not isinstance(child_column, Column):
         return
@@ -844,6 +844,8 @@ def merge_users(connection, keeping_order):
     with greatest reputation is the one in which duplicates are merged into. To preserve the user that joined first
     use 'date_joined' as keeping_order.
     """
+    print 'Merging users.'
+
     # Get database cursor
     cursor = connection.cursor()
 
@@ -868,7 +870,7 @@ def merge_users(connection, keeping_order):
         # Merge
         if duplicates:
             # Display merge
-            print 'Merging %s into %s.' % (', '.join([user.email for user in duplicates]), master.email)
+            print ' - Merging %s into %s.' % (', '.join([user.email for user in duplicates]), master.email)
 
             # Perform merge
             for duplicate in duplicates:
@@ -955,7 +957,6 @@ def merge_users(connection, keeping_order):
                     cohort.students.add(master)
 
                 # Delete duplicate
-                print 'Deleting duplicate %s.' % duplicate.username
                 duplicate.delete()
         else:
             print 'Nothing to merge.'

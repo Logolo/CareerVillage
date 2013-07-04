@@ -27,13 +27,13 @@ class Cohort(BaseModel):
     
     def add_student(self, students):
         if type(students) != type([]):
-            self.students.add(User.objects.get(username=students))
-        self.students.add(*User.objects.filter(username__in=students))
+            self.students.add(User.objects.get(username=students.lower()))
+        self.students.add(*User.objects.filter(username__in=[student.lower() for student in students]))
         
     def add_educator(self, educators):
         if type(educators) != type([]):
-            self.educators.add(User.objects.get(username=educators))
-        self.educators.add(*User.objects.filter(username__in=educators))
+            self.educators.add(User.objects.get(username=educators.lower()))
+        self.educators.add(*User.objects.filter(username__in=[educator.lower() for educator in educators]))
 
     @property
     def reputation(self):

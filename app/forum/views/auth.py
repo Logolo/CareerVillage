@@ -103,7 +103,7 @@ def signup(request, type):
         form.show_grades = show_grades
 
         if form.is_valid():
-            user_ = User(username=form.cleaned_data['email'], email=form.cleaned_data['email'])
+            user_ = User(username=form.cleaned_data['email'].lower(), email=form.cleaned_data['email'])
             user_.set_password(form.cleaned_data['password'])
             user_.first_name = form.cleaned_data['first_name']
             user_.last_name = form.cleaned_data['last_name']
@@ -264,7 +264,7 @@ def external_register(request):
         form1 = SimpleRegistrationForm(request.POST)
 
         if form1.is_valid():
-            user_ = User(username=form1.cleaned_data['email'], email=form1.cleaned_data['email'])
+            user_ = User(username=form1.cleaned_data['email'].lower(), email=form1.cleaned_data['email'])
             user_.email_isvalid = request.session.get('auth_validated_email', '') == form1.cleaned_data['email']
             user_.set_unusable_password()
 
@@ -333,7 +333,7 @@ def external_register(request):
 
         user_data = request.session.get('auth_consumer_data', {})
 
-        username = user_data.get('username', '')
+        username = user_data.get('username', '').lower()
         email = user_data.get('email', '')
 
         if email:

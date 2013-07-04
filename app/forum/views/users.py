@@ -153,7 +153,7 @@ def edit_user(request, id):
                     pass
 
             if settings.EDITABLE_SCREEN_NAME:
-                user.username = sanitize_html(form.cleaned_data['username'])
+                user.username = sanitize_html(form.cleaned_data['username'].lower())
             user.first_name, user.last_name = sanitize_html(form.cleaned_data['realname']).split(" ")
             user.website = sanitize_html(form.cleaned_data['website'])
             user.location = sanitize_html(form.cleaned_data['city'])
@@ -519,6 +519,7 @@ def settings_account(request):
                 user.first_name = form.cleaned_data['first_name']
                 user.last_name = form.cleaned_data['last_name']
                 user.email = form.cleaned_data['email']
+                user.username = user.email.lower()
                 user.save()
         else:
             form = SettingsAccountForm(initial={

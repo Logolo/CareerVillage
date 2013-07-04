@@ -388,7 +388,7 @@ def create_user(request):
         form = CreateUserForm(request.POST)
 
         if form.is_valid():
-            user_ = User(username=form.cleaned_data['username'], email=form.cleaned_data['email'])
+            user_ = User(username=form.cleaned_data['username'].lower(), email=form.cleaned_data['email'])
             user_.set_password(form.cleaned_data['password1'])
 
             if not form.cleaned_data.get('validate_email', False):

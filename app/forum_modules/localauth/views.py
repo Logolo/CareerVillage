@@ -12,11 +12,11 @@ def register(request):
         form = ClassicRegisterForm(request.POST)
 
         if form.is_valid():
-            username = form.cleaned_data['username']
+            username = form.cleaned_data['username'].lower()
             password = form.cleaned_data['password1']
             email = form.cleaned_data['email']
 
-            user_ = User(username=username, email=email)
+            user_ = User(username=username.lower(), email=email)
             user_.set_password(password)
 
             if User.objects.all().count() == 0:

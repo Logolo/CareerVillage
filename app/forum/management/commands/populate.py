@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def _create_user(self, username, email, date_joined, real_name, password, type):
 
-        user = User.objects.get_or_create(username=username, email=email, date_joined=date_joined)
+        user = User.objects.get_or_create(username=username.lower(), email=email, date_joined=date_joined)
         print user
         if isinstance(user, tuple):
             user, created = user
