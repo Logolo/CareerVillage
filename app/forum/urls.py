@@ -133,7 +133,9 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('cohorts/')), app.users.user_cohorts, name='user_cohorts'),
     url(r'^%s(?P<cohort>.*)/(?P<days>\d+)/$' % (_('cohorts/')), app.users.cohort, name='cohort'),
 
-
+    # With slug
+    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/$' % _('users/'), app.users.user_profile_v2, name='user_profile_v2'),
+    # Without slug
     url(r'^%s(?P<id>\d+)/$' % _('users/'), app.users.user_profile_v2, name='user_profile_v2'),
 
     # v1 url:

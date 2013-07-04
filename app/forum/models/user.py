@@ -4,10 +4,12 @@ from base import *
 from utils import PickledObjectField
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.models import User as DjangoUser, AnonymousUser as DjangoAnonymousUser
+from django.template.defaultfilters import slugify
 from hashlib import md5
 from random import Random
 from django.utils.translation import ugettext as _
 from forum.utils.time import one_day_from_now
+
 
 
 class AnonymousUser(DjangoAnonymousUser):
@@ -160,6 +162,9 @@ class User(BaseModel, DjangoUser):
 
     vote_up_count = DenormalizedField("actions", canceled=False, action_type="voteup")
     vote_down_count = DenormalizedField("actions", canceled=False, action_type="votedown")
+
+    # Slug
+    slug = models.SlugField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):
         return self.username
@@ -358,7 +363,16 @@ class User(BaseModel, DjangoUser):
     def gravatar(self):
         return md5(self.email.lower()).hexdigest()
 
+    @classmethod
+    def make_slug(cls, user):
+        """ Make a slug for a user.
+        """
+        return slugify(u' '.join([user.first_name, user.last_name]))
+
     def save(self, *args, **kwargs):
+        # Slugify
+        self.slug = User.make_slug(self)
+
         if self.reputation < 0:
             self.reputation = 0
 
@@ -381,7 +395,10 @@ class User(BaseModel, DjangoUser):
 
     @models.permalink
     def get_profile_url(self):
-        return ('user_profile_v2', (), {'id': self.id})
+        if self.slug:
+            return ('user_profile_v2', (), {'id': self.id, 'slug': self.slug})
+        else:
+            return ('user_profile_v2', (), {'id': self.id})
 
     def get_absolute_url(self):
         return self.get_profile_url()

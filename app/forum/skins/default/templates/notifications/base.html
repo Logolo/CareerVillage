@@ -27,7 +27,7 @@
 {% endif %}
 {% if not exclude_finetune %}
 <p style="{{ p_style }}">{% trans "P.S. You can always fine-tune which notifications you receive" %}
-<a href="{{ settings.APP_URL }}{% url user_subscriptions id=recipient.id,slug=recipient.username|slugify %}" style="{{ a_style }}">{% trans "here" %}</a>.
+<a href="{{ settings.APP_URL }}{% url user_subscriptions id=recipient.id,slug=recipient.slug %}" style="{{ a_style }}">{% trans "here" %}</a>.
 {% endif %}
 </p>
 <hr style="{{ hr_style }}" />

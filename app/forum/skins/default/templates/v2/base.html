@@ -64,7 +64,7 @@
                         <li><a href="{% url admin_index %}">Admin</a></li>
                     {% endif %}
                     {% if user.type == "E" %}
-                        <li><a href="{% url user_cohorts user.id user.username %}">Dashboard</a></li>
+                        <li><a href="{% url user_cohorts user.id user.slug %}">Dashboard</a></li>
                     {% endif %}
                     {% if user.is_authenticated %}
                         <li class="dropdown">

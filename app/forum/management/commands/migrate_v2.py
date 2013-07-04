@@ -491,6 +491,11 @@ def infer_user_type(connection, obj_id):
                 return forum_models.User.TYPE_PROFESSIONAL
 
 
+def infer_user_slug(connection, obj_id):
+    auth_user = auth_models.User.objects.get(id=obj_id)
+    return forum_models.User.make_slug(auth_user)
+
+
 def import_forum_user(connection):
     perform_raw_import(connection, 'forum_user', [
         ('user_ptr_id', Column(0)),
@@ -524,6 +529,8 @@ def import_forum_user(connection):
         ('linkedin_access_token', None),
         ('linkedin_access_token_expires_on', None),
         ('linkedin_photo_url', None),
+
+        ('slug', infer_user_slug),
     ], sync_sequence=False)
 
 
