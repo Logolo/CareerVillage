@@ -367,7 +367,7 @@ class User(BaseModel, DjangoUser):
     def make_slug(cls, user):
         """ Make a slug for a user.
         """
-        return slugify(u' '.join([user.first_name, user.last_name]))
+        return slugify(user.first_name)
 
     def save(self, *args, **kwargs):
         # Slugify

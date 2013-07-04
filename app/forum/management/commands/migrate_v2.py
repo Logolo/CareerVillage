@@ -478,10 +478,10 @@ def infer_user_type(connection, obj_id):
             node_query = 'SELECT * FROM forum_node WHERE author_id=%s AND node_type=\'%s\' LIMIT 1'
 
             cursor.execute(node_query % (obj_id, 'question'))
-            asked = cursor.fetchone() is None
+            asked = cursor.fetchone() is not None
 
             cursor.execute(node_query % (obj_id, 'answer'))
-            answered = cursor.fetchone() is None
+            answered = cursor.fetchone() is not None
 
             if asked and not answered:
                 cursor.close()
