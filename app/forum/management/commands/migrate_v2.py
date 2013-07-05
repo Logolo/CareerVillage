@@ -1,3 +1,5 @@
+import re
+
 from django.db import connections, connection as default_connection
 from django.core.management.base import BaseCommand
 from django.contrib.contenttypes.models import ContentType
@@ -63,6 +65,12 @@ CONSTRAINTS = {
 
 replacements = {
 }
+
+
+def split_at_uppercase(string):
+    """ Split a string at uppercase letters.
+    """
+    return list(re.findall('[A-Z][^A-Z]*', string))
 
 
 class Column(object):
@@ -403,6 +411,8 @@ def import_auth_group_permissions(connection):
 
 
 def get_real_name(connection, obj_id):
+    """ Get the real name of the specified user.
+    """
     cursor = connection.cursor()
     cursor.execute('SELECT real_name FROM forum_user WHERE user_ptr_id=%s LIMIT 1' % obj_id)
     (real_name,) = cursor.fetchone()
@@ -410,22 +420,46 @@ def get_real_name(connection, obj_id):
     return real_name
 
 
-def infer_first_name(connection, obj_id):
+def get_username(connection, obj_id):
+    """ Get the username of the specified user.
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT username FROM auth_user WHERE id=%s LIMIT 1' % obj_id)
+    (username,) = cursor.fetchone()
+    cursor.close()
+    return username
+
+
+def infer_user_first_name(connection, obj_id):
+    """ Infer a user's first name from its real name or username.
+    """
     real_name = get_real_name(connection, obj_id)
     split = real_name.split()
-    if len(split) >= 2:
+    if split and len(split) >= 2:
         return ' '.join(split[:-1])
-    else:
-        return ''
+
+    username = get_username(connection, obj_id)
+    split = split_at_uppercase(username)
+    if split and len(split) >= 2:
+        return ' '.join(split[:-1])
+
+    return ''
 
 
-def infer_last_name(connection, obj_id):
+def infer_user_last_name(connection, obj_id):
+    """ Infer a user's last name from its real name or username.
+    """
     real_name = get_real_name(connection, obj_id)
     split = real_name.split()
     if split:
         return split[-1]
-    else:
-        return ''
+
+    username = get_username(connection, obj_id)
+    split = split_at_uppercase(username)
+    if split:
+        return split[-1]
+
+    return ''
 
 
 def username_processor(username):
@@ -436,8 +470,8 @@ def import_auth_user(connection):
     drop_constraints('auth_user')
 
     perform_import(connection, 'auth_user', auth_models.User, [
-        ('first_name', infer_first_name),
-        ('last_name', infer_last_name),
+        ('first_name', infer_user_first_name),
+        ('last_name', infer_user_last_name),
 
         ('email', Column('email')),
         ('password', Column('password')),
@@ -464,6 +498,8 @@ def import_auth_user_user_permissions(connection):
 
 
 def infer_user_type(connection, obj_id):
+    """ Infer a user's type.
+    """
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM forum_cohort_educators WHERE user_id=%s LIMIT 1' % obj_id)
     if cursor.fetchone():
@@ -569,7 +605,7 @@ def import_forum_tag(connection):
         if row is None:
             break
 
-        # Unpack row
+        # Find replacement if there is one
         obj_id, name, created_by_id, created_at, used_count = row
         try:
             slug = forum_models.Tag.make_slug(name)
