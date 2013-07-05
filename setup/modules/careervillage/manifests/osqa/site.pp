@@ -57,6 +57,11 @@ class careervillage::osqa::site {
                 stderr_logfile => "${careervillage::log_dir}/osqa_site_stderr.log";
             }
 
+            exec { "osqa_site_restart":
+                 command => "/usr/bin/supervisorctl restart osqa_site",
+                 require => Supervisor::App["osqa_site"];
+            }
+
         } else {
 
             exec { 'careervillage::osqa::site::newrelic':
@@ -89,6 +94,11 @@ class careervillage::osqa::site {
                                 Class["careervillage::osqa::deploy"]],
                 stdout_logfile => "${careervillage::log_dir}/osqa_site_stdout.log",
                 stderr_logfile => "${careervillage::log_dir}/osqa_site_stderr.log";
+            }
+
+            exec { "osqa_site_restart":
+                 command => "/usr/bin/supervisorctl restart osqa_site",
+                 require => Supervisor::App["osqa_site"];
             }
 
         }

@@ -61,4 +61,9 @@ class careervillage::logging::site {
         stderr_logfile => "${careervillage::log_dir}/logging_site_stderr.log";
     }
 
+    exec { "cvlogging_site_restart":
+         command => "/usr/bin/supervisorctl restart cvlogging_site",
+         require => Supervisor::App["cvlogging_site"];
+    }
+
 }
