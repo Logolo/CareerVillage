@@ -21,55 +21,59 @@ sitemaps = {
 APP_PATH = os.path.dirname(__file__)
 
 core_urls = (
-    url(r'^$', app.readers.splash, name='splash'),
-    url(r'^%s$' % _('index/'), app.readers.index, name='index'),
-    url(r'^%s(.*)' % _('nimda/'), admin.site.urls),
 
+## PUBLIC PAGES (SPLASH AND ABOUT SECTIONS)
+    url(r'^$', app.readers.splash, name='splash'),
+    url(r'^%s$' % _('about/'), direct_to_template, {'template': 'v2/about.html'}, name='about'),
+    url(r'^%s$' % _('for-professionals/'), RedirectView.as_view(url='/about/#for-professionals'), name='for_professionals'),
+    url(r'^%s$' % _('for-educators/'), RedirectView.as_view(url='/about/#for-educators'), name='for_educators'),
+    url(r'^%s$' % _('our-team/'), RedirectView.as_view(url='/about/#our-team'), name='our_team'),
+    url(r'^%s$' % _('faq/'), RedirectView.as_view(url='/about/#community-basics'), name='faq'),
+    url(r'^%s$' % _('privacy/'), app.meta.privacy, name='privacy'),#TODO: Create a privacy section of the about page, or create a stand-along page for privacy. 
+
+    # Special landing page: Professional recruiting 
+    url(r'^%s$' % _('advice/'), direct_to_template, {'template': 'v2/advice_recruiting.html'}),
+    url(r'^%s%s$' % (_('advice/'), _('success/')), direct_to_template, {'template': 'v2/advice_recruiting_success.html'}),
+
+## SITEMAPS
     url(r'^sitemap.xml$', 'forum.sitemap.index', {'sitemaps': sitemaps}),
     url(r'^sitemap-(?P<section>.+)\.xml$', 'forum.sitemap.sitemap', {'sitemaps': sitemaps}),
 
+## STATIC ASSETS 
     url(r'^favicon\.ico$', app.meta.favicon),
     url(r'^cstyle\.css$', app.meta.custom_css, name='custom_css'),
 
     url(r'^m/(?P<skin>\w+)/media/(?P<path>.*)$', app.meta.media , name='osqa_media'),
     url(r'^%s(?P<path>.*)$' % _('upfiles/'), 'django.views.static.serve', {'document_root': os.path.join(APP_PATH, 'upfiles').replace('\\', '/')}, name='uploaded_file',),
 
-    url(r'^%s$' % _('for-professionals/'), direct_to_template, {'template': 'v2/for_professionals.html'}, name='for_professionals'),
-    url(r'^%s$' % _('for-educators/'), direct_to_template, {'template': 'v2/for_educators.html'}, name='for_educators'),
-    url(r'^%s$' % _('our-team/'), direct_to_template, {'template': 'our-team.html'}),
-    url(r'^%s$' % _('faq/'), app.meta.static, {'content': settings.FAQ_PAGE_TEXT, 'title': _('FAQ')}, name='faq'),
-    url(r'^%s$' % _('about/'), direct_to_template, {'template': 'v2/about.html'}, name='about'),
+## OTHER
     url(r'^%s$' % _('markdown_help/'), app.meta.markdown_help, name='markdown_help'), url(r'^opensearch\.xml$', app.meta.opensearch, name='opensearch'),
-    url(r'^opensearch\.xml$', app.meta.opensearch, name='opensearch'),
-    url(r'^%s$' % _('privacy/'), app.meta.privacy, name='privacy'),
-    url(r'^%s$' % _('logout/'), app.meta.logout, name='logout'),
+    url(r'^opensearch\.xml$', app.meta.opensearch, name='opensearch'), #TODO: FIX THIS SO IT TALKS ABOUT CAREERVILLAGE 
+    url(r'^%s(.*)' % _('nimda/'), admin.site.urls),
 
-    url(r'^%s$' % _('home/'), app.readers.homepage, name='homepage'),
+## MAIN CONTENT PAGES 
+    url(r'^%s$' % _('home/'), app.readers.homepage, name='homepage'), #TODO: Decide if this should be /home/, /questions/, or /latest/. If questions, then change the pattern for relevant and tags to follow /questions/
     url(r'^%s$' % _('relevant/'), app.readers.relevant, name='relevant'),
     url(r'^%s%s$' % (_('relevant/'), _('unanswered/')), app.readers.relevant_unanswered, name='relevant_unanswered'),
     url(r'^%s$' % _('unanswered/'), app.readers.unanswered_v2, name='unanswered_v2'),
     url(r'^%s(?P<tag>.*)/$' % _('home/tags/'), app.readers.tag_v2, name='home_tag_questions'),
+    url(r'^%s$' % _('questions/'), RedirectView.as_view(viewname='homepage'), name='questions'),
+    url(r'^%s$' % _('index/'), RedirectView.as_view(viewname='homepage'), name='index'),
 
+## USER ACTIONS: ADDING OR CHANGING CONTENT 
     url(r'^%s(?P<id>\d+)/%s$' % (_('answers/'), _('edit/')), app.writers.edit_answer, name='edit_answer'),
     url(r'^%s(?P<id>\d+)/$' % _('revisions/'), app.readers.revisions, name='revisions'),
-    url(r'^%s$' % _('questions/'), app.readers.questions, name='questions'),
-    url(r'^%s%s$' % (_('questions/'), _('ask_v2/')), app.writers.ask_v2, name='ask_v2'),
-    url(r'^%s%s$' % (_('questions/'), _('ask/')), app.writers.ask, name='ask'),
+    url(r'^%s%s$' % (_('questions/'), _('ask/')), app.writers.ask_v2, name='ask'),
     url(r'^%s%s$' % (_('questions/'), _('related_questions/')), app.commands.related_questions, name='related_questions'),
 
-    url(r'^%s%s$' % (_('questions/'), _('unanswered/')), app.readers.unanswered, name='unanswered'),
-    url(r'^%s(?P<mode>[\w\-]+)/(?P<user>\d+)/(?P<slug>.*)/$' % _('questions/'), app.readers.user_questions, name='user_questions'),
-
-    ## PROFESSIONAL RECRUITING LANDING PAGES
-    url(r'^%s$' % _('advice/'), direct_to_template, {'template': 'v2/advice_recruiting.html'}),
-    url(r'^%s%s$' % (_('advice/'), _('success/')), direct_to_template, {'template': 'v2/advice_recruiting_success.html'}),
+    url(r'^%s(?P<mode>[\w\-]+)/(?P<user>\d+)/(?P<slug>.*)/$' % _('questions/'), app.readers.user_questions, name='user_questions'), #TODO: Redirect to the user's profile page. 
     
     url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'), _('edit/')), app.writers.edit_question, name='edit_question'),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('questions/'), _('edit/')), app.writers.edit_question_v2, name='edit_question_v2'),
     url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'), _('close/')), app.commands.close, kwargs=dict(close=True), name='close'),
     url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'), _('reopen/')), app.commands.close, kwargs=dict(close=False), name='reopen'),
     url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'), _('answer/')), app.writers.answer, name='answer'),
-    url(r'^%s(?P<action>\w+)/$' % _('pending-data/'), app.writers.manage_pending_data, name='manage_pending_data'),
+    url(r'^%s(?P<action>\w+)/$' % _('pending-data/'), app.writers.manage_pending_data, name='manage_pending_data'), #TODO: Figure out what this does
 
     url(r'^%s(?P<id>\d+)/(?P<vote_type>[a-z]+)/' % _('vote/'), app.commands.vote_post, name='vote_post'),
     url(r'^%s%s(?P<id>\d+)/' % (_('follow/'), _('topics/'),), app.commands.follow_topics, name='follow_topics'),
@@ -103,8 +107,8 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/%s$' % (_('questions/'),_('refer_friend/')), app.readers.refer_friend, name='refer_friend'),
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)$' % _('questions/'), app.readers.question, name='question'),
 
-    url(r'^%s$' % _('tags/'), app.readers.tags, name='tags'),
-    # url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag, name='tag_questions'),
+## TAGS 
+    url(r'^%s$' % _('tags/'), app.readers.tags, name='tags'), 
     url(r'^%s(?P<tag>[-\w]+)/%s$' % (_('tags/'), _('unanswered/')), app.readers.tag_v2_unanswered, name='tag_questions_unanswered'),
     url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag_v2, name='tag_questions'),
     url(r'^%s%s(?P<tag>[^/]+)/$' % (_('mark-tag/'),_('interesting/')), app.commands.mark_tag, kwargs={'reason':'good','action':'add'}, name='mark_interesting_tag'),
@@ -114,7 +118,7 @@ core_urls = (
     url(r'^%s$' % _('users/'), app.users.users, name='users'),
     # url(r'^%s$' % _('online_users/'), app.users.online_users, name='online_users'),
 
-    # New User settings section!
+## USER SETTINGS 
     url(r'^%s$' % _('settings/account/'), app.users.settings_account, name='settings_account'),
     url(r'^%s$' % _('settings/password/'), app.users.settings_password, name='settings_password'),
     url(r'^%s$' % _('settings/notifications/'), app.users.settings_notifications, name='settings_notifications'),
@@ -124,34 +128,40 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/%s$' % (_('users/'), _('edit/')), app.users.edit_user, name='edit_user'),
     url(r'^%s(?P<id>\d+)/%s$' % (_('users/'), _('award/')), app.users.award_points, name='user_award_points'),
     url(r'^%s(?P<id>\d+)/%s$' % (_('users/'), _('suspend/')), app.users.suspend, name='user_suspend'),
-    url(r'^%s(?P<id>\d+)/%s(?P<action>[a-z]+)/(?P<status>[a-z]+)/$' % (_('users/'), _('powers/')), app.users.user_powers, name='user_powers'),
-    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('subscriptions/')), app.users.user_subscriptions, name='user_subscriptions'),
-    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('preferences/')), app.users.user_preferences, name='user_preferences'),
-    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('favorites/')), app.users.user_favorites, name='user_favorites'),
-    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('reputation/')), app.users.user_reputation, name='user_reputation'),
-    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('votes/')), app.users.user_votes, name='user_votes'),
-    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('recent/')), app.users.user_recent, name='user_recent'),
+    url(r'^%s(?P<id>\d+)/%s(?P<action>[a-z]+)/(?P<status>[a-z]+)/$' % (_('users/'), _('powers/')), app.users.user_powers, name='user_powers'), #TODO: What the heck is this? 
+
+# Commenting these out because these profile elements should be part of the new profile page, or settings sections. After a couple of mweeks, we should eliminate these completely. 
+#    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('subscriptions/')), app.users.user_subscriptions, name='user_subscriptions'),
+#    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('preferences/')), app.users.user_preferences, name='user_preferences'),
+#    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('favorites/')), app.users.user_favorites, name='user_favorites'),
+#    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('reputation/')), app.users.user_reputation, name='user_reputation'),
+#    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('votes/')), app.users.user_votes, name='user_votes'),
+#    url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('recent/')), app.users.user_recent, name='user_recent'),
+
+## COHORTS 
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('cohorts/')), app.users.user_cohorts, name='user_cohorts'),
     url(r'^%s(?P<cohort>.*)/(?P<days>\d+)/$' % (_('cohorts/')), app.users.cohort, name='cohort'),
 
+## PROFILE PAGE
     # With slug
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/$' % _('users/'), app.users.user_profile_v2, name='user_profile_v2'),
     # Without slug
     url(r'^%s(?P<id>\d+)/$' % _('users/'), app.users.user_profile_v2, name='user_profile_v2'),
 
-    # v1 url:
-    # url(r'^%s(?P<id>\d+)/(?P<slug>.*)/$' % _('users/'), app.users.user_profile, name='user_profile'),
-    url(r'^%s$' % _('badges/'), app.meta.badges, name='badges'),
-    url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]+)/?$' % _('badges/'), app.meta.badge, name='badge'),
+## BADGES
+    url(r'^%s$' % _('badges/'), app.meta.badges, name='badges'), 
+    url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]+)/?$' % _('badges/'), app.meta.badge, name='badge'), 
     # (r'^admin/doc/' % _('admin/doc'), include('django.contrib.admindocs.urls')),
 
     url(r'^%s$' % _('upload/'), app.writers.upload, name='upload'),
-    url(r'^%s$' % _('search/'), app.readers.search, name='search'),
     url(r'^%s$' % _('search_questions/'), app.readers.search_results, name='search_questions'),
-    url(r'^%s$' % _('contact/'), app.meta.feedback, name='feedback'),
+
+# Commenting out the contact form url until we decide we want to use it. This is a legacy (v1) form. 
+#    url(r'^%s$' % _('contact/'), app.meta.feedback, name='feedback'),
 
     (r'^i18n/', include('django.conf.urls.i18n')),
 
+## AUTHENTICATION
     url(r'^%s$' % (_('login/'),), app.auth.login_page, name='auth_signin'),
     url(r'^%s(?P<type>\w+)$' % _('signup/'), app.auth.signup, name='auth_signup'),
     url(r'^%s$' % (_('password-reset/'),), app.auth.request_temp_login_v2, name='auth_request_tempsignin_v2'),
@@ -169,6 +179,7 @@ core_urls = (
     url(r'^%s%s(?P<id>\d+)/%s$' % (_('account/'), _('providers/'), _('remove/')), app.auth.remove_external_provider, name='user_remove_external_provider'),
     url(r'^%s%s%s$' % (_('account/'), _('providers/'), _('add/')), app.auth.signin_page, name='user_add_external_provider'),
     url(r'^%s%s$' %(_('account/'), _('send-validation/')), app.auth.send_validation_email, name='send_validation_email'),
+    url(r'^%s$' % _('logout/'), app.meta.logout, name='logout'),
 
     # Social auth: Override views
     url(r'^complete/(?P<backend>[^/]+)/$',
@@ -181,7 +192,7 @@ core_urls = (
     # Social auth
     url('', include('social_auth.urls')),
 
-
+## ADMIN CONTENT
     url(r'^%s$' % _('admin/'), app.admin.dashboard, name='admin_index'),
     url(r'^%s%s$' % (_('admin/'), _('switch_interface/')), app.admin.interface_switch, name='admin_switch_interface'),
     url(r'^%s%s$' % (_('admin/'), _('statistics/')), app.admin.statistics, name='admin_statistics'),
@@ -202,12 +213,13 @@ core_urls = (
 
     url(r'%s%s' % (_('admin/'), _('test_email_settings/')), app.admin.test_email_settings, name='test_email_settings'),
 
+## RSS 
     url(r'^feeds/rss[/]?$', app.readers.feed, name='latest_questions_feed'),
 
-    # For load testing with LoaderIO
+## LoaderIO LOAD TESTING
     url(r'^%s$' % _('loaderio-fa1cac11d692bb426d7ee9a9fe6e2929/'), direct_to_template, {'template': 'loaderio.html'}),
 
-    #example
+## REDIRECTION EXAMPLES
     url(r'^aaa$', RedirectView.as_view(viewname='xxx')),
     url(r'^xxx$', RedirectView.as_view(url='http://www.google.com/'), name='xxx'),
 )

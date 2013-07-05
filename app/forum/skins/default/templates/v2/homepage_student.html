@@ -26,7 +26,7 @@
 {% block askquestion %}
     {# appears just below search form #}
     <div class="search-subtext">
-        <a class="" href="{% url ask_v2 %}">
+        <a class="" href="{% url ask %}">
             ask a new question
         </a>
     </div>
@@ -42,11 +42,11 @@
     {% if not relevant %}
         {% if questions %}
             <h4>
-                Don't see your question here? <a href="{% url ask_v2 %}">Ask your question now!</a>
+                Don't see your question here? <a href="{% url ask %}">Ask your question now!</a>
             </h4>
         {% else %}
             <h4>
-                Looks like we don't have a question about that yet. <a href="{% url ask_v2 %}">Ask your question now!</a>
+                Looks like we don't have a question about that yet. <a href="{% url ask %}">Ask your question now!</a>
             </h4>
         {% endif %}
     {% else %}
