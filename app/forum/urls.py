@@ -47,6 +47,7 @@ core_urls = (
     url(r'^%s(?P<path>.*)$' % _('upfiles/'), 'django.views.static.serve', {'document_root': os.path.join(APP_PATH, 'upfiles').replace('\\', '/')}, name='uploaded_file',),
 
 ## OTHER
+    url(r'^%s$' % _('search/'), app.readers.search, name='search'),
     url(r'^%s$' % _('markdown_help/'), app.meta.markdown_help, name='markdown_help'), url(r'^opensearch\.xml$', app.meta.opensearch, name='opensearch'),
     url(r'^opensearch\.xml$', app.meta.opensearch, name='opensearch'), #TODO: FIX THIS SO IT TALKS ABOUT CAREERVILLAGE 
     url(r'^%s(.*)' % _('nimda/'), admin.site.urls),
