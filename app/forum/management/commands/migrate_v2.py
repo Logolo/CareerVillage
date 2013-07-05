@@ -70,7 +70,7 @@ replacements = {
 def split_at_uppercase(string):
     """ Split a string at uppercase letters.
     """
-    return list(re.findall('[A-Z][^A-Z]*', string))
+    return re.sub(r'([A-Z])', r' \1', string).split()
 
 
 class Column(object):
@@ -431,32 +431,26 @@ def get_username(connection, obj_id):
 
 
 def infer_user_first_name(connection, obj_id):
-    """ Infer a user's first name from its real name or username.
+    """ Infer a user's first name from its real name or return username.
     """
     real_name = get_real_name(connection, obj_id)
     split = real_name.split()
-    if split and len(split) >= 2:
-        return ' '.join(split[:-1])
+    if split:
+        if len(split) == 1:
+            return split[0]
+        else:
+            return ' '.join(split[:-1])
 
     username = get_username(connection, obj_id)
-    split = split_at_uppercase(username)
-    if split and len(split) >= 2:
-        return ' '.join(split[:-1])
-
-    return ''
+    return username
 
 
 def infer_user_last_name(connection, obj_id):
-    """ Infer a user's last name from its real name or username.
+    """ Infer a user's last name from its real name.
     """
     real_name = get_real_name(connection, obj_id)
     split = real_name.split()
-    if split:
-        return split[-1]
-
-    username = get_username(connection, obj_id)
-    split = split_at_uppercase(username)
-    if split:
+    if split and len(split) >= 2:
         return split[-1]
 
     return ''
