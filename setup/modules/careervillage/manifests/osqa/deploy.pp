@@ -50,7 +50,7 @@ class careervillage::osqa::deploy {
         }
 
         exec { "cvosqa_celery_restart":
-             command => "supervisorctl restart cvosqa_celery",
+             command => "/usr/bin/supervisorctl restart cvosqa_celery",
              require => Supervisor::App["cvosqa_celery"];
         }
 
