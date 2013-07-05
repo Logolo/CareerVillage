@@ -140,7 +140,7 @@ core_urls = (
 
 ## COHORTS 
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)/%s$' % (_('users/'), _('cohorts/')), app.users.user_cohorts, name='user_cohorts'),
-    url(r'^%s(?P<cohort>.*)/(?P<days>\d+)/$' % (_('cohorts/')), app.users.cohort, name='cohort'),
+    url(r'^%s(?P<cohort_id>\d+)/(?P<days>\d+)/$' % (_('cohorts/')), app.users.cohort, name='cohort'),
 
 ## PROFILE PAGE
     # With slug

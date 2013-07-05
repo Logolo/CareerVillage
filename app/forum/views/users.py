@@ -382,19 +382,23 @@ def user_recent(request, user):
 #User cohorts view.
 @user_view('users/cohorts.html', 'dashboard', _('dashboard'), _('educator dashboard'), True)
 def user_cohorts(request, user):
-    cohorts = user.educator_of.all()
-    data = {'view_user': user, 'cohorts' : []}
+    data = {
+        'view_user': user,
+        'cohorts': user.educator_of.all()
+    }
+    """
     for c in cohorts:
         cohort = {}
         cohort['name'] = c.name
         cohort['details'] = c.student_details()
         data['cohorts'].append(cohort)
+    """
     return data
 
 #Cohort helper view, only returns data if the logged in user is an educator
 #of the requested cohort or an admin
-def cohort(request, cohort, days=7):
-    cohort = Cohort.objects.get(name=cohort)
+def cohort(request, cohort_id, days=7):
+    cohort = Cohort.objects.get(id=cohort_id)
     if (request.user not in cohort.educators.all()) and (not request.user.is_superuser):
         return HttpResponse("Unauthorized")
     c = {}
@@ -410,7 +414,7 @@ def user_reputation(request, user):
 
     graph_data = simplejson.dumps([
     (time.mktime(rep[i].date.timetuple()) * 1000, reduce(redux, values[:i], 0))
-    for i in range(len(values))
+        for i in range(len(values))
     ])
 
     rep = user.reputes.filter(action__canceled=False).order_by('-date')[0:20]

@@ -99,8 +99,11 @@ class Cohort(BaseModel):
         students = self.students.all()
         total, individuals = {}, []
 
-        total['points'] = self.time_reputation(days=days)
-        total['questions'] = self.time_questions(days=days)
+        #total['points'] = self.time_reputation(days=days)
+        total['points'] = 0
+        #total['questions'] = self.time_questions(days=days)
+        total['questions'] = 0
+
         total['answers_received'] = self.time_answers_received(days=days)
         total['pageviews'] = self.time_pageviews(days=days)
         total['comments'] = self.time_comments(days=days)
@@ -110,11 +113,21 @@ class Cohort(BaseModel):
         total['login_percent'] = "%.2f" % (login_data * 100.0 / students.count())
 
         for student in students:
-            student_detail={}
-            student_detail['student']=student
-            student_detail['questions']=student.get_question_count(days=days)
-            student_detail['answers']=student.get_answer_count(days=days)
-            student_detail['points']=student.get_reputation_by_actions(days=days)
+            student_detail = {}
+            student_detail['student'] = student
+
+            # not used: student_detail['answers']=student.get_answer_count(days=days)
+
+            points = student.get_reputation_by_actions(days=days)
+            student_detail['points'] = points
+
+            questions = student.get_question_count(days=days)
+            student_detail['questions'] = questions
+
+            total['points'] += points
+            total['questions'] += questions
+
+            # TODO: Improve efficiency
             answers_received_count = 0
             today = datetime.date.today()
             qs = Question.objects.filter_state(deleted=False).filter(author=student)
@@ -123,6 +136,10 @@ class Cohort(BaseModel):
                     if (a.last_activity.date() >= (datetime.date.today() - datetime.timedelta(days=days))):
                         answers_received_count += 1
             student_detail['answers_received']=answers_received_count
+
             individuals.append(student_detail)
-        details = {'totals' : total, 'individuals' : individuals}
-        return details
+
+        return {
+            'totals': total,
+            'individuals' : individuals
+        }

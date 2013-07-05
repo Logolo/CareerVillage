@@ -13,7 +13,10 @@ logger = logging.getLogger('forum.templates')
 def log(context, message, method='info'):
     """ Register a log message using the specified method.
     """
-    message = 'In path \'%s\': %s' % (context['request'].path, message)
+    request = context.get('request')
+
+    message = 'In path \'%s\': %s' % (request.path if request else 'unknown', message)
+
     if method == 'debug':
         logger.debug(message)
     elif method == 'info':
@@ -28,4 +31,6 @@ def log(context, message, method='info'):
 def log_old_template(context):
     """ Register a log message when a v1 template is being used.
     """
-    logger.info('Using a v1 template in path \'%s\'.' % context['request'].path)
+    request = context.get('request')
+
+    logger.info('Using a v1 template in path \'%s\'.' % (request.path if request else 'unknown'))
