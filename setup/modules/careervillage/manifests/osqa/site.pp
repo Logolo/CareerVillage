@@ -37,15 +37,14 @@ class careervillage::osqa::site {
             supervisor::app { "osqa_site":
                 command     => "/usr/local/bin/uwsgi
                                         --socket ${careervillage::run_dir}/osqa_uwsgi.sock
-
-                                        --chmod-socket
+                                        --chmod-socket 664
                                         --processes 2
-
+                                        --harakiri 120
+                                        --max-requests 5000
                                         --master
+                                        --vacuum
                                         --virtualenv ${careervillage::venv_dir}
-
                                         --pp ${careervillage::app_dir}
-
                                         --module wsgi:application",
 
                 environment => "DJANGO_SETTINGS_MODULE='settings'",
@@ -77,15 +76,14 @@ class careervillage::osqa::site {
             supervisor::app { "osqa_site":
                 command     => "/usr/local/bin/uwsgi
                                         --socket ${careervillage::run_dir}/osqa_uwsgi.sock
-
-                                        --chmod-socket
+                                        --chmod-socket 664
                                         --processes 2
-
+                                        --harakiri 120
+                                        --max-requests 5000
                                         --master
+                                        --vacuum
                                         --virtualenv ${careervillage::venv_dir}
-
                                         --pp ${careervillage::app_dir}
-
                                         --module wsgi:application",
 
                 environment => "DJANGO_SETTINGS_MODULE='settings',NEW_RELIC_CONFIG_FILE='${careervillage::data_dir}/newrelic.ini'",
