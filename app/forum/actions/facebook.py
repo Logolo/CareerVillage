@@ -149,7 +149,7 @@ class LikeQuestionStory(Story):
                 'title': title,
                 'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/358120227643921' if settings.DEBUG else self.get_object_url(),
-                'description': title,
+                #'description': title,
             })
         }
 
@@ -169,7 +169,7 @@ class LikeAnswerStory(Story):
                 'title': title,
                 'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/358124874310123' if settings.DEBUG else self.get_object_url(),
-                'description': title,
+                #'description': title,
             })
         }
         return data
@@ -242,7 +242,7 @@ class AwardBadgeStory(Story):
                 'title': self._object.name,
                 'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/358124060976871' if settings.DEBUG else self.get_object_url(),
-                'description': self._object.name,
+                #'description': self._object.name,
             })
         }
         return data
@@ -265,7 +265,7 @@ class InterestTopicStory(Story):
                 'title': self._object.name,
                 'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/358123727643571' if settings.DEBUG else self.get_object_url(),
-                'description': self._object.name,
+                #'description': self._object.name,
             })
         }
         return data
@@ -289,7 +289,7 @@ class GetPointStory(Story):
                 'title': '%s points' % self._point_count,
                 'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/359065370882740' if settings.DEBUG else self.get_object_url(),
-                'description': '%s points' % self._point_count,
+                #'description': '%s points' % self._point_count,
                 'data': {
                     'count': self._point_count,
                 }
@@ -316,7 +316,7 @@ class ReachPointStory(Story):
                 'title': '%s points' % self._point_count,
                 'image': settings.APP_URL + media('/media/img/careervillage_256x256.png'),
                 'url': 'http://samples.ogp.me/359065370882740' if settings.DEBUG else self.get_object_url(),
-                'description': '%s points' % self._point_count,
+                #'description': '%s points' % self._point_count,
                 'data': {
                     'count': self._point_count,
                 }
