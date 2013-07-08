@@ -34,7 +34,7 @@ DATABASES = {
 SENTRY_DSN = <%= scope.function_get_py_value('::careervillage_sentry_dsn') %>
 
 FACEBOOK_APP_ID = <%= scope.function_get_py_value('::careervillage_facebook_app_id') %>
-FACEBOOK_APP_NAMESPACE = 'careervillage-<%= scope.lookupvar('careervillage::target') %>'
+FACEBOOK_APP_NAMESPACE = <%= scope.function_get_py_value('::careervillage_facebook_app_namespace') %>
 FACEBOOK_API_SECRET = <%= scope.function_get_py_value('::careervillage_facebook_app_secret') %>
 
 LINKEDIN_CONSUMER_KEY = <%= scope.function_get_py_value('::careervillage_linkedin_consumer_key') %>

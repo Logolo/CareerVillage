@@ -49,12 +49,6 @@ function pickedTags() {
     };
 
     var setupTagDeleteEvents = function(obj,tag_store,tagname,reason,send_ajax){
-        obj.unbind('mouseover').bind('mouseover', function(){
-            $(this).attr('src', mediaUrl('media/images/close-small-hover.png'));
-        });
-        obj.unbind('mouseout').bind('mouseout', function(){
-            $(this).attr('src', mediaUrl('media/images/close-small-dark.png'));
-        });
         obj.click( function(){
             unpickTag(tag_store,tagname,reason,send_ajax);
         });
@@ -85,19 +79,22 @@ function pickedTags() {
 
             sendAjax(tagname,reason,'add',function(){
                 var new_tag = $('<span></span>');
-                new_tag.addClass('deletable-tag');
+                new_tag.addClass('deletable-tag tag-link-');
                 var tag_link = $('<a></a>');
                 tag_link.attr('rel','tag');
+                tag_link.attr('title','see questions tagged with\'' + tagname + '\'');
                 tag_link.attr('href', scriptUrl + $.i18n._('tags/') + tagname + '/');
-                tag_link.html(tagname);
-                var del_link = $('<img></img>');
-                del_link.addClass('delete-icon');
-                del_link.attr('src', mediaUrl('media/images/close-small-dark.png'));
+                var tag_badge = $('<span></span>');
+                tag_badge.addClass('badge');
+                tag_badge.html(tagname);
+                var del_link = $('<i></i>');
+                del_link.addClass('icon-remove');
 
                 setupTagDeleteEvents(del_link, to_target, tagname, reason, true);
 
                 new_tag.append(tag_link);
-                new_tag.append(del_link);
+                tag_link.append(tag_badge);
+                tag_badge.append(del_link);
                 to_tag_container.append(new_tag);
 
                 to_target[tagname] = new_tag;

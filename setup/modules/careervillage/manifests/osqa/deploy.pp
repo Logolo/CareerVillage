@@ -49,5 +49,10 @@ class careervillage::osqa::deploy {
             stderr_logfile => "${careervillage::log_dir}/osqa_celery_supervisor_stderr.log";
         }
 
+        exec { "cvosqa_celery_restart":
+             command => "/usr/bin/supervisorctl restart cvosqa_celery",
+             require => Supervisor::App["cvosqa_celery"];
+        }
+
     }
 }
