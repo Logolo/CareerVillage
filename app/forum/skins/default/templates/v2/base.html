@@ -44,9 +44,27 @@
         <script type="application/javascript">var _prum={id:"516706dee6e53d3016000000"};var PRUM_EPISODES=PRUM_EPISODES||{};PRUM_EPISODES.q=[];PRUM_EPISODES.mark=function(b,a){PRUM_EPISODES.q.push(["mark",b,a||new Date().getTime()])};PRUM_EPISODES.measure=function(b,a,b){PRUM_EPISODES.q.push(["measure",b,a,b||new Date().getTime()])};PRUM_EPISODES.done=function(a){PRUM_EPISODES.q.push(["done",a])};PRUM_EPISODES.mark("firstbyte");(function(){var b=document.getElementsByTagName("script")[0];var a=document.createElement("script");a.type="text/javascript";a.async=true;a.charset="UTF-8";a.src="//rum-static.pingdom.net/prum.min.js";b.parentNode.insertBefore(a,b)})();</script>
 
     <!-- GOOGLE SITE VERIFICATION -->
-        {% if settings.GOOGLE_SITEMAP_CODE %}
-            <meta name="google-site-verification" content="{{ settings.GOOGLE_SITEMAP_CODE }}" />
-        {% endif %}
+        <meta name="google-site-verification" content="R6Jm4ZcNIkeAi1Xyiv0xu7LVIk7MINq0NdIuuPRBcIw" />
+
+
+    <!-- GOOGLE ANALYTICS -->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-28001869-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+            
+            //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
+            window.onerror = function(message, file, line) {
+               var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+               _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+            }
+        </script>
 
 </head>
 <body class="{% block page_class %}{% endblock %}">
@@ -57,7 +75,7 @@
     <div class="navbar-inner">
         <div><!-- center -->
             <div class="container-fluid">
-                <a href="{% if user.is_authenticated %}/home/{% else %}/{% endif %}" class="brand"><img src="{% media "/media/img/CareerVillageLogo_Sky_Wide_154.png" %}" alt="CareerVillag Logo"></a>
+                <a href="{% if user.is_authenticated %}/home/{% else %}/{% endif %}" class="brand"><img src="{% media "/media/img/CareerVillageLogo_Sky_Wide_154.png" %}" alt="CareerVillage Logo"></a>
                 <ul class="nav pull-right">
                       <li><a href="{% url about %}">About</a></li>
                     {% if user.is_superuser %}
@@ -214,27 +232,6 @@
      var s = document.createElement("script"); s.type = "text/javascript"; s.async = true; s.src = '//api.usersnap.com/usersnap.js'; var x = document.getElementsByTagName('head')[0]; x.appendChild(s);
     })();
 </script>
-
-
-<!-- Using Google Analytics to log client-side errors -->
-{% if settings.GOOGLE_ANALYTICS_KEY %}
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_KEY }}']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-        //<%# http://www.thetaboard.com/blog/client-side-error-logging-with-google-analytics %>
-        window.onerror = function(message, file, line) {
-           var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
-           _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
-        }
-    </script>
-{% endif %}
 
 </body>
 </html>
