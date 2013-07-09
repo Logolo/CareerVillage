@@ -106,10 +106,10 @@
     <div id="flag-question-form" class="reveal row-fluid" style="display:none">
         <form action="{% url flag_post question.id %}" method="post" class="offset2 span9">
             <h5>See something which is inappropriate on CareerVillage? <span style="font-weight:normal">An administrator will review the post and remove it from the site if they agree. Please leave a note for the administrator to help them understand what's wrong:</span></h5>
+            <p class="flag-message"></p>
             <textarea placeholder="Explain what's wrong" name="prompt"></textarea>
             <button class="submit pull-right btn btn-inverse" style="padding-left:32px; padding-right:32px">Submit</button>
             <a class="flag-for-review pull-right btn btn-default" style="margin-right:8px">Cancel</a>
-            <p class="flag-message"></p>
         </form>
         <h5 class="confirmation" style="display:none"><div class="offset2 span9 ">Thanks for your help keeping CareerVillage safe!</div></h5>
     </div>

@@ -877,6 +877,9 @@ h5.jumplink {
 #flag-question-form h5.confirmation {
     margin-top:32px;
 }
+#flag-question-form .flag-message {
+    color:red;
+}
 .answer-actions {
     text-align:center;
     margin:20px 0 10px 0;
