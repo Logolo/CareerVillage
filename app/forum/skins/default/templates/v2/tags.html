@@ -1,0 +1,41 @@
+{% extends "v2/base.html" %}
+
+{% load i18n extra_tags extra_filters humanize %}
+{% block title %}{% spaceless %}{% trans "Topics" %}{% endspaceless %}{% endblock %}
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid" id="tags-list">
+    <div class="offset1 span10">
+        <h2 class="text-blue">
+            {% if stag %}
+                {% trans "All topics matching query" %} '{{ stag }}':
+            {% else %}
+                {% trans "All topics in CareerVillage today" %}
+            {% endif %}
+        </h2> 
+
+        <!-- Skip this -->
+        <div class="row-fluid">
+            <a href="{% url homepage %}">Or skip this and go straight to viewing <strong>all</strong> questions...</a> 
+        </div>
+        
+        <!-- Topics list -->
+        <div class="row-fluid">
+            {% if not tags.paginator.count %}
+                <span>{% trans "Nothing found" %}</span>
+            {% else %}
+                <div class="tags">
+                {% for tag in tags.paginator.page %}
+                    <a class="badge tag-link-{{ tag }}" href="{% url tag_questions tag|tag_slug|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>
+                    <span class="tag-number"> &#215; {{ tag.used_count|intcomma }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+    </div>
+</div><!--/#block-content.row-fluid -->
+
+{% endblock %}

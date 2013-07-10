@@ -430,6 +430,22 @@ def tags(request):
         "keywords" : stag
     })
 
+@decorators.render('v2/tags.html', 'tags', _('Topics'), weight=100)
+def tags_v2(request):
+    stag = ""
+    tags = Tag.active.all()
+
+    if request.method == "GET":
+        stag = request.GET.get("q", "").strip()
+        if stag:
+            tags = tags.filter(name__icontains=stag)
+
+    return pagination.paginated(request, ('tags', TagPaginatorContext()), {
+        "tags" : tags,
+        "stag" : stag,
+        "keywords" : stag
+    })
+
 def update_question_view_times(request, question):
     last_seen_in_question = request.session.get('last_seen_in_question', {})
 

@@ -756,6 +756,35 @@ h5.jumplink {
   line-height:200%;
 }
 
+/* On the tags/tagslist page */
+#tags-list .tags {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+#tags-list .tags .badge {
+    font-size: 2em;
+    line-height: 2em;
+    padding-right: 30px;
+    padding-left: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    color:#666;
+    background-color:#fefefe;
+    font-weight:normal;
+    text-shadow:none;
+    border:#e6e6e6 solid 1px;
+    -webkit-transition: background 0.3s ease;  
+    -moz-transition: background 0.3s ease;  
+    -o-transition: background 0.3s ease;   
+    -ms-transition: background 0.3s ease;    
+    transition: background 0.3s ease;
+}
+
+#tags-list .tags .tag-number {
+  font-size: 2em;
+  line-height: 2em;
+}
 
 /*************
  * QUESTION
