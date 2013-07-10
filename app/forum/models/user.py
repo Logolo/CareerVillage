@@ -161,10 +161,10 @@ class User(BaseModel, DjangoUser):
     subscriptions = models.ManyToManyField('Node', related_name='subscribers', through='QuestionSubscription')
 
     # Email notifications
-    NOTIFICATIONS_IMMEDIATE = 'i'
-    NOTIFICATIONS_DAILY = 'd'
-    NOTIFICATIONS_WEEKLY = 'w'
-    NOTIFICATIONS_NONE = 'n'
+    NOTIFICATIONS_IMMEDIATE = 'I'
+    NOTIFICATIONS_DAILY = 'D'
+    NOTIFICATIONS_WEEKLY = 'W'
+    NOTIFICATIONS_NONE = 'N'
     NOTIFICATIONS = (
         (NOTIFICATIONS_IMMEDIATE, 'immediate'),
         (NOTIFICATIONS_DAILY, 'daily'),
