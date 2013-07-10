@@ -30,7 +30,7 @@
             {{ question.html|safe }}
         </blockquote>
 
-        <p style="{{ p_style }}">{% trans "Don't forget to come over and cast your vote." %}</p>        
+        <p style="{{ p_style }}">{% trans "Come over and answer or 'like' this question." %}</p>
     {% endhtmlcontent %}
 
 {% textcontent notifications/base_text.html %}
@@ -40,7 +40,7 @@
 {% endblocktrans %}
 {{ safe_body }}
 
-{% trans "Don't forget to come over and cast your vote." %}
+{% trans "Come over and answer or 'like' this question." %}
 {% endtextcontent %}
 
 {% endemail %}
