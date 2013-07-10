@@ -1,7 +1,11 @@
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext as _
+from django.db.models import Q
+from django.db.models.signals import post_save
 from forum.models.action import ActionProxy
-from forum.models import Comment, Question, Answer, NodeRevision, Tag
+from forum.models import Comment, Question, Answer, NodeRevision, Tag, User
+from forum.utils.mail import send_template_email
+from forum import settings
 
 
 class NodeEditAction(ActionProxy):
@@ -259,3 +263,19 @@ class WikifyAction(ActionProxy):
             'node': self.describe_node(viewer, self.node),
         }
 
+
+def email_notification_immediate(sender, instance, created, **kwargs):
+    if created:
+        question = instance.node
+
+        q = Q(notifications=User.NOTIFICATIONS_IMMEDIATE)
+        if settings.djsettings.DEFAULT_NOTIFICATIONS == User.NOTIFICATIONS_IMMEDIATE:
+            q |= Q(notifications=None)
+        recipients = list(User.objects.exclude(id=question.author_id).filter(
+            q, tag_selections__reason='good', tag_selections__tag_id__in=question.tags.values_list(
+                'id', flat=True).query))
+        send_template_email(recipients, 'notifications/email_notification_immediate.html', {
+            'question': question,
+        })
+
+post_save.connect(email_notification_immediate, sender=AskAction)

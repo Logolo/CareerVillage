@@ -160,6 +160,19 @@ class User(BaseModel, DjangoUser):
 
     subscriptions = models.ManyToManyField('Node', related_name='subscribers', through='QuestionSubscription')
 
+    # Email notifications
+    NOTIFICATIONS_IMMEDIATE = 'i'
+    NOTIFICATIONS_DAILY = 'd'
+    NOTIFICATIONS_WEEKLY = 'w'
+    NOTIFICATIONS_NONE = 'n'
+    NOTIFICATIONS = (
+        (NOTIFICATIONS_IMMEDIATE, 'immediate'),
+        (NOTIFICATIONS_DAILY, 'daily'),
+        (NOTIFICATIONS_WEEKLY, 'weekly'),
+        (NOTIFICATIONS_NONE, 'no notifications'),
+    )
+    notifications = models.CharField(max_length=1, choices=NOTIFICATIONS, null=True, blank=True)
+
     vote_up_count = DenormalizedField("actions", canceled=False, action_type="voteup")
     vote_down_count = DenormalizedField("actions", canceled=False, action_type="votedown")
 

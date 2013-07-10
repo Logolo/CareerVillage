@@ -562,17 +562,29 @@ def settings_password(request):
         I work on getting the pages hooked up.'''
         return HttpResponseRedirect(reverse('homepage'))
 
+
+@login_required
 def settings_notifications(request):
-    if request.user.is_authenticated():
-        return render_to_response('v2/settings_notifications.html', {
-            'user': request.user,
-            }, context_instance=RequestContext(request))
-    else: 
-        '''This user is logged out. We should redirect them to 
-        login first, and then have them come to this page. 
-        Temporarily, I'll redurect them to the homepage while 
-        I work on getting the pages hooked up.'''
-        return HttpResponseRedirect(reverse('homepage'))
+    user = request.user
+
+    if request.method == 'POST':
+        notifications = request.POST.get('notifications')
+        if notifications in dict(User.NOTIFICATIONS):
+            user.notifications = notifications
+            user.save()
+        else:
+            notifications = settings.djsettings.DEFAULT_NOTIFICATIONS
+    else:
+        if user.notifications is None:
+            notifications = settings.djsettings.DEFAULT_NOTIFICATIONS
+        else:
+            notifications = user.notifications
+
+    return render_to_response('v2/settings_notifications.html', {
+        'user': user,
+        'notifications': notifications,
+    }, context_instance=RequestContext(request))
+
 
 def settings_following_topics(request):
     if request.user.is_authenticated():

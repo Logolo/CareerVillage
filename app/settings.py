@@ -156,6 +156,10 @@ LINKEDIN_EXTRA_FIELD_SELECTORS = ['id', 'skills', 'interests', 'first-name',
                                   'last-name', 'email-address', 'headline', 'industry',
                                   'picture-url', 'location']
 
+# Default email notifications level
+# ('i'=immediate, 'd'=daily, 'w'=weekly, 'n'=no notifications)
+DEFAULT_NOTIFICATIONS = 'i'
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
