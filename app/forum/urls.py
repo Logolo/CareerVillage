@@ -150,7 +150,7 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/$' % _('users/'), app.users.user_profile_v2, name='user_profile_v2'),
 
 ## BADGES
-    url(r'^%s$' % _('badges/'), app.meta.badges, name='badges'), 
+    url(r'^%s$' % _('badges/'), app.meta.badges_v2, name='badges'), 
     url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]+)/?$' % _('badges/'), app.meta.badge, name='badge'), 
     # (r'^admin/doc/' % _('admin/doc'), include('django.contrib.admindocs.urls')),
 

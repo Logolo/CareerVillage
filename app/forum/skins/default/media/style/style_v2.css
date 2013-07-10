@@ -786,6 +786,72 @@ h5.jumplink {
   line-height: 2em;
 }
 
+
+/************
+ * MEDALS & AWARDS
+ ***/
+
+#medalList {
+  margin: 30px 0;
+}
+
+.medal-item {
+  line-height: 39px;
+  clear:both;
+}
+
+.medal-check {
+  font-size:175%; 
+  color:#5B9058; 
+  float:left;
+}
+
+.medal-box {
+  min-width: 193px;
+}
+
+.medal {
+    background: none repeat scroll 0 0 #FFFFCD;
+    border-color: #EEEEEE #CCCCCC #CCCCCC #EEEEEE;
+    border-left: 1px solid #EEEEEE;
+    border-style: solid;
+    border-width: 1px;
+    color: #333333;
+    font-weight: bold;
+    padding: 4px 12px 4px 6px;
+    margin-right: 5px;
+}
+
+.badge1 {
+  margin-left:3px;
+  padding-right:2px;
+  font-size: 120%;
+  color: #FFCC00;
+}
+
+.badge2 {
+  margin-left:3px;
+  padding-right:2px;
+  font-size: 120%;
+  color: #C0C0C0;
+}
+
+.badge3 {
+  margin-left:3px;
+  padding-right:2px;
+  font-size: 120%;
+  color: #CC9966;
+}
+
+.silver, .badge2 {
+  color: #CCCCCC;
+}
+
+.bronze, .badge3 {
+  color: #CC9933;
+}
+
+
 /*************
  * QUESTION
  * 
