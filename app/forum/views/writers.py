@@ -12,6 +12,7 @@ from django.utils import simplejson
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 from forum.actions import AskAction, AnswerAction, ReviseAction, RollbackAction, RetagAction, AnswerToQuestionAction, ReferralAction
 from forum.forms import *
@@ -115,6 +116,7 @@ def ask(request):
         }, context_instance=RequestContext(request))
 
 
+@login_required
 def ask_v2(request):
     form = None
     if request.POST:
