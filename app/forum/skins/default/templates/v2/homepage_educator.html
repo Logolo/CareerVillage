@@ -61,10 +61,10 @@
             </h4>
         {% else %}
             <h4>
-                Looks like nobody has asked any questions recently about the topics you follow.
+            Looks like nobody has asked any questions recently about the topics you follow. <a href="{% url settings_following_topics %}">Click here</a> to update your topics. 
             </h4>
             <h4>
-                <a href="{% url homepage %}">Check out</a> the latest questions instead to see what's active!
+                Or <a href="{% url homepage %}">check out</a> the latest questions instead to see what's active!
             </h4>
         {% endif %}
     {% endif %}
