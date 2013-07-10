@@ -40,7 +40,10 @@
                         <div class="media-body">
                             <h4>
                                 <a href="{{ answer.user.get_profile_url }}">{{ answer.user.real_name }}</a>
-                                <span class="text-light">{{ answer.user.about }}</em></span><br />
+                                {% if answer.user.headline %}
+                                <span class="text-light">{{ answer.user.headline }}</em></span>
+                                {% endif %}
+                                <br />
                                 <span class="text-subtext">{{ answer.user.location }}</span>
                                 <span class="text-subtext">{{  answer.user.industry  }}</span>
                                 <span class="text-subtext">Last updated {% diff_date answer.last_activity_at %}</span>
