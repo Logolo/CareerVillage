@@ -263,6 +263,11 @@ LOGGING = {
             'level': LOGGING_LEVEL,
             'propagate': False
         },
+        'forum': {
+            'handlers': ['console', 'sentry'],
+            'level': LOGGING_LEVEL,
+            'propagate': False
+        },
         'forum.actions.facebook': {
             'handlers': ['console', 'sentry'],
             'level': LOGGING_LEVEL,

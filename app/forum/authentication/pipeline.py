@@ -7,16 +7,22 @@ from forum.actions import UserJoinsAction
 from forum.models import User, Tag, MarkedTag
 from forum.views.auth import login_and_forward
 from django.shortcuts import redirect
+import logging, pprint
+
+logger = logging.getLogger('forum')
 
 def create_user(request, backend, uid=None, details={}, response={}, user=None, **kwargs):
-    print 'LLEGO!'
+
     created = changed = False
     tags = []
+
+    logger.info('create_user A')
 
     if user:
         user = User.objects.get(id=user.id)
 
     if backend.name == 'linkedin-oauth2':
+        logger.info('create_user A1')
         force_revise = False
         linkedin_uid = uid
         linkedin_email = details.get('email')
@@ -24,9 +30,12 @@ def create_user(request, backend, uid=None, details={}, response={}, user=None, 
         linkedin_access_token = response.get('access_token')
 
         if not user:
+            logger.info('create_user A1A')
             try:
                 user = User.objects.get(linkedin_uid=linkedin_uid)
+                logger.info('create_user A1A1')
             except User.DoesNotExist:
+                logger.info('create_user A1A2')
                 try:
                     user = User.objects.get(username=linkedin_email_lower)
                     force_revise = not user.linkedin_access_token
@@ -48,8 +57,9 @@ def create_user(request, backend, uid=None, details={}, response={}, user=None, 
                         tags = [response.get('industry', '')]
                         tags.extend(s['skill']['name'].strip() for s in response.get('skills', {}).get('skill', []))
                         tags.extend(s.strip() for s in response.get('interests', '').split(','))
-
+        logger.info('create_user A2')
         if linkedin_access_token and linkedin_uid:
+            logger.info('create_user A2A')
             changed = True
             user.linkedin_uid = linkedin_uid
             user.linkedin_email = linkedin_email
@@ -57,8 +67,10 @@ def create_user(request, backend, uid=None, details={}, response={}, user=None, 
             user.linkedin_access_token_expires_on = now() + datetime.timedelta(days=58)
 
         if created or force_revise:
+            logger.info('create_user A3')
             next_url = request.POST.get('next', reverse('revise_profile'))
         else:
+            logger.info('create_user A4')
             next_url = request.POST.get('next', reverse('homepage'))
 
     elif backend.name == 'facebook':
@@ -96,6 +108,7 @@ def create_user(request, backend, uid=None, details={}, response={}, user=None, 
         next_url = request.POST.get('next', reverse('homepage'))
 
     if changed:
+        logger.info('create_user A5')
         user.save()
 
     for tag in tags:
@@ -114,7 +127,8 @@ def create_user(request, backend, uid=None, details={}, response={}, user=None, 
     }
 
 
-def login(request, user, is_new=True, next_url=None, **kwargs):
+def login(request, user, is_new=False, next_url=None, **kwargs):
+    logger.info('create_user A999')
     if is_new:
         UserJoinsAction(user=user, ip=request.META['REMOTE_ADDR']).save()
     return login_and_forward(request, user, next_url or reverse('homepage'), _("You are now logged in."))
