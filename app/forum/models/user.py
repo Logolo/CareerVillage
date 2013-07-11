@@ -14,6 +14,89 @@ from forum.utils.time import one_day_from_now
 
 class AnonymousUser(DjangoAnonymousUser):
     reputation = 0
+    avatar_image = None
+    gravatar = None
+
+    #facebook
+    facebook_uid = None
+    facebook_email = None
+    facebook_access_token = None
+    facebook_access_token_expires_on = None
+
+    #linkedin
+    linkedin_uid = None
+    linkedin_email = None
+    linkedin_access_token = None
+    linkedin_access_token_expires_on = None
+    linkedin_photo_url = None
+
+
+    # Social networks
+
+    @property
+    def can_connect_facebook(self):
+        return False
+
+    @property
+    def can_disconnect_facebook(self):
+        return False
+
+    @property
+    def can_connect_linkedin(self):
+        return False
+
+    @property
+    def can_disconnect_linkedin(self):
+        return False
+
+    # Facebook permissions (stories)
+
+    @property
+    def can_facebook_like_question_story(self):
+        return False
+
+    @property
+    def can_facebook_like_answer_story(self):
+        return False
+
+    @property
+    def can_facebook_ask_question_story(self):
+        return False
+
+    @property
+    def can_facebook_answer_question_story(self):
+        return False
+
+    @property
+    def can_facebook_award_badge_story(self):
+        return False
+
+    @property
+    def can_facebook_interest_topic_story(self):
+        return False
+
+    @property
+    def can_facebook_get_point_story(self):
+        return False
+
+    @property
+    def can_facebook_reach_point_story(self):
+        return False
+
+    # Facebook permissions (notifications)
+
+    @property
+    def can_facebook_answer_question_notification(self):
+        return False
+
+    @property
+    def can_facebook_topic_question_notification(self):
+        return False
+
+    @property
+    def can_facebook_award_badge_notification(self):
+        return False
+
 
     @property
     def type(self):
