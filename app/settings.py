@@ -107,24 +107,23 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
 LOGIN_ERROR_URL = '/login/'
 
-AUTHENTICATION_BACKENDS = ('forum.authentication.backend.CaseInsensitiveModelBackend',
-                           'social_auth.backends.facebook.FacebookBackend',
-                           'social_auth.backends.contrib.linkedin.LinkedinBackend',
+AUTHENTICATION_BACKENDS = (
+   'social_auth.backends.facebook.FacebookBackend',
+   'social_auth.backends.contrib.linkedin.LinkedinOAuth2Backend',
+   'forum.authentication.backend.CaseInsensitiveModelBackend',
 )
 
+SOCIAL_AUTH_SLUGIFY_USERNAME = False
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['user_type']
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
-    'social_auth.backends.pipeline.social.associate_user',
     'forum.authentication.pipeline.create_user',
-    # 'social_auth.backends.pipeline.misc.save_status_to_session',
-    'social_auth.backends.pipeline.user.create_user',
     'social_auth.backends.pipeline.social.associate_user',
     'social_auth.backends.pipeline.social.load_extra_data',
-    'social_auth.backends.pipeline.user.update_user_details',
-    'social_auth.backends.pipeline.misc.save_status_to_session',
+    'forum.authentication.pipeline.login',
 )
 
 FACEBOOK_APP_ID = None

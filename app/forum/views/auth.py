@@ -213,6 +213,7 @@ def process_provider_signin(request, provider):
     return HttpResponseRedirect(reverse('auth_signin'))
 
 
+#TODO: remove
 def _create_linkedin_user(request, assoc_key):
 
     provider_class = AUTH_PROVIDERS['linkedin'].consumer
@@ -259,6 +260,7 @@ def _create_linkedin_user(request, assoc_key):
     return user_
 
 
+#TODO: remove
 def external_register(request):
     if request.method == 'POST' and 'bnewaccount' in request.POST:
         form1 = SimpleRegistrationForm(request.POST)

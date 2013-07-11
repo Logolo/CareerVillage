@@ -41,7 +41,7 @@ def disconnect(request, *args, **kwargs):
             user.save()
 
         # Remove stored LinkedIn information
-        elif backend == 'linkedin' and user.can_disconnect_linkedin:
+        elif backend == 'linkedin-oauth2' and user.can_disconnect_linkedin:
             user.linkedin_uid = None
             user.linkedin_email = None
             user.linkedin_access_token = None

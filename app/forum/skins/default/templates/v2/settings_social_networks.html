@@ -34,13 +34,13 @@
                 <h4 class="subtitle">LinkedIn</h4>
                 {% if user.linkedin_access_token %}
                     {% if user.can_disconnect_linkedin %}
-                        <a href="{% url socialauth_disconnect "linkedin" %}?user_type={{ user.type }}"
+                        <a href="{% url socialauth_disconnect "linkedin-oauth2" %}?user_type={{ user.type }}"
                            class="btn btn-large">Disconnect from LinkedIn</a>
                     {% else %}
                         <span class="btn btn-large disabled">Cannot disconnect</span>
                     {% endif %}
                 {% else %}
-                    <a href="{% url social_auth.views.auth "linkedin" %}?user_type={{ user.type }}"
+                    <a href="{% url social_auth.views.auth "linkedin-oauth2" %}?user_type={{ user.type }}"
                        class="btn btn-large">Connect with LinkedIn</a>
                 {% endif %}
             {% endif %}

@@ -90,9 +90,7 @@
                 <div class="social-signin">
                     <h4>Or use</h4>
                     <ul class="social-providers">
-                    {% for name in social_auth.backends.oauth2 %}
-                        <li><a class="zocial {{ name }}" rel="nofollow" href="{% url socialauth_begin name %}?user_type=S">{{ name|title }}</a></li>
-                    {% endfor %}
+                        <li><a class="zocial facebook" rel="nofollow" href="{% url socialauth_begin 'facebook' %}?user_type=S">Facebook</a></li>
                     </ul>
                 </div>
             </form>
@@ -144,7 +142,7 @@
                 <div class="text-center"><br />
                     <h3>Professionals</h3>
                     <h4 class="text-light">{% trans 'We use your experience, skills, and interests from LinkedIn to help us identify which questions are relevant to you.' %}</h4>
-                    <p><a class="zocial linkedin" rel="nofollow" href="{% url socialauth_begin 'linkedin' %}?user_type=P">{% trans 'Login with Linkedin' %}</a></p>
+                    <p><a class="zocial linkedin" rel="nofollow" href="{% url socialauth_begin 'linkedin-oauth2' %}?user_type=P">{% trans 'Login with Linkedin' %}</a></p>
 
                     <!-- TODO connect linkedin button and no linked in account link -->
                     <p><a class="subtle no-linkedin" href="#LinkedInModal" data-toggle="modal">
