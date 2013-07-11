@@ -109,7 +109,7 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/(?P<slug>.*)$' % _('questions/'), app.readers.question, name='question'),
 
 ## TAGS 
-    url(r'^%s$' % _('tags/'), app.readers.tags, name='tags'), 
+    url(r'^%s$' % _('tags/'), app.readers.tags_v2, name='tags'), 
     url(r'^%s(?P<tag>[-\w]+)/%s$' % (_('tags/'), _('unanswered/')), app.readers.tag_v2_unanswered, name='tag_questions_unanswered'),
     url(r'^%s(?P<tag>.*)/$' % _('tags/'), app.readers.tag_v2, name='tag_questions'),
     url(r'^%s%s(?P<tag>[^/]+)/$' % (_('mark-tag/'),_('interesting/')), app.commands.mark_tag, kwargs={'reason':'good','action':'add'}, name='mark_interesting_tag'),
@@ -150,7 +150,7 @@ core_urls = (
     url(r'^%s(?P<id>\d+)/$' % _('users/'), app.users.user_profile_v2, name='user_profile_v2'),
 
 ## BADGES
-    url(r'^%s$' % _('badges/'), app.meta.badges, name='badges'), 
+    url(r'^%s$' % _('badges/'), app.meta.badges_v2, name='badges'), 
     url(r'^%s(?P<id>\d+)/(?P<slug>[\w-]+)/?$' % _('badges/'), app.meta.badge, name='badge'), 
     # (r'^admin/doc/' % _('admin/doc'), include('django.contrib.admindocs.urls')),
 

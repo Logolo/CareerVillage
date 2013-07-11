@@ -29,7 +29,7 @@
         {{ comment.comment }}
         </blockquote>
 
-        <p style="{{ p_style }}">{% trans "Don't forget to come over and cast your vote." %}</p>
+        <p style="{{ p_style }}">{% trans "Don't forget to come over and say thanks!" %}</p>
     {% endhtmlcontent %}
 
 {% textcontent notifications/base_text.html %}
@@ -40,7 +40,7 @@
 {% blocktrans %}the question "{{ question_title }}"{% endblocktrans %}
 {{ safe_body }}
 
-{% trans "Don't forget to come over and cast your vote." %}
+{% trans "Don't forget to come over and say thanks!" %}
 {% endtextcontent %}
 
 {% endemail %}
