@@ -20,9 +20,41 @@ DATABASES = {
 
 SENTRY_DSN = '<fill>'
 
-FACEBOOK_APP_ID = '<fill>'
-FACEBOOK_APP_NAMESPACE = '<fill>'
-FACEBOOK_API_SECRET = '<fill>'
 
-LINKEDIN_CONSUMER_KEY = '<fill>'
-LINKEDIN_CONSUMER_SECRET = '<fill>'
+# Facebook applications
+FACEBOOK_APPS = {
+    'app0': {
+        'APP_ID': '<fill>',
+        'APP_NAMESPACE': '<fill>',
+        'API_SECRET': '<fill>',
+
+        'OVERRIDE_BACKEND_NAME': '<fill>',
+    },
+    'app1': {
+        'APP_ID': '<fill>',
+        'APP_NAMESPACE': '<fill>',
+        'API_SECRET': '<fill>',
+
+        'OVERRIDE_BACKEND_NAME': '<fill>',
+    },
+}
+
+# Linkedin applications
+LINKEDIN_APPS = {
+    'app0': {
+        'CONSUMER_KEY': '<fill>',
+        'CONSUMER_SECRET': '<fill>',
+
+        'OVERRIDE_BACKEND_NAME': '<fill>',
+    },
+    'app1': {
+        'CONSUMER_KEY': '<fill>',
+        'CONSUMER_SECRET': '<fill>',
+
+        'OVERRIDE_BACKEND_NAME': '<fill>',
+    },
+}
+
+# Current apps
+FACEBOOK_APP = 'app0'
+LINKEDIN_APP = 'app0'

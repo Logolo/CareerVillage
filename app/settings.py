@@ -87,6 +87,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
     'social_auth.context_processors.social_auth_login_redirect',
+    'forum.context_processors.socialauth_backend_names',
 )
 
 ROOT_URLCONF = 'urls'
@@ -108,9 +109,9 @@ LOGIN_REDIRECT_URL = '/home/'
 LOGIN_ERROR_URL = '/login/'
 
 AUTHENTICATION_BACKENDS = (
-   'social_auth.backends.facebook.FacebookBackend',
-   'social_auth.backends.contrib.linkedin.LinkedinOAuth2Backend',
-   'forum.authentication.backend.CaseInsensitiveModelBackend',
+    'forum.authentication.backend.OverrideFacebookBackend',
+    'forum.authentication.backend.OverrideLinkedinOAuth2Backend',
+    'forum.authentication.backend.CaseInsensitiveModelBackend',
 )
 
 SOCIAL_AUTH_SLUGIFY_USERNAME = False
@@ -126,9 +127,8 @@ SOCIAL_AUTH_PIPELINE = (
     'forum.authentication.pipeline.login',
 )
 
-FACEBOOK_APP_ID = None
-FACEBOOK_APP_NAMESPACE = None
-FACEBOOK_API_SECRET = None
+
+# Common Facebook settings
 FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'publish_actions']
 FACEBOOK_EXTENDED_PERMISSIONS_STRING = ','.join(FACEBOOK_EXTENDED_PERMISSIONS)
 # Minimum reputation increase when posting to Facebook
@@ -148,12 +148,13 @@ FACEBOOK_ALLOW_SETTINGS_UPDATE = ['facebook_like_question_story',
                                   'facebook_ask_question_story',
                                   'facebook_answer_question_story']
 
-LINKEDIN_CONSUMER_KEY = None
-LINKEDIN_CONSUMER_SECRET = None
+
+# Common Linkedin settings
 LINKEDIN_SCOPE = ['r_basicprofile', 'r_emailaddress', 'r_fullprofile']
 LINKEDIN_EXTRA_FIELD_SELECTORS = ['id', 'skills', 'interests', 'first-name',
                                   'last-name', 'email-address', 'headline', 'industry',
                                   'picture-url', 'location']
+
 
 # Default email notifications level
 # ('I'=immediate, 'D'=daily, 'W'=weekly, 'N'=no notifications)
@@ -194,6 +195,19 @@ try:
     from settings_user import *
 except ImportError:
     pass
+
+
+# Socialauth-multiple
+# Facebook
+FACEBOOK_APP_ID = FACEBOOK_APPS[FACEBOOK_APP]['APP_ID']
+FACEBOOK_APP_NAMESPACE = FACEBOOK_APPS[FACEBOOK_APP]['APP_NAMESPACE']
+FACEBOOK_API_SECRET = FACEBOOK_APPS[FACEBOOK_APP]['API_SECRET']
+FACEBOOK_OVERRIDE_BACKEND_NAME = FACEBOOK_APPS[FACEBOOK_APP]['OVERRIDE_BACKEND_NAME']
+# Linkedin
+LINKEDIN_CONSUMER_KEY = LINKEDIN_APPS[LINKEDIN_APP]['CONSUMER_KEY']
+LINKEDIN_CONSUMER_SECRET = LINKEDIN_APPS[LINKEDIN_APP]['CONSUMER_SECRET']
+LINKEDIN_OVERRIDE_BACKEND_NAME = LINKEDIN_APPS[LINKEDIN_APP]['OVERRIDE_BACKEND_NAME']
+
 
 app_url_split = APP_URL.split('://')
 

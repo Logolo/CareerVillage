@@ -5,6 +5,10 @@ from django.db.models import Q
 
 from forum.models import User, Question, MarkedTag
 from forum.tasks import facebook_topic_question_notification
+from forum import settings
+
+
+FACEBOOK_APP = settings.djsettings.FACEBOOK_APP
 
 
 class Command(NoArgsCommand):
@@ -12,8 +16,8 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
 
         for user in User.objects.filter(
-                properties__key='facebook_topic_question_notification', properties__value=True).exclude(
-                        Q(facebook_access_token__isnull=True) | Q(facebook_uid__isnull=True)):
+            properties__key='facebook_topic_question_notification', properties__value=True).exclude(
+                facebook_accounts__app=FACEBOOK_APP, facebook_accounts__isnull=True):
 
             # Obtain interesting tags query set
             marked = MarkedTag.objects.filter(user=user, reason='good')

@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 
 from social_auth.views import complete as socialauth_complete, disconnect as socialauth_disconnect
 from social_auth.exceptions import AuthAlreadyAssociated, NotAllowedToDisconnect, AuthCanceled
+from forum.authentication.backend import OverrideFacebookBackend, OverrideLinkedinOAuth2Backend
 
 
 def complete(request, *args, **kwargs):
@@ -33,19 +34,11 @@ def disconnect(request, *args, **kwargs):
         backend = kwargs.get('backend')
 
         # Remove stored Facebook information
-        if backend == 'facebook' and user.can_disconnect_facebook:
-            user.facebook_uid = None
-            user.facebook_email = None
-            user.facebook_access_token = None
-            user.facebook_access_token_expires_on = None
-            user.save()
+        if backend == OverrideFacebookBackend.name and user.can_disconnect_facebook:
+            user.facebook_account.delete()
 
         # Remove stored LinkedIn information
-        elif backend == 'linkedin-oauth2' and user.can_disconnect_linkedin:
-            user.linkedin_uid = None
-            user.linkedin_email = None
-            user.linkedin_access_token = None
-            user.linkedin_access_token_expires_on = None
-            user.save()
+        elif backend == OverrideLinkedinOAuth2Backend.name and user.can_disconnect_linkedin:
+            user.linkedin_account.delete()
 
     return redirect('settings_social_networks')

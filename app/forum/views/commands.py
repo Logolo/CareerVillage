@@ -18,6 +18,10 @@ from decorators import command, CommandException, RefreshPageCommand
 from forum.modules import decorate
 from django.utils.timezone import now
 from forum.tasks import facebook_like_question_story, facebook_like_answer_story
+from forum import settings
+
+
+FACEBOOK_APP = settings.djsettings.FACEBOOK_APP
 
 
 class NotEnoughRepPointsException(CommandException):
@@ -658,7 +662,8 @@ def facebook(request):
 
     # Check Facebook UID
     facebook_user_id = Graph.get_user_id(access_token)
-    if User.objects.exclude(id=user.id).filter(facebook_uid=facebook_user_id):
+    if User.objects.exclude(id=user.id).filter(facebook_accounts__app=FACEBOOK_APP,
+                                               facebook_accounts__uid=facebook_user_id):
         response['facebook_success'] = False
         return response
     else:

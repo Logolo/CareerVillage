@@ -1,8 +1,8 @@
 import forum.utils.djangofix
-from question import Question ,QuestionRevision, QuestionSubscription
+from question import Question, QuestionRevision, QuestionSubscription
 from answer import Answer, AnswerRevision
 from tag import Tag, MarkedTag
-from user import User, ValidationHash, AuthKeyUserAssociation, SubscriptionSettings
+from user import User, ValidationHash, AuthKeyUserAssociation, SubscriptionSettings, FacebookAccount, LinkedinAccount
 from node import Node, NodeRevision, NodeState, NodeMetaClass
 from comment import Comment
 from action import Action, ActionRepute
@@ -25,6 +25,7 @@ __all__ = [
         'Answer', 'AnswerRevision',
         'Tag', 'Comment', 'MarkedTag', 'Badge', 'Award',
         'ValidationHash', 'AuthKeyUserAssociation', 'SubscriptionSettings', 'KeyValue', 'User',
+        'FacebookAccount', 'LinkedinAccount',
         'Action', 'ActionRepute', 'Vote', 'Flag', 'Page', 'Cohort', 'Referral'
         ]
 

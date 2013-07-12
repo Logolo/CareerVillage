@@ -145,19 +145,6 @@ class User(BaseModel, DjangoUser):
     headline = models.CharField(max_length=200, blank=True)
     industry = models.CharField(max_length=200, blank=True)
 
-    #facebook
-    facebook_uid = models.CharField(max_length=100, null=True, blank=True)
-    facebook_email = models.CharField(max_length=255, null=True, blank=True)
-    facebook_access_token = models.CharField(max_length=250, null=True, blank=True)
-    facebook_access_token_expires_on = models.DateTimeField(null=True, blank=True)
-
-    #linkedin
-    linkedin_uid = models.CharField(max_length=100, null=True, blank=True)
-    linkedin_email = models.CharField(max_length=255, null=True, blank=True)
-    linkedin_access_token = models.CharField(max_length=250, null=True, blank=True)
-    linkedin_access_token_expires_on = models.DateTimeField(null=True, blank=True)
-    linkedin_photo_url = models.URLField(null=True, blank=True)
-
     subscriptions = models.ManyToManyField('Node', related_name='subscribers', through='QuestionSubscription')
 
     # Email notifications
@@ -206,7 +193,65 @@ class User(BaseModel, DjangoUser):
         else:
             return self.display_name('full')
 
-    # Social networks
+    # Social networks accounts
+
+    @property
+    def facebook_account(self):
+        """ User's Facebook account for the current app.
+        """
+        app = settings.djsettings.FACEBOOK_APP
+        try:
+            return self.facebook_accounts.get(app=app)
+        except FacebookAccount.DoesNotExist:
+            return FacebookAccount(user=self, app=app)
+
+    @property
+    def linkedin_account(self):
+        """ User's Linkedin account for the current app.
+        """
+        app = settings.djsettings.LINKEDIN_APP
+        try:
+            return self.linkedin_accounts.get(app=app)
+        except LinkedinAccount.DoesNotExist:
+            return LinkedinAccount(user=self, app=app)
+
+    @property
+    def facebook_uid(self):
+        return self.facebook_account.uid
+
+    @property
+    def facebook_email(self):
+        return self.facebook_account.email
+
+    @property
+    def facebook_access_token(self):
+        return self.facebook_account.access_token
+
+    @property
+    def facebook_access_token_expires_on(self):
+        return self.facebook_account.access_token_expires_on
+
+    @property
+    def linkedin_uid(self):
+        return self.linkedin_account.uid
+
+    @property
+    def linkedin_email(self):
+        return self.linkedin_account.email
+
+    @property
+    def linkedin_access_token(self):
+        return self.linkedin_account.access_token
+
+    @property
+    def linkedin_access_token_expires_on(self):
+        return self.linkedin_account.access_token_expires_on
+
+    @property
+    def linkedin_photo_url(self):
+        return self.linkedin_account.photo_url
+
+    # Social networks permissions
 
     @property
     def can_connect_facebook(self):
@@ -276,39 +321,6 @@ class User(BaseModel, DjangoUser):
     def can_facebook_award_badge_notification(self):
         return self.facebook_access_token and self.prop.facebook_award_badge_notification
 
-    """ OLD
-    @property
-    def can_publish_likes(self):
-        return self.facebook_access_token and self.prop.likes
-
-    @property
-    def can_publish_new_question(self):
-        return self.facebook_access_token and self.prop.new_question
-
-    @property
-    def can_publish_new_answer(self):
-        return self.facebook_access_token and self.prop.new_answer
-
-    @property
-    def can_publish_new_award(self):
-        return self.facebook_access_token and self.prop.new_badge_or_points
-
-    @property
-    def can_publish_new_points(self):
-        return self.facebook_access_token and self.prop.new_badge_or_points
-
-    @property
-    def can_publish_new_topic(self):
-        return self.facebook_access_token and self.prop.new_topic
-
-    @property
-    def can_notify_new_answer(self):
-        return self.facebook_access_token and self.prop.new_answer_notification
-
-    @property
-    def can_notify_new_award(self):
-        return self.facebook_access_token and self.prop.new_badge_notification
-    """
 
     @property
     def grade(self):
@@ -677,6 +689,39 @@ class User(BaseModel, DjangoUser):
 
     class Meta:
         app_label = 'forum'
+
+
+class FacebookAccount(BaseModel):
+    """ Facebook application-specific account.
+    """
+    app = models.CharField(max_length=100)
+    user = models.ForeignKey(User, related_name='facebook_accounts')
+
+    uid = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=255, null=True, blank=True)
+    access_token = models.CharField(max_length=250, null=True, blank=True)
+    access_token_expires_on = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        app_label = 'forum'
+        unique_together = ('app', 'user')
+
+
+class LinkedinAccount(BaseModel):
+    """ Linkedin application-specific account.
+    """
+    app = models.CharField(max_length=100)
+    user = models.ForeignKey(User, related_name='linkedin_accounts')
+
+    uid = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=255, null=True, blank=True)
+    access_token = models.CharField(max_length=250, null=True, blank=True)
+    access_token_expires_on = models.DateTimeField(null=True, blank=True)
+    photo_url = models.URLField(null=True, blank=True)
+
+    class Meta:
+        app_label = 'forum'
+        unique_together = ('app', 'user')
 
 
 class UserProperty(BaseModel):

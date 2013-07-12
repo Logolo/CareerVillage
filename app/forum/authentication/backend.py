@@ -1,5 +1,34 @@
 from django.contrib.auth.backends import ModelBackend
 from forum.models import User
+from forum import settings
+
+from social_auth.backends.facebook import FacebookBackend, FacebookAuth
+from social_auth.backends.contrib.linkedin import LinkedinOAuth2Backend, LinkedinOAuth2
+
+
+class OverrideFacebookBackend(FacebookBackend):
+    name = getattr(settings.djsettings, 'FACEBOOK_OVERRIDE_BACKEND_NAME',
+                   FacebookBackend.name)
+
+
+class OverrideFacebookAuth(FacebookAuth):
+    AUTH_BACKEND = OverrideFacebookBackend
+
+
+class OverrideLinkedinOAuth2Backend(LinkedinOAuth2Backend):
+    name = getattr(settings.djsettings, 'LINKEDIN_OVERRIDE_BACKEND_NAME',
+                   LinkedinOAuth2Backend.name)
+
+
+class OverrideLinkedinOAuth2(LinkedinOAuth2):
+    AUTH_BACKEND = OverrideLinkedinOAuth2Backend
+
+
+BACKENDS = {
+    OverrideFacebookBackend.name: OverrideFacebookAuth,
+    OverrideLinkedinOAuth2Backend.name: OverrideLinkedinOAuth2,
+}
+
 
 class CaseInsensitiveModelBackend(ModelBackend):
     """
