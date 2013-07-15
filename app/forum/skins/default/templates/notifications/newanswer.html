@@ -27,7 +27,7 @@
         {{ answer.html|safe }}
         </blockquote>
 
-        <p style="{{ p_style }}">{% trans "Don't forget to come over and cast your vote." %}</p>
+        <p style="{{ p_style }}">{% trans "After you read it, don't forget to say thanks with a comment!" %}</p>
     {% endhtmlcontent %}
 
 {% textcontent notifications/base_text.html %}
@@ -37,7 +37,7 @@
 {% endblocktrans %}
 {{ safe_body }}
 
-{% trans "Don't forget to come over and cast your vote." %}
+{% trans "After you read it, don't forget to say thanks with a comment!" %}
 {% endtextcontent %}
 
 {% endemail %}

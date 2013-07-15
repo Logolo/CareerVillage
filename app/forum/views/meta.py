@@ -100,6 +100,20 @@ def badges(request):
         'mybadges' : my_badges,
     }
 
+@decorators.render('v2/badges.html', 'badges', _('badges'), weight=300, tabbed=False)
+def badges_v2(request):
+    badges = [b.ondb for b in sorted(BadgesMeta.by_id.values(), lambda b1, b2: cmp(b1.name, b2.name))]
+
+    if request.user.is_authenticated():
+        my_badges = Award.objects.filter(user=request.user).values('badge_id').distinct()
+    else:
+        my_badges = []
+
+    return {
+        'badges' : badges,
+        'mybadges' : my_badges,
+    }
+
 def badge(request, id, slug):
     badge = Badge.objects.get(id=id)
     awards = list(Award.objects.filter(badge=badge).order_by('user', 'awarded_at'))

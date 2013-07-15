@@ -1,0 +1,97 @@
+{% extends "v2/base.html" %}
+
+{% load i18n extra_tags extra_filters humanize %}
+{% block title %}{% spaceless %}{% trans "Topics" %}{% endspaceless %}{% endblock %}
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    <div class="offset1 span7">
+        <!-- Left side -->
+        <h2 class="text-blue">
+            {% trans "Awards:" %}
+        </h2> 
+        <div class="row-fluid">
+            CareerVillage gives you awards for your questions, answers and likes. Below is the list of available badges and number of times each type of badge has been awarded.
+        </div>
+
+        <!-- Badges list -->
+        <div class="row-fluid" id="medalList">
+            {% for badge in badges %}
+                <div class="medal-item">
+                    <div class="span4 medal-box">
+                    {% for a in mybadges %}
+                        {% ifequal a.badge_id badge.id %}
+                         <span class="medal-check">&#10004;</span>
+                        {% endifequal %}
+                    {% endfor %}
+                        <a href="#" title="{{ badge.get_type_display }} : {{ badge.description }}" class="medal">
+                            <span class="badge{{ badge.type }}">
+                                {% if badge.type == 1 %}
+                                    <img src="{% media  "/media/images/badge_gold_red-16.png" %}"/>
+                                {% else %}
+                                    {% if badge.type == 2 %}
+                                    <img src="{% media  "/media/images/badge_silver_blue-16.png" %}"/>
+                                    {% else %}
+                                        <img src="{% media  "/media/images/badge_bronze_green-16.png" %}"/>
+                                    {% endif %}
+                                {% endif %}
+                            </span>&nbsp;{{ badge.name }}
+                        </a>
+                        <strong> &#215; {{ badge.awarded_count|intcomma }}</strong>
+                    </div>
+                    <div class="span6">
+                        {{ badge.description }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Right side -->
+    <div class="span3">
+        <h2 class="text-blue">
+            {% trans "Types of awards:" %}
+        </h2> 
+        <div class="row-fluid">
+            <!-- Gold -->
+            <p>
+                <span title="{% trans "gold badge: the highest and rarest honor" %}" class="medal">
+                    <span class="badge1">
+                        <img src="/m/default/media/images/badge_gold_red-32.png" />
+                    </span>&nbsp;{% trans "gold" %}
+                </span>
+            </p>
+            <p>
+                {% trans "Gold awards are the highest accomplishment on CareerVillage and are very challenging to achieve. Got one of these? Respect." %}
+            </p>
+            <!-- Silver -->
+            <p>
+                <span title="{% trans "silver award: occasionally awarded for the very high quality contributions" %}" class="medal">
+                    <span class="badge2">
+                        <img src="/m/default/media/images/badge_silver_blue-32.png" />
+                    </span>&nbsp;{% trans "silver" %}
+                </span>
+            </p>
+            <p>
+                {% trans "Silver awards are core achievements which indicate a strong contribution to CareerVillage. Get one of these and you know you're doing something right." %}
+            </p>
+            <!-- Bronze -->
+            <p>
+                <span title="{% trans "bronze award: often given as a special honor" %}" class="medal">
+                    <span class="badge3">
+                        <img src="/m/default/media/images/badge_bronze_green-32.png" />
+                    </span>&nbsp;{% trans "bronze" %}
+                </span>
+            </p>
+            <p>
+                Bronze awards are the first level of accomplishment on CareerVillage. Get as many as you can! Protip: They look great <a href="http://images.huffingtonpost.com/gen/34847/original.jpg">when you wear them all at once</a>.
+            </p>
+        </div>
+
+
+    </div>
+</div><!--/#block-content.row-fluid -->
+
+{% endblock %}
