@@ -703,9 +703,10 @@ def facebook(request):
     access_token, access_token_expires_on = Graph.extend_access_token(access_token)
 
     # Update user
-    user.facebook_uid = facebook_user_id
-    user.facebook_access_token = access_token
-    user.facebook_access_token_expires_on = access_token_expires_on
-    user.save()
+    facebook_account = user.facebook_account
+    facebook_account.uid = facebook_user_id
+    facebook_account.access_token = access_token
+    facebook_account.access_token_expires_on = access_token_expires_on
+    facebook_account.save()
 
     return response
