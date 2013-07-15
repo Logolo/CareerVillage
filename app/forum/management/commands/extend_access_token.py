@@ -17,6 +17,6 @@ class Command(BaseCommand):
                                         facebook_accounts__access_token_expires_on__lt=now() + timedelta(days=2)):
             facebook_account = user.facebook_account
             facebook_account.access_token, facebook_account.access_token_expires_on = \
-                Graph.extend_access_token(facebook_account.access_token)
+                Graph.extend_access_token(facebook_account.access_token, app=FACEBOOK_APP)
             facebook_account.save()
 

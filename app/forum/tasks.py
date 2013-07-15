@@ -8,59 +8,59 @@ from forum.models import Question, Answer, Award, User, Tag
 # Facebook stories
 
 @task()
-def facebook_like_question_story(user_id, question_id, message=None):
+def facebook_like_question_story(user_id, question_id, message=None, app=None):
     LikeQuestionStory(User.objects.get(id=user_id),
-                      Question.objects.get(id=question_id)).publish()
+                      Question.objects.get(id=question_id), app=app).publish()
 
 
 @task()
-def facebook_like_answer_story(user_id, answer_id, message=None):
+def facebook_like_answer_story(user_id, answer_id, message=None, app=None):
     LikeAnswerStory(User.objects.get(id=user_id),
-                    Answer.objects.get(id=answer_id)).publish()
+                    Answer.objects.get(id=answer_id), app=app).publish()
 
 
 @task()
-def facebook_ask_question_story(question_id, message=None):
-    AskQuestionStory(Question.objects.get(id=question_id), message).publish()
+def facebook_ask_question_story(question_id, message=None, app=None):
+    AskQuestionStory(Question.objects.get(id=question_id), message, app=app).publish()
 
 
 @task()
-def facebook_answer_question_story(answer_id, message=None):
-    AnswerQuestionStory(Answer.objects.get(id=answer_id), message).publish()
+def facebook_answer_question_story(answer_id, message=None, app=None):
+    AnswerQuestionStory(Answer.objects.get(id=answer_id), message, app=app).publish()
 
 
 @task()
-def facebook_award_badge_story(award_id):
-    AwardBadgeStory(Award.objects.get(id=award_id)).publish()
+def facebook_award_badge_story(award_id, app=None):
+    AwardBadgeStory(Award.objects.get(id=award_id), app=app).publish()
 
 
 @task()
-def facebook_interest_topic_story(user_id, topic_id):
-    InterestTopicStory(User.objects.get(id=user_id), Tag.objects.get(id=topic_id)).publish()
+def facebook_interest_topic_story(user_id, topic_id, app=None):
+    InterestTopicStory(User.objects.get(id=user_id), Tag.objects.get(id=topic_id), app=app).publish()
 
 
 @task()
-def facebook_get_point_story(user_id, point_count):
-    GetPointStory(User.objects.get(id=user_id), point_count).publish()
+def facebook_get_point_story(user_id, point_count, app=None):
+    GetPointStory(User.objects.get(id=user_id), point_count, app=app).publish()
 
 
 @task()
-def facebook_reach_point_story(user_id, point_count):
-    ReachPointStory(User.objects.get(id=user_id), point_count).publish()
+def facebook_reach_point_story(user_id, point_count, app=None):
+    ReachPointStory(User.objects.get(id=user_id), point_count, app=app).publish()
 
 
 # Facebook notifications
 
 @task()
-def facebook_answer_question_notification(answer_id):
-    AnswerQuestionNotification(Answer.objects.get(id=answer_id)).notify()
+def facebook_answer_question_notification(answer_id, app=None):
+    AnswerQuestionNotification(Answer.objects.get(id=answer_id), app=app).notify()
 
 
 @task()
-def facebook_topic_question_notification(user_id, question_count):
-    TopicQuestionNotification(User.objects.get(id=user_id), question_count).notify()
+def facebook_topic_question_notification(user_id, question_count, app=None):
+    TopicQuestionNotification(User.objects.get(id=user_id), question_count, app=app).notify()
 
 
 @task()
-def facebook_award_badge_notification(award_id):
-    AwardBadgeNotification(Award.objects.get(id=award_id)).notify()
+def facebook_award_badge_notification(award_id, app=None):
+    AwardBadgeNotification(Award.objects.get(id=award_id), app=app).notify()

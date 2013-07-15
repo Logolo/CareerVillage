@@ -29,6 +29,7 @@ FACEBOOK_APPS = {
         'API_SECRET': '<fill>',
 
         'OVERRIDE_BACKEND_NAME': '<fill>',
+        'APP_URL': '<fill>',
     },
     'app1': {
         'APP_ID': '<fill>',
@@ -36,6 +37,7 @@ FACEBOOK_APPS = {
         'API_SECRET': '<fill>',
 
         'OVERRIDE_BACKEND_NAME': '<fill>',
+        'APP_URL': '<fill>',
     },
 }
 

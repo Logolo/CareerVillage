@@ -10,6 +10,7 @@ from meta import Vote, Flag, Badge, Award, Referral
 from utils import KeyValue
 from page import Page
 from cohort import Cohort
+from facebook import FacebookObject
 
 try:
     from south.modelsinspector import add_introspection_rules
@@ -25,7 +26,7 @@ __all__ = [
         'Answer', 'AnswerRevision',
         'Tag', 'Comment', 'MarkedTag', 'Badge', 'Award',
         'ValidationHash', 'AuthKeyUserAssociation', 'SubscriptionSettings', 'KeyValue', 'User',
-        'FacebookAccount', 'LinkedinAccount',
+        'FacebookAccount', 'LinkedinAccount', 'FacebookObject',
         'Action', 'ActionRepute', 'Vote', 'Flag', 'Page', 'Cohort', 'Referral'
         ]
 

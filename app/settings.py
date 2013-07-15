@@ -197,6 +197,13 @@ except ImportError:
     pass
 
 
+app_url_split = APP_URL.split('://')
+
+APP_PROTOCOL = app_url_split[0]
+APP_DOMAIN = app_url_split[1].split('/')[0]
+APP_BASE_URL = '%s://%s' % (APP_PROTOCOL, APP_DOMAIN)
+
+
 # Socialauth-multiple
 # Facebook
 if not 'FACEBOOK_APP' in vars():
@@ -208,6 +215,7 @@ if FACEBOOK_APP_SETTINGS:
     FACEBOOK_API_SECRET = FACEBOOK_APP_SETTINGS.get('API_SECRET')
     if FACEBOOK_APP_SETTINGS.has_key('OVERRIDE_BACKEND_NAME'):
         FACEBOOK_OVERRIDE_BACKEND_NAME = FACEBOOK_APP_SETTINGS.get('OVERRIDE_BACKEND_NAME')
+    FACEBOOK_APP_URL = FACEBOOK_APP_SETTINGS.get('APP_URL', APP_URL)
 # Linkedin
 if not 'LINKEDIN_APP' in vars():
     LINKEDIN_APP = os.environ('CAREERVILLAGE_LINKEDIN_APP')
@@ -218,12 +226,6 @@ if LINKEDIN_APP_SETTINGS:
     if LINKEDIN_APP_SETTINGS.has_key('OVERRIDE_BACKEND_NAME'):
         LINKEDIN_OVERRIDE_BACKEND_NAME = LINKEDIN_APP_SETTINGS.get('OVERRIDE_BACKEND_NAME')
 
-
-app_url_split = APP_URL.split('://')
-
-APP_PROTOCOL = app_url_split[0]
-APP_DOMAIN = app_url_split[1].split('/')[0]
-APP_BASE_URL = '%s://%s' % (APP_PROTOCOL, APP_DOMAIN)
 
 FORCE_SCRIPT_NAME = ''
 
